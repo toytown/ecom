@@ -31,12 +31,10 @@ public abstract class AbstractIntegrationTest {
         articles = new ArrayList<Article>();
         
         Article articleShoe = new Article();
-        articleShoe.setName("shoe");
-        articleShoe.setName("puma shoe");
+        articleShoe.setTitle("shoe");
         
         Article articleGuitar= new Article();
-        articleShoe.setName("guitar");
-        articleShoe.setName("guitar");
+        articleGuitar.setTitle("guitar");
         
         articles.add(articleShoe);
         articles.add(articleGuitar);

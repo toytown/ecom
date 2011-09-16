@@ -1,15 +1,16 @@
 package com.ecom.domain;
 
-import java.math.BigDecimal;
-
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.document.mongodb.mapping.Document;
 
 @Document
 public class Article {
 
+	@Id
 	private ObjectId id;
-	private String name;
+	private String title;
+	private String authorName;
 	private String description;
 	private int originalPrice;
 	
@@ -19,11 +20,11 @@ public class Article {
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getDescription() {
 		return description;
@@ -36,6 +37,12 @@ public class Article {
 	}
 	public void setOriginalPrice(int originalPrice) {
 		this.originalPrice = originalPrice;
+	}
+	public String getAuthorName() {
+		return authorName;
+	}
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
 	}
 	
 	
