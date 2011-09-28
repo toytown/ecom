@@ -7,8 +7,7 @@ public class EcomApplication extends WebApplication {
 
 	@Override
 	public Class<? extends Page> getHomePage() {
-		// TODO Auto-generated method stub
-		return null;
+		return HomePage.class;
 	}
 
 }
