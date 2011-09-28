@@ -1,11 +1,16 @@
 package com.ecom.domain;
 
+import java.io.Serializable;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Article {
+public class Article implements Serializable {
+
+
+	private static final long serialVersionUID = 7012436472083862796L;
 
 	@Id
 	private ObjectId id;
