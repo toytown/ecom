@@ -1,0 +1,79 @@
+http://www.mongodb.org/display/DOCS/DBA+Operations+from+the+Shell
+
+help                         show help
+show dbs                     show database names
+show collections             show collections in current database
+show users                   show users in current database
+show profile                 show most recent system.profile entries with time >= 1ms
+use <db name>                set curent database to <db name>
+
+db.addUser (username, password)
+db.removeUser(username)
+
+db.cloneDatabase(fromhost)
+db.copyDatabase(fromdb, todb, fromhost)
+db.createCollection(name, { size : ..., capped : ..., max : ... } )
+
+db.getName()
+db.dropDatabase()
+
+// runs the collstats] command on each collection in the database
+db.printCollectionStats()
+
+db.currentOp() displays the current operation in the db
+db.killOp() kills the current operation in the db
+
+db.getProfilingLevel()
+db.setProfilingLevel(level) 0=off 1=slow 2=all
+
+db.getReplicationInfo()
+db.printReplicationInfo()
+db.printSlaveReplicationInfo()
+db.repairDatabase()
+
+db.version() current version of the server
+
+db.shutdownServer()
+
+Commands for manipulating and inspecting a collection:
+
+db.foo.drop() drop the collection
+db.foo.dropIndex(name)
+db.foo.dropIndexes()
+db.foo.getIndexes()
+db.foo.ensureIndex(keypattern,options) - options object has these possible
+                                         fields: name, unique, dropDups
+
+db.foo.find( [query] , [fields])       - first parameter is an optional
+                                         query filter. second parameter
+                                         is optional
+                                         set of fields to return.
+	                                   e.g. db.foo.find(
+                                                  { x : 77 } ,
+                                                  { name : 1 , x : 1 } )
+db.foo.find(...).count()
+db.foo.find(...).limit(n)
+db.foo.find(...).skip(n)
+db.foo.find(...).sort(...)
+db.foo.findOne([query])
+
+db.foo.getDB() get DB object associated with collection
+
+db.foo.count()
+db.foo.group( { key : ..., initial: ..., reduce : ...[, cond: ...] } )
+
+db.foo.renameCollection( newName ) renames the collection
+
+db.foo.stats()
+db.foo.dataSize()
+db.foo.storageSize() - includes free space allocated to this collection
+db.foo.totalIndexSize() - size in bytes of all the indexes
+db.foo.totalSize() - storage allocated for all data and indexes
+db.foo.validate() (slow)
+
+db.foo.insert(obj)
+db.foo.update(query, object[, upsert_bool])
+db.foo.save(obj)
+db.foo.remove(query)                   - remove objects matching query
+                                         remove({}) will remove all
+
