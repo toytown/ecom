@@ -18,7 +18,7 @@ public class RealState {
 	
 	private int originalPrice;
 	
-	private String type;
+	private int typeId;
 
 	private String areaCode;
 
@@ -38,9 +38,9 @@ public class RealState {
 
 	private double totalRooms;
 
-	private short bedRooms;
+	private int bedRooms;
 
-	private short bathRooms;
+	private int bathRooms;
 
 	private boolean toiletWithBathRoom;
 
@@ -52,11 +52,11 @@ public class RealState {
 
 	private boolean gardenAvailable;
 
-	private short condition;
+	private int condition;
 
-	private short categoryId;
+	private int categoryId;
 	
-	private short heatingTypeId; 
+	private int heatingTypeId; 
 	
 	private double additionalCost;
 
@@ -106,6 +106,68 @@ public class RealState {
 	
 	private Date updatedTs;
 
+	
+	
+    public RealState() {
+        super();
+    }
+
+    public RealState(String title, int status, int originalPrice, int type, String areaCode, String city, String street, String houseNo,
+            double size, double cost, double floor, double totalFloors, double totalRooms, int bedRooms, int bathRooms,
+            boolean toiletWithBathRoom, boolean cellarAvailable, boolean balconyAvailable, boolean liftAvailable, boolean gardenAvailable,
+            int condition, int categoryId, int heatingTypeId, double additionalCost, boolean heatingCostIncluded, double depositPeriod,
+            Date availableFrom, boolean garageAvailable, double garageCost, String description, String areaDescription, String fittings,
+            boolean energyPassAvailable, boolean kitchenAvailable, boolean furnished, boolean animalsAllowed, int builtYear,
+            String lastRenovatedYear, String otherInformation, boolean provisionFree, String provisionCondition, String imageLocation,
+            boolean barrierFree, boolean seniorAppartment, int userId) {
+        super();
+        this.title = title;
+        this.status = status;
+        this.originalPrice = originalPrice;
+        this.typeId = type;
+        this.areaCode = areaCode;
+        this.city = city;
+        this.street = street;
+        this.houseNo = houseNo;
+        this.size = size;
+        this.cost = cost;
+        this.floor = floor;
+        this.totalFloors = totalFloors;
+        this.totalRooms = totalRooms;
+        this.bedRooms = bedRooms;
+        this.bathRooms = bathRooms;
+        this.toiletWithBathRoom = toiletWithBathRoom;
+        this.cellarAvailable = cellarAvailable;
+        this.balconyAvailable = balconyAvailable;
+        this.liftAvailable = liftAvailable;
+        this.gardenAvailable = gardenAvailable;
+        this.condition = condition;
+        this.categoryId = categoryId;
+        this.heatingTypeId = heatingTypeId;
+        this.additionalCost = additionalCost;
+        this.heatingCostIncluded = heatingCostIncluded;
+        this.depositPeriod = depositPeriod;
+        this.availableFrom = availableFrom;
+        this.garageAvailable = garageAvailable;
+        this.garageCost = garageCost;
+        this.description = description;
+        this.areaDescription = areaDescription;
+        this.fittings = fittings;
+        this.energyPassAvailable = energyPassAvailable;
+        this.kitchenAvailable = kitchenAvailable;
+        this.furnished = furnished;
+        this.animalsAllowed = animalsAllowed;
+        this.builtYear = builtYear;
+        this.lastRenovatedYear = lastRenovatedYear;
+        this.otherInformation = otherInformation;
+        this.provisionFree = provisionFree;
+        this.provisionCondition = provisionCondition;
+        this.imageLocation = imageLocation;
+        this.barrierFree = barrierFree;
+        this.seniorAppartment = seniorAppartment;
+        this.userId = userId;
+    }
+
     public ObjectId getId() {
         return id;
     }
@@ -138,12 +200,12 @@ public class RealState {
         this.originalPrice = originalPrice;
     }
 
-    public String getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public String getAreaCode() {
@@ -218,19 +280,19 @@ public class RealState {
         this.totalRooms = totalRooms;
     }
 
-    public short getBedRooms() {
+    public int getBedRooms() {
         return bedRooms;
     }
 
-    public void setBedRooms(short bedRooms) {
+    public void setBedRooms(int bedRooms) {
         this.bedRooms = bedRooms;
     }
 
-    public short getBathRooms() {
+    public int getBathRooms() {
         return bathRooms;
     }
 
-    public void setBathRooms(short bathRooms) {
+    public void setBathRooms(int bathRooms) {
         this.bathRooms = bathRooms;
     }
 
@@ -274,27 +336,27 @@ public class RealState {
         this.gardenAvailable = gardenAvailable;
     }
 
-    public short getCondition() {
+    public int getCondition() {
         return condition;
     }
 
-    public void setCondition(short condition) {
+    public void setCondition(int condition) {
         this.condition = condition;
     }
 
-    public short getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(short categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    public short getHeatingTypeId() {
+    public int getHeatingTypeId() {
         return heatingTypeId;
     }
 
-    public void setHeatingTypeId(short heatingTypeId) {
+    public void setHeatingTypeId(int heatingTypeId) {
         this.heatingTypeId = heatingTypeId;
     }
 

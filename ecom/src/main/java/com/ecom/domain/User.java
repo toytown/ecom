@@ -23,7 +23,7 @@ public class User implements Serializable {
 
 	private String companyName;
 
-	private short userCategory;
+	private int userCategory;
 
 	private String userName;
 
@@ -55,7 +55,7 @@ public class User implements Serializable {
 
 	private String homePageURL;
 
-	private short contactStatus;
+	private int contactStatus;
 	
 	private Date insertTs;
 	
@@ -101,11 +101,11 @@ public class User implements Serializable {
         this.companyName = companyName;
     }
 
-    public short getUserCategory() {
+    public int getUserCategory() {
         return userCategory;
     }
 
-    public void setUserCategory(short userCategory) {
+    public void setUserCategory(int userCategory) {
         this.userCategory = userCategory;
     }
 
@@ -229,11 +229,11 @@ public class User implements Serializable {
         this.homePageURL = homePageURL;
     }
 
-    public short getContactStatus() {
+    public int getContactStatus() {
         return contactStatus;
     }
 
-    public void setContactStatus(short contactStatus) {
+    public void setContactStatus(int contactStatus) {
         this.contactStatus = contactStatus;
     }
 
