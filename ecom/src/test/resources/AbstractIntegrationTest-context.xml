@@ -8,7 +8,7 @@
 	<!-- Sets up a Mongo DB instance. Configure host, port and credentials if needed. -->
 	<mongo:db-factory dbname="ecom"/>
 
-	<bean id="mongoTemplate" class="org.springframework.data.document.mongodb.core.MongoTemplate">
+	<bean id="mongoTemplate" class="org.springframework.data.document.mongodb.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
 	</bean>
 

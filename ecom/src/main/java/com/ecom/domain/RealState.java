@@ -11,13 +11,9 @@ public class RealState {
 
 	@Id
 	private ObjectId _id;
-	
 	private String title;
-	
 	private int status;
-	
 	private int originalPrice;
-	
 	private String type;
 
 	private String areaCode;
@@ -28,47 +24,47 @@ public class RealState {
 
 	private String houseNo;
 
-	private double size;
+	private Double size;
 
-	private double cost;
+	private Double cost;
 
-	private double floor;
+	private Double floor;
 
-	private double totalFloors;
+	private Double totalFloors;
 
-	private double totalRooms;
+	private Double totalRooms;
 
-	private short bedRooms;
+	private Short bedRooms;
 
-	private short bathRooms;
+	private Short bathRooms;
 
-	private boolean toiletWithBathRoom;
+	private Boolean toiletWithBathRoom;
 
-	private boolean cellarAvailable;
+	private Boolean cellarAvailable;
 
-	private boolean balconyAvailable;
+	private Boolean balconyAvailable;
 
-	private boolean liftAvailable;
+	private Boolean liftAvailable;
 
-	private boolean gardenAvailable;
+	private Boolean gardenAvailable;
 
-	private short condition;
+	private Short condition;
 
 //	private CategoryType categoryType;
 
 //	private HeatingType heatingType;
 
-	private double additionalCost;
+	private Double additionalCost;
 
-	private boolean heatingCostIncluded;
+	private Boolean heatingCostIncluded;
 
-	private double depositPeriod;
+	private Double depositPeriod;
 
 	private Date availableFrom;
 
-	private boolean garageAvailable;
+	private Boolean garageAvailable;
 
-	private double garageCost;
+	private Double garageCost;
 
 	private String description;
 
@@ -76,13 +72,13 @@ public class RealState {
 
 	private String fittings;
 
-	private boolean energyPassAvailable;
+	private Boolean energyPassAvailable;
 
-	private boolean kitchenAvailable;
+	private Boolean kitchenAvailable;
 
-	private boolean furnished;
+	private Boolean furnished;
 
-	private boolean animalsAllowed;
+	private Boolean animalsAllowed;
 
 	private Integer builtYear;
 
@@ -90,19 +86,18 @@ public class RealState {
 
 	private String otherInformation;
 
-	private boolean provisionFree;
+	private Boolean provisionFree;
 
 	private String provisionCondition;
 
 	private String imageDir;
 
-	private boolean barrierFree;
+	private Boolean barrierFree;
 
-	private boolean seniorAppartment;
+	private Boolean seniorAppartment;
 
 	private User user;
 
-	private double[] location;
 //	private Category category;
 	
 }
