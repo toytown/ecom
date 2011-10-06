@@ -4,9 +4,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.ecom.domain.Article;
+import com.ecom.domain.RealState;
 
-public interface RealStateRepository extends PagingAndSortingRepository<Article, ObjectId>,
-		CrudRepository<Article, ObjectId> {
+public interface RealStateRepository extends PagingAndSortingRepository<RealState, ObjectId>,
+		CrudRepository<RealState, ObjectId> {
 
 }

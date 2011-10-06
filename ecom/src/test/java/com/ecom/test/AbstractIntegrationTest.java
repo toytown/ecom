@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ecom.domain.Article;
+import com.ecom.domain.RealState;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -18,7 +18,7 @@ public abstract class AbstractIntegrationTest {
 
     static final String COLLECTION = "ecom";
 
-    protected List<Article> articles;
+    protected List<RealState> realStates;
     
     @Autowired
     MongoOperations operations;	
@@ -28,16 +28,16 @@ public abstract class AbstractIntegrationTest {
 
         operations.dropCollection(COLLECTION);
 
-        articles = new ArrayList<Article>();
-        
-        Article articleShoe = new Article();
-        articleShoe.setTitle("shoe");
-        
-        Article articleGuitar= new Article();
-        articleGuitar.setTitle("guitar");
-        
-        articles.add(articleShoe);
-        articles.add(articleGuitar);
+//        articles = new ArrayList<Article>();
+//        
+//        Article articleShoe = new Article();
+//        articleShoe.setTitle("shoe");
+//        
+//        Article articleGuitar= new Article();
+//        articleGuitar.setTitle("guitar");
+//        
+//        articles.add(articleShoe);
+//        articles.add(articleGuitar);
         
     }    
 }

@@ -2,22 +2,27 @@ package com.ecom.domain;
 
 import java.io.Serializable;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class HeatingType implements Serializable{
 
 	private static final long serialVersionUID = 3346949578228859950L;
 
 
-	private Long id;
-	
+    @Id
+    private ObjectId id;	
 
 	private String description;
 	
-	public void setId(Long id) {
+	
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 	
