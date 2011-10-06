@@ -4,6 +4,8 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.protocol.http.WebApplication;
 
+import com.ecom.web.search.HomePage;
+
 public class EcomApplication extends WebApplication {
 
 	@Override
