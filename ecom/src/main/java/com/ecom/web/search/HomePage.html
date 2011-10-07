@@ -17,27 +17,28 @@
                 <div class="center_left_box">
                 	<div class="box_title"><span>Find</span> your place:</div>
                     
+                    <form action="post" wicket:id="searchForm">
+	                    <div class="form">
+		                    <div class="form_row"><label class="left"><wicket:message key="lbl_city"/></label><input type="text" class="form_input" wicket:id="city"/></div>
+		                    <div class="form_row"><label class="left"><wicket:message key="lbl_area"/></label><input type="text" class="form_input" wicket:id="area"/></div>
+		                    <div class="form_row"><label class="left"><wicket:message key="lbl_price"/></label><input type="text" class="form_input" wicket:id="price"/></div>
+		                    <div class="form_row"><label class="left"><wicket:message key="lbl_rooms_from"/></label><input type="text" class="form_input" wicket:id="roomsFrom"/></div>
+		                    <div class="form_row"><label class="left"><wicket:message key="lbl_rooms_to"/></label><input type="text" class="form_input" wicket:id="roomsTo"/></div>
+		                    
+		                    <div class="form_row"><label class="left_long"><wicket:message key="lbl_search_type"/></label></div>
+		                    <div class="form_row"><input type="radio" name="reason"/><wicket:message key="lbl_search_rent"/></div>
+		                    <div class="form_row"><input type="radio" name="reason"/><wicket:message key="lbl_search_buy"/></div>
+		                    <div class="form_row"><input type="radio" name="reason"/><wicket:message key="lbl_search_sell"/></div>
+		                    
+		                    <div style="float:right; padding:10px 25px 0 0;">
+			                    <label class="uiButton uiButtonConfirm">
+									<input type="submit" value="Search" style="color: #FFFFFF;" wicket:id="submitSearch">
+								</label>
+		                    </div>	                    
+
+	                    </div>
                     
-                    <div class="form">
-                    <div class="form_row"><label class="left"><wicket:message key="lbl_city"/></label><input type="text" class="form_input" wicket:id="city"/></div>
-                    <div class="form_row"><label class="left"><wicket:message key="lbl_area"/></label><input type="text" class="form_input" wicket:id="area"/></div>
-                    <div class="form_row"><label class="left"><wicket:message key="lbl_price"/></label><input type="text" class="form_input" wicket:id="price"/></div>
-                    <div class="form_row"><label class="left"><wicket:message key="lbl_rooms_from"/></label><input type="text" class="form_input" wicket:id="roomsFrom"/></div>
-                    <div class="form_row"><label class="left"><wicket:message key="lbl_rooms_to"/></label><input type="text" class="form_input" wicket:id="roomsTo"/></div>
-                    
-                    <div class="form_row"><label class="left_long"><wicket:message key="lbl_search_type"/></label></div>
-                    <div class="form_row"><input type="radio" name="reason"/><wicket:message key="lbl_search_rent"/></div>
-                    <div class="form_row"><input type="radio" name="reason"/><wicket:message key="lbl_search_buy"/></div>
-                    <div class="form_row"><input type="radio" name="reason"/><wicket:message key="lbl_search_sell"/></div>
-                    
-                    <div style="float:right; padding:10px 25px 0 0;">
-                    <input type="image" src="images/find.gif"/>
-                    </div>
-                    
-                    <label for="u024005_3" class="uiButton uiButtonConfirm">
-						<input id="u024005_3" type="submit" value="Search" style="color: #FFFFFF;">
-					</label>
-                    </div>
+                    </form>
                 
                 
                 </div>
