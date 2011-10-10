@@ -1,15 +1,18 @@
 package com.ecom.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class RealState {
+@Document(collection="realstate")
+public class RealState implements Serializable {
 
-	@Id
+    private static final long serialVersionUID = 4910191493640273023L;
+
+    @Id
 	private ObjectId id;
 	
 	private String title;

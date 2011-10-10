@@ -25,18 +25,7 @@ public abstract class AbstractIntegrationTest {
     
     @Before
     public void setUp() {
-
-        mongoTemplate.dropCollection(COLLECTION);
-
-        RealState appartment = new RealState();
-        appartment.setTitle("4 zimmer appartment");
-        appartment.setBedRooms(2);
-        appartment.setTotalRooms(5);
-        appartment.setBalconyAvailable(true);
-        appartment.setCategoryId(1);
-        appartment.setTypeId(1);
-        realStates.add(appartment);
-        
+        mongoTemplate.dropCollection(COLLECTION);        
     }    
     
 

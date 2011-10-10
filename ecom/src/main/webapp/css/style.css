@@ -190,6 +190,12 @@ float:left;
 margin:0px;
 padding:10px 5px 10px 5px;
 }
+.column33{
+width:480px;
+float:left;
+margin:0px;
+padding:10px 5px 10px 5px;
+}
 .column3{
 width:320px;
 float:left;
@@ -314,6 +320,13 @@ background-color:#f3f5f6;
 padding:10px;
 margin:10px 0px 10px 0px;
 }
+.offer_box_new{
+width:480px;
+height:80px;
+background-color:#f3f5f6;
+padding:10px;
+margin:10px 0px 10px 0px;
+}
 .offer_box_wide{
 width:310px;
 height:106px;
@@ -409,6 +422,16 @@ width:150px;
 float:left;
 margin-left:10px;
 }
+
+input.form_input_small{
+border: 1px solid #C8D2D9;
+background-color:#FFFFFF;
+margin:0px;
+width:70px;
+float:left;
+margin-left:10px;
+}
+
 .contact_information{
 font-size:10px;
 color:#385870;
@@ -583,3 +606,78 @@ padding:0px;
     padding: 1px 0 2px;
     white-space: nowrap;
 }
+
+/* -----------------------------------------------------
+[Paging Stylesheet]
+Project:		Wirecard Enterprise Portal
+Version:		1.0
+Last Change:	04.02.2009
+----------------------------------------------------- */
+
+div.paging {
+	background: #E2ECF6;
+	text-align: center;
+	font-weight: bold;
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 20px;
+	text-align: center;
+}
+    div.paging img#counting-waiting-img {
+	   padding-left: 10px;
+	}
+	div.paging table {
+		width: 99%;
+		white-space: nowrap;
+		margin: 3px auto;
+	}
+	div.paging a {
+		color: #1d3770;
+		cursor: pointer;
+		text-decoration: none;
+		margin-left: 2px;
+	    margin-right: 2px;
+	}
+		div.paging a.active {
+		    border: solid #1D3770 1px;
+		    font-weight: bold;
+		    margin: 0 1px;
+		    padding-left: 1px;
+		}
+	div.paging td {
+		color: #1d3770;
+		padding: 1px;
+	}
+		div.paging td.range {
+			text-align: left;
+			height: 25px;
+			white-space: nowrap;
+		}
+		div.paging td.pages {
+			white-space: nowrap;
+		}
+		div.paging td.per_page {
+			text-align: right;
+			white-space: nowrap;
+		}
+			div.paging td.pages a.first {
+			    background: transparent url( ../img/arrow_first_blue.gif ) no-repeat left center;
+			    padding-left: 8px;
+			}
+			div.paging td.pages a.previous {
+			    background: transparent url( ../img/arrow_left_blue.gif ) no-repeat left center;
+			    padding-left: 8px;
+			}
+			div.paging td.pages a.next {
+			    background: transparent url( ../img/arrow_right_blue.gif ) no-repeat right center;
+			    padding-right: 8px;
+			}
+			div.paging td.pages a.last {
+			    background: transparent url( ../img/arrow_last_blue.gif ) no-repeat right center;
+			    padding-right: 8px;
+			}
+/* in Firefox, we can use built-in styles for rounded corners */
+div.rounded_all {
+  -moz-border-radius: 2px;
+}			

@@ -7,10 +7,14 @@ public class SearchRequest implements Serializable {
     private static final long serialVersionUID = -2062880133131607502L;
 
     private String city;
+
+    private double areaFrom;
     
-    private double area;
+    private double areaTo;
+
+    private double priceFrom;
     
-    private double price;
+    private double priceTo;
     
     private int roomsFrom;
     
@@ -24,22 +28,6 @@ public class SearchRequest implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double areaCode) {
-        this.area = areaCode;
-    }
-
-    public double getPriceMax() {
-        return price;
-    }
-
-    public void setPriceMax(double priceMax) {
-        this.price = priceMax;
     }
 
     public int getRoomsFrom() {
@@ -64,6 +52,38 @@ public class SearchRequest implements Serializable {
 
     public void setSearchType(int searchType) {
         this.searchType = searchType;
+    }
+
+    public double getAreaFrom() {
+        return areaFrom;
+    }
+
+    public void setAreaFrom(double areaFrom) {
+        this.areaFrom = areaFrom;
+    }
+
+    public double getAreaTo() {
+        return areaTo;
+    }
+
+    public void setAreaTo(double areaTo) {
+        this.areaTo = areaTo;
+    }
+
+    public double getPriceFrom() {
+        return priceFrom;
+    }
+
+    public void setPriceFrom(double priceFrom) {
+        this.priceFrom = priceFrom;
+    }
+
+    public double getPriceTo() {
+        return priceTo;
+    }
+
+    public void setPriceTo(double priceTo) {
+        this.priceTo = priceTo;
     }
     
 }
