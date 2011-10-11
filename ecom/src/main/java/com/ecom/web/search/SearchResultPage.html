@@ -174,39 +174,21 @@
 				<div class="small_title">Search Results</div>
 				<div class="paging rounded_all" wicket:id="pagingNavigator"></div>
 
-				<div class="offer_box_new">
-					<a href="details.html"><img src="images/p1.jpg" width="100" height="60" class="img_left" alt="" title="" border="0" /></a>
-					<div class="offer_info">
-						<span>For Sale 150 000 $</span>
-						<p class="offer">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua."</p>
-						<div class="more">
-							<a href="details.html">...more</a>
-						</div>
-					</div>
-				</div>
+				<div wicket:id="dataContainer">
+					<div class="offer_box_new">
+						<!--  <a href="details.html"><img src="images/p2.jpg" width="100" height="60" class="img_left" alt="" title="" border="0" /></a> -->
 
-
-				<div class="offer_box_new">
-					<a href="details.html"><img src="images/p2.jpg" width="100" height="60" class="img_left" alt="" title="" border="0" /></a>
-					<div class="offer_info">
-						<span>For Sale 220 000 $</span>
-						<p class="offer">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua."</p>
-						<div class="more">
-							<a href="details.html">...more</a>
-						</div>
-					</div>
-				</div>
-				<div class="offer_box_new">
-					<a href="details.html"><img src="images/p2.jpg" width="100" height="60" class="img_left" alt="" title="" border="0" /></a>
-					<div class="offer_info">
-						<div wicket:id="dataContainer">
-							<div wicket:id="searchResultsView">
-								<span wicket:id="title"/>
-								<span wicket:id="description"/>
-								<span wicket:id="price"/>
-							</div>
+						<div class="offer_info">
+							
+								<div wicket:id="searchResultsView">
+														<wicket:link>
+							<a wicket:id="detailImageLink"><img wicket:id="title_image" /></a>
+						</wicket:link>
+									<div wicket:id="title"/>
+									<div wicket:id="description"/>
+									<div wicket:id="price"/>
+								</div>
+							
 						</div>
 					</div>
 				</div>
