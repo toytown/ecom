@@ -1,0 +1,35 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+<script type="text/javascript">
+	jQuery.ready(function() {
+		  jQuery('a.minibutton').bind({
+		    mousedown: function() {
+		      jQuery(this).addClass('mousedown');
+		    },
+		    blur: function() {
+		      jQuery(this).removeClass('mousedown');
+		    },
+		    mouseup: function() {
+		      jQuery(this).removeClass('mousedown');
+		    }
+		  });
+		});
+</script>
+</head>
+<body>
+<div id="content"><div class="center">
+	
+	<div id="content-left">
+
+		<h1 style="margin-top:20px;">Create GitHub-Style Buttons with CSS and jQuery, MooTools, or Dojo JavaScript Example</h1>	
+	<p>Check out the awesome GitHub-style button below!</p>
+	
+	<a href="javascript:;" class="minibutton" style="text-decoration:none;"><span>Basic Button</span></a>
+	<br /><br />
+	<a href="javascript:;" class="minibutton btn-download" style="text-decoration:none;"><span><span class="icon"></span>Button With Icon</span></a>
+	
+	
+</div>
+</body>
+</html>

@@ -4,7 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 <title>BuildUp Real Estate</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
-
+<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+<script type="text/javascript">
+	jQuery.ready(function() {
+		  jQuery('a.minibutton').bind({
+		    mousedown: function() {
+		      jQuery(this).addClass('mousedown');
+		    },
+		    blur: function() {
+		      jQuery(this).removeClass('mousedown');
+		    },
+		    mouseup: function() {
+		      jQuery(this).removeClass('mousedown');
+		    }
+		  });
+		});
+</script>
 </head>
 <body>
 	<div id="main_container">
@@ -175,22 +190,26 @@
 				<div class="paging rounded_all" wicket:id="pagingNavigator"></div>
 
 				<div wicket:id="dataContainer">
-					<div class="offer_box_new">
-						<!--  <a href="details.html"><img src="images/p2.jpg" width="100" height="60" class="img_left" alt="" title="" border="0" /></a> -->
-
-						<div class="offer_info">
-							
-								<div wicket:id="searchResultsView">
-														<wicket:link>
-							<a wicket:id="detailImageLink"><img wicket:id="title_image" /></a>
-						</wicket:link>
-									<div wicket:id="title"/>
-									<div wicket:id="description"/>
-									<div wicket:id="price"/>
+					<ol style="list-style:none;">
+						<li wicket:id="searchResultsView">
+							<div class="offer_box_new">
+								<wicket:link>
+									<a wicket:id="detailImageLink"><img class="img_left" wicket:id="title_image" /></a>
+								</wicket:link>
+								<div class="offer_info">
+									<span wicket:id="title"/>
+									<p class="offer" wicket:id="description"/>
 								</div>
-							
-						</div>
-					</div>
+								
+								<div class="more">
+									<label><wicket:message key="lbl_price"/><span wicket:id="price"/></label>
+									<label><wicket:message key="lbl_size"/><span wicket:id="size"/></label>
+									<label><wicket:message key="lbl_rooms"/><span wicket:id="rooms"/></label>
+									<a href="detail.html" class="minibutton" style="text-decoration:none;"><span>Details</span></a>
+								</div>
+							</div>
+						</li>
+					</ol>
 				</div>
 				
 			</div>

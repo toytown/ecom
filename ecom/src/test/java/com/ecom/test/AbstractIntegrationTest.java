@@ -1,11 +1,14 @@
 package com.ecom.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,4 +32,14 @@ public abstract class AbstractIntegrationTest {
     }    
     
 
+    protected File readImageFile(String fileName) throws Exception {
+        Resource res = new ClassPathResource(fileName);
+        File inputFile = res.getFile();
+        
+        if (inputFile.exists()) {
+            return inputFile;
+        }
+        
+        return null;
+    }    
 }

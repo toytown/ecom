@@ -28,6 +28,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import com.ecom.common.utils.ImageResource;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
 import com.ecom.web.components.pagination.ResultTablePagingNavigator;
@@ -77,7 +78,10 @@ public class SearchResultPage extends HomePage {
             protected void populateItem(Item<RealState> item) {
                 final RealState realState = (RealState) item.getModelObject();
 				Link detailImageLink = new Link("detailImageLink"){
-					@Override
+
+                    private static final long serialVersionUID = -4240641223442840101L;
+
+                    @Override
 					public void onClick() {
 						//FIXME setResponsePage(new RealStateDetailView(advert));
 					}
@@ -116,16 +120,24 @@ public class SearchResultPage extends HomePage {
                         final RealState realState = (RealState) item.getModelObject();
 
         				Link detailImageLink = new Link("detailImageLink"){
-        					@Override
+                            private static final long serialVersionUID = 6764728010527153292L;
+
+                            @Override
         					public void onClick() {
         						//FIXME setResponsePage(new RealStateDetailView(advert));
         					}
         				};
-        				detailImageLink.add(getTitleImage());
+        				
+        				Image img = getTitleImage(realState);
+        				img.setOutputMarkupId(true);
+        				img.setOutputMarkupPlaceholderTag(true);
+        				detailImageLink.add(img);
         				item.add(detailImageLink);                        
                         item.add(new Label("title", realState.getTitle()));
                         item.add(new Label("description", realState.getDescription()));
                         item.add(new Label("price", String.valueOf(realState.getCost())));
+                        item.add(new Label("size", String.valueOf(realState.getSize())));
+                        item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
                         
                     }
                     
@@ -159,31 +171,34 @@ public class SearchResultPage extends HomePage {
 
     }
     
+
+    protected Image getTitleImage(RealState realState) {
+        return new NonCachingImage("title_image", new ImageResource(realState.getTitleImage(),"png"));
+    } 
     
 	protected Image getTitleImage() {
-		return new NonCachingImage("title_image", new AbstractReadOnlyModel() {
+		return new Image("title_image", new AbstractReadOnlyModel() {
 
-			@Override
+            private static final long serialVersionUID = -8788412636110253478L;
+
+            @Override
 			public Object getObject() {
 				return new RenderedDynamicImageResource(50, 50) {
 
-					@Override
+                    private static final long serialVersionUID = 7881827809105145954L;
+
+                    @Override
 					protected boolean render(Graphics2D g2) {
 
 						BufferedImage baseIcon = null;
 						BufferedImage baseIconOut = null;
 						try {
-							String imageFilePath = "D:/dev/gitRepository/ecom/ecom/src/main/webapp/images/p2.jpg";
+							String imageFilePath = "C:/dev/gitRepository/ecom/src/main/webapp/images/p2.jpg";
 //							String imageFilePath = titleImageDir + File.separator + advert.getTitleImage();
 							File imageFile = new File(imageFilePath);
 							if (imageFile.canRead()) {
-								long startTime = System.currentTimeMillis();
 								baseIcon = ImageIO.read(imageFile);
-								long endTime = System.currentTimeMillis();
-								//logger.debug("Time taken to read image : " + (endTime - startTime) + " milliseconds.");
 								baseIconOut = ImageUtils.resize(baseIcon, 50, 50);
-								endTime = System.currentTimeMillis();
-								//logger.debug("Time taken to resize image : " + (endTime - startTime) + " milliseconds.");
 							} else {
 								throw new RuntimeException("No image file found at " + imageFilePath);
 							}

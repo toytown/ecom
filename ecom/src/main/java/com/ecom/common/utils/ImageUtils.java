@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -119,4 +120,16 @@ public class ImageUtils {
         return bimg;
     }
 
+    public static BufferedImage loadImage(byte[] imageBytes) {
+        BufferedImage bimg = null;
+        
+        ByteArrayInputStream buffer = new ByteArrayInputStream(imageBytes);
+
+        try {
+            bimg = ImageIO.read(buffer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bimg;
+    }    
 }
