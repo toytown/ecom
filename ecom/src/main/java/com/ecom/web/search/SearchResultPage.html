@@ -5,21 +5,7 @@
 <title>BuildUp Real Estate</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/buttons.css" />
-<script type="text/javascript">
-	jQuery.ready(function() {
-		  jQuery('a.minibutton').bind({
-		    mousedown: function() {
-		      jQuery(this).addClass('mousedown');
-		    },
-		    blur: function() {
-		      jQuery(this).removeClass('mousedown');
-		    },
-		    mouseup: function() {
-		      jQuery(this).removeClass('mousedown');
-		    }
-		  });
-		});
-</script>
+
 </head>
 <body>
 	<div id="main_container">
@@ -190,7 +176,7 @@
 				<div class="paging rounded_all" wicket:id="pagingNavigator"></div>
 
 				<div wicket:id="dataContainer">
-					<ol style="list-style:none;">
+					<ol style="list-style:none;margin: 0px 0px 0px 0px; padding: 0px">
 						<li wicket:id="searchResultsView">
 							<div class="offer_box_new">
 								<wicket:link>
