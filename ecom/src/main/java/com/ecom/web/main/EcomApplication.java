@@ -17,7 +17,13 @@ public class EcomApplication extends WebApplication {
     
     @Override
     public void init() {
-        getComponentInstantiationListeners().add(new SpringComponentInjector(this));        
+        super.init();
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+        // disables echoing of wicket tags and their attributes to resulting html
+        getMarkupSettings().setStripWicketTags(true);
+        getApplicationSettings().setPageExpiredErrorPage(getHomePage());
+        getMarkupSettings().setDefaultBeforeDisabledLink("");
+        getMarkupSettings().setDefaultAfterDisabledLink("");        
     }
     
 	@Override
