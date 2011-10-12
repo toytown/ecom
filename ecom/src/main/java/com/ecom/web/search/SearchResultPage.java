@@ -31,7 +31,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import com.ecom.common.utils.ImageResource;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
-import com.ecom.web.components.pagination.ResultTablePagingNavigator;
+import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.RealStateDataProvider;
 
 public class SearchResultPage extends HomePage {
@@ -96,13 +96,13 @@ public class SearchResultPage extends HomePage {
         };
         
         
-        final ResultTablePagingNavigator<RealState> pagingNavigator = new ResultTablePagingNavigator<RealState>("pagingNavigator", emptyDataView, emptyDataprovider, 20);
+        final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", emptyDataView);
         pagingNavigator.setVisible(true);
         pagingNavigator.setOutputMarkupId(true);
         emptyDataView.setOutputMarkupId(true);
         emptyDataView.setOutputMarkupPlaceholderTag(true);
         dataContainer.addOrReplace(emptyDataView);
-        add(pagingNavigator);
+        dataContainer.addOrReplace(pagingNavigator);
         add(dataContainer);
         
         IndicatingAjaxButton deatailSearchBtn = new IndicatingAjaxButton("detailSearchBtn") {
@@ -146,14 +146,14 @@ public class SearchResultPage extends HomePage {
                 
                 dataView.setOutputMarkupId(true);
                 dataView.setOutputMarkupPlaceholderTag(true);               
+                dataView.setItemsPerPage(4);
                 
-                final ResultTablePagingNavigator<RealState> pagingNavigator = new ResultTablePagingNavigator<RealState>("pagingNavigator", dataView, dataProvider, 20);
+                final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView);
                 pagingNavigator.setVisible(true);
                 pagingNavigator.setOutputMarkupId(true);
                 
                 dataContainer.addOrReplace(dataView);
-                
-                target.add(pagingNavigator);
+                dataContainer.addOrReplace(pagingNavigator);
                 target.add(dataContainer);
                 
             }
