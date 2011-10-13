@@ -36,11 +36,11 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
     @Override
     public IModel<RealState> model(final RealState object) {
-        IModel realStateModel = new LoadableDetachableModel() {
+        IModel<RealState> realStateModel = new LoadableDetachableModel<RealState>() {
 
             private static final long serialVersionUID = 9180663872740807903L;
 
-            protected Object load() {
+            protected RealState load() {
               return realStateRepository.findOne(object.getId());
             }
           };

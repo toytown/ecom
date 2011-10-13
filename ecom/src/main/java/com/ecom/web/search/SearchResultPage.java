@@ -9,7 +9,8 @@ import javax.imageio.ImageIO;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.extensions.ajax.markup.html.AjaxIndicatorAppender;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -19,7 +20,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.EmptyDataProvider;
@@ -77,18 +78,11 @@ public class SearchResultPage extends HomePage {
             @Override
             protected void populateItem(Item<RealState> item) {
                 final RealState realState = (RealState) item.getModelObject();
-				Link detailImageLink = new Link("detailImageLink"){
-
-                    private static final long serialVersionUID = -4240641223442840101L;
-
-                    @Override
-					public void onClick() {
-						//FIXME setResponsePage(new RealStateDetailView(advert));
-					}
-				};
+                BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
+                BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
 				detailImageLink.add(new Image("title_image", "D:/dev/gitRepository/ecom/ecom/src/main/webapp/images/p2.jpg"));
 				item.add(detailImageLink);
-				item.add(new Label("title", realState.getTitle()));
+				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
                 item.add(new Label("description", realState.getDescription()));
                 item.add(new Label("price", String.valueOf(realState.getCost())));
 
@@ -105,13 +99,13 @@ public class SearchResultPage extends HomePage {
         dataContainer.addOrReplace(pagingNavigator);
         add(dataContainer);
         
-        IndicatingAjaxButton deatailSearchBtn = new IndicatingAjaxButton("detailSearchBtn") {
+        final AjaxButton deatailSearchBtn = new AjaxButton("detailSearchBtn") {
 
             private static final long serialVersionUID = 1L;
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                final ISortableDataProvider dataProvider = new RealStateDataProvider();
+                final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider();
                 DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
                     private static final long serialVersionUID = -8557003080882186607L;
 
@@ -119,21 +113,16 @@ public class SearchResultPage extends HomePage {
                     protected void populateItem(Item<RealState> item) {
                         final RealState realState = (RealState) item.getModelObject();
 
-        				Link detailImageLink = new Link("detailImageLink"){
-                            private static final long serialVersionUID = 6764728010527153292L;
-
-                            @Override
-        					public void onClick() {
-        						//FIXME setResponsePage(new RealStateDetailView(advert));
-        					}
-        				};
-        				
+                        PageParameters params = new PageParameters();
+                        BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
+                        BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
         				Image img = getTitleImage(realState);
         				img.setOutputMarkupId(true);
         				img.setOutputMarkupPlaceholderTag(true);
         				detailImageLink.add(img);
-        				item.add(detailImageLink);                        
-                        item.add(new Label("title", realState.getTitle()));
+        				item.add(detailImageLink);            
+
+                        item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
                         item.add(new Label("description", realState.getDescription()));
                         item.add(new Label("price", String.valueOf(realState.getCost())));
                         item.add(new Label("size", String.valueOf(realState.getSize())));
@@ -142,6 +131,8 @@ public class SearchResultPage extends HomePage {
                     }
                     
                 };
+                
+                
                 
                 
                 dataView.setOutputMarkupId(true);
@@ -165,6 +156,7 @@ public class SearchResultPage extends HomePage {
             
         };
         
+        deatailSearchBtn.add(new AjaxIndicatorAppender());
         searchForm.add(deatailSearchBtn);
         
         addOrReplace(searchForm);
@@ -177,12 +169,12 @@ public class SearchResultPage extends HomePage {
     } 
     
 	protected Image getTitleImage() {
-		return new Image("title_image", new AbstractReadOnlyModel() {
+		return new Image("title_image", new AbstractReadOnlyModel<RenderedDynamicImageResource>() {
 
             private static final long serialVersionUID = -8788412636110253478L;
 
             @Override
-			public Object getObject() {
+			public RenderedDynamicImageResource getObject() {
 				return new RenderedDynamicImageResource(50, 50) {
 
                     private static final long serialVersionUID = 7881827809105145954L;
