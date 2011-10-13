@@ -18,7 +18,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.repeater.Item;
@@ -166,9 +165,10 @@ public class SearchResultPage extends HomePage {
     
 
     protected Image getTitleImage(RealState realState) {
-        return new NonCachingImage("title_image", new ImageResource(realState.getTitleImage(),"png"));
+        return new Image("title_image", new ImageResource(realState.getTitleImage(),"png"));
     } 
     
+    @Deprecated
 	protected Image getTitleImage() {
 		return new Image("title_image", new AbstractReadOnlyModel<RenderedDynamicImageResource>() {
 

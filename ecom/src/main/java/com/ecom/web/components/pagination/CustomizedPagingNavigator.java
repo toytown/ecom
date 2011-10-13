@@ -1,9 +1,6 @@
 package com.ecom.web.components.pagination;
 
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
-import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.html.navigation.paging.IPagingLabelProvider;
@@ -49,10 +46,8 @@ public class CustomizedPagingNavigator extends Panel {
         // Add additional page links
         //        add(newPagingNavigationLink("first", pageable, 0).add(
         //                new CustomizedTitleAppender("PagingNavigator.first")));
-        addOrReplace(newPagingNavigationIncrementLink("prev", pageable, -1).add(
-                new CustomizedTitleAppender("PagingNavigator.previous")));
-        addOrReplace(newPagingNavigationIncrementLink("next", pageable, 1).add(
-                new CustomizedTitleAppender("PagingNavigator.next")));
+        addOrReplace(newPagingNavigationIncrementLink("prev", pageable, -1));
+        addOrReplace(newPagingNavigationIncrementLink("next", pageable, 1));
         //        add(newPagingNavigationLink("last", pageable, -1).add(
         //                new CustomizedTitleAppender("PagingNavigator.last")));
         super.onBeforeRender();
@@ -85,28 +80,4 @@ public class CustomizedPagingNavigator extends Panel {
         return new PagingNavigationIncrementLink<Void>(id, pageable, increment);
     }
 
-    private final class CustomizedTitleAppender extends Behavior
-    {
-        private static final long serialVersionUID = 1L;
-
-        private final String resourceKey;
-
-        /**
-         * Constructor
-         * 
-         * @param resourceKey
-         *            resource key of the message
-         */
-        public CustomizedTitleAppender(String resourceKey)
-        {
-            this.resourceKey = resourceKey;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void onComponentTag(Component component, ComponentTag tag)
-        {
-            tag.put("title", CustomizedPagingNavigator.this.getString(resourceKey));
-        }
-    }
 }
