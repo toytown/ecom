@@ -6,7 +6,9 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 
 public class CustomizedPagingNavigator extends PagingNavigator {
 
-    public CustomizedPagingNavigator(String id, IPageable pageable) {
+	private static final long serialVersionUID = 8424403615326003846L;
+
+	public CustomizedPagingNavigator(String id, IPageable pageable) {
         super(id, pageable);
     }
 

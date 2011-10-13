@@ -78,14 +78,11 @@ public class SearchResultPage extends HomePage {
             @Override
             protected void populateItem(Item<RealState> item) {
                 final RealState realState = (RealState) item.getModelObject();
-                BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params){
-                    private static final long serialVersionUID = 6764728010527153292L;
-
-
-				};
+                BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
+                BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
 				detailImageLink.add(new Image("title_image", "D:/dev/gitRepository/ecom/ecom/src/main/webapp/images/p2.jpg"));
 				item.add(detailImageLink);
-				item.add(new Label("title", realState.getTitle()));
+				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
                 item.add(new Label("description", realState.getDescription()));
                 item.add(new Label("price", String.valueOf(realState.getCost())));
 
@@ -117,18 +114,15 @@ public class SearchResultPage extends HomePage {
                         final RealState realState = (RealState) item.getModelObject();
 
                         PageParameters params = new PageParameters();
-                        BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params){
-                            private static final long serialVersionUID = 6764728010527153292L;
-
-
-        				};
-        				
+                        BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
+                        BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
         				Image img = getTitleImage(realState);
         				img.setOutputMarkupId(true);
         				img.setOutputMarkupPlaceholderTag(true);
         				detailImageLink.add(img);
-        				item.add(detailImageLink);                        
-                        item.add(new Label("title", realState.getTitle()));
+        				item.add(detailImageLink);            
+
+                        item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
                         item.add(new Label("description", realState.getDescription()));
                         item.add(new Label("price", String.valueOf(realState.getCost())));
                         item.add(new Label("size", String.valueOf(realState.getSize())));

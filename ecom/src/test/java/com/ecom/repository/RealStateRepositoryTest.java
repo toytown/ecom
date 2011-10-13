@@ -42,7 +42,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setCost(600);
                 appartment.setSize(50.5d + 1);
                 appartment.setDescription("2 rooms appartment, schöne wohnlage");
-                image = ImageIO.read(readImageFile("test-images/test_image_" + i + ".jpg"));
+                image = ImageIO.read(readImageFile("test-images/test_image_" + i  + ".jpg"));
                 
             } else if (i % 3 == 0){
                 appartment.setBalconyAvailable(true);
@@ -69,7 +69,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setCost(800 + i* 20);
                 appartment.setSize(101 + i*1.5);
                 appartment.setDescription("5 zimmer groß, ruhig, provisinfrei mit panoromablick");
-                image = ImageIO.read(readImageFile("test-images/test_image_" + i + ".jpg"));
+                image = ImageIO.read(readImageFile("test-images/test_image_" + i  + ".jpg"));
             } else {
                 appartment.setBalconyAvailable(false);
                 appartment.setTotalRooms(1d);
