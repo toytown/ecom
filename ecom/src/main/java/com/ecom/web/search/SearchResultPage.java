@@ -91,12 +91,12 @@ public class SearchResultPage extends HomePage {
         
         
         final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", emptyDataView);
-        pagingNavigator.setVisible(true);
+        pagingNavigator.setVisible(false);
         pagingNavigator.setOutputMarkupId(true);
         emptyDataView.setOutputMarkupId(true);
         emptyDataView.setOutputMarkupPlaceholderTag(true);
-        dataContainer.addOrReplace(emptyDataView);
-        dataContainer.addOrReplace(pagingNavigator);
+        dataContainer.add(emptyDataView);
+        dataContainer.add(pagingNavigator);
         add(dataContainer);
         
         final AjaxButton deatailSearchBtn = new AjaxButton("detailSearchBtn") {
@@ -106,6 +106,7 @@ public class SearchResultPage extends HomePage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider();
+                
                 DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
                     private static final long serialVersionUID = -8557003080882186607L;
 
@@ -137,7 +138,7 @@ public class SearchResultPage extends HomePage {
                 
                 dataView.setOutputMarkupId(true);
                 dataView.setOutputMarkupPlaceholderTag(true);               
-                dataView.setItemsPerPage(4);
+                dataView.setItemsPerPage(3);
                 
                 final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView);
                 pagingNavigator.setVisible(true);

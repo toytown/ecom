@@ -15,13 +15,19 @@ import com.ecom.repository.RealStateRepository;
 public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
     private static final long serialVersionUID = -6508771802462213044L;
+    private PageRequest req = new PageRequest(0, 3);
     
     @SpringBean
     private RealStateRepository realStateRepository;
     
     @Override
-    public Iterator<? extends RealState> iterator(int first, int count) {
-        return realStateRepository.findAll(new PageRequest(0, 20)).iterator();
+    public Iterator<? extends RealState> iterator(int first, int count) {        
+        
+        req = new PageRequest((first+1)/3, count);
+        Iterator<RealState> iter =  realStateRepository.findAll(req).iterator();
+        
+        return iter;
+        
     }
 
     public RealStateDataProvider() {
