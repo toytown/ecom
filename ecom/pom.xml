@@ -15,7 +15,7 @@
 		<spring.data.mongo.version>1.0.0.M4</spring.data.mongo.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<querydsl.version>2.2.0-beta4</querydsl.version>
-		<wicket.version>1.5.0</wicket.version>
+		<wicket.version>1.5.1</wicket.version>
 	</properties>
 
 	<repositories>

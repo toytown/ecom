@@ -1,31 +1,28 @@
 package com.ecom.common.utils;
 
+
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
-import org.apache.wicket.request.resource.DynamicImageResource;
+import javax.imageio.ImageIO;
 
-public class ImageResource extends DynamicImageResource {
+import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
 
-    private static final long serialVersionUID = -3855409664242334118L;
+public class ImageResource {
 
-    private byte[] image;
-
-    public ImageResource(byte[] image, String format) {
-        this.image = image;
-        setFormat(format);
-    }
-
-    public ImageResource(BufferedImage image) {
-        this.image = toImageData(image);
-    }
-
-
-    @Override
-    protected byte[] getImageData(Attributes attributes) {
-        if (image != null) {
+    public static Image getImageData(byte[] imageBytes, String format) {
+        BufferedDynamicImageResource bufferedDynamicImage = new BufferedDynamicImageResource();
+        bufferedDynamicImage.setFormat(format);
+        
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+            bufferedDynamicImage.setImage(bufferedImage);
+            Image image = new Image("title_image", bufferedDynamicImage);            
             return image;
-        } else {
-            return new byte[0];
+        } catch (IOException e) {
+            throw new RuntimeException("IOException occured during IOException " + e.getMessage());
         }
     }
 

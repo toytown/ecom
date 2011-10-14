@@ -165,7 +165,7 @@ public class SearchResultPage extends HomePage {
     
 
     protected Image getTitleImage(RealState realState) {
-        return new Image("title_image", new ImageResource(realState.getTitleImage(),"png"));
+        return ImageResource.getImageData(realState.getTitleImage(),"png");
     } 
     
     @Deprecated
