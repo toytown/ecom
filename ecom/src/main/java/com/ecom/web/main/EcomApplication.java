@@ -19,6 +19,8 @@ public class EcomApplication extends WebApplication {
     public void init() {
         super.init();
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+        
+        mountPage("/home/", HomePage.class);
         // disables echoing of wicket tags and their attributes to resulting html
         getMarkupSettings().setStripWicketTags(true);
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());

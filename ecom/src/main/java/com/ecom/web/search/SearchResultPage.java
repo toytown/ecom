@@ -36,158 +36,150 @@ import com.ecom.web.data.RealStateDataProvider;
 
 public class SearchResultPage extends HomePage {
 
-    private static final long serialVersionUID = -6983320790900379278L;
+	private static final long serialVersionUID = -6983320790900379278L;
 
-    
-    public SearchResultPage(final PageParameters params) {
+	public SearchResultPage(final PageParameters params) {
 
-        //List<NamedPair> nameValueKey = params.getAllNamed();
-       
-        
-        SearchRequest req = new SearchRequest();
-        CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
-        final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
-        dataContainer.setOutputMarkupId(true);
-        dataContainer.setOutputMarkupPlaceholderTag(true);
-        
-        StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
+		// List<NamedPair> nameValueKey = params.getAllNamed();
 
-        TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
-        TextField<Double> priceToTxt = new TextField<Double>("priceTo");
-        TextField<Double> areaFromTxt = new TextField<Double>("areaFrom");
-        TextField<Double> areaToTxt = new TextField<Double>("areaTo");
-        TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
-        TextField<Double> roomsToTxt = new TextField<Double>("roomsTo");
+		SearchRequest req = new SearchRequest();
+		CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
+		final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
+		dataContainer.setOutputMarkupId(true);
+		dataContainer.setOutputMarkupPlaceholderTag(true);
 
-        searchForm.add(priceFromTxt);
-        searchForm.add(priceToTxt);
-        searchForm.add(areaFromTxt);
-        searchForm.add(areaToTxt);
-        searchForm.add(roomsFromTxt);
-        searchForm.add(roomsToTxt);
-        
-       
-        final IDataProvider<RealState> emptyDataprovider = new EmptyDataProvider<RealState>();
+		StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
 
-        
-        DataView<RealState> emptyDataView = new DataView<RealState>("searchResultsView", emptyDataprovider) {
+		TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
+		TextField<Double> priceToTxt = new TextField<Double>("priceTo");
+		TextField<Double> areaFromTxt = new TextField<Double>("areaFrom");
+		TextField<Double> areaToTxt = new TextField<Double>("areaTo");
+		TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
+		TextField<Double> roomsToTxt = new TextField<Double>("roomsTo");
 
-            private static final long serialVersionUID = 1L;
+		searchForm.add(priceFromTxt);
+		searchForm.add(priceToTxt);
+		searchForm.add(areaFromTxt);
+		searchForm.add(areaToTxt);
+		searchForm.add(roomsFromTxt);
+		searchForm.add(roomsToTxt);
 
-            @Override
-            protected void populateItem(Item<RealState> item) {
-                final RealState realState = (RealState) item.getModelObject();
-                BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
-                BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
+		final IDataProvider<RealState> emptyDataprovider = new EmptyDataProvider<RealState>();
+
+		DataView<RealState> emptyDataView = new DataView<RealState>("searchResultsView", emptyDataprovider) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(Item<RealState> item) {
+				final RealState realState = (RealState) item.getModelObject();
+				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
+				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
 				detailImageLink.add(new Image("title_image", "D:/dev/gitRepository/ecom/ecom/src/main/webapp/images/p2.jpg"));
 				item.add(detailImageLink);
 				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
-                item.add(new Label("description", realState.getDescription()));
-                item.add(new Label("price", String.valueOf(realState.getCost())));
+				item.add(new Label("price", String.valueOf(realState.getCost())));
 
-            }
-        };
-        
-        
-        final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", emptyDataView);
-        pagingNavigator.setVisible(false);
-        pagingNavigator.setOutputMarkupId(true);
-        emptyDataView.setOutputMarkupId(true);
-        emptyDataView.setOutputMarkupPlaceholderTag(true);
-        dataContainer.add(emptyDataView);
-        dataContainer.add(pagingNavigator);
-        add(dataContainer);
-        
-        final AjaxButton deatailSearchBtn = new AjaxButton("detailSearchBtn") {
+			}
+		};
 
-            private static final long serialVersionUID = 1L;
+		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", emptyDataView);
+		pagingNavigator.setVisible(false);
+		pagingNavigator.setOutputMarkupId(true);
+		emptyDataView.setOutputMarkupId(true);
+		emptyDataView.setOutputMarkupPlaceholderTag(true);
+		dataContainer.add(emptyDataView);
+		dataContainer.add(pagingNavigator);
+		add(dataContainer);
 
-            @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider();
-                
-                DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
-                    private static final long serialVersionUID = -8557003080882186607L;
+		final AjaxButton deatailSearchBtn = new AjaxButton("detailSearchBtn") {
 
-                    @Override
-                    protected void populateItem(Item<RealState> item) {
-                        final RealState realState = (RealState) item.getModelObject();
+			private static final long serialVersionUID = 1L;
 
-                        PageParameters params = new PageParameters();
-                        BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
-                        BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
-        				Image img = getTitleImage(realState);
-        				img.setOutputMarkupId(true);
-        				img.setOutputMarkupPlaceholderTag(true);
-        				detailImageLink.add(img);
-        				item.add(detailImageLink);            
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider();
 
-                        item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
-                        item.add(new Label("description", realState.getDescription()));
-                        item.add(new Label("price", String.valueOf(realState.getCost())));
-                        item.add(new Label("size", String.valueOf(realState.getSize())));
-                        item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
-                        
-                    }
-                    
-                };
-                
-                
-                
-                
-                dataView.setOutputMarkupId(true);
-                dataView.setOutputMarkupPlaceholderTag(true);               
-                dataView.setItemsPerPage(3);
-                
-                final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView);
-                pagingNavigator.setVisible(true);
-                pagingNavigator.setOutputMarkupId(true);
-                
-                dataContainer.addOrReplace(dataView);
-                dataContainer.addOrReplace(pagingNavigator);
-                target.add(dataContainer);
-                
-            }
+				DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
+					private static final long serialVersionUID = -8557003080882186607L;
 
-            @Override
-            protected void onError(AjaxRequestTarget target, Form<?> form) {
-                
-            }
-            
-        };
-        
-        deatailSearchBtn.add(new AjaxIndicatorAppender());
-        searchForm.add(deatailSearchBtn);
-        
-        addOrReplace(searchForm);
+					@Override
+					protected void populateItem(Item<RealState> item) {
+						final RealState realState = (RealState) item.getModelObject();
 
-    }
-    
+						PageParameters params = new PageParameters();
+						BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class,
+								params);
+						BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class,
+								params);
+						Image img = getTitleImage(realState);
+						img.setOutputMarkupId(true);
+						img.setOutputMarkupPlaceholderTag(true);
+						detailImageLink.add(img);
+						item.add(detailImageLink);
 
-    protected Image getTitleImage(RealState realState) {
-        return ImageResource.getImageData(realState.getTitleImage(),"png");
-    } 
-    
-    @Deprecated
+						item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
+						item.add(new Label("price", String.valueOf(realState.getCost())));
+						item.add(new Label("size", String.valueOf(realState.getSize())));
+						item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
+
+					}
+
+				};
+
+				dataView.setOutputMarkupId(true);
+				dataView.setOutputMarkupPlaceholderTag(true);
+				dataView.setItemsPerPage(3);
+
+				final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView);
+				pagingNavigator.setVisible(true);
+				pagingNavigator.setOutputMarkupId(true);
+
+				dataContainer.addOrReplace(dataView);
+				dataContainer.addOrReplace(pagingNavigator);
+				target.add(dataContainer);
+
+			}
+
+			@Override
+			protected void onError(AjaxRequestTarget target, Form<?> form) {
+
+			}
+
+		};
+
+		deatailSearchBtn.add(new AjaxIndicatorAppender());
+		searchForm.add(deatailSearchBtn);
+
+		addOrReplace(searchForm);
+
+	}
+
+	protected Image getTitleImage(RealState realState) {
+		return ImageResource.getImageData(realState.getTitleImage(), "png");
+	}
+
+	@Deprecated
 	protected Image getTitleImage() {
 		return new Image("title_image", new AbstractReadOnlyModel<RenderedDynamicImageResource>() {
 
-            private static final long serialVersionUID = -8788412636110253478L;
+			private static final long serialVersionUID = -8788412636110253478L;
 
-            @Override
+			@Override
 			public RenderedDynamicImageResource getObject() {
 				return new RenderedDynamicImageResource(50, 50) {
 
-                    private static final long serialVersionUID = 7881827809105145954L;
+					private static final long serialVersionUID = 7881827809105145954L;
 
-                    @Override
+					@Override
 					protected boolean render(Graphics2D g2) {
 
 						BufferedImage baseIcon = null;
 						BufferedImage baseIconOut = null;
 						try {
 							String imageFilePath = "C:/dev/gitRepository/ecom/src/main/webapp/images/p2.jpg";
-//							String imageFilePath = titleImageDir + File.separator + advert.getTitleImage();
+							// String imageFilePath = titleImageDir + File.separator +
+							// advert.getTitleImage();
 							File imageFile = new File(imageFilePath);
 							if (imageFile.canRead()) {
 								baseIcon = ImageIO.read(imageFile);
@@ -205,7 +197,7 @@ public class SearchResultPage extends HomePage {
 
 				};
 			}
-		});		
-	}    
+		});
+	}
 
 }

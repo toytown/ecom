@@ -182,22 +182,32 @@
 						<li wicket:id="searchResultsView">
 							<div class="offer_box_new">
 								<wicket:link>
-									<a wicket:id="detailImageLink"><img class="img_left" wicket:id="title_image" /></a>
-								</wicket:link>
-								<div class="offer_info">
-								<wicket:link>
-									<a wicket:id="detailTitleLink"><span wicket:id="title"/></a>
+									<a wicket:id="detailImageLink" class="linkopacity"><img class="img_left" wicket:id="title_image" /></a>
 								</wicket:link>								
-									
-									<p class="offer" wicket:id="description"/>
+								<div >
+									<wicket:link>
+										<a wicket:id="detailTitleLink"><span wicket:id="title"/></a>
+									</wicket:link>								
+								</div>								
+								<div class="offer_box_info"  style="width:180px;">
+									<ul>
+										<li><label><wicket:message key="lbl_price"/><span wicket:id="price"/></label></li>
+										<li><label><wicket:message key="lbl_size"/><span wicket:id="size"/></label></li>
+										<li><label><wicket:message key="lbl_rooms"/><span wicket:id="rooms"/></label></li>
+									</ul>
 								</div>
 								
-								<div class="more">
-									<label><wicket:message key="lbl_price"/><span wicket:id="price"/></label>
-									<label><wicket:message key="lbl_size"/><span wicket:id="size"/></label>
-									<label><wicket:message key="lbl_rooms"/><span wicket:id="rooms"/></label>
-									<a href="detail.html" class="minibutton btn-download" style="text-decoration:none;"><span>Details</span></a>
+								<div class="offer_box_info" style="width:180px;">
+									<ul>
+										<li><label>hasbathrooms</label></li>
+										<li><label>hasbedrooms</label></li>
+										<li><label>hastest</label></li>
+									</ul>
 								</div>
+								<div>
+								<a href="" class="add"><span>Merken</span></a>
+								</div>
+								
 							</div>
 						</li>
 					</ol>

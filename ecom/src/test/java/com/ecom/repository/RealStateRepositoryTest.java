@@ -83,7 +83,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
             appartment.setCategoryId(1);
             appartment.setTypeId(1);            
             
-            image = ImageUtils.resize(image, 60, 60);
+            image = ImageUtils.resize(image, 75, 75);
             ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
             ImageIO.write(image, "jpeg", baos);
             baos.flush();

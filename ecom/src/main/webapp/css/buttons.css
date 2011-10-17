@@ -64,3 +64,13 @@ a.btn-download .icon {
 a.btn-download:hover .icon,a.btn-download:focus .icon {
 	background-position: -40px -25px;
 }
+
+.add {
+	background: url(images/buttons/bookmark.gif) no-repeat 10px 8px;
+	text-indent: 30px;
+	display: block;
+}
+
+a:hover.button {
+	color: #0066CC;
+}
