@@ -484,12 +484,12 @@ way to fit your requirements.
 	margin: 5px 0px 5px 0px;
 }
 
-.offer_box_new  a:link {
+.offer_box_title a {
 	font-weight: bold;
 	text-decoration: none;
 }
 
-.offer_box_new  a:hover {
+.offer_box_title a:hover {
 	font-weight: bolder;
 	text-decoration: underline;
 	color: red;

@@ -8,7 +8,7 @@ a.minibutton {
 	color: #333;
 	text-shadow: 1px 1px 0 #fff;
 	background:
-		url(http://github.com/images/modules/buttons/minibutton_matrix.png) 0
+		url(http://localhost:8080/ecom/images/buttons/minibutton_matrix.png) 0
 		0 no-repeat;
 	white-space: nowrap;
 	border: none;
@@ -23,7 +23,7 @@ a.minibutton>span {
 	padding: 0 10px 0 8px;
 	line-height: 23px;
 	background:
-		url(http://github.com/images/modules/buttons/minibutton_matrix.png)
+		url(http://localhost:8080/ecom/images/buttons/minibutton_matrix.png)
 		100% 0 no-repeat;
 }
 
@@ -63,14 +63,4 @@ a.btn-download .icon {
 
 a.btn-download:hover .icon,a.btn-download:focus .icon {
 	background-position: -40px -25px;
-}
-
-.add {
-	background: url(images/buttons/bookmark.gif) no-repeat 10px 8px;
-	text-indent: 30px;
-	display: block;
-}
-
-a:hover.button {
-	color: #0066CC;
 }
