@@ -857,14 +857,14 @@ a.nav_footer:active {
 
 
 a.linkopacity img {
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity = 100);
 	-moz-opacity: 0.5;
 	opacity: 1.0;
 	-khtml-opacity: 0.5;
 }
 
 a.linkopacity:hover img {
-	filter: alpha(opacity = 100);
+	filter: alpha(opacity = 80);
 	-moz-opacity: 1.0;
 	opacity: 0.6;
 	-khtml-opacity: 1.0;
