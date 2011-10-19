@@ -203,10 +203,10 @@
 										<a wicket:id="detailTitleLink"><span wicket:id="title" /></a>
 									</wicket:link>
 								</div>
-								<div class="offer_box_info" style="width: 180px;">
+								<div class="offer_box_info" style="width: 150px;">
 									<ul>
-										<li><label><wicket:message key="lbl_price" /><span
-												wicket:id="price" /></label></li>
+										<li><label style="font-weight: bold;"><wicket:message
+													key="lbl_price" /><span wicket:id="price" /></label></li>
 										<li><label><wicket:message key="lbl_size" /><span
 												wicket:id="size" /></label></li>
 										<li><label><wicket:message key="lbl_rooms" /><span
@@ -214,19 +214,26 @@
 									</ul>
 								</div>
 
-								<div class="offer_box_info" style="width: 180px;">
+								<div class="offer_box_info" style="width: 120px;">
 									<ul>
-										<li><label>hasbathrooms</label></li>
-										<li><label>hasbedrooms</label></li>
-										<li><label>hastest</label></li>
+										<li><img wicket:id="img1"><label wicket:id="label1" /></li>
+										<li><img wicket:id="img2"><label wicket:id="label2" /></li>
+										<li><img wicket:id="img3"><label wicket:id="label3" /></li>
 									</ul>
 								</div>
-								<div class="buttons" style="float:right">
-									<a href="" class="regular">
-										<img src="images/buttons/bookmark-icon.gif" alt="" /> Merken
-									</a>
+								<div class="offer_box_info" style="width: 90px;">
+									<div class="buttons" style="float: right; width: 80px;">
+										<a href="" class="regular"> <img
+											src="images/buttons/bookmark-icon.gif" alt="" /> Merken
+										</a>
+									</div>
 								</div>
 
+
+								<div class="offer_box_info"
+									style="width: 380px; float: left; margin-top: 2px; padding-top: 2px;">
+									<span wicket:id="address" />
+								</div>
 							</div>
 						</li>
 					</ol>

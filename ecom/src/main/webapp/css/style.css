@@ -487,6 +487,7 @@ way to fit your requirements.
 .offer_box_title a {
 	font-weight: bold;
 	text-decoration: none;
+	height: 25px;
 }
 
 .offer_box_title a:hover {
@@ -513,10 +514,10 @@ way to fit your requirements.
 	padding-top: 2px;
 }
 
-.offer_box_info ul li:first-child {
-	font-weight: bold;
+.offer_box_info span {
+	font-weight:normal;
+	font-size: 10px;
 }
-
 .offer_box_wide {
 	width: 310px;
 	height: 106px;

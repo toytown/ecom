@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -17,6 +18,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -26,6 +28,7 @@ import org.apache.wicket.markup.repeater.data.EmptyDataProvider;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.common.utils.ImageResource;
@@ -122,7 +125,57 @@ public class SearchResultPage extends HomePage {
 						item.add(new Label("price", String.valueOf(realState.getCost())));
 						item.add(new Label("size", String.valueOf(realState.getSize())));
 						item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
+						
+						StringBuilder addressInfo = new StringBuilder("");
+						    addressInfo.append(StringUtils.trimToEmpty(realState.getStreet()));
+						    addressInfo.append(", ");
+						    addressInfo.append(StringUtils.trimToEmpty(realState.getAreaCode()));
+						    addressInfo.append(", ");
+						addressInfo.append(StringUtils.trimToEmpty(realState.getCity()));
+						
+						item.add(new Label("address", addressInfo.toString()));
+						
+						int labelId = 1;
+						
+						
+						if (realState.isKitchenAvailable()) {
+						    ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
+						    item.add(image);
+						    item.add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available"))); 
+						    labelId++;
+						}
 
+                        if (realState.isBalconyAvailable()) {
+                            ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
+                            item.add(image);                            
+                            item.add(new Label("label" + labelId, new ResourceModel("lbl_balcon_available")));
+                            labelId++;
+                        }
+						
+
+                        if (realState.isProvisionFree()) {
+                            ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
+                            item.add(image);                            
+                            item.add(new Label("label" + labelId, new ResourceModel("lbl_provision_free")));
+                            labelId++;
+                        }                        
+
+                        if (labelId <= 3 && realState.isToiletWithBathRoom()) {
+                            ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
+                            item.add(image);                            
+                            item.add(new Label("label" + labelId, new ResourceModel("lbl_toilet_wc")));
+                            labelId++;
+                        }  
+                        
+                        if (labelId <= 3) {
+                            
+                            for (;labelId <= 3; labelId++) {
+                                ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
+                                image.setVisible(false);
+                                item.add(image);                                
+                                item.add(new Label("label" + labelId, "").setVisible(false));
+                            }
+                        }
 					}
 
 				};

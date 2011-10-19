@@ -41,7 +41,12 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setBedRooms(1);     
                 appartment.setCost(600);
                 appartment.setSize(50.5d + 1);
+                appartment.setProvisionFree(true);
                 appartment.setDescription("2 rooms appartment, schöne wohnlage");
+                appartment.setStreet("Schlesierstr");
+                appartment.setHouseNo("4b");
+                appartment.setAreaCode("81667");
+                appartment.setCity("München");
                 image = ImageIO.read(readImageFile("test-images/test_image_" + i  + ".jpg"));
                 
             } else if (i % 3 == 0){
@@ -50,7 +55,13 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setBedRooms(2);
                 appartment.setCost(800);
                 appartment.setSize(67d + i*1.1);
+                appartment.setKitchenAvailable(true);
+                appartment.setProvisionFree(true);
                 appartment.setDescription("3 zimmer appartment, EBK, familien freündlich");
+                appartment.setStreet("Schöhäuser allee");
+                appartment.setHouseNo("24 b");
+                appartment.setAreaCode("10337");
+                appartment.setCity("Berlin");                
                 image = ImageIO.read(readImageFile("test-images/test_image_" + i + ".jpg"));
                 
             } else if (i % 4 == 0){
@@ -59,7 +70,14 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setBedRooms(3);
                 appartment.setCost(600 + i* 20);
                 appartment.setSize(80 + i*1.5);
+                appartment.setKitchenAvailable(true);
+                appartment.setBalconyAvailable(true);
                 appartment.setDescription("4 zimmer hell, ruhig, provisinfrei mit panoromablick");
+                appartment.setDescription("3 zimmer appartment, EBK, familien freündlich");
+                appartment.setStreet("Hauptstr");
+                appartment.setHouseNo("15");
+                appartment.setAreaCode("10337");
+                appartment.setCity("Frankfirt");                 
                 image = ImageIO.read(readImageFile("test-images/test_image_" + i + ".jpg"));
                 
             } else if (i % 5 == 0){
@@ -68,7 +86,13 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setBedRooms(4);
                 appartment.setCost(800 + i* 20);
                 appartment.setSize(101 + i*1.5);
+                appartment.setKitchenAvailable(true);
+                appartment.setBalconyAvailable(true);
                 appartment.setDescription("5 zimmer groß, ruhig, provisinfrei mit panoromablick");
+                appartment.setStreet("Hamburgerstr");
+                appartment.setHouseNo("23 -37a");
+                appartment.setAreaCode("67789");
+                appartment.setCity("Hamburg");                   
                 image = ImageIO.read(readImageFile("test-images/test_image_" + i  + ".jpg"));
             } else {
                 appartment.setBalconyAvailable(false);
@@ -76,6 +100,12 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setBedRooms(1);
                 appartment.setCost(500 + i* 20);
                 appartment.setSize(50.5d);
+                appartment.setKitchenAvailable(true);
+                appartment.setBalconyAvailable(true);
+                appartment.setStreet("Neuhauser allee");
+                appartment.setHouseNo("22a");
+                appartment.setAreaCode("10117");
+                appartment.setCity("Berlin");                  
                 image = ImageIO.read(readImageFile("test-images/test_image_1.jpg"));
                 
             }    
