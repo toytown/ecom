@@ -4,10 +4,12 @@ import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.mapper.MountedMapper;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 import com.ecom.common.utils.AppConfig;
+import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 
 public class EcomApplication extends WebApplication {
@@ -20,7 +22,11 @@ public class EcomApplication extends WebApplication {
         super.init();
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
         
-        mountPage("/home/", HomePage.class);
+        mountPage("/home", HomePage.class);
+        mountPage("/details", DetailViewPage.class);
+        getRootRequestMapperAsCompound().add(new MountedMapper("/home", HomePage.class));
+        getRootRequestMapperAsCompound().add(new MountedMapper("/details", DetailViewPage.class));
+        
         // disables echoing of wicket tags and their attributes to resulting html
         getMarkupSettings().setStripWicketTags(true);
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());

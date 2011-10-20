@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -76,8 +75,10 @@ public class SearchResultPage extends HomePage {
 			@Override
 			protected void populateItem(Item<RealState> item) {
 				final RealState realState = (RealState) item.getModelObject();
-				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class, params);
-				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class, params);
+				PageParameters detailParam = new PageParameters();
+				detailParam.add("appartment-id", realState.getId().toString());
+				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
+				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
 				detailImageLink.add(new Image("title_image", "D:/dev/gitRepository/ecom/ecom/src/main/webapp/images/p2.jpg"));
 				item.add(detailImageLink);
 				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
@@ -110,11 +111,11 @@ public class SearchResultPage extends HomePage {
 					protected void populateItem(Item<RealState> item) {
 						final RealState realState = (RealState) item.getModelObject();
 
-						PageParameters params = new PageParameters();
-						BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", RealStateDetailViewPage.class,
-								params);
-						BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", RealStateDetailViewPage.class,
-								params);
+						PageParameters detailParam = new PageParameters();
+						detailParam.add("appartment-id", realState.getId().toString());
+						BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
+						BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
+						
 						Image img = getTitleImage(realState);
 						img.setOutputMarkupId(true);
 						img.setOutputMarkupPlaceholderTag(true);
@@ -126,14 +127,9 @@ public class SearchResultPage extends HomePage {
 						item.add(new Label("size", String.valueOf(realState.getSize())));
 						item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
 						
-						StringBuilder addressInfo = new StringBuilder("");
-						    addressInfo.append(StringUtils.trimToEmpty(realState.getStreet()));
-						    addressInfo.append(", ");
-						    addressInfo.append(StringUtils.trimToEmpty(realState.getAreaCode()));
-						    addressInfo.append(", ");
-						addressInfo.append(StringUtils.trimToEmpty(realState.getCity()));
+						String addressInfo = realState.getAddressInfo();
 						
-						item.add(new Label("address", addressInfo.toString()));
+						item.add(new Label("address", addressInfo));
 						
 						int labelId = 1;
 						
