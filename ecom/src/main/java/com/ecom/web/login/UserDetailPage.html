@@ -11,29 +11,7 @@
 						<span>Refined</span> search:
 					</div>
 
-					<form action="post" wicket:id="searchForm">
-						<div class="form">
-							<div class="form_row">
-								<label class="left">Rooms: </label><input type="text" class="form_input_small" wicket:id="roomsFrom" /> <input type="text"
-									class="form_input_small" wicket:id="roomsTo" />
-							</div>
-							<div class="form_row">
-								<label class="left">Area: </label><input type="text" class="form_input_small" wicket:id="areaFrom" /><input type="text"
-									class="form_input_small" wicket:id="areaTo" />
-							</div>
-							<div class="form_row">
-								<label class="left">Price: </label><input type="text" class="form_input_small" wicket:id="priceFrom" /><input type="text"
-									class="form_input_small" wicket:id="priceTo" />
-							</div>
-
-
-							<div style="float: right; padding: 10px 25px 0 0;">
-								<label class="uiButton uiButtonConfirm"> <input type="submit" value="Search" style="color: #FFFFFF;" wicket:id="detailSearchBtn"></label>
-							</div>
-
-
-						</div>
-					</form>
+					
 
 
 				</div>
@@ -99,7 +77,7 @@
 				<div style="clear: both;"></div>
 
 				<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
-					<li wicket:id="searchResultsView">
+					<li wicket:id="userResultsView">
 						<div class="offer_box_new">
 							<wicket:link>
 								<a wicket:id="detailImageLink" class="linkopacity"><img class="img_left" wicket:id="title_image" /></a>
@@ -117,11 +95,11 @@
 								</ul>
 							</div>
 
-							<div class="offer_box_info_right" style="width: 120px;">
+							<div class="offer_box_info" style="width: 120px;">
 								<ul>
-									<li><span wicket:id="label1" /></li>
-									<li><span wicket:id="label2" /></li>
-									<li><span wicket:id="label3" /></li>
+									<li><label wicket:id="label1" /></li>
+									<li><label wicket:id="label2" /></li>
+									<li><label wicket:id="label3" /></li>
 								</ul>
 							</div>
 							<div class="offer_box_info" style="width: 90px;">

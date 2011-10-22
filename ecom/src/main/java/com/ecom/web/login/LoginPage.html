@@ -1,0 +1,34 @@
+
+<wicket:extend>
+	<div class="admin_login">
+
+		<div class="left_box">
+			<div class="top_left_box"></div>
+			<div class="center_left_box">
+				<div class="box_title">
+					<span>Admin</span> login
+				</div>
+
+				<div class="form">
+					<form action="post" wicket:id="loginForm">
+						<div class="form_row">
+							<label class="left">Username: </label><input type="text" class="form_input" wicket:id="userName" />
+						</div>
+						<div class="form_row">
+							<label class="left">Password: </label><input type="password" class="form_input" wicket:id="password" />
+						</div>
+					</form>
+					<div style="float: right; padding: 10px 25px 0 0;">
+						<a href="#" wicket:id="submitLogin"><input type="image" src="images/login.gif" /></a>
+					</div>
+					<div wicket:id="feedback">[[ feedback ]]</div>
+
+				</div>
+
+			</div>
+			<div class="bottom_left_box"></div>
+		</div>
+	</div>
+	<!-- end of main_content -->
+
+</wicket:extend>

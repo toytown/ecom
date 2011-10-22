@@ -2,6 +2,9 @@
 url{
 'buttons.css'
 }
+url{
+'admin.css'
+}
 body {
 	background-color: #fff;
 	padding: 0;
@@ -503,10 +506,25 @@ way to fit your requirements.
 	width : 190px;
 }
 
+.offer_box_info_right {
+	float: left;
+	padding: 7px 0px 0px 4px;
+	margin: 0px 0px 0px 8px;
+	width : 190px;
+}
 
 .offer_box_info ul {
 	list-style: none;
 	padding: 0;
+}
+
+
+.offer_box_info_right li {
+	list-style: none;
+	background-image: url('../images/buttons/arrow5.gif');
+	background-repeat:no-repeat;
+	background-position: 2px 2px;
+	padding-left: 15px;
 }
 
 .offer_box_info label {
@@ -515,6 +533,10 @@ way to fit your requirements.
 }
 
 .offer_box_info span {
+	font-weight:normal;
+	font-size: 10px;
+}
+.offer_box_info_right span {
 	font-weight:normal;
 	font-size: 10px;
 }

@@ -10,20 +10,25 @@ import com.ecom.test.AbstractIntegrationTest;
 public class UserRepositoryTest extends AbstractIntegrationTest {
 
 	@Autowired
-	UserRepository userRepo;
+	UserRepository userRepository;
 	
 	
     @Before
     public void purgeRepository() {
-    	userRepo.deleteAll();
-        super.setUp();
+   	 userRepository.deleteAll();
     }
     
     @Test
     public void createUser() throws Exception {
 
     	User user = new User();
+    	user.setEmail("prasanna.tuladhar@gmail.com");
+    	user.setCity("München");
+    	user.setZip("80337");
+    	user.setPhone1("49 89 76755263");
     	user.setFax("prasanna");
-    	userRepo.save(user);
+    	user.setUserName("test");
+    	user.setPassword("test");
+    	userRepository.save(user);
     }	
 }

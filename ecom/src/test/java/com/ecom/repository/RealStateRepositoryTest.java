@@ -120,7 +120,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
             byte[] imageBytes = baos.toByteArray();
             baos.close();
             appartment.setTitleImage(imageBytes);
-            
+            appartment.setUserName("test");
             realStates.add(appartment);
             
         }

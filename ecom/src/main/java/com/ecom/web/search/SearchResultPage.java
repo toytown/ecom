@@ -17,7 +17,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -30,13 +29,13 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.ecom.common.utils.ImageResource;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.RealStateDataProvider;
+import com.ecom.web.main.GenericTemplatePage;
 
-public class SearchResultPage extends HomePage {
+public class SearchResultPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = -6983320790900379278L;
 
@@ -113,9 +112,11 @@ public class SearchResultPage extends HomePage {
 
 						PageParameters detailParam = new PageParameters();
 						detailParam.add("appartment-id", realState.getId().toString());
-						BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
-						BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
-						
+						BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class,
+								detailParam);
+						BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class,
+								detailParam);
+
 						Image img = getTitleImage(realState);
 						img.setOutputMarkupId(true);
 						img.setOutputMarkupPlaceholderTag(true);
@@ -126,52 +127,39 @@ public class SearchResultPage extends HomePage {
 						item.add(new Label("price", String.valueOf(realState.getCost())));
 						item.add(new Label("size", String.valueOf(realState.getSize())));
 						item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
-						
+
 						String addressInfo = realState.getAddressInfo();
-						
+
 						item.add(new Label("address", addressInfo));
-						
+
 						int labelId = 1;
-						
-						
+
 						if (realState.isKitchenAvailable()) {
-						    ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
-						    item.add(image);
-						    item.add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available"))); 
-						    labelId++;
+							item.add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available")));
+							labelId++;
 						}
 
-                        if (realState.isBalconyAvailable()) {
-                            ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
-                            item.add(image);                            
-                            item.add(new Label("label" + labelId, new ResourceModel("lbl_balcon_available")));
-                            labelId++;
-                        }
-						
+						if (realState.isBalconyAvailable()) {
+							item.add(new Label("label" + labelId, new ResourceModel("lbl_balcon_available")));
+							labelId++;
+						}
 
-                        if (realState.isProvisionFree()) {
-                            ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
-                            item.add(image);                            
-                            item.add(new Label("label" + labelId, new ResourceModel("lbl_provision_free")));
-                            labelId++;
-                        }                        
+						if (realState.isProvisionFree()) {
+							item.add(new Label("label" + labelId, new ResourceModel("lbl_provision_free")));
+							labelId++;
+						}
 
-                        if (labelId <= 3 && realState.isToiletWithBathRoom()) {
-                            ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
-                            item.add(image);                            
-                            item.add(new Label("label" + labelId, new ResourceModel("lbl_toilet_wc")));
-                            labelId++;
-                        }  
-                        
-                        if (labelId <= 3) {
-                            
-                            for (;labelId <= 3; labelId++) {
-                                ContextImage image = new ContextImage("img" + labelId, "images/buttons/arrow5.gif");
-                                image.setVisible(false);
-                                item.add(image);                                
-                                item.add(new Label("label" + labelId, "").setVisible(false));
-                            }
-                        }
+						if (labelId <= 3 && realState.isToiletWithBathRoom()) {
+							item.add(new Label("label" + labelId, new ResourceModel("lbl_toilet_wc")));
+							labelId++;
+						}
+
+						if (labelId <= 3) {
+
+							for (; labelId <= 3; labelId++) {
+								item.add(new Label("label" + labelId, "").setVisible(false));
+							}
+						}
 					}
 
 				};
@@ -204,9 +192,7 @@ public class SearchResultPage extends HomePage {
 
 	}
 
-	protected Image getTitleImage(RealState realState) {
-		return ImageResource.getImageData(realState.getTitleImage(), "png");
-	}
+
 
 	@Deprecated
 	protected Image getTitleImage() {

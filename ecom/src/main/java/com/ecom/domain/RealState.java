@@ -105,7 +105,7 @@ public class RealState implements Serializable {
 
 	private boolean seniorAppartment;
 
-	private int userId;
+	private String userName;
 
 	private Date insertedTs;
 
@@ -480,14 +480,7 @@ public class RealState implements Serializable {
 		this.seniorAppartment = seniorAppartment;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
+	
 	public Date getInsertedTs() {
 		return insertedTs;
 	}
@@ -521,5 +514,13 @@ public class RealState implements Serializable {
 		addressInfo.append(StringUtils.trimToEmpty(getCity()));
 		this.addressInfo = addressInfo.toString();
 		return this.addressInfo;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }
