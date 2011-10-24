@@ -112,7 +112,6 @@
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-mongodb</artifactId>
 			<version>${querydsl.version}</version>
-			<optional>true</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.morphia</groupId>

@@ -13,10 +13,10 @@ public class EcomSession extends WebSession {
 	private static final long serialVersionUID = 1L;
 	private volatile boolean signedIn;
 	private String userName = null;
-	
+
 	@SpringBean
 	private UserRepository userRepository;
-	
+
 	public EcomSession(Request request) {
 		super(request);
 		Injector.get().inject(this);
@@ -27,19 +27,29 @@ public class EcomSession extends WebSession {
 		if (user != null) {
 			signedIn = true;
 		}
-		
+
 		if (signedIn) {
 			bind();
 		}
 		return signedIn;
 	}
-	
-	
+
+	public final boolean isSignedIn() {
+		return signedIn;
+	}
+
 	public String getUserName() {
 		return this.userName;
 	}
-	
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+	public void signOut() {
+		super.invalidate();
+		signedIn = false;
+		userName = null;
+	}
+
 }

@@ -1,0 +1,40 @@
+<wicket:extend>
+	<div class="user_registration">
+		<form wicket:id="userRegistrationForm">
+			<fieldset>
+				<legend>User Information</legend>
+				<ol>
+					<li><label><wicket:message key="lbl_title"/></label><input type="text" id="title" wicket:id="title" size="10" /></li>
+					<li><label><wicket:message key="lbl_firstname"/></label><input type="text" id="firstName" wicket:id="firstName" size="50" /></li>
+					<li><label><wicket:message key="lbl_lastname"/></label><input type="text" id="lastName" wicket:id="lastName" size="50" /></li>
+					<li><label><wicket:message key="lbl_company_name"/></label><input type="text" id="companyName" wicket:id="companyName" size="50" /></li>
+					<li><label><wicket:message key=lbl_username/></label><input type="text" id="userName" wicket:id="userName" size="10" /></li>
+					<li><label><wicket:message key="lbl_password"/></label><input type="password" id="password" wicket:id="password" size="10" /></li>
+
+					<li><span wicket:id="userCategory"> <label>User Category</label> 
+						<span wicket:id="categories"> 
+							<input type="radio" wicket:id="category" />
+						</span>
+					</span></li>
+					<p align="center">
+						<input type="submit" wicket:id="register" value="register" />
+					</p>
+				</ol>
+			</fieldset>
+			<fieldset>
+				<legend>Contact Details</legend>
+				<ol>
+					<li><label><wicket:message key="lbl_city"/></label> <input type="text" id="city" wicket:id="city" size="20" /></li>
+					<li><label><wicket:message key="lbl_zip"/></label> <input type="text" id="zip" wicket:id="zip" size="5" /></li>
+					<li><label><wicket:message key="lbl_street"/></label> <input type="text" id="street" wicket:id="street" size="5" /></li>
+					<li><label><wicket:message key="lbl_house_number"/></label> <input type="text" id="houseNumber" wicket:id="houseNumber" size="5" /></li>
+					<li><label><wicket:message key="lbl_email"/></label> <input type="text" id="email" wicket:id="email" size="20" /></li>
+					<li><label><wicket:message key="lbl_fax"/></label> <input type="text" id="fax" wicket:id="fax" size="20" /></li>
+					<li><label><wicket:message key="lbl_mobile"/></label> <input type="text" id="mobile" wicket:id="mobile" size="20" /></li>
+					<li><label><wicket:message key="lbl_phone1"/></label> <input type="text" id="phone" wicket:id="phone1" size="20" /></li>
+					<li><label><wicket:message key="lbl_homepage_url"/></label> <input type="text" id="homePageURL" wicket:id="homePageURL" size="20" /></li>
+				</ol>
+			</fieldset>
+		</form>
+	</div>
+</wicket:extend>

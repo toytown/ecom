@@ -1,7 +1,9 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -11,7 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -3721902561262002897L;
-
+	
+	//1=standard 2=professional
+	public static final List<String> USER_CATEGORIES = Arrays.asList(new String[] { "1", "2" });
+	
     @Id
     private ObjectId id;
 
