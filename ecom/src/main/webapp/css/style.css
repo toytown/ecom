@@ -892,3 +892,18 @@ a.linkopacity:hover img {
 	opacity: 0.6;
 	-khtml-opacity: 1.0;
 }
+
+/*-------------------User Registration------------------------*/
+.form_reg {
+	width: 320px;
+	text-align: center;
+	color: #615357;
+	padding: 5px 0 5px 0;
+}
+
+.form_row_reg {
+	float: left;
+	width: 320px;
+	text-align: center;
+	padding: 3px 0 3px 0;
+}

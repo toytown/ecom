@@ -13,12 +13,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -3721902561262002897L;
-	
-	//1=standard 2=professional
+
+	// 1=standard 2=professional
 	public static final List<String> USER_CATEGORIES = Arrays.asList(new String[] { "1", "2" });
-	
-    @Id
-    private ObjectId id;
+
+	// 0=Inactive, 1= Active, 2=SUSPENDED
+	public enum USER_STATUS {
+		INACTIVE, ACTIVE, SUSPENDED;
+	};
+
+	@Id
+	private ObjectId id;
 
 	private String title;
 
@@ -34,7 +39,7 @@ public class User implements Serializable {
 
 	private String password;
 
-	private String status;
+	private int status;
 
 	private String activationCode;
 
@@ -61,200 +66,208 @@ public class User implements Serializable {
 	private String homePageURL;
 
 	private int contactStatus;
-	
+
 	private Date insertTs;
-	
+
 	private Date updatedTs;
 
-    public ObjectId getId() {
-        return id;
-    }
+	public ObjectId getId() {
+		return id;
+	}
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
+	public void setId(ObjectId id) {
+		this.id = id;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public String getCompanyName() {
-        return companyName;
-    }
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public int getUserCategory() {
-        return userCategory;
-    }
+	public int getUserCategory() {
+		return userCategory;
+	}
 
-    public void setUserCategory(int userCategory) {
-        this.userCategory = userCategory;
-    }
+	public void setUserCategory(int userCategory) {
+		this.userCategory = userCategory;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public int getStatus() {
+		return status;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
-    public String getActivationCode() {
-        return activationCode;
-    }
+	public String getActivationCode() {
+		return activationCode;
+	}
 
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public String getZip() {
-        return zip;
-    }
+	public String getZip() {
+		return zip;
+	}
 
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
 
-    public String getStreet() {
-        return street;
-    }
+	public String getStreet() {
+		return street;
+	}
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-    public String getHouseNumber() {
-        return houseNumber;
-    }
+	public String getHouseNumber() {
+		return houseNumber;
+	}
 
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
+	public void setHouseNumber(String houseNumber) {
+		this.houseNumber = houseNumber;
+	}
 
-    public String getCountryCode() {
-        return countryCode;
-    }
+	public String getCountryCode() {
+		return countryCode;
+	}
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getFax() {
-        return fax;
-    }
+	public String getFax() {
+		return fax;
+	}
 
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
 
-    public String getMobile() {
-        return mobile;
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
-    public String getPhone1() {
-        return phone1;
-    }
+	public String getPhone1() {
+		return phone1;
+	}
 
-    public void setPhone1(String phone1) {
-        this.phone1 = phone1;
-    }
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
+	}
 
-    public String getPhone2() {
-        return phone2;
-    }
+	public String getPhone2() {
+		return phone2;
+	}
 
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
-    }
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
 
-    public String getHomePageURL() {
-        return homePageURL;
-    }
+	public String getHomePageURL() {
+		return homePageURL;
+	}
 
-    public void setHomePageURL(String homePageURL) {
-        this.homePageURL = homePageURL;
-    }
+	public void setHomePageURL(String homePageURL) {
+		this.homePageURL = homePageURL;
+	}
 
-    public int getContactStatus() {
-        return contactStatus;
-    }
+	public int getContactStatus() {
+		return contactStatus;
+	}
 
-    public void setContactStatus(int contactStatus) {
-        this.contactStatus = contactStatus;
-    }
+	public void setContactStatus(int contactStatus) {
+		this.contactStatus = contactStatus;
+	}
 
-    public Date getInsertTs() {
-        return insertTs;
-    }
+	public Date getInsertTs() {
+		return insertTs;
+	}
 
-    public void setInsertTs(Date insertTs) {
-        this.insertTs = insertTs;
-    }
+	public void setInsertTs(Date insertTs) {
+		this.insertTs = insertTs;
+	}
 
-    public Date getUpdatedTs() {
-        return updatedTs;
-    }
+	public Date getUpdatedTs() {
+		return updatedTs;
+	}
 
-    public void setUpdatedTs(Date updatedTs) {
-        this.updatedTs = updatedTs;
-    }	
+	public void setUpdatedTs(Date updatedTs) {
+		this.updatedTs = updatedTs;
+	}
+	
+	public final void activate() {
+		setStatus(Integer.valueOf(USER_STATUS.ACTIVE.toString()));		
+	}
+	
+	public final void suspend() {
+		setStatus(Integer.valueOf(USER_STATUS.SUSPENDED.toString()));		
+	}	
 }

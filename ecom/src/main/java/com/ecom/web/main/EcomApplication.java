@@ -3,8 +3,6 @@ package com.ecom.web.main;
 import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
-import org.apache.wicket.authorization.IAuthorizationStrategy;
-import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationStrategy;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
@@ -16,7 +14,6 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import com.ecom.common.utils.AppConfig;
 import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
-import com.ecom.web.login.UserDetailPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 
@@ -45,17 +42,17 @@ public class EcomApplication extends WebApplication {
 		getMarkupSettings().setDefaultBeforeDisabledLink("");
 		getMarkupSettings().setDefaultAfterDisabledLink("");
 
-		IAuthorizationStrategy authorizationStrategy = new SimplePageAuthorizationStrategy(UserDetailPage.class, LoginPage.class) {
-
-			@Override
-			protected boolean isAuthorized() {
-
-				return ((EcomSession)EcomSession.get()).isSignedIn();
-			}
-
-		};
-		
-		getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);		
+//		IAuthorizationStrategy authorizationStrategy = new SimplePageAuthorizationStrategy(UserDetailPage.class, LoginPage.class) {
+//
+//			@Override
+//			protected boolean isAuthorized() {
+//
+//				return ((EcomSession)EcomSession.get()).isSignedIn();
+//			}
+//
+//		};
+//		
+//		getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);		
 	}
 
 	@Override
