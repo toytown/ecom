@@ -16,6 +16,7 @@ import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
+import com.ecom.web.search.SearchResultPage;
 
 public class EcomApplication extends WebApplication {
 
@@ -31,7 +32,9 @@ public class EcomApplication extends WebApplication {
 		mountPage("/details", DetailViewPage.class);
 		mountPage("/login", LoginPage.class);
 		mountPage("/registration", RegistrationPage.class);
+		mountPage("/home/results", SearchResultPage.class);
 		getRootRequestMapperAsCompound().add(new MountedMapper("/home", HomePage.class));
+		getRootRequestMapperAsCompound().add(new MountedMapper("/home/results", SearchResultPage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/login", LoginPage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/details", DetailViewPage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/registration", RegistrationPage.class));

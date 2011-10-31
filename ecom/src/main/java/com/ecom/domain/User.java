@@ -1,7 +1,6 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,22 +8,25 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "realstate")
+@Document(collection = "user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -3721902561262002897L;
 
-	// 1=standard 2=professional
-	public static final List<String> USER_CATEGORIES = Arrays.asList(new String[] { "1", "2" });
 
 	// 0=Inactive, 1= Active, 2=SUSPENDED
 	public enum USER_STATUS {
 		INACTIVE, ACTIVE, SUSPENDED;
 	};
 
+
+	public static final Category defaultCategory = Category.getDefaultCategory();
+			
 	@Id
 	private ObjectId id;
 
+	private String category;
+	
 	private String title;
 
 	private String firstName;
@@ -33,7 +35,7 @@ public class User implements Serializable {
 
 	private String companyName;
 
-	private int userCategory;
+	private Category userCategory;
 
 	private String userName;
 
@@ -79,6 +81,14 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -111,11 +121,11 @@ public class User implements Serializable {
 		this.companyName = companyName;
 	}
 
-	public int getUserCategory() {
+	public Category getUserCategory() {
 		return userCategory;
 	}
 
-	public void setUserCategory(int userCategory) {
+	public void setUserCategory(Category userCategory) {
 		this.userCategory = userCategory;
 	}
 
@@ -270,4 +280,8 @@ public class User implements Serializable {
 	public final void suspend() {
 		setStatus(Integer.valueOf(USER_STATUS.SUSPENDED.toString()));		
 	}	
+	
+	public static List<Category> getCategories() {
+		return Category.categories;		
+	}
 }

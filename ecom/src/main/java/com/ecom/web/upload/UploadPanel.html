@@ -1,0 +1,30 @@
+<wicket:panel>
+
+    <form wicket:id="simpleUpload">
+	 <fieldset>
+	  <legend>Upload form</legend>
+    	<p>
+	    <div wicket:id="fileInput" class="mfuex"/>
+	    </p>
+	    <input type="submit" value="Upload!"/>
+	    <input type="submit" wicket:id="save" value="save!"/>
+	 </fieldset>
+    </form>
+
+
+	 <div>
+		<span wicket:id="uploadFeedback"/>
+	 </div>
+
+    <div>
+      <h4>Current files in <span wicket:id="dir">(dir)</span>:</h4>
+      <table>
+        <tr wicket:id="fileList">
+            <td width="200"><span wicket:id="file">(file)</span></td>
+            <td><a href="#" wicket:id="delete"><img src="images/delete.gif" border="0"/></a></td>
+        </tr>
+      </table>
+    </div>
+    
+    <div wicket:id="previewPanel">previewPanel</div>
+</wicket:panel>

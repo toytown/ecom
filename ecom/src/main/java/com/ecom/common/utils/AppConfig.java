@@ -4,20 +4,20 @@ import java.io.File;
 
 public class AppConfig {
 
-	private String imageStore;
+	private String imageRepository;
 	private String env;
 	
-    public String getImageStore() {
-        return imageStore;
+    public String getImageRepository() {
+        return imageRepository;
     }
 
-    public void setImageStore(String imageStore) {
-        this.imageStore = imageStore;
+    public void setImageRepository(String imageStore) {
+        this.imageRepository = imageStore;
     }
 
     public File getImageStoreDir() {
 
-        File imageStoreDir = new File(getImageStore());
+        File imageStoreDir = new File(getImageRepository());
         
         if (!imageStoreDir.exists()) {
             if (imageStoreDir.mkdirs()) {

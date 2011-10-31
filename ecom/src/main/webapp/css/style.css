@@ -2,9 +2,10 @@
 url{
 'buttons.css'
 }
-url{
-'admin.css'
+url { 'admin .css'
+	
 }
+
 body {
 	background-color: #fff;
 	padding: 0;
@@ -503,14 +504,14 @@ way to fit your requirements.
 	float: left;
 	padding: 7px 0px 0px 4px;
 	margin: 0px 0px 0px 8px;
-	width : 190px;
+	width: 190px;
 }
 
 .offer_box_info_right {
 	float: left;
 	padding: 7px 0px 0px 4px;
 	margin: 0px 0px 0px 8px;
-	width : 190px;
+	width: 190px;
 }
 
 .offer_box_info ul {
@@ -518,11 +519,10 @@ way to fit your requirements.
 	padding: 0;
 }
 
-
 .offer_box_info_right li {
 	list-style: none;
 	background-image: url('../images/buttons/arrow5.gif');
-	background-repeat:no-repeat;
+	background-repeat: no-repeat;
 	background-position: 2px 2px;
 	padding-left: 15px;
 }
@@ -533,13 +533,15 @@ way to fit your requirements.
 }
 
 .offer_box_info span {
-	font-weight:normal;
+	font-weight: normal;
 	font-size: 10px;
 }
+
 .offer_box_info_right span {
-	font-weight:normal;
+	font-weight: normal;
 	font-size: 10px;
 }
+
 .offer_box_wide {
 	width: 310px;
 	height: 106px;
@@ -878,32 +880,60 @@ a.nav_footer:active {
 	white-space: nowrap;
 }
 
-
 a.linkopacity img {
-	filter: alpha(opacity = 100);
+	filter: alpha(opacity =   100);
 	-moz-opacity: 0.5;
 	opacity: 1.0;
 	-khtml-opacity: 0.5;
 }
 
 a.linkopacity:hover img {
-	filter: alpha(opacity = 80);
+	filter: alpha(opacity =   80);
 	-moz-opacity: 1.0;
 	opacity: 0.6;
 	-khtml-opacity: 1.0;
 }
 
 /*-------------------User Registration------------------------*/
-.form_reg {
-	width: 320px;
+.form_reg_left {
+	width: 240px;
 	text-align: center;
 	color: #615357;
 	padding: 5px 0 5px 0;
+	float: left;
 }
 
-.form_row_reg {
-	float: left;
-	width: 320px;
+.form_reg_right {
+	width: 240px;
 	text-align: center;
-	padding: 3px 0 3px 0;
+	color: #615357;
+	padding: 5px 0 5px 0;
+	float: left;
+}
+
+.form_row_long {
+	float: left;
+	width: 480px;
+	text-align: ;
+	padding: 3px 0 3px 3px;
+}
+
+div.box .input-text {
+	border: 1px solid #3b6e22;
+	color: #666666;
+}
+
+div.box label {
+	display: block;
+	margin-bottom: 10px;
+	color: #555555;
+}
+
+div.box label span {
+	display: block;
+	float: left;
+	padding-right: 6px;
+	width: 70px;
+	text-align: right;
+	font-weight: bold;
 }

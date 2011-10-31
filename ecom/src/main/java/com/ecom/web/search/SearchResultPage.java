@@ -1,36 +1,19 @@
 package com.ecom.web.search;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.extensions.ajax.markup.html.AjaxIndicatorAppender;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.markup.repeater.data.EmptyDataProvider;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
+import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.GenericTemplatePage;
@@ -39,10 +22,12 @@ public class SearchResultPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = -6983320790900379278L;
 
+	private PageParameters resultParams = null;
 	public SearchResultPage(final PageParameters params) {
-
+		this.resultParams = params;
 		// List<NamedPair> nameValueKey = params.getAllNamed();
-
+		setStatelessHint(true);
+		
 		SearchRequest req = new SearchRequest();
 		CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
 		final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
@@ -65,174 +50,90 @@ public class SearchResultPage extends GenericTemplatePage {
 		searchForm.add(roomsFromTxt);
 		searchForm.add(roomsToTxt);
 
-		final IDataProvider<RealState> emptyDataprovider = new EmptyDataProvider<RealState>();
+		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider();
 
-		DataView<RealState> emptyDataView = new DataView<RealState>("searchResultsView", emptyDataprovider) {
-
-			private static final long serialVersionUID = 1L;
+		DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
+			private static final long serialVersionUID = -8557003080882186607L;
 
 			@Override
 			protected void populateItem(Item<RealState> item) {
 				final RealState realState = (RealState) item.getModelObject();
+
 				PageParameters detailParam = new PageParameters();
 				detailParam.add("appartment-id", realState.getId().toString());
 				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
 				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
-				detailImageLink.add(new Image("title_image", "D:/dev/gitRepository/ecom/ecom/src/main/webapp/images/p2.jpg"));
+
+				StaticImage img = getTitleImageFromUrl(realState);
+				detailImageLink.add(img);
 				item.add(detailImageLink);
+
 				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
 				item.add(new Label("price", String.valueOf(realState.getCost())));
+				item.add(new Label("size", String.valueOf(realState.getSize())));
+				item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
 
-			}
-		};
+				String addressInfo = realState.getAddressInfo();
 
-		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", emptyDataView);
-		pagingNavigator.setVisible(false);
-		pagingNavigator.setOutputMarkupId(true);
-		emptyDataView.setOutputMarkupId(true);
-		emptyDataView.setOutputMarkupPlaceholderTag(true);
-		dataContainer.add(emptyDataView);
-		dataContainer.add(pagingNavigator);
-		add(dataContainer);
+				item.add(new Label("address", addressInfo));
 
-		final AjaxButton deatailSearchBtn = new AjaxButton("detailSearchBtn") {
+				int labelId = 1;
 
-			private static final long serialVersionUID = 1L;
+				if (realState.isKitchenAvailable()) {
+					item.add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available")));
+					labelId++;
+				}
 
-			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider();
+				if (realState.isBalconyAvailable()) {
+					item.add(new Label("label" + labelId, new ResourceModel("lbl_balcon_available")));
+					labelId++;
+				}
 
-				DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
-					private static final long serialVersionUID = -8557003080882186607L;
+				if (realState.isProvisionFree()) {
+					item.add(new Label("label" + labelId, new ResourceModel("lbl_provision_free")));
+					labelId++;
+				}
 
-					@Override
-					protected void populateItem(Item<RealState> item) {
-						final RealState realState = (RealState) item.getModelObject();
+				if (labelId <= 3 && realState.isToiletWithBathRoom()) {
+					item.add(new Label("label" + labelId, new ResourceModel("lbl_toilet_wc")));
+					labelId++;
+				}
 
-						PageParameters detailParam = new PageParameters();
-						detailParam.add("appartment-id", realState.getId().toString());
-						BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class,
-								detailParam);
-						BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class,
-								detailParam);
+				if (labelId <= 3) {
 
-						Image img = getTitleImage(realState);
-						img.setOutputMarkupId(true);
-						img.setOutputMarkupPlaceholderTag(true);
-						detailImageLink.add(img);
-						item.add(detailImageLink);
-
-						item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
-						item.add(new Label("price", String.valueOf(realState.getCost())));
-						item.add(new Label("size", String.valueOf(realState.getSize())));
-						item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
-
-						String addressInfo = realState.getAddressInfo();
-
-						item.add(new Label("address", addressInfo));
-
-						int labelId = 1;
-
-						if (realState.isKitchenAvailable()) {
-							item.add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available")));
-							labelId++;
-						}
-
-						if (realState.isBalconyAvailable()) {
-							item.add(new Label("label" + labelId, new ResourceModel("lbl_balcon_available")));
-							labelId++;
-						}
-
-						if (realState.isProvisionFree()) {
-							item.add(new Label("label" + labelId, new ResourceModel("lbl_provision_free")));
-							labelId++;
-						}
-
-						if (labelId <= 3 && realState.isToiletWithBathRoom()) {
-							item.add(new Label("label" + labelId, new ResourceModel("lbl_toilet_wc")));
-							labelId++;
-						}
-
-						if (labelId <= 3) {
-
-							for (; labelId <= 3; labelId++) {
-								item.add(new Label("label" + labelId, "").setVisible(false));
-							}
-						}
+					for (; labelId <= 3; labelId++) {
+						item.add(new Label("label" + labelId, "").setVisible(false));
 					}
-
-				};
-
-				dataView.setOutputMarkupId(true);
-				dataView.setOutputMarkupPlaceholderTag(true);
-				dataView.setItemsPerPage(3);
-
-				final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView);
-				pagingNavigator.setVisible(true);
-				pagingNavigator.setOutputMarkupId(true);
-
-				dataContainer.addOrReplace(dataView);
-				dataContainer.addOrReplace(pagingNavigator);
-				target.add(dataContainer);
-
-			}
-
-			@Override
-			protected void onError(AjaxRequestTarget target, Form<?> form) {
-
+				}
 			}
 
 		};
 
-		deatailSearchBtn.add(new AjaxIndicatorAppender());
-		searchForm.add(deatailSearchBtn);
+		int currentPage;
 
+		// Select current page
+		currentPage = getCurrentPage();
+		dataView.setItemsPerPage(3);
+		dataView.setCurrentPage(currentPage);
+		
+		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, SearchResultPage.class, SearchResultPage.this.getPageParameters());
+
+
+		dataContainer.addOrReplace(dataView);
+		dataContainer.addOrReplace(pagingNavigator);
+		addOrReplace(dataContainer);
 		addOrReplace(searchForm);
 
 	}
 
-
-
-	@Deprecated
-	protected Image getTitleImage() {
-		return new Image("title_image", new AbstractReadOnlyModel<RenderedDynamicImageResource>() {
-
-			private static final long serialVersionUID = -8788412636110253478L;
-
-			@Override
-			public RenderedDynamicImageResource getObject() {
-				return new RenderedDynamicImageResource(50, 50) {
-
-					private static final long serialVersionUID = 7881827809105145954L;
-
-					@Override
-					protected boolean render(Graphics2D g2) {
-
-						BufferedImage baseIcon = null;
-						BufferedImage baseIconOut = null;
-						try {
-							String imageFilePath = "C:/dev/gitRepository/ecom/src/main/webapp/images/p2.jpg";
-							// String imageFilePath = titleImageDir + File.separator +
-							// advert.getTitleImage();
-							File imageFile = new File(imageFilePath);
-							if (imageFile.canRead()) {
-								baseIcon = ImageIO.read(imageFile);
-								baseIconOut = ImageUtils.resize(baseIcon, 50, 50);
-							} else {
-								throw new RuntimeException("No image file found at " + imageFilePath);
-							}
-
-						} catch (IOException e) {
-							throw new WicketRuntimeException(e);
-						}
-						g2.drawImage(baseIconOut, null, null);
-						return true;
-					}
-
-				};
-			}
-		});
+	private int getCurrentPage() {
+		PageParameters params = this.resultParams;
+		if (params.get(CustomizedPagingNavigator.PAGE_QUERY_ID) != null && !params.get(CustomizedPagingNavigator.PAGE_QUERY_ID).isEmpty()) {
+			return params.get(CustomizedPagingNavigator.PAGE_QUERY_ID).toInt() - CustomizedPagingNavigator.START_INDEX_POSITION;
+		}
+		return 0;
 	}
+	
+	
 
 }

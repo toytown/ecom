@@ -10,19 +10,19 @@ import com.ecom.domain.User;
 import com.ecom.repository.UserRepository;
 import com.ecom.web.main.GenericTemplatePage;
 
-public class ActivationPage extends GenericTemplatePage {
+public class UserActivationPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = -1940298512674779545L;
 	
 	@SpringBean
 	private UserRepository userRepository;
 	
-	public ActivationPage() {
+	public UserActivationPage() {
 		super();
 		setStatelessHint(true);
 	}
 
-	public ActivationPage(PageParameters pm) {
+	public UserActivationPage(PageParameters pm) {
 		super();
 		setStatelessHint(true);		
 		

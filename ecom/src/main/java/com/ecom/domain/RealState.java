@@ -1,6 +1,8 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -111,7 +113,7 @@ public class RealState implements Serializable {
 
 	private Date updatedTs;
 
-	private byte[] titleImage;
+	private String titleImage;
 
 	@Transient
 	private String addressInfo;
@@ -497,14 +499,27 @@ public class RealState implements Serializable {
 		this.updatedTs = updatedTs;
 	}
 
-	public byte[] getTitleImage() {
+	public String getTitleImage() {
 		return titleImage;
 	}
 
-	public void setTitleImage(byte[] titleImage) {
+	public void setTitleImage(String titleImage) {
 		this.titleImage = titleImage;
 	}
 
+	public String getTitleImageLocation(String imageRepository) {
+		try {
+			URL url =  new URL("http://localhost/image-repository" + "/" + getId() + "/" + getTitleImage());
+			return url.toString();
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
 	public String getAddressInfo() {
 		StringBuilder addressInfo = new StringBuilder("");
 		addressInfo.append(StringUtils.trimToEmpty(getStreet()));

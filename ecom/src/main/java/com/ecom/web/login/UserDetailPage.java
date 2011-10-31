@@ -11,6 +11,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.domain.RealState;
+import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
@@ -42,11 +43,15 @@ public class UserDetailPage extends GenericTemplatePage {
 				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
 				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
 
-				Image img = getTitleImage(realState);
-				img.setOutputMarkupId(true);
-				img.setOutputMarkupPlaceholderTag(true);
-				detailImageLink.add(img);
-				item.add(detailImageLink);
+				if (realState.getTitleImage() != null) {
+					StaticImage img = getTitleImageFromUrl(realState);
+					detailImageLink.add(img);
+					item.add(detailImageLink);					
+				} else {
+					StaticImage img = getTitleImageFromUrl(realState);
+					detailImageLink.add(img);
+					item.add(detailImageLink);					
+				}
 
 				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
 				item.add(new Label("price", String.valueOf(realState.getCost())));
@@ -90,7 +95,7 @@ public class UserDetailPage extends GenericTemplatePage {
 		};
 	
 		dataView.setOutputMarkupId(true);
-		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView);
+		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, UserDetailPage.class, null);
 		pagingNavigator.setVisible(true);
 		pagingNavigator.setOutputMarkupId(true);
 		

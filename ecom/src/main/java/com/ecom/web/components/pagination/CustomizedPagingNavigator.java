@@ -1,14 +1,16 @@
 package com.ecom.web.components.pagination;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.AbstractLink;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.html.navigation.paging.IPagingLabelProvider;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigation;
-import org.apache.wicket.markup.html.navigation.paging.PagingNavigationIncrementLink;
-import org.apache.wicket.markup.html.navigation.paging.PagingNavigationLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.xaloon.wicket.component.navigation.BookmarkablePagingNavigator;
 
 public class CustomizedPagingNavigator extends Panel {
 
@@ -17,15 +19,25 @@ public class CustomizedPagingNavigator extends Panel {
 	private final IPageable pageable;
 	private final IPagingLabelProvider labelProvider;
 	public static final String NAVIGATION_ID = "navigation";
+	private int currentPage;
+	private Class<? extends WebPage> clazz;
+	private PageParameters params;
+	public static final String PAGE_QUERY_ID = "pn";
 
-	public CustomizedPagingNavigator(String id, IPageable pageable) {
-		this(id, pageable, null);
+	/** display page number starting 1, not 0 **/
+	public static final int START_INDEX_POSITION = 1;
+	
+	public CustomizedPagingNavigator(String id, IPageable pageable, Class<? extends WebPage> clazz, PageParameters params) {
+		this(id, pageable, null, clazz, params);
 	}
 
-	public CustomizedPagingNavigator(String id, IPageable pageable, IPagingLabelProvider labelProvider) {
+	public CustomizedPagingNavigator(String id, IPageable pageable, IPagingLabelProvider labelProvider, Class<? extends WebPage> clazz, PageParameters params) {
 		super(id);
 		this.pageable = pageable;
 		this.labelProvider = labelProvider;
+		this.clazz = clazz;
+		this.params = params;
+		currentPage = pageable.getCurrentPage();
 
 	}
 
@@ -67,19 +79,25 @@ public class CustomizedPagingNavigator extends Panel {
 	}
 
 	protected AbstractLink newPagingNavigationLink(String id, IPageable pageable, int pageNumber) {
-		return new PagingNavigationLink<Void>(id, pageable, pageNumber) {
-			private static final long serialVersionUID = -831137339472702847L;
-
-			@Override
-			public boolean getStatelessHint() {
-					return true;
-				
-			}
-		};
+		PageParameters params = newPageParameters(pageable, pageNumber);
+		return new BookmarkablePageLink<Void>(id, this.clazz, params);
+		
+//		return new PagingNavigationLink<Void>(id, pageable, pageNumber) {
+//			private static final long serialVersionUID = -831137339472702847L;
+//
+//			@Override
+//			public boolean getStatelessHint() {
+//					return true;
+//				
+//			}
+//		};
 	}
 
 	protected AbstractLink newPagingNavigationIncrementLink(String id, IPageable pageable, int increment) {
-		return new PagingNavigationIncrementLink<Void>(id, pageable, increment);
+		//return new PagingNavigationIncrementLink<Void>(id, pageable, increment);
+		
+		PageParameters params = newPageParameters(pageable, getPageNumber(pageable, increment));
+		return new BookmarkablePageLink<Void>(id, this.clazz, params);
 	}
 	
 	@Override
@@ -87,5 +105,25 @@ public class CustomizedPagingNavigator extends Panel {
 			return true;
 		
 	}	
+
+	private int getPageNumber(IPageable pageable, int increment) {
+		// Determine the page number based on the current
+		// PageableListView page and the increment
+		int idx = currentPage + increment;
+
+		// make sure the index lies between 0 and the last page
+		return Math.max(0, Math.min(pageable.getPageCount() - 1, idx));
+	}
+
+	private PageParameters newPageParameters(IPageable pageable, int pageNumber) {
+		PageParameters params = new PageParameters(this.params);
+		if (pageNumber == -1) {
+			params.set(PAGE_QUERY_ID, pageable.getPageCount());
+		} else {
+			params.set(PAGE_QUERY_ID, pageNumber + START_INDEX_POSITION);
+		}
+		return params;
+	}	
+	
 
 }

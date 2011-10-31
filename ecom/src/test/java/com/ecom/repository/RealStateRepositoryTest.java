@@ -2,26 +2,34 @@ package com.ecom.repository;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
 import com.ecom.test.AbstractIntegrationTest;
 
 public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
+	 @Autowired
+	 AppConfig config;
+	 
     @Autowired
     RealStateRepository repository;
     
     @Before
     public void purgeRepository() {
         repository.deleteAll();
-        super.setUp();
+
     }
     
     @Test
@@ -33,7 +41,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
             appartment.setTitle(i + " zimmer appartment");            
             
             BufferedImage image = null;
-
+            ObjectId objId = new ObjectId();
+            appartment.setId(objId);
             
             if (i % 2 == 0) {
                 appartment.setBalconyAvailable(false);
@@ -78,7 +87,9 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setHouseNo("15");
                 appartment.setAreaCode("10337");
                 appartment.setCity("Frankfirt");                 
-                image = ImageIO.read(readImageFile("test-images/test_image_" + i + ".jpg"));
+                String imageName ="test_image_" + i  + ".jpg";
+                appartment.setTitleImage(imageName);
+                image = ImageIO.read(readImageFile("test-images/" + imageName));
                 
             } else if (i % 5 == 0){
                 appartment.setBalconyAvailable(true);
@@ -92,8 +103,10 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setStreet("Hamburgerstr");
                 appartment.setHouseNo("23 -37a");
                 appartment.setAreaCode("67789");
-                appartment.setCity("Hamburg");                   
-                image = ImageIO.read(readImageFile("test-images/test_image_" + i  + ".jpg"));
+                appartment.setCity("Hamburg");  
+                String imageName ="test_image_" + i  + ".jpg";
+                appartment.setTitleImage(imageName);
+                image = ImageIO.read(readImageFile("test-images/" + imageName));
             } else {
                 appartment.setBalconyAvailable(false);
                 appartment.setTotalRooms(1d);
@@ -106,7 +119,9 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
                 appartment.setHouseNo("22a");
                 appartment.setAreaCode("10117");
                 appartment.setCity("Berlin");                  
-                image = ImageIO.read(readImageFile("test-images/test_image_1.jpg"));
+                String imageName ="test_image_1.jpg";
+                appartment.setTitleImage(imageName);
+                image = ImageIO.read(readImageFile("test-images/" + imageName));
                 
             }    
             
@@ -118,8 +133,27 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
             ImageIO.write(image, "jpeg", baos);
             baos.flush();
             byte[] imageBytes = baos.toByteArray();
+            
+            File dir = new File(config.getImageRepository() + File.separator + appartment.getId().toString());
+            
+            if (!dir.exists()) {
+            	dir.mkdirs();
+            }
+            
+            File imageFile = new File(config.getImageRepository() + File.separator + appartment.getId().toString() + File.separator + appartment.getTitleImage());
+            
+
+            
+            System.out.println(imageFile.getAbsolutePath());
+            if (imageFile.createNewFile()) {
+            	FileOutputStream  fos = new FileOutputStream (imageFile);
+            	fos.write(imageBytes);
+            	fos.flush();
+            	fos.close();
+            	
+            }
             baos.close();
-            appartment.setTitleImage(imageBytes);
+            
             appartment.setUserName("test");
             realStates.add(appartment);
             

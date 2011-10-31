@@ -35,7 +35,7 @@
 	
 	<!-- creates a java.util.Properties instance with values loaded from the supplied location -->
 	<bean id="appProperties" class="com.ecom.common.utils.AppConfig">
-		<property name="imageStore" value="${imagestore.location}" />
+		<property name="imageRepository" value="${image.repository}" />
 		<property name="env" value="${env}" />
 	</bean>	
     		

@@ -19,7 +19,7 @@ public class ImageResource {
         try {
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
             bufferedDynamicImage.setImage(bufferedImage);
-            Image image = new Image("title_image", bufferedDynamicImage);            
+            Image image = new Image("title_image", bufferedDynamicImage); 
             return image;
         } catch (IOException e) {
             throw new RuntimeException("IOException occured during IOException " + e.getMessage());

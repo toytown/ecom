@@ -16,6 +16,7 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
     @Before
     public void purgeRepository() {
    	 userRepository.deleteAll();
+
     }
     
     @Test

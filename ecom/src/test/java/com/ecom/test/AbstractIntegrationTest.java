@@ -28,7 +28,7 @@ public abstract class AbstractIntegrationTest {
     
     @Before
     public void setUp() {
-        mongoTemplate.dropCollection(COLLECTION);        
+       //mongoTemplate.dropCollection(COLLECTION);        
     }    
     
 

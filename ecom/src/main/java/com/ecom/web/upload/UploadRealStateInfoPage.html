@@ -1,0 +1,124 @@
+
+<wicket:extend>
+	<div id="main_content">
+		<div class="column1">
+
+
+			<div class="left_box">
+				<div class="top_left_box"></div>
+				<div class="center_left_box">
+					<div class="box_title">
+						<span>Refined</span> search:
+					</div>
+				</div>
+				<div class="bottom_left_box"></div>
+			</div>
+
+
+
+			<div class="left_box">
+				<div class="top_left_box"></div>
+				<div class="center_left_box">
+					<div class="box_title">
+						<span>Join</span> our newsletter:
+					</div>
+
+
+					<div class="form">
+						<div class="form_row">
+							<label class="left">Email: </label><input type="text" class="form_input" />
+						</div>
+						<div style="float: right; padding: 10px 25px 0 0;">
+							<input type="image" src="images/join.gif" />
+						</div>
+
+					</div>
+
+
+				</div>
+				<div class="bottom_left_box"></div>
+			</div>
+
+
+			<div class="left_box">
+				<div class="top_left_box"></div>
+				<div class="center_left_box">
+					<div class="box_title">
+						<span>Contact</span> information:
+					</div>
+
+
+					<div class="form">
+						<div class="form_row">
+							<img src="images/contact_envelope.gif" width="50" height="47" border="0" class="img_right" alt="" title="" />
+							<div class="contact_information">
+								Email: info@comapnyname.com<br /> Telephone: 0234 789 90<br /> Mobile: 234 345 234534<br /> Fax: 34534 3456 3456(54)<br /> <br /> <span>www.companyname.com</span>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="bottom_left_box"></div>
+			</div>
+
+		</div>
+		<!-- end of column one -->
+
+		<div class="column33">
+			<div class="small_title">Insert Your Add here...</div>
+
+			<form wicket:id="realStateAdvertForm">
+				<fieldset>
+					<legend>
+						<wicket:message key="advertPanelForm.title" />
+					</legend>
+					<ol>
+						<li><label for="title"><wicket:message key="lbl_title"></label> <textarea type="text" id="title" wicket:id="title" /></li>
+						<li><label for="description"><wicket:message key="lbl_description"></label> <textarea type="text" id="description" wicket:id="description" /></li>
+						<li><label for="areaDescription"><wicket:message key="lbl_area_description" /></label> <textarea id="areaDescription" wicket:id="areaDescription">areaDescription</textarea></li>
+						<li><label for="availableFrom"><wicket:message key="lbl_available_from"></label><span type="text" wicket:id="availableFrom" /></li>
+						<li><label for="builtYear"><wicket:message key="lbl_built_year" /></label> <input type="text" id="builtYear" wicket:id="builtYear" /></li>
+						<li><label for="activationDate"><wicket:message key="lbl_activation_date" /></label> <span type="text" wicket:id="activationDate" /></li>
+						<li><label for="city"><wicket:message key="lbl_city" /></label> <input type="text" id="city" wicket:id="city" /></li>
+						<li><label for="areaCode"><wicket:message key="lbl_area_code" /></label> <input type="text" id="areaCode" wicket:id="areaCode" /></li>
+						<li><label for="street"><wicket:message key="lbl_street" /></label> <input type="text" id="street" wicket:id="street" /></li>
+						<li><label for="houseNo"><wicket:message key="lbl_house_no" /></label> <input type="text" id="houseNo" wicket:id="houseNo" /></li>
+						<li><label for="floor"><wicket:message key="lbl_floor" /></label> <input type="text" id="floor" wicket:id="floor" /></li>
+						<li><label for="totalFloors"><wicket:message key="lbl_total_floors"></label> <input type="text" id="totalFloors" wicket:id="totalFloors" /></li>
+						<li><label for="size"><wicket:message key="lbl_size" /></label> <input type="text" id="size" wicket:id="size" /></li>
+						<li><label for="cost"><wicket:message key="lbl_cost" /></label> <input type="text" id="cost" wicket:id="cost" /></li>
+						<li><label for="additionalCost"><wicket:message key="lbl_additional_cost" /></label> <input type="text" id="additionalCost" wicket:id="additionalCost" /></li>
+						<li><label for="depositPeriod"><wicket:message key="lbl_deposit_period" /></label> <input type="text" id="depositPeriod" wicket:id="depositPeriod" /></li>
+						<li><label for="provisionFree"><wicket:message key="lbl_provision_free" /></label> <input type="checkbox" id="provisionFree" wicket:id="provisionFree" /></li>
+						<li><label for="provisionCondition"><wicket:message key="lbl_provision_condition" /></label> <input type="text" id="provisionCondition" wicket:id="provisionCondition" /></li>
+						<li><label for="totalRooms"><wicket:message key="lbl_total_rooms" /></label> <input type="text" id="totalRooms" wicket:id="totalRooms" /></li>
+						<li><label for="bedRooms"><wicket:message key="lbl_bed_rooms" /></label> <input type="text" id="bedRooms" wicket:id="bedRooms" /></li>
+						<li><label for="bathRooms"><wicket:message key="lbl_bath_rooms" /></label> <input type="text" id="bathRooms" wicket:id="bathRooms" /></li>
+						<li><label for="kitchenAvailable"><wicket:message key="lbl_kitchen_available" /></label> <input type="checkbox" id="kitchenAvailable" wicket:id="kitchenAvailable" /></li>
+						<li><label for="cellarAvailable"><wicket:message key="lbl_celler_available" /></label> <input type="checkbox" id="cellarAvailable" wicket:id="cellarAvailable" /></li>
+						<li><label for="balconyAvailable"><wicket:message key="lbl_balcony_available" /></label> <input type="checkbox" id="balconyAvailable" wicket:id="balconyAvailable" /></li>
+						<li><label for="garageAvailable"><wicket:message key="lbl_garage_available" /></label> <input type="checkbox" id="garageAvailable" wicket:id="garageAvailable" /></li>
+						<li><label for="energyPassAvailable"><wicket:message key="lbl_energy_pass_available" /></label> <input type="checkbox" id="energyPassAvailable"
+							wicket:id="energyPassAvailable" /></li>
+						<li><label for="toiletWithBathRoomLabel"><wicket:message key="lbl_toilet_with_bathroom" /></label> <input type="checkbox" id="toiletWithBathRoom"
+							wicket:id="toiletWithBathRoom" /></li>
+						<li><label for="gardenAvailableLabel"><wicket:message key="lbl_garden_available" /></label> <input type="checkbox" id="gardenAvailable" wicket:id="gardenAvailable" /></li>
+						<li><label for="liftAvailableLabel"><wicket:message key="lbl_lift_available" /></label> <input type="checkbox" id="liftAvailable" wicket:id="liftAvailable" /></li>
+						<li><label for="furnishedLabel"><wicket:message key="lbl_furnished" /></label> <input type="checkbox" id="furnished" wicket:id="furnished" /></li>
+						<li><label for="categoryTypes"><wicket:message key="lbl_category_types" /></label> <select name="categoryTypes" id="categoryTypes" wicket:id="categoryTypes"></select></li>
+						<li><label for="heatingTypes"><wicket:message key="lbl_heating_types" /></label> <select name="heatingTypes" id="heatingTypes" wicket:id="heatingTypes"></select></li>
+						<li><label for="fittings"><wicket:message key="lbl_fittings" /></label> <input type="text" id="fittings" wicket:id="fittings" /></li>
+						<li><label for="lastRenovatedYear"><wicket:message key="lbl_last_renovated_year" /></label> <input type="text" id="lastRenovatedYear" wicket:id="lastRenovatedYear" /></li>
+						<li><input align="center" type="submit" wicket:id="submitAdvertisement" value="next" class="btn" /></li>
+					</ol>
+				</fieldset>
+			</form>
+
+		</div>
+		<!-- end of column three -->
+
+	</div>
+	<!-- end of main_content -->
+</wicket:extend>
+
