@@ -4,21 +4,27 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
 
 import javax.imageio.ImageIO;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.image.resource.BlobImageResource;
 import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ContextRelativeResource;
+import org.apache.wicket.request.resource.DynamicImageResource;
+import org.apache.wicket.request.resource.IResource.Attributes;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import com.ecom.common.utils.AppConfig;
+import com.ecom.common.utils.ImageResource;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
 import com.ecom.web.components.image.StaticImage;
@@ -30,9 +36,23 @@ public abstract class GenericTemplatePage extends WebPage {
 	@SpringBean
 	private AppConfig appConfig;
 	
-	protected Image getTitleImage(RealState realState) {
-		//return ImageResource.getImageData(realState.getTitleImage(), "png");
-		return null;
+//	protected Image getTitleImage(RealState realState) {
+//		return ImageResource.getImageData(realState.getTitleImage(), "png");
+//	}
+//	
+	protected Image getImageFromDB(RealState realState) {
+		PageParameters params = new PageParameters();
+		params.add("imgName", realState.getTitleImage());
+		Image img = new Image("title_image", new DynamicImageResource() {
+			
+			@Override
+			protected byte[] getImageData(Attributes attributes) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		
+		return img;
 	}
 	
 	protected StaticImage getTitleImageFromUrl(RealState realState) {

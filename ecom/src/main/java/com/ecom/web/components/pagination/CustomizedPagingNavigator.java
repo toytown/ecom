@@ -10,7 +10,6 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigation;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.xaloon.wicket.component.navigation.BookmarkablePagingNavigator;
 
 public class CustomizedPagingNavigator extends Panel {
 

@@ -20,6 +20,9 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 	private static final long serialVersionUID = -6508771802462213044L;
 	private PageRequest req = new PageRequest(0, 3);
 	private String userName = null;
+	
+	@SpringBean
+	private RealStateRepository realStateRepository;
 
 	public RealStateDataProvider() {
 		super();
@@ -34,9 +37,6 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 	public RealStateDataProvider(SearchRequest request) {
 		this();
 	}
-
-	@SpringBean
-	private RealStateRepository realStateRepository;
 
 	@Override
 	public Iterator<? extends RealState> iterator(int first, int count) {

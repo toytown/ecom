@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.UUID;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -16,150 +16,173 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
+import com.ecom.domain.RealStateImage;
 import com.ecom.test.AbstractIntegrationTest;
 
 public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
-	 @Autowired
-	 AppConfig config;
-	 
-    @Autowired
-    RealStateRepository repository;
-    
-    @Before
-    public void purgeRepository() {
-        repository.deleteAll();
+	@Autowired
+	AppConfig config;
 
-    }
-    
-    @Test
-    public void testSaveRealState() throws Exception {
-        
-        
-        for (int i=1;i < 10; i++) {
-            RealState appartment = new RealState();
-            appartment.setTitle(i + " zimmer appartment");            
-            
-            BufferedImage image = null;
-            ObjectId objId = new ObjectId();
-            appartment.setId(objId);
-            
-            if (i % 2 == 0) {
-                appartment.setBalconyAvailable(false);
-                appartment.setTotalRooms(2d);
-                appartment.setBedRooms(1);     
-                appartment.setCost(600);
-                appartment.setSize(50.5d + 1);
-                appartment.setProvisionFree(true);
-                appartment.setDescription("2 rooms appartment, schöne wohnlage");
-                appartment.setStreet("Schlesierstr");
-                appartment.setHouseNo("4b");
-                appartment.setAreaCode("81667");
-                appartment.setCity("München");
-                image = ImageIO.read(readImageFile("test-images/test_image_" + i  + ".jpg"));
-                
-            } else if (i % 3 == 0){
-                appartment.setBalconyAvailable(true);
-                appartment.setTotalRooms(3d);
-                appartment.setBedRooms(2);
-                appartment.setCost(800);
-                appartment.setSize(67d + i*1.1);
-                appartment.setKitchenAvailable(true);
-                appartment.setProvisionFree(true);
-                appartment.setDescription("3 zimmer appartment, EBK, familien freündlich");
-                appartment.setStreet("Schöhäuser allee");
-                appartment.setHouseNo("24 b");
-                appartment.setAreaCode("10337");
-                appartment.setCity("Berlin");                
-                image = ImageIO.read(readImageFile("test-images/test_image_" + i + ".jpg"));
-                
-            } else if (i % 4 == 0){
-                appartment.setBalconyAvailable(true);
-                appartment.setTotalRooms(4d);
-                appartment.setBedRooms(3);
-                appartment.setCost(600 + i* 20);
-                appartment.setSize(80 + i*1.5);
-                appartment.setKitchenAvailable(true);
-                appartment.setBalconyAvailable(true);
-                appartment.setDescription("4 zimmer hell, ruhig, provisinfrei mit panoromablick");
-                appartment.setDescription("3 zimmer appartment, EBK, familien freündlich");
-                appartment.setStreet("Hauptstr");
-                appartment.setHouseNo("15");
-                appartment.setAreaCode("10337");
-                appartment.setCity("Frankfirt");                 
-                String imageName ="test_image_" + i  + ".jpg";
-                appartment.setTitleImage(imageName);
-                image = ImageIO.read(readImageFile("test-images/" + imageName));
-                
-            } else if (i % 5 == 0){
-                appartment.setBalconyAvailable(true);
-                appartment.setTotalRooms(5d);
-                appartment.setBedRooms(4);
-                appartment.setCost(800 + i* 20);
-                appartment.setSize(101 + i*1.5);
-                appartment.setKitchenAvailable(true);
-                appartment.setBalconyAvailable(true);
-                appartment.setDescription("5 zimmer groß, ruhig, provisinfrei mit panoromablick");
-                appartment.setStreet("Hamburgerstr");
-                appartment.setHouseNo("23 -37a");
-                appartment.setAreaCode("67789");
-                appartment.setCity("Hamburg");  
-                String imageName ="test_image_" + i  + ".jpg";
-                appartment.setTitleImage(imageName);
-                image = ImageIO.read(readImageFile("test-images/" + imageName));
-            } else {
-                appartment.setBalconyAvailable(false);
-                appartment.setTotalRooms(1d);
-                appartment.setBedRooms(1);
-                appartment.setCost(500 + i* 20);
-                appartment.setSize(50.5d);
-                appartment.setKitchenAvailable(true);
-                appartment.setBalconyAvailable(true);
-                appartment.setStreet("Neuhauser allee");
-                appartment.setHouseNo("22a");
-                appartment.setAreaCode("10117");
-                appartment.setCity("Berlin");                  
-                String imageName ="test_image_1.jpg";
-                appartment.setTitleImage(imageName);
-                image = ImageIO.read(readImageFile("test-images/" + imageName));
-                
-            }    
-            
-            appartment.setCategoryId(1);
-            appartment.setTypeId(1);            
-            
-            image = ImageUtils.resize(image, 75, 75);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-            ImageIO.write(image, "jpeg", baos);
-            baos.flush();
-            byte[] imageBytes = baos.toByteArray();
-            
-            File dir = new File(config.getImageRepository() + File.separator + appartment.getId().toString());
-            
-            if (!dir.exists()) {
-            	dir.mkdirs();
-            }
-            
-            File imageFile = new File(config.getImageRepository() + File.separator + appartment.getId().toString() + File.separator + appartment.getTitleImage());
-            
+	@Autowired
+	RealStateRepository repository;
 
-            
-            System.out.println(imageFile.getAbsolutePath());
-            if (imageFile.createNewFile()) {
-            	FileOutputStream  fos = new FileOutputStream (imageFile);
-            	fos.write(imageBytes);
-            	fos.flush();
-            	fos.close();
-            	
-            }
-            baos.close();
-            
-            appartment.setUserName("test");
-            realStates.add(appartment);
-            
-        }
-        repository.save(realStates);
-        
-        assert(repository.count() > 0);
-    }
+	@Autowired
+	RealStateImageRepository imageRepository;
+	
+	@Before
+	public void purgeRepository() {
+		repository.deleteAll();
+		imageRepository.deleteAll();
+	}
+
+	@Test
+	public void testSaveRealState() throws Exception {
+
+		for (int i = 1; i <= 10; i++) {
+			RealState appartment = new RealState();
+			appartment.setTitle(i + " zimmer appartment");
+
+			BufferedImage image = null;
+			ObjectId objId = new ObjectId();
+			appartment.setId(objId);
+			String imageName = "test_image_1.jpg";
+
+			if (i % 2 == 0) {
+				appartment.setBalconyAvailable(false);
+				appartment.setTotalRooms(2d);
+				appartment.setBedRooms(1);
+				appartment.setCost(600);
+				appartment.setSize(50.5d + 1);
+				appartment.setProvisionFree(true);
+				appartment.setDescription("2 rooms appartment, schöne wohnlage");
+				appartment.setStreet("Schlesierstr");
+				appartment.setHouseNo("4b");
+				appartment.setAreaCode("81667");
+				appartment.setCity("München");
+				imageName = "test_image_" + i + ".jpg";
+				appartment.setTitleImage(imageName);
+
+			} else if (i % 3 == 0) {
+				appartment.setBalconyAvailable(true);
+				appartment.setTotalRooms(3d);
+				appartment.setBedRooms(2);
+				appartment.setCost(800);
+				appartment.setSize(67d + i * 1.1);
+				appartment.setKitchenAvailable(true);
+				appartment.setProvisionFree(true);
+				appartment.setDescription("3 zimmer appartment, EBK, familien freündlich");
+				appartment.setStreet("Schöhäuser allee");
+				appartment.setHouseNo("24 b");
+				appartment.setAreaCode("10337");
+				appartment.setCity("Berlin");
+				imageName = "test_image_" + i + ".jpg";
+				appartment.setTitleImage(imageName);
+
+			} else if (i % 4 == 0) {
+				appartment.setBalconyAvailable(true);
+				appartment.setTotalRooms(4d);
+				appartment.setBedRooms(3);
+				appartment.setCost(600 + i * 20);
+				appartment.setSize(80 + i * 1.5);
+				appartment.setKitchenAvailable(true);
+				appartment.setBalconyAvailable(true);
+				appartment.setDescription("4 zimmer hell, ruhig, provisinfrei mit panoromablick");
+				appartment.setDescription("3 zimmer appartment, EBK, familien freündlich");
+				appartment.setStreet("Hauptstr");
+				appartment.setHouseNo("15");
+				appartment.setAreaCode("10337");
+				appartment.setCity("Frankfirt");
+				imageName = "test_image_" + i + ".jpg";
+				appartment.setTitleImage(imageName);
+
+			} else if (i % 5 == 0) {
+				appartment.setBalconyAvailable(true);
+				appartment.setTotalRooms(5d);
+				appartment.setBedRooms(4);
+				appartment.setCost(800 + i * 20);
+				appartment.setSize(101 + i * 1.5);
+				appartment.setKitchenAvailable(true);
+				appartment.setBalconyAvailable(true);
+				appartment.setDescription("5 zimmer groß, ruhig, provisinfrei mit panoromablick");
+				appartment.setStreet("Hamburgerstr");
+				appartment.setHouseNo("23 -37a");
+				appartment.setAreaCode("67789");
+				appartment.setCity("Hamburg");
+				imageName = "test_image_" + i + ".jpg";
+				appartment.setTitleImage(imageName);
+				
+			} else {
+				appartment.setBalconyAvailable(false);
+				appartment.setTotalRooms(1d);
+				appartment.setBedRooms(1);
+				appartment.setCost(500 + i * 20);
+				appartment.setSize(50.5d);
+				appartment.setKitchenAvailable(true);
+				appartment.setBalconyAvailable(true);
+				appartment.setStreet("Neuhauser allee");
+				appartment.setHouseNo("22a");
+				appartment.setAreaCode("10117");
+				appartment.setCity("Berlin");
+				imageName = "test_image_" + i + ".jpg";
+				appartment.setTitleImage(imageName);
+
+			}
+
+			image = ImageIO.read(readImageFile("test-images/" + imageName));
+			appartment.setTitleImage(imageName);
+			
+			appartment.setCategoryId(1);
+			appartment.setTypeId(1);
+
+			createImage(image, appartment.getId().toString(), appartment.getTitleImage(), true);
+			appartment.setUserName("test");
+
+			realStates.add(appartment);
+
+			for (i = 1; i <= 4; i++) {
+				String largeImage = "large_image_" + i + ".jpg";
+				BufferedImage large_image = ImageIO.read(readImageFile("test-images/" + largeImage));
+				RealStateImage realStateImage = new RealStateImage();
+				realStateImage.setImageFileName(largeImage);
+				createImage(large_image, appartment.getId().toString(), realStateImage.getImageFileName(), false);
+				realStateImage.setRealStateId(objId.toString());
+				images.add(realStateImage);
+			}
+		}
+
+		repository.save(realStates);
+		imageRepository.save(images);
+		assert (repository.count() > 0);
+	}
+
+	protected void createImage(BufferedImage image, String appartmentId, String fileName, boolean isTitle) throws IOException {
+		if (isTitle) {
+			image = ImageUtils.resize(image, 75, 75);
+		} else {
+			image = ImageUtils.resize(image, 150, 150);
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
+		ImageIO.write(image, "jpeg", baos);
+		baos.flush();
+		byte[] imageBytes = baos.toByteArray();
+
+		File dir = new File(config.getImageRepository() + File.separator + appartmentId);
+
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+
+		File imageFile = new File(config.getImageRepository() + File.separator + appartmentId + File.separator + fileName);
+
+		if (imageFile.createNewFile()) {
+			FileOutputStream fos = new FileOutputStream(imageFile);
+			fos.write(imageBytes);
+			fos.flush();
+			fos.close();
+
+		}
+		baos.close();
+	}
 }

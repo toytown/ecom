@@ -1,12 +1,21 @@
 package com.ecom.web.search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.ecom.common.utils.AppConfig;
+import com.ecom.domain.QRealStateImage;
 import com.ecom.domain.RealState;
+import com.ecom.domain.RealStateImage;
+import com.ecom.repository.RealStateImageRepository;
+import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.main.GenericTemplatePage;
 
@@ -22,14 +31,24 @@ public class DetailViewPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 8694888856825299786L;
 
+	@SpringBean
+	private RealStateImageRepository imageRepository;
+	
+	@SpringBean
+	private AppConfig config;
+	
+	
 	public DetailViewPage(PageParameters params) {
 		String appartmentId = params.get("appartment-id").toString();
 		IModel<RealState> realState = new DetachableRealStateModel(appartmentId);
 		setStatelessHint(true);
+
 		CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		setDefaultModel(realStateModel);
+
 		
-		
+		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(appartmentId));
+		add(imageNavigationPanel);
 		add(new MultiLineLabel("title",  realStateModel.bind("title")));
 		add(new Label("address", realStateModel.bind("addressInfo")));
 		add(new Label("availableFrom", realStateModel.bind("availableFrom")));
@@ -69,5 +88,19 @@ public class DetailViewPage extends GenericTemplatePage {
 		add(new Label("furnished", realStateModel.bind("furnished")));
 		add(new Label("garageAvailable", realStateModel.bind("garageAvailable")));
 		add(new Label("barrierFree", realStateModel.bind("barrierFree")));
+	}
+	
+	private List<String> getImageURList(String appartmentId) {
+		
+		QRealStateImage images = new QRealStateImage("realStateImage");
+		Iterable<RealStateImage> imageList = imageRepository.findAll(images.realStateId.eq(appartmentId));
+		
+		List<String> imageUrlList = new ArrayList<String>();
+		
+		for (RealStateImage img : imageList) {
+			imageUrlList.add(img.getImageURL(appartmentId));
+		}
+		
+		return imageUrlList;
 	}
 }
