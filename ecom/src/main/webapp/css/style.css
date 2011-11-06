@@ -435,6 +435,19 @@ way to fit your requirements.
 	margin-left: 5px;
 }
 
+.big_title {
+	text-align: left;
+	width: 100%;
+	height:22px;
+	padding: 5px 5px 5px 15px;
+	color: #d8325d;
+}
+
+.big_title p {
+	font-weight: bold;
+	font-size: 16px;
+}
+
 /*-------------------details list----------------*/
 .details_list {
 	padding: 10px;

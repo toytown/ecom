@@ -25,14 +25,14 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 	AppConfig config;
 
 	@Autowired
-	RealStateRepository repository;
+	RealStateRepository realStateRepository;
 
 	@Autowired
 	RealStateImageRepository imageRepository;
 	
 	@Before
 	public void purgeRepository() {
-		repository.deleteAll();
+		realStateRepository.deleteAll();
 		imageRepository.deleteAll();
 	}
 
@@ -77,7 +77,6 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setAreaCode("10337");
 				appartment.setCity("Berlin");
 				imageName = "test_image_" + i + ".jpg";
-				appartment.setTitleImage(imageName);
 
 			} else if (i % 4 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -94,7 +93,6 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setAreaCode("10337");
 				appartment.setCity("Frankfirt");
 				imageName = "test_image_" + i + ".jpg";
-				appartment.setTitleImage(imageName);
 
 			} else if (i % 5 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -110,8 +108,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setAreaCode("67789");
 				appartment.setCity("Hamburg");
 				imageName = "test_image_" + i + ".jpg";
-				appartment.setTitleImage(imageName);
-				
+	
 			} else {
 				appartment.setBalconyAvailable(false);
 				appartment.setTotalRooms(1d);
@@ -125,8 +122,6 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setAreaCode("10117");
 				appartment.setCity("Berlin");
 				imageName = "test_image_" + i + ".jpg";
-				appartment.setTitleImage(imageName);
-
 			}
 
 			image = ImageIO.read(readImageFile("test-images/" + imageName));
@@ -138,29 +133,31 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			createImage(image, appartment.getId().toString(), appartment.getTitleImage(), true);
 			appartment.setUserName("test");
 
-			realStates.add(appartment);
+			realStateRepository.save(appartment);
 
-			for (i = 1; i <= 4; i++) {
-				String largeImage = "large_image_" + i + ".jpg";
+			for (int j = 1; j <= 4; j++) {
+				String largeImage = "large_image_" + j + ".jpg";
 				BufferedImage large_image = ImageIO.read(readImageFile("test-images/" + largeImage));
 				RealStateImage realStateImage = new RealStateImage();
 				realStateImage.setImageFileName(largeImage);
 				createImage(large_image, appartment.getId().toString(), realStateImage.getImageFileName(), false);
 				realStateImage.setRealStateId(objId.toString());
-				images.add(realStateImage);
+				images.add(realStateImage);				
 			}
+			
+			imageRepository.save(images);
 		}
 
-		repository.save(realStates);
-		imageRepository.save(images);
-		assert (repository.count() > 0);
+
+		
+		assert (realStateRepository.count() > 0);
 	}
 
 	protected void createImage(BufferedImage image, String appartmentId, String fileName, boolean isTitle) throws IOException {
 		if (isTitle) {
 			image = ImageUtils.resize(image, 75, 75);
 		} else {
-			image = ImageUtils.resize(image, 150, 150);
+			image = ImageUtils.resize(image, 480, 367);
 		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);

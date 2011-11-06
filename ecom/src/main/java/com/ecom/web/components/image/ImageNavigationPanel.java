@@ -30,7 +30,7 @@ public class ImageNavigationPanel extends Panel {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		add(new GalleriaBehavior(0, 500));
+		add(new GalleriaBehavior(0, 320));
 
 		@SuppressWarnings("unchecked")
 		ListView<String> imagesView = new ListView<String>("images", (IModel<? extends List<? extends String>>)getDefaultModel()) {
