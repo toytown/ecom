@@ -12,6 +12,7 @@ public class StaticImage extends WebComponent {
        super(id, model);
    }
 
+	@Override
    protected void onComponentTag(ComponentTag tag) {
        super.onComponentTag(tag);
        checkComponentTag(tag, "img");

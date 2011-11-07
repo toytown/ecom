@@ -4,6 +4,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.html.image.resource.DefaultButtonImageResource;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
@@ -56,6 +57,8 @@ public class EcomApplication extends WebApplication {
 //		};
 //		
 //		getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);		
+		
+
 	}
 
 	@Override

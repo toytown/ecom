@@ -84,105 +84,7 @@
 
 
 		<div id="main_content">
-			<div class="column1">
-
-
-				<div class="left_box">
-					<div class="top_left_box"></div>
-					<div class="center_left_box">
-						<div class="box_title">
-							<span>Refined</span> search:
-						</div>
-
-						<!--  
-						<form action="post" wicket:id="searchForm">
-							<div class="form">
-								<div class="form_row">
-									<label class="left">Rooms: </label><input type="text"
-										class="form_input_small" wicket:id="roomsFrom" /> <input
-										type="text" class="form_input_small" wicket:id="roomsTo" />
-								</div>
-								<div class="form_row">
-									<label class="left">Area: </label><input type="text"
-										class="form_input_small" wicket:id="areaFrom" /><input
-										type="text" class="form_input_small" wicket:id="areaTo" />
-								</div>
-								<div class="form_row">
-									<label class="left">Price: </label><input type="text"
-										class="form_input_small" wicket:id="priceFrom" /><input
-										type="text" class="form_input_small" wicket:id="priceTo" />
-								</div>
-
-
-								<div style="float: right; padding: 10px 25px 0 0;">
-									<label class="uiButton uiButtonConfirm"> <input
-										type="submit" value="Search" style="color: #FFFFFF;"
-										wicket:id="detailSearchBtn"></label>
-								</div>
-
-
-							</div>
-						</form>
-						-->
-
-					</div>
-					<div class="bottom_left_box"></div>
-				</div>
-
-
-
-				<div class="left_box">
-					<div class="top_left_box"></div>
-					<div class="center_left_box">
-						<div class="box_title">
-							<span>Join</span> our newsletter:
-						</div>
-
-
-						<div class="form">
-							<div class="form_row">
-								<label class="left">Email: </label><input type="text"
-									class="form_input" />
-							</div>
-							<div style="float: right; padding: 10px 25px 0 0;">
-								<input type="image" src="images/join.gif" />
-							</div>
-
-						</div>
-
-
-					</div>
-					<div class="bottom_left_box"></div>
-				</div>
-
-
-				<div class="left_box">
-					<div class="top_left_box"></div>
-					<div class="center_left_box">
-						<div class="box_title">
-							<span>Contact</span> information:
-						</div>
-
-
-						<div class="form">
-							<div class="form_row">
-								<img src="images/contact_envelope.gif" width="50" height="47"
-									border="0" class="img_right" alt="" title="" />
-								<div class="contact_information">
-									Email: info@comapnyname.com<br /> Telephone: 0234 789 90<br />
-									Mobile: 234 345 234534<br /> Fax: 34534 3456 3456(54)<br /> <br />
-									<span>www.companyname.com</span>
-								</div>
-							</div>
-						</div>
-
-
-					</div>
-					<div class="bottom_left_box"></div>
-				</div>
-
-			</div>
-			<!-- end of column one -->
+			
 
 			<div class="column33">
 				<div class="big_title" wicket:id="title"/>
@@ -192,43 +94,37 @@
 					<div wicket:id="imageGallery">Image Gallery</div>
 					<div style="width: 480px;">
 						<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
-							<li><span wicket:id="address"/></li>
-							<li><span wicket:id="availableFrom"/></li>
-							<li><span wicket:id="description"/></li>
-							<li><span wicket:id="areaDescription"/></li>
-							<li><span wicket:id="otherInformation"/></li>
-							<li><span wicket:id="fittings"/></li>
 							
-							<li><span wicket:id="cost"/></li>
-							<li><span wicket:id="additionalCost"/></li>
-							<li><span wicket:id="garageCost"/></li>
+							<li><wicket:message key="lbl_description"/>
+								<p><span wicket:id="description"/></p>
+							</li>
+							<li><wicket:message key="lbl_fittings"/>
+								<span wicket:id="fittings"/>
+								
+							</li>
+							<li><wicket:message key="lbl_other_info"/><span wicket:id="otherInformation"/></li>
+							<li><wicket:message key="lbl_area_desc"/><span wicket:id="areaDescription"/></li>
+
+							<li><wicket:message key="lbl_bathrooms"/><span wicket:id="bathRooms"/></li>
 							
-							<li><span wicket:id="size"/></li>
-							<li><span wicket:id="totalRooms"/></li>
-							<li><span wicket:id="bedRooms"/></li>
-							<li><span wicket:id="bathRooms"/></li>
-							
-							<li><span wicket:id="totalFloors"/></li>
-							<li><span wicket:id="floor"/></li>
+							<li><wicket:message key="lbl_total_floors"/><span wicket:id="totalFloors"/></li>
+
 							<li><span wicket:id="condition"/></li>
-							<li><span wicket:id="provisionFree"/></li>
-							<li><span wicket:id="provisionCondition"/></li>
+							<li><wicket:message key="lbl_provision_free"/><img wicket:id="provisionFree"/></li>
 							<li><span wicket:id="lastRenovatedYear"/></li>
-							<li><span wicket:id="builtYear"/></li>
-							<li><span wicket:id="depositPeriod"/></li>
 							
-							<li><span wicket:id="heatingCostIncluded"/></li>
-							<li><span wicket:id="cellarAvailable"/></li>
-							<li><span wicket:id="balconyAvailable"/></li>
-							<li><span wicket:id="liftAvailable"/></li>
-							<li><span wicket:id="gardenAvailable"/></li>
-							<li><span wicket:id="toiletWithBathRoom"/></li>
-							<li><span wicket:id="kitchenAvailable"/></li>
-							<li><span wicket:id="energyPassAvailable"/></li>
-							<li><span wicket:id="animalsAllowed"/></li>
-							<li><span wicket:id="furnished"/></li>
-							<li><span wicket:id="garageAvailable"/></li>
-							<li><span wicket:id="barrierFree"/></li>
+							<li><wicket:message key="lbl_heating_Cost"/><img wicket:id="heatingCostIncluded" src="#"/></li>
+							<li><wicket:message key="lbl_cellar_available"/><img wicket:id="cellarAvailable" src="#"/></li>
+							<li><wicket:message key="lbl_balcon_available"/><img wicket:id="balconyAvailable"/></li>
+							<li><wicket:message key="lbl_lift_available"/><img wicket:id="liftAvailable"/></li>
+							<li><wicket:message key="lbl_garden_available"/><img wicket:id="gardenAvailable"/></li>
+							<li><wicket:message key="lbl_wc_available"/><img wicket:id="toiletWithBathRoom"/></li>
+							<li><wicket:message key="lbl_kitchen_available"/><img wicket:id="kitchenAvailable"/></li>
+							<li><wicket:message key="lbl_energypass_available"/><img wicket:id="energyPassAvailable"/></li>
+							<li><wicket:message key="lbl_animals_allowed"/><img wicket:id="animalsAllowed"/></li>
+							<li><wicket:message key="lbl_furnished"/><img wicket:id="furnished"/></li>
+							<li><wicket:message key="lbl_garage_available"/><img wicket:id="garageAvailable"/></li>
+							<li><wicket:message key="lbl_barrier_free"/><img wicket:id="barrierFree"/></li>
 						</ol>
 					</div>
 					
@@ -236,6 +132,24 @@
 
 			</div>
 			<!-- end of column three -->
+			<div style="width:420px; float: left; margin: 44px 5px 0 0; background-color: aqua;">
+				<img src="images/marker.png" style="padding-top: 3px;"/><span wicket:id="address" />
+			</div>
+			<div style="width:420px; float: left; margin: 5px 5px 0 0; background-color: aqua;">
+				<table>
+					<tr><td><wicket:message key="lbl_rent"/></td><td><span wicket:id="cost"/>(<wicket:message key="lbl_other_cost"/> <span wicket:id="additionalCost"/>)</td></tr>
+					<tr><td><wicket:message key="lbl_deposit"/></td><td><span wicket:id="depositPeriod"/></td></tr>
+					<tr><td><wicket:message key="lbl_garage_cost"/></td><td><span wicket:id="garageCost"/></td></tr>
+					<tr><td><wicket:message key="lbl_provision"/></td><td><span wicket:id="provisionCondition"/></td></tr>															
+				</table>
+				<table>
+					<tr><td><wicket:message key="lbl_built_year"/></td><td><span wicket:id="builtYear"/></td></tr>
+					<tr><td><wicket:message key="lbl_total_rooms"/></td><td><span wicket:id="totalRooms"/><span wicket:id="bedRooms"/></td></tr>
+					<tr><td><wicket:message key="lbl_size"/></td><td><span wicket:id="size"/></td></tr>
+					<tr><td><wicket:message key="lbl_available_from"/></td><td><span wicket:id="availableFrom"/></td></tr>
+					<tr><td><wicket:message key="lbl_floor"/></td><td><span wicket:id="floor"/></td></tr>
+				</table>
+			</div>
 
 		</div>
 		<!-- end of main_content -->

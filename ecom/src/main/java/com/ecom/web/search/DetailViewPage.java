@@ -16,6 +16,7 @@ import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
 import com.ecom.web.components.image.ImageNavigationPanel;
+import com.ecom.web.components.image.OkCancelComponent;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.main.GenericTemplatePage;
 
@@ -69,25 +70,26 @@ public class DetailViewPage extends GenericTemplatePage {
 		add(new Label("totalFloors", realStateModel.bind("totalFloors")));
 		add(new Label("floor", realStateModel.bind("floor")));
 		add(new Label("condition", realStateModel.bind("condition")));
-		add(new Label("provisionFree", realStateModel.bind("provisionFree")));
+		add(new OkCancelComponent("provisionFree", realStateModel.bind("provisionFree")));
 		add(new Label("provisionCondition", realStateModel.bind("provisionCondition")));
 		add(new Label("lastRenovatedYear", realStateModel.bind("lastRenovatedYear")));
 		add(new Label("builtYear", realStateModel.bind("builtYear")));
 		add(new Label("depositPeriod", realStateModel.bind("depositPeriod")));
 		
 		
-		add(new Label("heatingCostIncluded", realStateModel.bind("heatingCostIncluded")));
-		add(new Label("cellarAvailable", realStateModel.bind("cellarAvailable")));
-		add(new Label("balconyAvailable", realStateModel.bind("balconyAvailable")));		
-		add(new Label("liftAvailable", realStateModel.bind("liftAvailable")));
-		add(new Label("gardenAvailable", realStateModel.bind("gardenAvailable")));
-		add(new Label("toiletWithBathRoom", realStateModel.bind("toiletWithBathRoom")));
-		add(new Label("kitchenAvailable", realStateModel.bind("kitchenAvailable")));
-		add(new Label("energyPassAvailable", realStateModel.bind("energyPassAvailable")));
-		add(new Label("animalsAllowed", realStateModel.bind("animalsAllowed")));
-		add(new Label("furnished", realStateModel.bind("furnished")));
-		add(new Label("garageAvailable", realStateModel.bind("garageAvailable")));
-		add(new Label("barrierFree", realStateModel.bind("barrierFree")));
+		//add(new Label("heatingCostIncluded", realStateModel.bind("heatingCostIncluded")));
+		add(new OkCancelComponent("heatingCostIncluded", realStateModel.bind("heatingCostIncluded")));
+		add(new OkCancelComponent("cellarAvailable", realStateModel.bind("cellarAvailable")));
+		add(new OkCancelComponent("balconyAvailable", realStateModel.bind("balconyAvailable")));		
+		add(new OkCancelComponent("liftAvailable", realStateModel.bind("liftAvailable")));
+		add(new OkCancelComponent("gardenAvailable", realStateModel.bind("gardenAvailable")));
+		add(new OkCancelComponent("toiletWithBathRoom", realStateModel.bind("toiletWithBathRoom")));
+		add(new OkCancelComponent("kitchenAvailable", realStateModel.bind("kitchenAvailable")));
+		add(new OkCancelComponent("energyPassAvailable", realStateModel.bind("energyPassAvailable")));
+		add(new OkCancelComponent("animalsAllowed", realStateModel.bind("animalsAllowed")));
+		add(new OkCancelComponent("furnished", realStateModel.bind("furnished")));
+		add(new OkCancelComponent("garageAvailable", realStateModel.bind("garageAvailable")));
+		add(new OkCancelComponent("barrierFree", realStateModel.bind("barrierFree")));
 	}
 	
 	private List<String> getImageURList(String appartmentId) {
