@@ -10,7 +10,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import com.ecom.common.utils.AppConfig;
 import com.ecom.domain.QRealStateImage;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
@@ -23,20 +22,10 @@ import com.ecom.web.main.GenericTemplatePage;
 public class DetailViewPage extends GenericTemplatePage {
 
 
-	//private int categoryId;
-
-	//private int heatingTypeId;
-
-	//private String imageLocation;
-
-
 	private static final long serialVersionUID = 8694888856825299786L;
 
 	@SpringBean
 	private RealStateImageRepository imageRepository;
-	
-	@SpringBean
-	private AppConfig config;
 	
 	
 	public DetailViewPage(PageParameters params) {
@@ -50,6 +39,7 @@ public class DetailViewPage extends GenericTemplatePage {
 		
 		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(appartmentId));
 		add(imageNavigationPanel);
+		add(new ToolsPanel("toolsPanel"));
 		add(new MultiLineLabel("title",  realStateModel.bind("title")));
 		add(new Label("address", realStateModel.bind("addressInfo")));
 		add(new Label("availableFrom", realStateModel.bind("availableFrom")));

@@ -950,3 +950,13 @@ div.box label span {
 	text-align: right;
 	font-weight: bold;
 }
+/*-------------------Detail View toolbar------------------------*/
+.tools ul {
+	display: inline;
+	list-style: none;
+}
+
+.tools li {
+	display: inline;
+	list-style: none;
+}
