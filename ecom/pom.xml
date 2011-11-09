@@ -254,12 +254,12 @@
 						</goals>
 						<configuration>
 							<outputDirectory>target/generated-sources/queries</outputDirectory>
-							<processor>org.springframework.data.mongodb.repository.MongoAnnotationProcessor</processor>
+							<processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
 						</configuration>
 					</execution>
 				</executions>
-
 			</plugin>
+		
 		</plugins>
 		<pluginManagement>
 			<plugins>
