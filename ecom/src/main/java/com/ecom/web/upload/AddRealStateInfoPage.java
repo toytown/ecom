@@ -3,35 +3,27 @@ package com.ecom.web.upload;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.StatelessForm;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.ecom.domain.RealState;
 import com.ecom.web.main.GenericTemplatePage;
-import com.mongodb.DB;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSInputFile;
 
-public class UploadRealStateInfoPage extends GenericTemplatePage {
+public class AddRealStateInfoPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 2150895889155872074L;
 
-	@SpringBean
-	private MongoTemplate mongoTemplate;
 
-	public UploadRealStateInfoPage() {
+
+	public AddRealStateInfoPage() {
 		super();
-		DB db = mongoTemplate.getDb();
-		GridFS gridfs = new GridFS(db);
-		GridFSInputFile imageFile = gridfs.createFile();
-		imageFile.save();
+
 
 		CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(new RealState());
 	   
-		StatelessForm<RealState> realStateUploadInfoForm = new StatelessForm<RealState>("realStateUploadInfoForm", realStateModel) {
+		StatelessForm<RealState> realStateUploadInfoForm = new StatelessForm<RealState>("realStateAdvertForm", realStateModel) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -73,6 +65,7 @@ public class UploadRealStateInfoPage extends GenericTemplatePage {
 		DateTextField availableFrom = new DateTextField("availableFrom");		
 		TextField<Double> garageCost = new TextField<Double>("garageCost");		
 		TextField<Integer> builtYear = new TextField<Integer>("builtYear");		
+		TextField<String> provisionCondition = new TextField<String>("provisionCondition");
 		TextField<String> lastRenovatedYear = new TextField<String>("lastRenovatedYear");
 		CheckBox provisionFree = new CheckBox("provisionFree");		
 		CheckBox barrierFree = new CheckBox("barrierFree");
@@ -100,6 +93,7 @@ public class UploadRealStateInfoPage extends GenericTemplatePage {
 		realStateUploadInfoForm.add(gardenAvailable);
 		realStateUploadInfoForm.add(heatingCostIncluded);
 		realStateUploadInfoForm.add(energyPassAvailable);
+		realStateUploadInfoForm.add(provisionCondition);
 		realStateUploadInfoForm.add(kitchenAvailable);
 		realStateUploadInfoForm.add(furnished);
 		realStateUploadInfoForm.add(animalsAllowed);
@@ -124,8 +118,8 @@ public class UploadRealStateInfoPage extends GenericTemplatePage {
 		realStateUploadInfoForm.add(provisionFree);
 		realStateUploadInfoForm.add(barrierFree);
 		realStateUploadInfoForm.add(seniorAppartment);
-		
-
+		realStateUploadInfoForm.add(new SubmitLink("submitAdvertisement"));
+		add(realStateUploadInfoForm);
 	}
 	
 }

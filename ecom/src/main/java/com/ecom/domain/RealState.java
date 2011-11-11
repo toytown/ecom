@@ -109,6 +109,8 @@ public class RealState implements Serializable {
 
 	private String userName;
 
+	private Date activationDate;
+	   
 	private Date insertedTs;
 
 	private Date updatedTs;
@@ -538,4 +540,12 @@ public class RealState implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+    public Date getActivationDate() {
+        return activationDate;
+    }
+
+    public void setActivationDate(Date activationDate) {
+        this.activationDate = activationDate;
+    }
 }

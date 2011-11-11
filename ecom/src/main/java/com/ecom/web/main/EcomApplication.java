@@ -23,6 +23,7 @@ import com.ecom.web.login.UserDetailPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
+import com.ecom.web.upload.AddRealStateInfoPage;
 
 public class EcomApplication extends WebApplication {
 
@@ -39,8 +40,10 @@ public class EcomApplication extends WebApplication {
 		mountPage("/login", LoginPage.class);
 		mountPage("/registration", RegistrationPage.class);
 		mountPage("/home/results", SearchResultPage.class);
+		mountPage("/addRealState",AddRealStateInfoPage.class);
 		getRootRequestMapperAsCompound().add(new MountedMapper("/home", HomePage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/home/results", SearchResultPage.class));
+		getRootRequestMapperAsCompound().add(new MountedMapper("/addRealState", AddRealStateInfoPage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/login", LoginPage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/details", DetailViewPage.class));
 		getRootRequestMapperAsCompound().add(new MountedMapper("/registration", RegistrationPage.class));
