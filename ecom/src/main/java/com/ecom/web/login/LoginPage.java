@@ -1,5 +1,6 @@
 package com.ecom.web.login;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -25,7 +26,11 @@ public class LoginPage extends GenericTemplatePage {
 		loginForm.add(userName);
 		loginForm.add(password);
 		
+		EcomSession session = (EcomSession) Session.get();
 		
+		if (session.isSignedIn()) {
+		    setResponsePage(UserDetailPage.class);
+		}
 		add(new SubmitLink("submitLogin", loginForm) {
 
 			private static final long serialVersionUID = 1969220803824994712L;
