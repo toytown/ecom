@@ -45,6 +45,16 @@ h3 {
 	text-decoration: none;
 }
 
+h4 {
+	font-size: 12px;
+	font-weight: normal;
+	color: #0464a1;
+	width: auto;
+	padding: 5px 0 5px 10px;
+	margin: auto;
+	text-decoration: none;
+}
+
 p {
 	font-size: 11px;
 	text-align: justify;
@@ -894,14 +904,14 @@ a.nav_footer:active {
 }
 
 a.linkopacity img {
-	filter: alpha(opacity =             100);
+	filter: alpha(opacity =               100);
 	-moz-opacity: 0.5;
 	opacity: 1.0;
 	-khtml-opacity: 0.5;
 }
 
 a.linkopacity:hover img {
-	filter: alpha(opacity =             80);
+	filter: alpha(opacity =               80);
 	-moz-opacity: 1.0;
 	opacity: 0.6;
 	-khtml-opacity: 1.0;
@@ -961,7 +971,6 @@ div.box label span {
 	list-style: none;
 }
 
-/*--------------------- Detail box ------------------------------------------*/
 
 /*------------------- Rounded Corner -----------------------------------*/
 #liquid-round {
@@ -1006,4 +1015,36 @@ div.box label span {
 	height: 60px;
 	background: url(http://www.search-this.com/rounded/bottom-right.gif)
 		no-repeat right top;
+}
+
+/*----------------------------------- table ----------------------------------*/
+.table_blue table {
+	width: 220px;
+	padding: 0px;
+	float:left;
+	margin-bottom: 20px;
+	text-align: left;
+	border-collapse:collapse;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-left: 1px solid #C1DAD7;
+}
+
+.table_blue th {
+	background: none repeat scroll 0 0 #267CB2;
+	color: #fff;
+	padding: 5px;	
+}
+
+.table_blue tr {
+
+}
+
+.table_blue td {
+	text-align: left;
+	padding-left: 5px;
+}
+
+.last_row  td {
+	border-bottom: 1px solid #C1DAD7;
 }

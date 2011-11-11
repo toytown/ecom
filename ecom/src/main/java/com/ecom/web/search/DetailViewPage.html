@@ -1,85 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
-<title>BuildUp Real Estate</title>
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+<wicket:extend>
 
-</head>
-<body>
 	<div id="main_container">
-
-		<div id="header">
-
-			<div id="logo">
-				<a href="index.html"><img src="images/logo.gif" width="147" height="78" alt="" title="" border="0" /></a>
-			</div>
-
-			<div class="banner_adds"></div>
-
-
-			<div class="menu">
-
-				<ul>
-					<li><a href="index.html">Home</a></li>
-					<li><a href="admin.html">Admin </a>
-						<ul>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-						</ul></li>
-					<li><a href="login.html">Login</a>
-						<ul>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-						</ul></li>
-					<li><a href="list.html">Renting Homes</a>
-						<ul>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-							<li><a href="" title="">Lorem ipsum dolor sit amet</a></li>
-						</ul></li>
-					<li><a href="">About Us </a></li>
-					<li><a href="">Customers</a></li>
-					<li><a href="">FAQ</a></li>
-					<li><a href="contact.html">Contact</a></li>
-
-
-				</ul>
-
-			</div>
-
-
-
-
-
-
-		</div>
-
-
 
 		<div id="liquid-round">
 
@@ -88,11 +9,22 @@
 			</div>
 			
 			<div class="center-content">
-				<span class="big_title" wicket:id="title"/><img src="images/marker.png" /><span wicket:id="address" />
+				
+				<h4><span class="big_title" wicket:id="title"/></h4>
+				<div style="margin: 0 35px 0 0;width: 200px;">
+					<img style="padding-bottom:2px; vertical-align:middle" src="images/buttons/iconMapPin.png" />
+					<span wicket:id="address" />	
+				</div>
+				
 				<div>
-					<div  wicket:id="imageGallery" style="width: 450px; float: left;"/>
-					<div style="width: 220px; float: right;">
+					<div style="width: 450px; float: left;">
+						<div wicket:id="imageGallery" style="margin-right: 15px;">Image Gallery</div>
+						<div wicket:id="toolsPanel" >Tools Panel</div>
+					</div>
+					<div class="table_blue">
 						<table class="detail">
+							<th>Kosten</th>
+							<th></th>
 							<tr>
 								<td><wicket:message key="lbl_rent" /></td>
 								<td><span wicket:id="cost" />(<wicket:message key="lbl_other_cost" /> <span wicket:id="additionalCost" />)</td>
@@ -105,12 +37,14 @@
 								<td><wicket:message key="lbl_garage_cost" /></td>
 								<td><span wicket:id="garageCost" /></td>
 							</tr>
-							<tr>
+							<tr class="last_row">
 								<td><wicket:message key="lbl_provision" /></td>
 								<td><span wicket:id="provisionCondition" /></td>
 							</tr>
 						</table>
-						<table>
+						<table class="detail">
+							<th>Haupt Info</th>
+							<th></th>
 							<tr>
 								<td><wicket:message key="lbl_built_year" /></td>
 								<td><span wicket:id="builtYear" /></td>
@@ -127,14 +61,14 @@
 								<td><wicket:message key="lbl_available_from" /></td>
 								<td><span wicket:id="availableFrom" /></td>
 							</tr>
-							<tr>
+							<tr class="last_row">
 								<td><wicket:message key="lbl_floor" /></td>
 								<td><span wicket:id="floor" /></td>
 							</tr>
 						</table>
 					</div>
 				</div>
-				<div wicket:id="toolsPanel">Tools Panel</div>
+				
 				<div style="width: 480px;">
 					<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
 
@@ -196,32 +130,10 @@
 
 
 
-		<div id="footer">
 
-			<div id="copyright">
-				<div style="float: left; padding: 3px;">
-					<a href="#"><img src="images/footer_logo.gif" width="42" height="35" alt="" title="" border="0" /></a>
-				</div>
-				<div style="float: left; padding: 14px 10px 10px 10px;">
-					Company name.&copy; All Rights Reserved 2008 - By <a href="http://csscreme.com" style="color: #772c17;">csscreme</a>
-				</div>
-			</div>
-
-
-			<ul class="footer_menu">
-				<li><a href="index.html" class="nav_footer"> Home </a></li>
-				<li><a href="#" class="nav_footer"> Selling Homes </a></li>
-				<li><a href="" class="nav_footer"> Buying Homes </a></li>
-				<li><a href="" class="nav_footer"> Renting Homes</a></li>
-				<li><a href="" class="nav_footer"> RSS </a></li>
-				<li><a href="" class="nav_footer"> Contact </a></li>
-			</ul>
-
-		</div>
 
 
 	</div>
 	<!-- end of main_container -->
 
-</body>
-</html>
+</wicket:extend>

@@ -25,10 +25,6 @@ public class LoginPage extends GenericTemplatePage {
 		loginForm.add(userName);
 		loginForm.add(password);
 		
-		EcomSession session = (EcomSession) EcomSession.get();					
-		if (session != null) {
-			setResponsePage(UserDetailPage.class);
-		}
 		
 		add(new SubmitLink("submitLogin", loginForm) {
 
