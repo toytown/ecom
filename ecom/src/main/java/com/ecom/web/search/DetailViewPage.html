@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type"
-	content="text/html; charset=windows-1252" />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 <title>BuildUp Real Estate</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/buttons.css" />
@@ -14,8 +13,7 @@
 		<div id="header">
 
 			<div id="logo">
-				<a href="index.html"><img src="images/logo.gif" width="147"
-					height="78" alt="" title="" border="0" /></a>
+				<a href="index.html"><img src="images/logo.gif" width="147" height="78" alt="" title="" border="0" /></a>
 			</div>
 
 			<div class="banner_adds"></div>
@@ -83,73 +81,115 @@
 
 
 
-		<div id="main_content">
+		<div id="liquid-round">
+
+			<div class="top">
+				<span>&nbsp;</span>
+			</div>
 			
-
-			<div class="column33">
-				<div class="big_title" wicket:id="title"/>
-
+			<div class="center-content">
+				<span class="big_title" wicket:id="title"/><img src="images/marker.png" /><span wicket:id="address" />
 				<div>
-
-					<div wicket:id="imageGallery">Image Gallery</div>
-					<div wicket:id="toolsPanel">Tools Panel</div>
-					<div style="width: 480px;">
-						<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
-							
-							<li><h2><wicket:message key="lbl_description"/></h2>
-								<p><span wicket:id="description"/></p>
-							</li>
-							<li><h2><wicket:message key="lbl_fittings"/></h2>
-								<p><span wicket:id="fittings"/></p>								
-							</li>
-							<li><h2><wicket:message key="lbl_other_info"/></h2><span wicket:id="otherInformation"/></li>
-							<li><h2><wicket:message key="lbl_area_desc"/></h2><span wicket:id="areaDescription"/></li>
-
-							<li><wicket:message key="lbl_bathrooms"/><span wicket:id="bathRooms"/></li>
-							
-							<li><wicket:message key="lbl_total_floors"/><span wicket:id="totalFloors"/></li>
-
-							<li><span wicket:id="condition"/></li>
-							<li><wicket:message key="lbl_provision_free"/><img wicket:id="provisionFree"/></li>
-							<li><span wicket:id="lastRenovatedYear"/></li>
-							
-							<li><wicket:message key="lbl_heating_Cost"/><img wicket:id="heatingCostIncluded" src="#"/></li>
-							<li><wicket:message key="lbl_cellar_available"/><img wicket:id="cellarAvailable" src="#"/></li>
-							<li><wicket:message key="lbl_balcon_available"/><img wicket:id="balconyAvailable"/></li>
-							<li><wicket:message key="lbl_lift_available"/><img wicket:id="liftAvailable"/></li>
-							<li><wicket:message key="lbl_garden_available"/><img wicket:id="gardenAvailable"/></li>
-							<li><wicket:message key="lbl_wc_available"/><img wicket:id="toiletWithBathRoom"/></li>
-							<li><wicket:message key="lbl_kitchen_available"/><img wicket:id="kitchenAvailable"/></li>
-							<li><wicket:message key="lbl_energypass_available"/><img wicket:id="energyPassAvailable"/></li>
-							<li><wicket:message key="lbl_animals_allowed"/><img wicket:id="animalsAllowed"/></li>
-							<li><wicket:message key="lbl_furnished"/><img wicket:id="furnished"/></li>
-							<li><wicket:message key="lbl_garage_available"/><img wicket:id="garageAvailable"/></li>
-							<li><wicket:message key="lbl_barrier_free"/><img wicket:id="barrierFree"/></li>
-						</ol>
+					<div  wicket:id="imageGallery" style="width: 450px; float: left;"/>
+					<div style="width: 220px; float: right;">
+						<table class="detail">
+							<tr>
+								<td><wicket:message key="lbl_rent" /></td>
+								<td><span wicket:id="cost" />(<wicket:message key="lbl_other_cost" /> <span wicket:id="additionalCost" />)</td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_deposit" /></td>
+								<td><span wicket:id="depositPeriod" /></td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_garage_cost" /></td>
+								<td><span wicket:id="garageCost" /></td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_provision" /></td>
+								<td><span wicket:id="provisionCondition" /></td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td><wicket:message key="lbl_built_year" /></td>
+								<td><span wicket:id="builtYear" /></td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_total_rooms" /></td>
+								<td><span wicket:id="totalRooms" /><span wicket:id="bedRooms" /></td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_size" /></td>
+								<td><span wicket:id="size" /></td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_available_from" /></td>
+								<td><span wicket:id="availableFrom" /></td>
+							</tr>
+							<tr>
+								<td><wicket:message key="lbl_floor" /></td>
+								<td><span wicket:id="floor" /></td>
+							</tr>
+						</table>
 					</div>
-					
 				</div>
+				<div wicket:id="toolsPanel">Tools Panel</div>
+				<div style="width: 480px;">
+					<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
 
+						<li><h2>
+								<wicket:message key="lbl_description" />
+							</h2>
+							<p>
+								<span wicket:id="description" />
+							</p></li>
+						<li><h2>
+								<wicket:message key="lbl_fittings" />
+							</h2>
+							<p>
+								<span wicket:id="fittings" />
+							</p></li>
+						<li><h2>
+								<wicket:message key="lbl_other_info" />
+							</h2>
+							<span wicket:id="otherInformation" /></li>
+						<li><h2>
+								<wicket:message key="lbl_area_desc" />
+							</h2>
+							<span wicket:id="areaDescription" /></li>
+
+						<li><wicket:message key="lbl_bathrooms" /><span wicket:id="bathRooms" /></li>
+
+						<li><wicket:message key="lbl_total_floors" /><span wicket:id="totalFloors" /></li>
+
+						<li><span wicket:id="condition" /></li>
+						<li><wicket:message key="lbl_provision_free" /><img wicket:id="provisionFree" /></li>
+						<li><span wicket:id="lastRenovatedYear" /></li>
+
+						<li><wicket:message key="lbl_heating_Cost" /><img wicket:id="heatingCostIncluded" src="#" /></li>
+						<li><wicket:message key="lbl_cellar_available" /><img wicket:id="cellarAvailable" src="#" /></li>
+						<li><wicket:message key="lbl_balcon_available" /><img wicket:id="balconyAvailable" /></li>
+						<li><wicket:message key="lbl_lift_available" /><img wicket:id="liftAvailable" /></li>
+						<li><wicket:message key="lbl_garden_available" /><img wicket:id="gardenAvailable" /></li>
+						<li><wicket:message key="lbl_wc_available" /><img wicket:id="toiletWithBathRoom" /></li>
+						<li><wicket:message key="lbl_kitchen_available" /><img wicket:id="kitchenAvailable" /></li>
+						<li><wicket:message key="lbl_energypass_available" /><img wicket:id="energyPassAvailable" /></li>
+						<li><wicket:message key="lbl_animals_allowed" /><img wicket:id="animalsAllowed" /></li>
+						<li><wicket:message key="lbl_furnished" /><img wicket:id="furnished" /></li>
+						<li><wicket:message key="lbl_garage_available" /><img wicket:id="garageAvailable" /></li>
+						<li><wicket:message key="lbl_barrier_free" /><img wicket:id="barrierFree" /></li>
+					</ol>
+				</div>
 			</div>
+			
+			<div class="bottom">
+				<span></span>
+			</div>
+
 			<!-- end of column three -->
-			<div style="width:420px; float: left; margin: 44px 5px 0 0; background-color: aqua;">
-				<img src="images/marker.png" style="padding-top: 3px;"/><span wicket:id="address" />
-			</div>
-			<div style="width:420px; float: left; margin: 5px 5px 0 0; background-color: aqua;">
-				<table>
-					<tr><td><wicket:message key="lbl_rent"/></td><td><span wicket:id="cost"/>(<wicket:message key="lbl_other_cost"/> <span wicket:id="additionalCost"/>)</td></tr>
-					<tr><td><wicket:message key="lbl_deposit"/></td><td><span wicket:id="depositPeriod"/></td></tr>
-					<tr><td><wicket:message key="lbl_garage_cost"/></td><td><span wicket:id="garageCost"/></td></tr>
-					<tr><td><wicket:message key="lbl_provision"/></td><td><span wicket:id="provisionCondition"/></td></tr>															
-				</table>
-				<table>
-					<tr><td><wicket:message key="lbl_built_year"/></td><td><span wicket:id="builtYear"/></td></tr>
-					<tr><td><wicket:message key="lbl_total_rooms"/></td><td><span wicket:id="totalRooms"/><span wicket:id="bedRooms"/></td></tr>
-					<tr><td><wicket:message key="lbl_size"/></td><td><span wicket:id="size"/></td></tr>
-					<tr><td><wicket:message key="lbl_available_from"/></td><td><span wicket:id="availableFrom"/></td></tr>
-					<tr><td><wicket:message key="lbl_floor"/></td><td><span wicket:id="floor"/></td></tr>
-				</table>
-			</div>
+
+
 
 		</div>
 		<!-- end of main_content -->
@@ -160,12 +200,10 @@
 
 			<div id="copyright">
 				<div style="float: left; padding: 3px;">
-					<a href="#"><img src="images/footer_logo.gif" width="42"
-						height="35" alt="" title="" border="0" /></a>
+					<a href="#"><img src="images/footer_logo.gif" width="42" height="35" alt="" title="" border="0" /></a>
 				</div>
 				<div style="float: left; padding: 14px 10px 10px 10px;">
-					Company name.&copy; All Rights Reserved 2008 - By <a
-						href="http://csscreme.com" style="color: #772c17;">csscreme</a>
+					Company name.&copy; All Rights Reserved 2008 - By <a href="http://csscreme.com" style="color: #772c17;">csscreme</a>
 				</div>
 			</div>
 
