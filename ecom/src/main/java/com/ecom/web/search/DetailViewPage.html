@@ -7,116 +7,115 @@
 			<div class="top">
 				<span>&nbsp;</span>
 			</div>
-			
-			<div class="center-content">
-				
-				<h4><span class="big_title" wicket:id="title"/></h4>
-				<div style="margin: 0 35px 0 0;width: 200px;">
-					<img style="padding-bottom:2px; vertical-align:middle" src="images/buttons/iconMapPin.png" />
-					<span wicket:id="address" />	
-				</div>
-				
-				<div>
-					<div style="width: 450px; float: left;">
-						<div wicket:id="imageGallery" style="margin-right: 15px;">Image Gallery</div>
-						<div wicket:id="toolsPanel" >Tools Panel</div>
-					</div>
-					<div class="table_blue">
-						<table class="detail">
-							<th>Kosten</th>
-							<th></th>
-							<tr>
-								<td><wicket:message key="lbl_rent" /></td>
-								<td><span wicket:id="cost" />(<wicket:message key="lbl_other_cost" /> <span wicket:id="additionalCost" />)</td>
-							</tr>
-							<tr>
-								<td><wicket:message key="lbl_deposit" /></td>
-								<td><span wicket:id="depositPeriod" /></td>
-							</tr>
-							<tr>
-								<td><wicket:message key="lbl_garage_cost" /></td>
-								<td><span wicket:id="garageCost" /></td>
-							</tr>
-							<tr class="last_row">
-								<td><wicket:message key="lbl_provision" /></td>
-								<td><span wicket:id="provisionCondition" /></td>
-							</tr>
-						</table>
-						<table class="detail">
-							<th>Haupt Info</th>
-							<th></th>
-							<tr>
-								<td><wicket:message key="lbl_built_year" /></td>
-								<td><span wicket:id="builtYear" /></td>
-							</tr>
-							<tr>
-								<td><wicket:message key="lbl_total_rooms" /></td>
-								<td><span wicket:id="totalRooms" /><span wicket:id="bedRooms" /></td>
-							</tr>
-							<tr>
-								<td><wicket:message key="lbl_size" /></td>
-								<td><span wicket:id="size" /></td>
-							</tr>
-							<tr>
-								<td><wicket:message key="lbl_available_from" /></td>
-								<td><span wicket:id="availableFrom" /></td>
-							</tr>
-							<tr class="last_row">
-								<td><wicket:message key="lbl_floor" /></td>
-								<td><span wicket:id="floor" /></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				
-				<div style="width: 480px;">
-					<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
 
-						<li><h2>
+			<div class="center-content">
+
+				<h4>
+					<div class="big_title" wicket:id="title" />
+				</h4>
+
+				<img style="padding-bottom: 2px; margin-right: 3px; vertical-align: middle" src="images/buttons/iconMapPin.png" /> <span wicket:id="address" />
+
+				<div>
+					<div class="main_info_first_col">
+
+						<div>
+							<div wicket:id="imageGallery" style="margin-right: 5px;">Image Gallery</div>
+							<div wicket:id="toolsPanel">Tools Panel</div>
+							<div style="clear: both;"></div>
+
+							<div class="detail_header">
 								<wicket:message key="lbl_description" />
-							</h2>
+							</div>
 							<p>
 								<span wicket:id="description" />
-							</p></li>
-						<li><h2>
+							</p>
+							<div class="detail_header">
 								<wicket:message key="lbl_fittings" />
-							</h2>
+							</div>
 							<p>
 								<span wicket:id="fittings" />
-							</p></li>
-						<li><h2>
-								<wicket:message key="lbl_other_info" />
-							</h2>
-							<span wicket:id="otherInformation" /></li>
-						<li><h2>
+							</p>
+							<div class="detail_header">
 								<wicket:message key="lbl_area_desc" />
-							</h2>
-							<span wicket:id="areaDescription" /></li>
+							</div>
+							<p>
+								<span wicket:id="areaDescription" />
+							</p>
+							<div class="detail_header">
+								<wicket:message key="lbl_other_info" />
+							</div>
+							<p>
+								<span wicket:id="otherInformation" />
+							</p>
+							<div class="detail_header">
+								<wicket:message key="lbl_realstate_state" />
+							</div>
+							<ol class="detail_list">
+								<li><label><wicket:message key="lbl_furnished" /></label><img wicket:id="furnished" /></li>
+							</ol>
+							<div>
+								<ol class="detail_list">
 
-						<li><wicket:message key="lbl_bathrooms" /><span wicket:id="bathRooms" /></li>
+									<li><label><wicket:message key="lbl_bathrooms" /></label><span wicket:id="bathRooms" /></li>
+									<li><label><wicket:message key="lbl_total_floors" /></label><span wicket:id="totalFloors" /></li>
+									<li><label><wicket:message key="lbl_condition" /></label><span><span wicket:id="condition" /></span></li>
+									<li><label><wicket:message key="lbl_provision_free" /></label><img wicket:id="provisionFree" /></li>
+									<li><label><wicket:message key="lbl_heating_Cost" /></label><img wicket:id="heatingCostIncluded" src="#" /></li>
+									<li><label><wicket:message key="lbl_cellar_available" /></label><img wicket:id="cellarAvailable" src="#" /></li>
+									<li><label><wicket:message key="lbl_balcon_available" /></label><img wicket:id="balconyAvailable" /></li>
+									<li><label><wicket:message key="lbl_lift_available" /></label><img wicket:id="liftAvailable" /></li>
+									<li><label><wicket:message key="lbl_garden_available" /></label><img wicket:id="gardenAvailable" /></li>
+									<li><label><wicket:message key="lbl_wc_available" /></label><img wicket:id="toiletWithBathRoom" /></li>
+									<li><label><wicket:message key="lbl_kitchen_available" /></label><img wicket:id="kitchenAvailable" /></li>
+									<li><label><wicket:message key="lbl_energypass_available" /></label><img wicket:id="energyPassAvailable" /></li>
+									<li><label><wicket:message key="lbl_animals_allowed" /></label><img wicket:id="animalsAllowed" /></li>
+									<li></li>
+									<li><label><wicket:message key="lbl_garage_available" /></label><img wicket:id="garageAvailable" /></li>
+									<li><label><wicket:message key="lbl_barrier_free" /></label><img wicket:id="barrierFree" /></li>
+								</ol>
+							</div>
+						</div>
+					</div>
+					<div class="main_info_second_col">
+						<div class="main_info_box">
+							<div class="main_info_box_header">Kosten</div>
+							<ul>
+								<li><label><wicket:message key="lbl_rent" /></label> <span wicket:id="cost" /></li>
+								<li><label><wicket:message key="lbl_other_cost" /></label> <span wicket:id="additionalCost" /></li>
+								<li><label><wicket:message key="lbl_deposit" /></label> <span wicket:id="depositPeriod" /></li>
+								<li><label><wicket:message key="lbl_garage_cost" /></label> <span wicket:id="garageCost" /></li>
+								<li><label><wicket:message key="lbl_provision" /></label> <span wicket:id="provisionCondition" /></li>
+							</ul>
+						</div>
+						<div class="main_info_box">
+							<div class="main_info_box_header">Haupt Info</div>
+							<ul>
+								<li><label><wicket:message key="lbl_built_year" /></label> <span wicket:id="builtYear" /></li>
+								<li><label><wicket:message key="lbl_total_rooms" /></label> <label><span wicket:id="totalRooms" /></label></li>
+								<li><label><wicket:message key="lbl_bath_rooms" /></label> <label><span wicket:id="bedRooms" /></label></li>
+								<li><label><wicket:message key="lbl_size" /></label> <label><span wicket:id="size" /></label></li>
+								<li><label><wicket:message key="lbl_available_from" /></label> <label><span wicket:id="availableFrom" /></label></li>
+								<li><label><wicket:message key="lbl_floor" /></label> <label><span wicket:id="floor" /></label></li>
 
-						<li><wicket:message key="lbl_total_floors" /><span wicket:id="totalFloors" /></li>
+								<li><label><wicket:message key="lbl_last_renovated" /></label> <label><span wicket:id="lastRenovatedYear" /></label></li>
+							</ul>
+						</div>
 
-						<li><span wicket:id="condition" /></li>
-						<li><wicket:message key="lbl_provision_free" /><img wicket:id="provisionFree" /></li>
-						<li><span wicket:id="lastRenovatedYear" /></li>
-
-						<li><wicket:message key="lbl_heating_Cost" /><img wicket:id="heatingCostIncluded" src="#" /></li>
-						<li><wicket:message key="lbl_cellar_available" /><img wicket:id="cellarAvailable" src="#" /></li>
-						<li><wicket:message key="lbl_balcon_available" /><img wicket:id="balconyAvailable" /></li>
-						<li><wicket:message key="lbl_lift_available" /><img wicket:id="liftAvailable" /></li>
-						<li><wicket:message key="lbl_garden_available" /><img wicket:id="gardenAvailable" /></li>
-						<li><wicket:message key="lbl_wc_available" /><img wicket:id="toiletWithBathRoom" /></li>
-						<li><wicket:message key="lbl_kitchen_available" /><img wicket:id="kitchenAvailable" /></li>
-						<li><wicket:message key="lbl_energypass_available" /><img wicket:id="energyPassAvailable" /></li>
-						<li><wicket:message key="lbl_animals_allowed" /><img wicket:id="animalsAllowed" /></li>
-						<li><wicket:message key="lbl_furnished" /><img wicket:id="furnished" /></li>
-						<li><wicket:message key="lbl_garage_available" /><img wicket:id="garageAvailable" /></li>
-						<li><wicket:message key="lbl_barrier_free" /><img wicket:id="barrierFree" /></li>
-					</ol>
+						<div style="border: 1px; border-style: solid; border-radius: 5px 5px 5px 5px; border-color: #C1DAD7;">
+							<span style="font-weight: bold; padding: 10px 5px 5px 5px; font-size: 13px;"><wicket:message key="lbl_offerer" /></span>
+							<p>Frau Sonja Beck</p>
+							<p>Test Immobilien</p>
+							<p>Phone :</p>
+							<p>Mobile :</p>
+						</div>
+					</div>
 				</div>
+
+				<div style="clear: both;"></div>
+
 			</div>
-			
+
 			<div class="bottom">
 				<span></span>
 			</div>
