@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -33,7 +34,7 @@ public class DetailViewPage extends GenericTemplatePage {
 		IModel<RealState> realState = new DetachableRealStateModel(appartmentId);
 		setStatelessHint(true);
 
-		CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
+		final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		setDefaultModel(realStateModel);
 
 		
@@ -66,20 +67,83 @@ public class DetailViewPage extends GenericTemplatePage {
 		add(new Label("builtYear", realStateModel.bind("builtYear")));
 		add(new Label("depositPeriod", realStateModel.bind("depositPeriod")));
 		
-		
-		//add(new Label("heatingCostIncluded", realStateModel.bind("heatingCostIncluded")));
 		add(new OkCancelComponent("heatingCostIncluded", realStateModel.bind("heatingCostIncluded")));
-		add(new OkCancelComponent("cellarAvailable", realStateModel.bind("cellarAvailable")));
-		add(new OkCancelComponent("balconyAvailable", realStateModel.bind("balconyAvailable")));		
-		add(new OkCancelComponent("liftAvailable", realStateModel.bind("liftAvailable")));
-		add(new OkCancelComponent("gardenAvailable", realStateModel.bind("gardenAvailable")));
-		add(new OkCancelComponent("toiletWithBathRoom", realStateModel.bind("toiletWithBathRoom")));
-		add(new OkCancelComponent("kitchenAvailable", realStateModel.bind("kitchenAvailable")));
-		add(new OkCancelComponent("energyPassAvailable", realStateModel.bind("energyPassAvailable")));
-		add(new OkCancelComponent("animalsAllowed", realStateModel.bind("animalsAllowed")));
-		add(new OkCancelComponent("furnished", realStateModel.bind("furnished")));
-		add(new OkCancelComponent("garageAvailable", realStateModel.bind("garageAvailable")));
-		add(new OkCancelComponent("barrierFree", realStateModel.bind("barrierFree")));
+
+		int labelId = 1;
+
+        if (realState.getObject().isKitchenAvailable()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("kitchenAvailable")));
+            labelId++;
+        }
+        
+		if (realState.getObject().isBalconyAvailable()) {
+		    add(new Label("label" + labelId, new ResourceModel("lbl_heating_Cost")));
+		    add(new OkCancelComponent("img" + labelId, realStateModel.bind("balconyAvailable")));
+		    labelId++;
+		}
+		
+        if (realState.getObject().isCellarAvailable()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_cellar_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("cellarAvailable")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isGarageAvailable()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_garage_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("garageAvailable")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isLiftAvailable()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_lift_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("liftAvailable")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isFurnished()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_furnished")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("furnished")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isToiletWithBathRoom()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_wc_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("toiletWithBathRoom")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isGardenAvailable()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_garden_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("gardenAvailable")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isAnimalsAllowed()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_animals_allowed")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("animalsAllowed")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isEnergyPassAvailable()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_energypass_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("energyPassAvailable")));
+            labelId++;
+        }
+        
+        if (realState.getObject().isBarrierFree()) {
+            add(new Label("label" + labelId, new ResourceModel("lbl_barrier_free")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("barrierFree")));
+            labelId++;
+        }
+
+        if (labelId <= 5) {
+
+            for (; labelId <= 5; labelId++) {
+                add(new Label("label" + labelId, "").setVisible(false));
+                add(new OkCancelComponent("img" + labelId, realStateModel.bind("barrierFree")).setVisible(false));
+            }
+        }        
 	}
 	
 	private List<String> getImageURList(String appartmentId) {
