@@ -56,7 +56,7 @@ h4 {
 }
 
 p {
-	font-size: 11px;
+	font-size: 12px;
 	text-align: justify;
 	padding: 2px;
 	margin: 0px;
@@ -447,7 +447,7 @@ way to fit your requirements.
 
 .big_title {
 	text-align: left;
-	width: 100%;
+	width: 95%;
 	height: 22px;
 	padding: 5px 5px 5px 15px;
 	color: #d8325d;
@@ -904,14 +904,14 @@ a.nav_footer:active {
 }
 
 a.linkopacity img {
-	filter: alpha(opacity =               100);
+	filter: alpha(opacity = 100);
 	-moz-opacity: 0.5;
 	opacity: 1.0;
 	-khtml-opacity: 0.5;
 }
 
 a.linkopacity:hover img {
-	filter: alpha(opacity =               80);
+	filter: alpha(opacity = 80);
 	-moz-opacity: 1.0;
 	opacity: 0.6;
 	-khtml-opacity: 1.0;
@@ -971,10 +971,9 @@ div.box label span {
 	list-style: none;
 }
 
-
 /*------------------- Rounded Corner -----------------------------------*/
 #liquid-round {
-	width: 720px;
+	width: 760px;
 	margin: 0px;
 	background: #fff url(http://www.search-this.com/rounded/leftside.gif)
 		repeat-y left top;
@@ -1017,34 +1016,85 @@ div.box label span {
 		no-repeat right top;
 }
 
-/*----------------------------------- table ----------------------------------*/
-.table_blue table {
-	width: 220px;
+/*----------------------------------- main box info ----------------------------------*/
+.main_info_box {
+	width: 210px;
 	padding: 0px;
-	float:left;
-	margin-bottom: 20px;
 	text-align: left;
-	border-collapse:collapse;
+	border-collapse: collapse;
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	border-left: 1px solid #C1DAD7;
+	margin-bottom: 20px;
 }
 
-.table_blue th {
+.main_info_box_header {
 	background: none repeat scroll 0 0 #267CB2;
 	color: #fff;
-	padding: 5px;	
+	padding: 5px;
+	display: block;
+	font-weight: bold;
 }
 
-.table_blue tr {
-
+.main_info_box ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-.table_blue td {
-	text-align: left;
+.main_info_box li {
+	list-style: none;
 	padding-left: 5px;
+	padding-top: 3px;
+	padding-bottom: 5px;
 }
 
-.last_row  td {
-	border-bottom: 1px solid #C1DAD7;
+.main_info_box li label {
+	width: 100px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.main_info_box span {
+	width: 40px;
+}
+
+.main_info_first_col {
+	width: 500px;
+	border: 1px;
+	float: left;
+}
+
+.main_info_second_col {
+	float: left;
+	width: 210px;
+	margin-left: 5px;
+}
+
+/*---------------------------------------- detail box -----------------------------*/
+.detail_header {
+	font-size: 14px;
+	font-weight: bold;
+	color: #0f3753;
+	width: auto;
+	padding: 10px 0 5px 0px;
+	margin-right:10px;
+	text-decoration: none;
+	border-bottom: 1px solid #CAD5DF;
+}
+
+.detail_list {
+	list-style: none;
+	margin: 0px 0px 0px 0px;
+	padding: 0px;
+}
+
+.detail_list li>label {
+	display: inline-block;
+	width: 110px;
+}
+
+.detail_list li>span {
+	display: inline-block;
+	width: 50px;
 }
