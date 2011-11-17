@@ -1,0 +1,20 @@
+<wicket:panel>
+	<div class="first_column search_form rounded_all">
+		<div class="main_info_box_header">Upload your Images (.gif,.png, .jpg)</div>
+	    <form wicket:id="uploadForm">
+	    	<p>
+	    		<div wicket:id="fileInput"/>
+		    </p>
+	    </form>
+	</div>
+	
+    <div>
+      <h4>Current files in :</h4>
+      <table>
+        <tr wicket:id="fileList">
+            <td width="300"><span wicket:id="file">(file)</span></td>
+            <td><a href="#" wicket:id="delete"><img src="images/adminicons/delete.png" border="0"/></a></td>
+        </tr>
+      </table>
+    </div>	
+</wicket:panel>    

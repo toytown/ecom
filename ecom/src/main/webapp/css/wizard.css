@@ -1,0 +1,49 @@
+/* ------------------ Wizard ---------------------------------*/
+div.step_active {
+	background: transparent url(../images/buttons/step_current.gif) no-repeat;
+	width: 23px;
+	height: 30px;
+	float: left;
+	color: #fff;
+	font-size: 12px;
+	line-height: 23px;
+	text-align: center;
+	margin-right: 6px;
+}
+
+div.step_active a {
+	color: #fff;
+	line-height: 23px;
+}
+
+div.step_grey {
+	background: #e8e8e8;
+	width: 23px;
+	height: 23px;
+	float: left;
+	font-size: 12px;
+	line-height: 23px;
+	text-align: center;
+	margin-right: 6px;
+}
+
+div.step_grey a {
+	line-height: 23px;
+}
+
+div.step_blue {
+	background: #99bce2;
+	width: 23px;
+	height: 23px;
+	float: left;
+	color: #fff;
+	font-size: 12px;
+	line-height: 23px;
+	text-align: center;
+	margin-right: 6px;
+}
+
+div.step_blue a {
+	color: #fff;
+	line-height: 23px;
+}

@@ -101,3 +101,117 @@ button.regular,.buttons a.regular {
 	border: 1px solid #6299c5;
 	color: #fff;
 }
+
+/* Button panel */
+div.button_panel {
+	margin-top: 10px;
+	height: 25px;
+}
+
+/* Standard Buttons, Emphasized Buttons */
+a.standard_button,a.emphasized_button {
+	color: #333;
+	display: block;
+	float: left;
+	font: normal 12px arial, sans-serif;
+	height: 19px;
+	margin: 3px 6px 3px 0;
+	padding-right: 18px; /* sliding doors padding */
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a.standard_button span,a.emphasized_button span {
+	display: block;
+	line-height: 15px;
+	padding: 2px 0 2px 18px;
+}
+
+a.standard_button:active,a.emphasized_button:active {
+	background-position: bottom right;
+	color: #000;
+	outline: none; /* hide dotted outline in Firefox */
+}
+
+a.standard_button:active span,a.emphasized_button:active span {
+	background-position: bottom left;
+	padding: 2px 0 2px 18px; /* push text down 1px */
+}
+
+
+.clearfloat {
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+
+/*--------------------------------- Standard Wizard Buttons specific --------------------------------*/
+a.standard_button {
+	background: transparent url('../images/buttons/bg_standard_button_a.gif')
+		no-repeat scroll top right;
+}
+
+a.standard_button span {
+	background: transparent url('../images/buttons/bg_standard_button_span.gif')
+		no-repeat;
+}
+
+/* Disabled Button specific */
+a.disabled_button {
+	color: #999999;
+	cursor: default;
+}
+
+a.disabled_button:active {
+	background-position: right top !important;
+	color: #999999 !important;
+}
+
+a.disabled_button:active span {
+	background-position: 0 0 !important;
+}
+
+/* Hidden Button specific */
+a.hidden_button {
+	display: none;
+}
+
+/* Emphasized Buttons specific */
+a.emphasized_button {
+	background: transparent url('../images/buttons/bg_emphasized_button_a.gif')
+		no-repeat scroll top right;
+}
+
+a.emphasized_button span {
+	background: transparent url('../images/buttons/bg_emphasized_button_span.gif')
+		no-repeat;
+}
+
+/* Small Buttons */
+a.small_button {
+	color: #333;
+	padding-right: 2px;
+	margin: 2px 4px 2px 0;
+	text-decoration: none;
+	cursor: pointer;
+	background: transparent url('../images/buttons/bg_small_button_a.gif') no-repeat
+		scroll top right;
+}
+
+a.small_button span {
+	font: normal 10px arial, sans-serif;
+	line-height: 20px;
+	padding: 2px 6px 1px 8px;
+	background: transparent url('../images/buttons/bg_small_button_span.gif') no-repeat;
+}
+
+a.small_button:active {
+	background-position: bottom right;
+	color: #000;
+	outline: none; /* hide dotted outline in Firefox */
+}
+
+a.small_button:active span {
+	background-position: bottom left;
+	padding: 2px 6px 1px 8px; /* push text down 1px */
+}
