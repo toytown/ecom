@@ -8,7 +8,7 @@
 	width: 480px;
 }
 
-.div-regForm input[type='text'],input[type='password'],select,textarea {
+.div-regForm input[type='text'],input[type='password'], select, textarea {
 	padding: 3px;
 	color: #333333;
 	border: 1px solid #96A6C5;
