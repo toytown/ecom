@@ -16,7 +16,7 @@ public class RealStateImage implements Serializable {
 
 	private String imageFileName;
 	
-	private int size;
+	private long size;
 	
 	private int width;
 	
@@ -28,7 +28,6 @@ public class RealStateImage implements Serializable {
 	
 	private String realStateId;
 	
-
 	public ObjectId getId() {
 		return id;
 	}
@@ -45,11 +44,11 @@ public class RealStateImage implements Serializable {
 		this.imageFileName = imageFileName;
 	}
 
-	public int getSize() {
+	public long getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(long size) {
 		this.size = size;
 	}
 
@@ -93,7 +92,7 @@ public class RealStateImage implements Serializable {
 		this.realStateId = realStateId;
 	}
 	
-	public String getImageURL(String appartmentId) {
-		return "http://localhost/image-repository/" + appartmentId + "/" + getImageFileName();
+	public String getImageURL() {
+		return "http://localhost/image-repository/" + getRealStateId() + "/" + getImageFileName();
 	}
 }

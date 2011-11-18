@@ -161,7 +161,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
 	protected void createImage(BufferedImage image, String appartmentId, String fileName, boolean isTitle) throws IOException {
 		if (isTitle) {
-			image = ImageUtils.resize(image, 75, 75);
+			image = ImageUtils.resize(image, 95, 95);
 		} else {
 			image = ImageUtils.resize(image, 480, 367);
 		}

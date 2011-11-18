@@ -154,7 +154,8 @@ public class DetailViewPage extends GenericTemplatePage {
 		List<String> imageUrlList = new ArrayList<String>();
 		
 		for (RealStateImage img : imageList) {
-			imageUrlList.add(img.getImageURL(appartmentId));
+		    img.setRealStateId(appartmentId);
+			imageUrlList.add(img.getImageURL());
 		}
 		
 		return imageUrlList;
