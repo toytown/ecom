@@ -316,6 +316,17 @@ div.search_form input {
 	width: 225px;
 }
 
+#input_file {
+	line-height: 20px;
+	padding: 2px 2px 0 2px;
+	height: 22px;
+	float: left;
+	margin: 1px 4px 3px 0;
+	width: 245px;
+	font-size: 10px;
+}
+
+
 div.search_form input.date {
 	width: 75px;
 }
