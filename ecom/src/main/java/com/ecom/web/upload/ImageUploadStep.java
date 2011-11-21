@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -110,17 +112,35 @@ public class ImageUploadStep extends WizardStep {
                 uploadedFilesList.add(uploadedFile9);
                 uploadedFilesList.add(uploadedFile10);
                 
-                List<RealStateImage> imageObjList  = saveUploadedFile(uploadedFilesList);  
+                final List<RealStateImage> imageObjList  = saveUploadedFile(uploadedFilesList);  
                 ListView<RealStateImage> imgListView = new ListView<RealStateImage>("imagesListView", imageObjList) {
 
                     @Override
                     protected void populateItem(ListItem<RealStateImage> item) {
                         RealStateImage img = item.getModel().getObject();      
+                        
                         item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
+                        item.add(new Link("deleteLink", new Model<String>(img.getId().toString())) {
+
+                            @Override
+                            public void onClick() {
+                                String imgId = this.getDefaultModelObjectAsString();
+                                Iterator<RealStateImage> iter = imageObjList.iterator();
+                                while(iter.hasNext())  {
+                                    RealStateImage rsImg = iter.next();
+                                    if (rsImg.getId().toString().equals(imgId)) {
+                                        iter.remove();
+                                        this.setVisible(false);
+                                        imageContainer.addOrReplace(this);
+                                    }
+                                }
+                            }
+                            
+                        });
                     }
                 };
 
-                imageContainer.add(imgListView);
+                imageContainer.addOrReplace(imgListView);
                 imageContainer.setVisible(true);
 
             }
