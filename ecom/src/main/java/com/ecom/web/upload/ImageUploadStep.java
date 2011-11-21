@@ -12,22 +12,25 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.injection.Injector;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.file.Files;
+import org.bson.types.ObjectId;
 
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
+import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.wizard.WizardStep;
 
 public class ImageUploadStep extends WizardStep {
@@ -41,21 +44,20 @@ public class ImageUploadStep extends WizardStep {
 	@SpringBean
 	private AppConfig appConfig;
 
-	FileUploadField file1;
-	FileUploadField file2 = null;
-	FileUploadField file3 = null;
-	FileUploadField file4 = null;
-	FileUploadField file5 = null;
-	FileUploadField file6 = null;
-	FileUploadField file7 = null;
-	FileUploadField file8 = null;
-	FileUploadField file9 = null;
-	FileUploadField file10 = null;
+	private FileUploadField file1;
+	private FileUploadField file2;
+	private FileUploadField file3;
+	private FileUploadField file4;
+	private FileUploadField file5;
+	private FileUploadField file6;
+	private FileUploadField file7;
+	private FileUploadField file8;
+	private FileUploadField file9;
+	private FileUploadField file10;
 
 	private File imageStoreDir;
 	private FileUploadForm imageUploadForm;
-	
-	private List<String> filesSelected = new ArrayList<String>();
+	private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 	
 	public ImageUploadStep(IModel<String> title, IModel<String> summary) {
 		super(title, summary);
@@ -65,44 +67,8 @@ public class ImageUploadStep extends WizardStep {
 		final String realStateId = UUID.randomUUID().toString();
 		IModel<String> realStateIdModel = new Model<String>(realStateId);
 
-
 		
-		imageUploadForm = new FileUploadForm("uploadForm", realStateIdModel) {
-
-			private static final long serialVersionUID = -172351541720463732L;
-
-			/**
-			 * @see org.apache.wicket.markup.html.form.Form#onSubmit()
-			 */
-			@Override
-			protected void onSubmit() {
-				List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
-				FileUpload uploadedFile1 = file1.getFileUpload();
-				FileUpload uploadedFile2 = file2.getFileUpload();
-				FileUpload uploadedFile3 = file3.getFileUpload();
-				FileUpload uploadedFile4 = file4.getFileUpload();
-				FileUpload uploadedFile5 = file5.getFileUpload();
-				FileUpload uploadedFile6 = file6.getFileUpload();
-				FileUpload uploadedFile7 = file7.getFileUpload();
-				FileUpload uploadedFile8 = file8.getFileUpload();
-				FileUpload uploadedFile9 = file9.getFileUpload();
-				FileUpload uploadedFile10 = file10.getFileUpload();
-
-				uploadedFilesList.add(uploadedFile1);
-				uploadedFilesList.add(uploadedFile2);
-				uploadedFilesList.add(uploadedFile3);
-				uploadedFilesList.add(uploadedFile4);
-				uploadedFilesList.add(uploadedFile5);
-				uploadedFilesList.add(uploadedFile6);
-				uploadedFilesList.add(uploadedFile7);
-				uploadedFilesList.add(uploadedFile8);
-				uploadedFilesList.add(uploadedFile9);
-				uploadedFilesList.add(uploadedFile10);
-				
-				saveUploadedFile(uploadedFilesList);
-			}
-
-		};
+		imageUploadForm = new FileUploadForm("uploadForm", realStateIdModel);
 		imageUploadForm.setMultiPart(true);
 
 		IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
@@ -117,35 +83,71 @@ public class ImageUploadStep extends WizardStep {
 		imageUploadForm.add(file9 = new FileUploadField("file9", model));
 		imageUploadForm.add(file10 = new FileUploadField("file10", model));
 
-		file1.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+		imageUploadForm.add(new Button("upload") {
 
-			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
-				file1.updateModel();
-				System.out.println(file1.getDefaultModelObjectAsString());
-				filesSelected.add(file1.getValue());
+            @Override
+            public void onSubmit() {
+                List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
+                FileUpload uploadedFile1 = file1.getFileUpload();
+                FileUpload uploadedFile2 = file2.getFileUpload();
+                FileUpload uploadedFile3 = file3.getFileUpload();
+                FileUpload uploadedFile4 = file4.getFileUpload();
+                FileUpload uploadedFile5 = file5.getFileUpload();
+                FileUpload uploadedFile6 = file6.getFileUpload();
+                FileUpload uploadedFile7 = file7.getFileUpload();
+                FileUpload uploadedFile8 = file8.getFileUpload();
+                FileUpload uploadedFile9 = file9.getFileUpload();
+                FileUpload uploadedFile10 = file10.getFileUpload();
 
-			}
+                uploadedFilesList.add(uploadedFile1);
+                uploadedFilesList.add(uploadedFile2);
+                uploadedFilesList.add(uploadedFile3);
+                uploadedFilesList.add(uploadedFile4);
+                uploadedFilesList.add(uploadedFile5);
+                uploadedFilesList.add(uploadedFile6);
+                uploadedFilesList.add(uploadedFile7);
+                uploadedFilesList.add(uploadedFile8);
+                uploadedFilesList.add(uploadedFile9);
+                uploadedFilesList.add(uploadedFile10);
+                
+                List<RealStateImage> imageObjList  = saveUploadedFile(uploadedFilesList);  
+                ListView<RealStateImage> imgListView = new ListView<RealStateImage>("imagesListView", imageObjList) {
 
+                    @Override
+                    protected void populateItem(ListItem<RealStateImage> item) {
+                        RealStateImage img = item.getModel().getObject();      
+                        item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
+                    }
+                };
+
+                imageContainer.add(imgListView);
+                imageContainer.setVisible(true);
+
+            }
+
+		    
 		});
-		
-		imageUploadForm.add(new Button("upload"));
 
 		add(imageUploadForm);
+		imageContainer.setOutputMarkupId(true);
+		imageContainer.setVisible(false);
+		add(imageContainer);
 	}
 
-	private void saveUploadedFile(List<FileUpload> uploadedFiles) {
+	private List<RealStateImage> saveUploadedFile(List<FileUpload> uploadedFiles) {
+	    List<RealStateImage> realStateImgIdList = new ArrayList<RealStateImage>();
 
 		for (FileUpload upload : uploadedFiles) {
 
+		    
 			if (upload == null || upload.getSize() == 0l) {
 				continue;
 			}
+
 			// Create a new file
 			String mimeType = upload.getContentType();
 			String clientFileName = upload.getClientFileName();
 			long size = upload.getSize();
-			System.out.println("File name ...." + clientFileName);
 
 			// id of the apartment for which the images are uploaded
 			String realStateId = imageUploadForm.getDefaultModelObjectAsString();
@@ -177,17 +179,21 @@ public class ImageUploadStep extends WizardStep {
 				createResizedImage(originalImage, newResizedFile, false);
 
 				RealStateImage image = new RealStateImage();
+				image.setId(new ObjectId());
 				image.setRealStateId(realStateId);
 				image.setMimeType(mimeType);
 				image.setSize(size);
 				image.setImageFileName(clientFileName);
 				imageRepository.save(image);
-
+				
+				realStateImgIdList.add(image);
+				
 			} catch (Exception e) {
+			    e.printStackTrace();
 				throw new IllegalStateException("Unable to write file");
 			}
-
 		}
+		return realStateImgIdList;
 	}
 
 

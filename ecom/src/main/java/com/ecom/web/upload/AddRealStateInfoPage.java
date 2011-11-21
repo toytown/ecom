@@ -10,8 +10,6 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 2150895889155872074L;
 
-
-
 	private static class UploadRealStateWizard extends WizardComponent {
 
         public UploadRealStateWizard(String id, WizardModel wizardModel, boolean showStepNumbers) {

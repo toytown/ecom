@@ -40,12 +40,18 @@
 			</p>
 			<div style="clear:both;"/>
 			<div>
-				<input type="submit" id="greenButton" value="Upload" wicket:id="upload" />
+				<input type="submit"  value="Upload" wicket:id="upload" />
 			</div>
 		</div>
 
 	</form>
 
-
+	<div wicket:id="uploadedImagesContainer" style="margin-top: 15px;">
+		
+		<div wicket:id="imagesListView">
+		   <img src="#" wicket:id="img">label</img>
+		</div>
+		
+	</div>
 
 </wicket:panel>

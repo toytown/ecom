@@ -37,7 +37,7 @@ public class ImageUtils {
      *            is specified)
      * @return a scaled version of the original {@code BufferedImage}
      */
-    public static BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight, Object hint,
+    public static BufferedImage resize(BufferedImage img, int targetWidth, int targetHeight, Object hint,
             boolean higherQuality) {
         int type = (img.getTransparency() == Transparency.OPAQUE) ? BufferedImage.TYPE_INT_RGB
                 : BufferedImage.TYPE_INT_ARGB;
@@ -84,6 +84,11 @@ public class ImageUtils {
     }
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
+        //return resize(img, newW, newH, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);        
+        return resizeSimple(img, newW, newH);
+    }
+
+    public static BufferedImage resizeSimple(BufferedImage img, int newW, int newH) {
         int w = img.getWidth();
         int h = img.getHeight();
         BufferedImage dimg = new BufferedImage(newW, newH, img.getType());
@@ -93,7 +98,7 @@ public class ImageUtils {
         g.dispose();
         return dimg;
     }
-
+    
     public static BufferedImage createResizedCopy(BufferedImage originalImage,
             int scaledWidth, int scaledHeight,
             boolean preserveAlpha)
