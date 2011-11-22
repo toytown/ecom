@@ -7,9 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
@@ -20,8 +18,6 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
@@ -33,68 +29,65 @@ import org.bson.types.ObjectId;
 
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
-import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.wizard.WizardStep;
-import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.data.RealStateImageDataProvider;
 
 public class ImageUploadStep extends WizardStep {
 
-	private static final long serialVersionUID = -7463392511943675380L;
-	public final Collection<FileUpload> uploads = new ArrayList<FileUpload>();
+    private static final long serialVersionUID = -7463392511943675380L;
+    public final Collection<FileUpload> uploads = new ArrayList<FileUpload>();
 
-	@SpringBean
-	private RealStateImageRepository imageRepository;
+    @SpringBean
+    private RealStateImageRepository imageRepository;
 
-	@SpringBean
-	private AppConfig appConfig;
+    @SpringBean
+    private AppConfig appConfig;
 
-	private FileUploadField file1;
-	private FileUploadField file2;
-	private FileUploadField file3;
-	private FileUploadField file4;
-	private FileUploadField file5;
-	private FileUploadField file6;
-	private FileUploadField file7;
-	private FileUploadField file8;
-	private FileUploadField file9;
-	private FileUploadField file10;
+    private FileUploadField file1;
+    private FileUploadField file2;
+    private FileUploadField file3;
+    private FileUploadField file4;
+    private FileUploadField file5;
+    private FileUploadField file6;
+    private FileUploadField file7;
+    private FileUploadField file8;
+    private FileUploadField file9;
+    private FileUploadField file10;
 
-	private File imageStoreDir;
-	private FileUploadForm imageUploadForm;
-	private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
-	
-	public ImageUploadStep(IModel<String> title, IModel<String> summary, Object realStateId) {
-		super(title, summary);
-		Injector.get().inject(this);
-		imageStoreDir = appConfig.getImageStoreDir();
+    private File imageStoreDir;
+    private FileUploadForm imageUploadForm;
+    private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 
-		IModel<String> realStateIdModel = new Model<String>(realStateId.toString());
+    public ImageUploadStep(IModel<String> title, IModel<String> summary, Object realStateId) {
+        super(title, summary);
+        Injector.get().inject(this);
+        imageStoreDir = appConfig.getImageStoreDir();
 
-		
-		imageUploadForm = new FileUploadForm("uploadForm", realStateIdModel);
-		imageUploadForm.setMultiPart(true);
+        IModel<String> realStateIdModel = new Model<String>(realStateId.toString());
 
-		IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
-		imageUploadForm.add(file1 = new FileUploadField("file1", model));
-		imageUploadForm.add(file2 = new FileUploadField("file2", model));
-		imageUploadForm.add(file3 = new FileUploadField("file3", model));
-		imageUploadForm.add(file4 = new FileUploadField("file4", model));
-		imageUploadForm.add(file5 = new FileUploadField("file5", model));
-		imageUploadForm.add(file6 = new FileUploadField("file6", model));
-		imageUploadForm.add(file7 = new FileUploadField("file7", model));
-		imageUploadForm.add(file8 = new FileUploadField("file8", model));
-		imageUploadForm.add(file9 = new FileUploadField("file9", model));
-		imageUploadForm.add(file10 = new FileUploadField("file10", model));
+        imageUploadForm = new FileUploadForm("uploadForm", realStateIdModel);
+        imageUploadForm.setMultiPart(true);
 
-		imageUploadForm.add(new Button("upload") {
+        IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
+        imageUploadForm.add(file1 = new FileUploadField("file1", model));
+        imageUploadForm.add(file2 = new FileUploadField("file2", model));
+        imageUploadForm.add(file3 = new FileUploadField("file3", model));
+        imageUploadForm.add(file4 = new FileUploadField("file4", model));
+        imageUploadForm.add(file5 = new FileUploadField("file5", model));
+        imageUploadForm.add(file6 = new FileUploadField("file6", model));
+        imageUploadForm.add(file7 = new FileUploadField("file7", model));
+        imageUploadForm.add(file8 = new FileUploadField("file8", model));
+        imageUploadForm.add(file9 = new FileUploadField("file9", model));
+        imageUploadForm.add(file10 = new FileUploadField("file10", model));
 
-			private static final long serialVersionUID = 2718354305648397798L;
+        imageUploadForm.add(new Button("upload") {
 
-				@Override
+            private static final long serialVersionUID = 2718354305648397798L;
+
+            @Override
             public void onSubmit() {
                 List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
                 FileUpload uploadedFile1 = file1.getFileUpload();
@@ -118,196 +111,157 @@ public class ImageUploadStep extends WizardStep {
                 uploadedFilesList.add(uploadedFile8);
                 uploadedFilesList.add(uploadedFile9);
                 uploadedFilesList.add(uploadedFile10);
-                
-                final List<RealStateImage> imageObjList  = saveUploadedFile(uploadedFilesList);  
 
-                final ISortableDataProvider<RealStateImage> dataProvider = new RealStateImageDataProvider(imageUploadForm.getDefaultModelObjectAsString());
+                saveUploadedFile(uploadedFilesList);
+
+                final ISortableDataProvider<RealStateImage> dataProvider = new RealStateImageDataProvider(imageUploadForm
+                        .getDefaultModelObjectAsString());
                 DataView<RealStateImage> imgListView = new DataView<RealStateImage>("imagesListView", dataProvider) {
 
-						private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
-						@Override
-						protected void populateItem(Item<RealStateImage> item) {
-                     RealStateImage img = item.getModel().getObject();      
-                     
-                     item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
-                     item.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
+                    @Override
+                    protected void populateItem(Item<RealStateImage> item) {
+                        RealStateImage img = item.getModel().getObject();
 
-								private static final long serialVersionUID = 1L;
-
-								@Override
-                         public void onClick() {
-                             String imgId = this.getDefaultModelObjectAsString();
-                             Iterator<RealStateImage> iter = imageObjList.iterator();
-                             while(iter.hasNext())  {
-                                 RealStateImage rsImg = iter.next();
-                                 if (rsImg.getId().toString().equals(imgId)) {
-                                     iter.remove();
-                                     this.setVisible(false);
-                                     imageContainer.addOrReplace(this);
-                                 }
-                             }
-                         }
-                         
-                     });
-							
-						}
-					}; 
-                /*
-                ListView<RealStateImage> imgListView = new ListView<RealStateImage>("imagesListView", imageObjList) {
-
-						private static final long serialVersionUID = 1L;
-
-						@Override
-                    protected void populateItem(ListItem<RealStateImage> item) {
-                        RealStateImage img = item.getModel().getObject();      
-                        
                         item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
                         item.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
 
-									private static final long serialVersionUID = 1L;
+                            private static final long serialVersionUID = 1L;
 
-									@Override
+                            @Override
                             public void onClick() {
                                 String imgId = this.getDefaultModelObjectAsString();
-                                Iterator<RealStateImage> iter = imageObjList.iterator();
-                                while(iter.hasNext())  {
-                                    RealStateImage rsImg = iter.next();
-                                    if (rsImg.getId().toString().equals(imgId)) {
-                                        iter.remove();
-                                        this.setVisible(false);
-                                        imageContainer.addOrReplace(this);
-                                    }
+
+                                RealStateImage rsImg = imageRepository.findOne(new ObjectId(imgId));
+
+                                if (rsImg != null) {
+                                    imageRepository.delete(rsImg.getId());
+                                    this.setVisible(false);
+                                    imageContainer.addOrReplace(this);
                                 }
                             }
-                            
+
                         });
+
                     }
                 };
-					*/
+
                 imageContainer.addOrReplace(imgListView);
                 imageContainer.setVisible(true);
 
             }
 
-		    
-		});
+        });
 
-		add(imageUploadForm);
-		imageContainer.setOutputMarkupId(true);
-		imageContainer.setVisible(false);
-		add(imageContainer);
-		uploads.clear();
-	}
+        add(imageUploadForm);
+        imageContainer.setOutputMarkupId(true);
+        imageContainer.setVisible(false);
+        add(imageContainer);
+    }
 
-	private List<RealStateImage> saveUploadedFile(List<FileUpload> uploadedFiles) {
-	    List<RealStateImage> realStateImgIdList = new ArrayList<RealStateImage>();
+    private void saveUploadedFile(List<FileUpload> uploadedFiles) {
 
-		for (FileUpload upload : uploadedFiles) {
+        for (FileUpload upload : uploadedFiles) {
 
-		    
-			if (upload == null || upload.getSize() == 0l) {
-				continue;
-			}
+            if (upload == null || upload.getSize() == 0l) {
+                continue;
+            }
 
-			// Create a new file
-			String mimeType = upload.getContentType();
-			String clientFileName = upload.getClientFileName();
-			long size = upload.getSize();
+            // Create a new file
+            String mimeType = upload.getContentType();
+            String clientFileName = upload.getClientFileName();
+            long size = upload.getSize();
 
-			// id of the apartment for which the images are uploaded
-			String realStateId = imageUploadForm.getDefaultModelObjectAsString();
+            // id of the apartment for which the images are uploaded
+            String realStateId = imageUploadForm.getDefaultModelObjectAsString();
 
-			File uploadDir = new File(imageStoreDir + File.separator + realStateId);
-			File uploadDirOriginalImages = new File(imageStoreDir + File.separator + realStateId + "/tmp");
+            File uploadDir = new File(imageStoreDir + File.separator + realStateId);
+            File uploadDirOriginalImages = new File(imageStoreDir + File.separator + realStateId + "/tmp");
 
-			if (!uploadDir.exists()) {
-				uploadDir.mkdirs();
-			}
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
 
-			if (!uploadDirOriginalImages.exists()) {
-				uploadDirOriginalImages.mkdirs();
-			}
+            if (!uploadDirOriginalImages.exists()) {
+                uploadDirOriginalImages.mkdirs();
+            }
 
-			File newFile = new File(uploadDirOriginalImages, clientFileName);
+            File newFile = new File(uploadDirOriginalImages, clientFileName);
 
-			// Check new file, delete if it already existed
-			checkFileExists(newFile);
+            // Check new file, delete if it already existed
+            checkFileExists(newFile);
 
-			try {
-				// Save to new file
-				newFile.createNewFile();
-				upload.writeTo(newFile);
+            try {
+                // Save to new file
+                newFile.createNewFile();
+                upload.writeTo(newFile);
 
-				BufferedImage originalImage = ImageIO.read(newFile);
+                BufferedImage originalImage = ImageIO.read(newFile);
 
-				File newResizedFile = new File(uploadDir, clientFileName);
-				createResizedImage(originalImage, newResizedFile, false);
+                File newResizedFile = new File(uploadDir, clientFileName);
+                createResizedImage(originalImage, newResizedFile, false);
 
-				RealStateImage image = new RealStateImage();
-				image.setId(new ObjectId());
-				image.setRealStateId(realStateId);
-				image.setMimeType(mimeType);
-				image.setSize(size);
-				image.setImageFileName(clientFileName);
-				imageRepository.save(image);
-				
-				realStateImgIdList.add(image);
-				
-			} catch (Exception e) {
-			    e.printStackTrace();
-				throw new IllegalStateException("Unable to write file");
-			}
-		}
-		return realStateImgIdList;
-	}
+                RealStateImage image = new RealStateImage();
+                image.setId(new ObjectId());
+                image.setRealStateId(realStateId);
+                image.setMimeType(mimeType);
+                image.setSize(size);
+                image.setImageFileName(clientFileName);
+                imageRepository.save(image);
 
 
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new IllegalStateException("Unable to write file");
+            }
+        }
+    }
 
-	/**
-	 * Check whether the file already exists, and if so, try to delete it.
-	 * 
-	 * @param newFile
-	 *           the file to check
-	 */
-	private void checkFileExists(File newFile) {
-		if (newFile.exists()) {
-			// Try to delete the file
-			if (!Files.remove(newFile)) {
-				throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
-			}
-		}
-	}
+    /**
+     * Check whether the file already exists, and if so, try to delete it.
+     * 
+     * @param newFile
+     *           the file to check
+     */
+    private void checkFileExists(File newFile) {
+        if (newFile.exists()) {
+            // Try to delete the file
+            if (!Files.remove(newFile)) {
+                throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
+            }
+        }
+    }
 
-	/**
-	 * Resizes the uploaded image because uploaded images could be large and size
-	 * could be different
-	 * 
-	 * @param image
-	 * @param appartmentId
-	 * @param fileName
-	 * @param isTitle
-	 * @throws IOException
-	 */
-	protected void createResizedImage(BufferedImage image, File resizedImageFile, boolean isTitle) throws IOException {
-		if (isTitle) {
-			image = ImageUtils.resize(image, 95, 95);
-		} else {
-			image = ImageUtils.resize(image, 480, 367);
-		}
+    /**
+     * Resizes the uploaded image because uploaded images could be large and size
+     * could be different
+     * 
+     * @param image
+     * @param appartmentId
+     * @param fileName
+     * @param isTitle
+     * @throws IOException
+     */
+    protected void createResizedImage(BufferedImage image, File resizedImageFile, boolean isTitle) throws IOException {
+        if (isTitle) {
+            image = ImageUtils.resize(image, 95, 95);
+        } else {
+            image = ImageUtils.resize(image, 480, 367);
+        }
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
-		ImageIO.write(image, "jpeg", baos);
-		baos.flush();
-		byte[] imageBytes = baos.toByteArray();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+        ImageIO.write(image, "jpeg", baos);
+        baos.flush();
+        byte[] imageBytes = baos.toByteArray();
 
-		if (resizedImageFile.createNewFile()) {
-			FileOutputStream fos = new FileOutputStream(resizedImageFile);
-			fos.write(imageBytes);
-			fos.flush();
-			fos.close();
+        if (resizedImageFile.createNewFile()) {
+            FileOutputStream fos = new FileOutputStream(resizedImageFile);
+            fos.write(imageBytes);
+            fos.flush();
+            fos.close();
 
-		}
-		baos.close();
-	}
+        }
+        baos.close();
+    }
 }

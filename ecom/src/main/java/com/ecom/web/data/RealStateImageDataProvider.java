@@ -7,15 +7,14 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.springframework.data.domain.PageRequest;
 
+import com.ecom.domain.QRealStateImage;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
 
 public class RealStateImageDataProvider extends SortableDataProvider<RealStateImage>{
 
 	private static final long serialVersionUID = 1L;
-	private PageRequest req = new PageRequest(0, 10);
 	private String realStateId;
 	
 	@SpringBean
@@ -24,12 +23,13 @@ public class RealStateImageDataProvider extends SortableDataProvider<RealStateIm
 	public RealStateImageDataProvider(String realStateId) {
 		super();
 		Injector.get().inject(this);
+		this.realStateId = realStateId;
 	}
 
 	@Override
 	public Iterator<? extends RealStateImage> iterator(int first, int count) {
-
-		return realStateImageRepository.findRealStateImageByRealStateId(realStateId).iterator();
+	    QRealStateImage realStateImgQuery = new QRealStateImage("realStateImage");
+		return realStateImageRepository.findAll(realStateImgQuery.realStateId.eq(this.realStateId)).iterator();
 	}
 
 	@Override
