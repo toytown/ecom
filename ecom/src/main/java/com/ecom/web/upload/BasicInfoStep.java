@@ -7,16 +7,21 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.web.components.wizard.WizardStep;
 
 public class BasicInfoStep extends WizardStep {
 
-    public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary) {
+	private static final long serialVersionUID = 769908228950127137L;
+
+	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, ObjectId realStateId) {
         super(wizard_title, summary);
 
-        CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(new RealState());
+        RealState realState = new RealState();
+        realState.setId(realStateId);
+        CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
         StatelessForm<RealState> realStateUploadInfoForm = new StatelessForm<RealState>("realStateAdvertForm", realStateModel) {
 
             private static final long serialVersionUID = 1L;

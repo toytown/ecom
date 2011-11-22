@@ -1,6 +1,7 @@
 package com.ecom.web.upload;
 
 import org.apache.wicket.model.Model;
+import org.bson.types.ObjectId;
 
 import com.ecom.web.components.wizard.WizardComponent;
 import com.ecom.web.components.wizard.WizardModel;
@@ -12,7 +13,9 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
 
 	private static class UploadRealStateWizard extends WizardComponent {
 
-        public UploadRealStateWizard(String id, WizardModel wizardModel, boolean showStepNumbers) {
+		private static final long serialVersionUID = -3026931598109913934L;
+
+		public UploadRealStateWizard(String id, WizardModel wizardModel, boolean showStepNumbers) {
             super(id, wizardModel, showStepNumbers);
         }
 	    
@@ -22,8 +25,11 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
 		super();
 
 		WizardModel wizardModel = new WizardModel();
-		wizardModel.add(new BasicInfoStep(new Model("Step ...1"), null));
-		wizardModel.add(new ImageUploadStep(new Model("Upload Images"), null));		
+		
+		ObjectId realStateId = new ObjectId();
+		
+		wizardModel.add(new BasicInfoStep(new Model<String>("Step ...1"), null, realStateId));
+		wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images"), null, realStateId));		
 		UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true);
 		
 	   

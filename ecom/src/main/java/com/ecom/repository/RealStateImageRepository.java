@@ -1,5 +1,7 @@
 package com.ecom.repository;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
@@ -10,6 +12,7 @@ import com.ecom.domain.RealStateImage;
 public interface RealStateImageRepository extends PagingAndSortingRepository<RealStateImage, ObjectId>,
 CrudRepository<RealStateImage, ObjectId>, QueryDslPredicateExecutor<RealStateImage> {
 
+	public List<RealStateImage> findRealStateImageByRealStateId(String realStateId);
 
 }
 

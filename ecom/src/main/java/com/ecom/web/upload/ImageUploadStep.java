@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
@@ -21,6 +22,8 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -30,10 +33,13 @@ import org.bson.types.ObjectId;
 
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
+import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.wizard.WizardStep;
+import com.ecom.web.data.RealStateDataProvider;
+import com.ecom.web.data.RealStateImageDataProvider;
 
 public class ImageUploadStep extends WizardStep {
 
@@ -61,13 +67,12 @@ public class ImageUploadStep extends WizardStep {
 	private FileUploadForm imageUploadForm;
 	private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 	
-	public ImageUploadStep(IModel<String> title, IModel<String> summary) {
+	public ImageUploadStep(IModel<String> title, IModel<String> summary, Object realStateId) {
 		super(title, summary);
 		Injector.get().inject(this);
 		imageStoreDir = appConfig.getImageStoreDir();
 
-		final String realStateId = UUID.randomUUID().toString();
-		IModel<String> realStateIdModel = new Model<String>(realStateId);
+		IModel<String> realStateIdModel = new Model<String>(realStateId.toString());
 
 		
 		imageUploadForm = new FileUploadForm("uploadForm", realStateIdModel);
@@ -87,7 +92,9 @@ public class ImageUploadStep extends WizardStep {
 
 		imageUploadForm.add(new Button("upload") {
 
-            @Override
+			private static final long serialVersionUID = 2718354305648397798L;
+
+				@Override
             public void onSubmit() {
                 List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
                 FileUpload uploadedFile1 = file1.getFileUpload();
@@ -113,16 +120,54 @@ public class ImageUploadStep extends WizardStep {
                 uploadedFilesList.add(uploadedFile10);
                 
                 final List<RealStateImage> imageObjList  = saveUploadedFile(uploadedFilesList);  
+
+                final ISortableDataProvider<RealStateImage> dataProvider = new RealStateImageDataProvider(imageUploadForm.getDefaultModelObjectAsString());
+                DataView<RealStateImage> imgListView = new DataView<RealStateImage>("imagesListView", dataProvider) {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						protected void populateItem(Item<RealStateImage> item) {
+                     RealStateImage img = item.getModel().getObject();      
+                     
+                     item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
+                     item.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
+
+								private static final long serialVersionUID = 1L;
+
+								@Override
+                         public void onClick() {
+                             String imgId = this.getDefaultModelObjectAsString();
+                             Iterator<RealStateImage> iter = imageObjList.iterator();
+                             while(iter.hasNext())  {
+                                 RealStateImage rsImg = iter.next();
+                                 if (rsImg.getId().toString().equals(imgId)) {
+                                     iter.remove();
+                                     this.setVisible(false);
+                                     imageContainer.addOrReplace(this);
+                                 }
+                             }
+                         }
+                         
+                     });
+							
+						}
+					}; 
+                /*
                 ListView<RealStateImage> imgListView = new ListView<RealStateImage>("imagesListView", imageObjList) {
 
-                    @Override
+						private static final long serialVersionUID = 1L;
+
+						@Override
                     protected void populateItem(ListItem<RealStateImage> item) {
                         RealStateImage img = item.getModel().getObject();      
                         
                         item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
-                        item.add(new Link("deleteLink", new Model<String>(img.getId().toString())) {
+                        item.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
 
-                            @Override
+									private static final long serialVersionUID = 1L;
+
+									@Override
                             public void onClick() {
                                 String imgId = this.getDefaultModelObjectAsString();
                                 Iterator<RealStateImage> iter = imageObjList.iterator();
@@ -139,7 +184,7 @@ public class ImageUploadStep extends WizardStep {
                         });
                     }
                 };
-
+					*/
                 imageContainer.addOrReplace(imgListView);
                 imageContainer.setVisible(true);
 
@@ -152,6 +197,7 @@ public class ImageUploadStep extends WizardStep {
 		imageContainer.setOutputMarkupId(true);
 		imageContainer.setVisible(false);
 		add(imageContainer);
+		uploads.clear();
 	}
 
 	private List<RealStateImage> saveUploadedFile(List<FileUpload> uploadedFiles) {
