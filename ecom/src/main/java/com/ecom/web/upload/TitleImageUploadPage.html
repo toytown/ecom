@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+<link rel="stylesheet" type="text/css" href="css/wizard.css" />
+<link rel="stylesheet" type="text/css" href="css/admin.css" />
+<link rel="stylesheet" type="text/css" href="css/forms.css" />
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script>
+	$(function() {
+		$(":file").change(addSelectedValue);
+		$(":img").click(removeSelectedValue);
+		$("#header").remove();
+	});
+
+	function addSelectedValue() {
+		var index = $(":file").index(this);
+		var index_id = index + 1;
+		var value = $(this).val();
+		var spanId = "#" + index_id;
+		var aRefId = "#aref_" + index_id;
+		var methodCall = ' onClick=removeSelectedValue(' + index_id + ');';
+
+		var tag = '<img id=' + aRefId +  ' src="images/buttons/cross.png"' + methodCall  + ' style="width:16px; height:16px;"' + ' />';
+
+		$(spanId).text(value).append(tag);
+	}
+
+	function removeSelectedValue(index) {
+		var spanId = "#" + index;
+
+		$(":file").eq(index - 1).val("");
+		$(spanId).text("");
+	}
+</script>
+
+
+</head>
+
+<body>
+
+	<div id="main_content">
+		<form wicket:id="titleImageUploadForm">
+			<div class="first_column search_form rounded_all" style="margin-top: 15px; width: 540px;">
+
+				<div class="main_info_box_header">Upload Title Image</div>
+
+				<p>
+					<label for="file1"><wicket:message key="lbl_file_1" /></label> <input id="input_file" type="file" wicket:id="file1" /> <span id="1"></span>
+				</p>
+				<p>
+					<a wicket:id="upload">[Upload]</a>
+				</p>
+
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

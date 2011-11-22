@@ -141,9 +141,7 @@ public class ImageUploadStep extends WizardStep {
                                     imageContainer.addOrReplace(this);
                                 }
                             }
-
                         });
-
                     }
                 };
 
@@ -209,7 +207,6 @@ public class ImageUploadStep extends WizardStep {
                 image.setSize(size);
                 image.setImageFileName(clientFileName);
                 imageRepository.save(image);
-
 
             } catch (Exception e) {
                 e.printStackTrace();

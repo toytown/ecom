@@ -16,8 +16,11 @@
 					<label for="city"><wicket:message key="lbl_city" />/&nbsp;<wicket:message key="lbl_zip" /></label> <input type="text" id="city" wicket:id="city" style="width: 175px; margin-right: 5px;" />&nbsp;&nbsp;
 					<input type="text" id="areaCode" wicket:id="areaCode" style="width: 40px;" />
 				</p>
-				<p>
-					<label for="title_image"><wicket:message key="lbl_title_image" /></label><img id="title_image" src="images/no_photo_icon.gif"/>
+				<p>					
+					<label for="title_image"><wicket:message key="lbl_title_image" /></label>
+					<div wicket:id="titleImageContainer"><img wicket:id="title_image" src="images/no_photo_icon.gif"/></div>
+
+					<a wicket:id="uploadTitleImage">Upload Title Image</a>
 				</p>
 			</div>
 
@@ -154,6 +157,7 @@
 					</p>
 
 			</div>
+								<div wicket:id="titleUploadFileModalWindow" >downloadFileModalWindow</div>
 			<!--  
 						<li><label for="categoryTypes"><wicket:message key="lbl_category_types" /></label> <select name="categoryTypes" id="categoryTypes" wicket:id="categoryTypes"></select></li>
 						<li><label for="heatingTypes"><wicket:message key="lbl_heating_types" /></label> <select name="heatingTypes" id="heatingTypes" wicket:id="heatingTypes"></select></li>
