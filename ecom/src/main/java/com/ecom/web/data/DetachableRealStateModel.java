@@ -17,15 +17,26 @@ public class DetachableRealStateModel extends LoadableDetachableModel<RealState>
 
 	private String realStateId;
 
-	public DetachableRealStateModel(String realStateId) {
+	public DetachableRealStateModel() {
 		super();
-		this.realStateId = realStateId;
 		Injector.get().inject(this);
+	}
+	
+	public DetachableRealStateModel(String realStateId) {
+		this();
+		this.realStateId = realStateId;
 	}
 
 	@Override
 	protected RealState load() {
+		if (this.realStateId == null) {
+			RealState realState = new RealState();
+			realState.setId(new ObjectId());
+			return realState;
+		}		
+		
 		return realStateRepository.findOne(new ObjectId(realStateId));
+
 	}
 
 }

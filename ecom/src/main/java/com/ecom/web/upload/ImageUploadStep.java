@@ -29,6 +29,7 @@ import org.bson.types.ObjectId;
 
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
+import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
 import com.ecom.web.components.image.StaticImage;
@@ -58,17 +59,16 @@ public class ImageUploadStep extends WizardStep {
     private FileUploadField file10;
 
     private File imageStoreDir;
-    private FileUploadForm imageUploadForm;
+    private FileUploadForm<RealState> imageUploadForm;
     private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 
-    public ImageUploadStep(IModel<String> title, IModel<String> summary, Object realStateId) {
+    public ImageUploadStep(IModel<String> title, IModel<String> summary, IModel<ObjectId> realStateIdModel) {
         super(title, summary);
         Injector.get().inject(this);
         imageStoreDir = appConfig.getImageStoreDir();
 
-        IModel<String> realStateIdModel = new Model<String>(realStateId.toString());
-
-        imageUploadForm = new FileUploadForm("uploadForm", realStateIdModel);
+        String realStateId = realStateIdModel.getObject().toString();
+        imageUploadForm = new FileUploadForm<RealState>("uploadForm", new Model<String>(realStateId));
         imageUploadForm.setMultiPart(true);
 
         IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
@@ -114,8 +114,8 @@ public class ImageUploadStep extends WizardStep {
 
                 saveUploadedFile(uploadedFilesList);
 
-                final ISortableDataProvider<RealStateImage> dataProvider = new RealStateImageDataProvider(imageUploadForm
-                        .getDefaultModelObjectAsString());
+                String realStateId = imageUploadForm.getDefaultModelObjectAsString();
+                final ISortableDataProvider<RealStateImage> dataProvider = new RealStateImageDataProvider(realStateId);
                 DataView<RealStateImage> imgListView = new DataView<RealStateImage>("imagesListView", dataProvider) {
 
                     private static final long serialVersionUID = 1L;

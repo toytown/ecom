@@ -24,11 +24,14 @@ import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateImageRepository;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.buttons.WepJsButton;
+import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.main.GenericTemplatePage;
 
 public class TitleImageUploadPage extends GenericTemplatePage {
 
-    private Form<String> titleImageUploadForm = null;
+	private static final long serialVersionUID = 1942366724719884862L;
+
+	private Form<ObjectId> titleImageUploadForm = null;
 
     @SpringBean
     private AppConfig appConfig;
@@ -43,28 +46,33 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
     private final FileUploadField uploadTitleField ;
     
-    public TitleImageUploadPage(final ModalWindow modalWindow, final IModel<String> realStateIdModel) {
-        titleImageUploadForm = new Form<String>("titleImageUploadForm", realStateIdModel);
+    public TitleImageUploadPage(final ModalWindow modalWindow, final IModel<ObjectId> realStateIdModel) {
+        titleImageUploadForm = new Form<ObjectId>("titleImageUploadForm", realStateIdModel);
         titleImageUploadForm.setMultiPart(true);
         uploadTitleField = new FileUploadField("file1");
         titleImageUploadForm.add(uploadTitleField);
         titleImageUploadForm.add(new WepJsButton("upload", "Upload") {
 
-            @Override
+			private static final long serialVersionUID = 1L;
+
+				@Override
             public void onSubmit() {
                 FileUpload uploadFile = uploadTitleField.getFileUpload();
                 
                 if (uploadFile != null) {
                     saveUploadedFile(uploadFile);
                     
-                    RealState realState = realStateRepository.findOne(new ObjectId(realStateIdModel.getObject()));
-                    
-                    if (realState ==  null) {
-                        realState = new RealState();
-                        realState.setId(new ObjectId(realStateIdModel.getObject()));
+                    ObjectId realStateId = titleImageUploadForm.getModelObject();
+                    RealState realState = new DetachableRealStateModel(realStateId.toString()).getObject();                    
+                    if (realState != null) {
+                  	  realState.setTitleImage(uploadFile.getClientFileName());
+                  	  realStateRepository.save(realState);
+                    } else {
+                  	  realState = new RealState();
+                  	  realState.setId(realStateId);
+                  	  realState.setTitleImage(uploadFile.getClientFileName());
+                  	  realStateRepository.save(realState);
                     }
-                    realState.setTitleImage(uploadFile.getClientFileName());
-                    realStateRepository.save(realState);
                 }
             }
         });
