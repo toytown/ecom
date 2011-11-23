@@ -2,6 +2,9 @@ package com.ecom.common.utils;
 
 import java.io.File;
 
+import org.springframework.stereotype.Component;
+
+@Component("appConfig")
 public class AppConfig {
 
 	private String imageRepository;

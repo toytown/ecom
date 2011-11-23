@@ -5,9 +5,10 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.StatelessForm;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -33,7 +34,8 @@ public class BasicInfoStep extends WizardStep {
 
 	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<ObjectId> realStateIdModel) {
 		super(wizard_title, summary);
-
+		Injector.get().inject(this);
+		
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
 
@@ -41,7 +43,7 @@ public class BasicInfoStep extends WizardStep {
 		realState.setId(realStateIdModel.getObject());
 		
 		CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
-		StatelessForm<RealState> realStateUploadInfoForm = new StatelessForm<RealState>("realStateAdvertForm", realStateModel) {
+		Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -180,5 +182,6 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(seniorAppartment);
 		add(realStateUploadInfoForm);
 	}
+
 
 }
