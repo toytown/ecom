@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import com.ecom.web.components.wizard.WizardComponent;
 import com.ecom.web.components.wizard.WizardModel;
 import com.ecom.web.main.GenericTemplatePage;
+import com.ecom.web.search.HomePage;
 
 public class AddRealStateInfoPage extends GenericTemplatePage {
 
@@ -22,8 +23,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
 
         @Override
         public void onFinish() {
-            WizardModel model = (WizardModel) this.getDefaultModel();
-            System.out.println(model.getActiveStep());
+            setResponsePage(HomePage.class);
         }
 
         @Override

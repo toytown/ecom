@@ -94,6 +94,17 @@ public class RealStateImageService implements ImageService {
                     realState.setTitleImage(uploadedFile.getClientFileName());
                     realStateRepository.save(realState);
                 }
+                
+                //creates a corresponding title image
+                createResizedImage(originalImage, newResizedFile, false);
+                RealStateImage image = new RealStateImage();
+                image.setId(new ObjectId());
+                image.setRealStateId(realStateId.toString());
+                image.setMimeType(mimeType);
+                image.setSize(size);
+                image.setImageFileName(clientFileName);
+                image.setTitleImage(true);
+                imageRepository.save(image);
             } else {
                 createResizedImage(originalImage, newResizedFile, false);
                 RealStateImage image = new RealStateImage();

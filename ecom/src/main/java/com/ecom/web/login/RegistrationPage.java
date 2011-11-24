@@ -1,21 +1,14 @@
 package com.ecom.web.login;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.ChoiceRenderer;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import com.ecom.domain.Category;
 import com.ecom.domain.User;
 import com.ecom.repository.UserRepository;
 import com.ecom.web.main.GenericTemplatePage;
@@ -50,6 +43,7 @@ public class RegistrationPage extends GenericTemplatePage {
 
 		};
 
+		/*
 		TextField<String> titleText = new TextField<String>("title");
 		userRegistrationForm.add(titleText);
 
@@ -61,13 +55,18 @@ public class RegistrationPage extends GenericTemplatePage {
 
 		TextField<String> companyNameText = new TextField<String>("companyName");
 		userRegistrationForm.add(companyNameText);
-
+        */
+		
 		TextField<String> userNameText = new TextField<String>("userName");
 		userRegistrationForm.add(userNameText);
 
 		PasswordTextField passwordText = new PasswordTextField("password");
 		userRegistrationForm.add(passwordText);
 
+        PasswordTextField passwordText2 = new PasswordTextField("password2");
+        userRegistrationForm.add(passwordText2);
+
+        /*
 		IModel<List<Category>> loadableCategories = new LoadableDetachableModel<List<Category>>() {
 			private static final long serialVersionUID = 7538634096362947517L;
 
@@ -111,7 +110,8 @@ public class RegistrationPage extends GenericTemplatePage {
 
 		TextField<String> homePageURLText = new TextField<String>("homePageURL");
 		userRegistrationForm.add(homePageURLText);
-
+		*/
+		
 		userRegistrationForm.add(new Button("register"));
 
 		add(userRegistrationForm);

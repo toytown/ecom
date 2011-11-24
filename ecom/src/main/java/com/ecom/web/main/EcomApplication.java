@@ -80,7 +80,20 @@ public class EcomApplication extends WebApplication {
 
 					throw new RestartResponseAtInterceptPageException(LoginPage.class);
 				}
+                if (AddRealStateInfoPage.class.isAssignableFrom(componentClass)) {
+                    // Is user signed in?
+                    if (((EcomSession) Session.get()).isSignedIn()) {
+                        // okay to proceed
+                        return true;
+                    }
 
+                    // Intercept the request, but remember the target for later.
+                    // Invoke Component.continueToOriginalDestination() after
+                    // successful logon to
+                    // continue with the target remembered.
+
+                    throw new RestartResponseAtInterceptPageException(LoginPage.class);
+                }
 				// okay to proceed
 				return true;
 			}

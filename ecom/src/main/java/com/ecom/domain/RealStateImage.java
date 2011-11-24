@@ -28,6 +28,8 @@ public class RealStateImage implements Serializable {
 	
 	private String realStateId;
 	
+	private boolean isTitleImage;
+	
 	public ObjectId getId() {
 		return id;
 	}
@@ -95,4 +97,12 @@ public class RealStateImage implements Serializable {
 	public String getImageURL() {
 		return "http://localhost/image-repository/" + getRealStateId() + "/" + getImageFileName();
 	}
+
+    public boolean isTitleImage() {
+        return isTitleImage;
+    }
+
+    public void setTitleImage(boolean isTitleImage) {
+        this.isTitleImage = isTitleImage;
+    }
 }

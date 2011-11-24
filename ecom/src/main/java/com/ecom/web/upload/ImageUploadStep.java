@@ -108,19 +108,21 @@ public class ImageUploadStep extends WizardStep {
                     protected void populateItem(Item<RealStateImage> item) {
                         RealStateImage img = item.getModel().getObject();
 
-                        item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
-                        item.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
-
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClick() {
-                                String imgId = this.getDefaultModelObjectAsString();
-                                imageService.deleteImage(new ObjectId(imgId), false);
-                                this.setVisible(false);
-                                imageContainer.addOrReplace(this);
-                            }
-                        });
+                        if (!img.isTitleImage()) {
+                            item.add(new StaticImage("img", new Model<String>(img.getImageURL())));
+                            item.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
+                                
+                                private static final long serialVersionUID = 1L;
+                                
+                                @Override
+                                public void onClick() {
+                                    String imgId = this.getDefaultModelObjectAsString();
+                                    imageService.deleteImage(new ObjectId(imgId), false);
+                                    this.setVisible(false);
+                                    imageContainer.addOrReplace(this);
+                                }
+                            });
+                        }
                     }
                 };
 

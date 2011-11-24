@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
@@ -41,6 +42,9 @@ public class User implements Serializable {
 
 	private String password;
 
+	@Transient
+	private String password2;
+	   
 	private int status;
 
 	private String activationCode;
@@ -284,4 +288,12 @@ public class User implements Serializable {
 	public static List<Category> getCategories() {
 		return Category.categories;		
 	}
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
 }

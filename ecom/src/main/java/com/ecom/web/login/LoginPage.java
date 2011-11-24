@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 
@@ -15,6 +16,8 @@ public class LoginPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 6391262326443881229L;
 
+
+	
 	public LoginPage() {
 		super();
 
@@ -25,6 +28,21 @@ public class LoginPage extends GenericTemplatePage {
 		PasswordTextField password = new PasswordTextField("password");
 		loginForm.add(userName);
 		loginForm.add(password);
+		
+		BookmarkablePageLink<Void> newRegistrationLink = new BookmarkablePageLink<Void>("isNewRegistraion", RegistrationPage.class);
+		loginForm.add(newRegistrationLink);
+		
+//		CheckBox newRegistration = new CheckBox("isNewRegistraion");
+//		newRegistration.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+//
+//            @Override
+//            protected void onUpdate(AjaxRequestTarget target) {
+//               setResponsePage(RegistrationPage.class);
+//                
+//            }
+//		    
+//		});
+		//loginForm.add(newRegistration);
 		
 		EcomSession session = (EcomSession) Session.get();
 		
@@ -61,5 +79,6 @@ public class LoginPage extends GenericTemplatePage {
 		add(new FeedbackPanel("feedback"));
 		add(loginForm);
 	}
+
 
 }
