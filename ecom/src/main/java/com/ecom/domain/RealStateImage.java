@@ -2,18 +2,12 @@ package com.ecom.domain;
 
 import java.io.Serializable;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "images")
 public class RealStateImage implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private ObjectId id;
-
+	private String id;
+	
 	private String imageFileName;
 	
 	private long size;
@@ -30,11 +24,12 @@ public class RealStateImage implements Serializable {
 	
 	private boolean isTitleImage;
 	
-	public ObjectId getId() {
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -6,7 +6,9 @@ import com.ecom.web.components.wizard.WizardStep;
 
 public class SelectOfferStep extends WizardStep {
 
-    public SelectOfferStep(IModel<String> title, IModel<String> summary) {
+	private static final long serialVersionUID = 1L;
+
+	public SelectOfferStep(IModel<String> title, IModel<String> summary) {
         super(title, summary);
 
     }

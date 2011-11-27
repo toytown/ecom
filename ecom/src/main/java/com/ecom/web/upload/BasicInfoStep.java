@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -52,6 +51,7 @@ public class BasicInfoStep extends WizardStep {
 			@Override
 			public final void onSubmit() {
 
+				System.out.println("Saved object ..." + this.getModelObject().getId());
 				realStateRepository.save(this.getModelObject());
 			}
 		};
@@ -81,15 +81,9 @@ public class BasicInfoStep extends WizardStep {
 
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject().toString()).getObject();
+				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
 				String titleImgageURL = realState.getTitleImageLocation("");
-				titleImageContainer.addOrReplace(new Link<Void>("delete_title_img") {
-                    @Override
-                    public void onClick() {
-                        
-                    }
-				    
-				});
+
 				titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(titleImgageURL)));
 				target.add(titleImageContainer);
 				return true;

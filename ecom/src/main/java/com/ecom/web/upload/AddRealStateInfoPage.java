@@ -39,6 +39,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
         IModel<ObjectId> realStateObjId = new Model<ObjectId>(new ObjectId());
         wizardModel.add(new BasicInfoStep(new Model<String>("Step ...1"), null, realStateObjId));
         wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images"), null, realStateObjId));
+        wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateObjId));
         UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true);
 
         add(wizard);

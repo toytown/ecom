@@ -1,0 +1,125 @@
+<wicket:panel>
+
+	<div id="main_container">
+
+		<div id="liquid-round">
+
+			<div class="top">
+				<span>&nbsp;</span>
+			</div>
+
+			<div class="center-content">
+
+				<h4>
+					<div class="big_title" wicket:id="title" />
+				</h4>
+
+				<img style="padding-bottom: 2px; margin-right: 3px; vertical-align: middle" src="images/buttons/iconMapPin.png" /> <span wicket:id="address" />
+
+				<div>
+					<div class="main_info_first_col">
+
+						<div>
+							<div wicket:id="imageGallery" style="margin-right: 5px;">Image Gallery</div>
+							<div wicket:id="toolsPanel">Tools Panel</div>
+							<div style="clear: both;"></div>
+							
+							<div class="detail_header"><wicket:message key="lbl_offerer" /></div>
+							
+							<div style="margin: 10px 0 5px 0; width: auto;">
+								<p>Frau Sonja Beck</p>
+								<p>Test Immobilien</p>
+								<p>Phone :</p>
+								<p>Mobile :</p>
+							</div>
+						
+							<div class="detail_header" style="margin-top: 25px;">
+								<wicket:message key="lbl_description" />
+							</div>
+							<p>
+								<span wicket:id="description" />
+							</p>
+							<div class="detail_header">
+								<wicket:message key="lbl_fittings" />
+							</div>
+							<p>
+								<span wicket:id="fittings" />
+							</p>
+							<div class="detail_header">
+								<wicket:message key="lbl_area_desc" />
+							</div>
+							<p>
+								<span wicket:id="areaDescription" />
+							</p>
+							<div class="detail_header">
+								<wicket:message key="lbl_other_info" />
+							</div>
+							<p>
+								<span wicket:id="otherInformation" />
+								<span wicket:id="condition" />
+							</p>
+
+						</div>
+					</div>
+					<div class="main_info_second_col">
+						<div class="main_info_box">
+							<div class="main_info_box_header">Kosten</div>
+							<ul>
+								<li><label><wicket:message key="lbl_rent" /></label> <span wicket:id="cost" /></li>
+								<li><label><wicket:message key="lbl_other_cost" /></label> <span wicket:id="additionalCost" /></li>
+								<li><label><wicket:message key="lbl_heating_Cost" /></label> <img wicket:id="heatingCostIncluded" /></li>
+								<li><label><wicket:message key="lbl_deposit" /></label> <span wicket:id="depositPeriod" /></li>
+								<li><label><wicket:message key="lbl_garage_cost" /></label> <span wicket:id="garageCost" /></li>
+								<li><label><wicket:message key="lbl_provision" /></label><img wicket:id="provisionFree" />&nbsp;<span wicket:id="provisionCondition" /></li>
+							</ul>
+						</div>
+						<div class="main_info_box">
+							<div class="main_info_box_header">Haupt Info</div>
+							<ul>
+								<li><label><wicket:message key="lbl_built_year" /></label> <span wicket:id="builtYear" /></li>
+								<li><label><wicket:message key="lbl_total_rooms" /></label> <label><span wicket:id="totalRooms" /></label></li>
+								<li><label><wicket:message key="lbl_bath_rooms" /></label> <label><span wicket:id="bedRooms" />&nbsp;(<span wicket:id="bathRooms" />)</label></li>
+								<li><label><wicket:message key="lbl_size" /></label> <label><span wicket:id="size" /></label></li>
+								<li><label><wicket:message key="lbl_available_from" /></label> <label><span wicket:id="availableFrom" /></label></li>
+								<li><label><wicket:message key="lbl_floor" /></label> <label><span wicket:id="floor" />&nbsp;(<span wicket:id="totalFloors" />)</label></li>
+								<li><label><wicket:message key="lbl_last_renovated" /></label> <label><span wicket:id="lastRenovatedYear" /></label></li>
+							</ul>
+						</div>
+
+						<div class="main_info_box">
+							<div class="main_info_box_header">Other Info</div>
+							<ul>
+								<li><label><span wicket:id="label1" /></label><img src="#" wicket:id="img1"></li>
+								<li><label><span wicket:id="label2" /></label><img src="#" wicket:id="img2"></li>
+								<li><label><span wicket:id="label3" /></label><img src="#" wicket:id="img3"></li>
+								<li><label><span wicket:id="label4" /></label><img src="#" wicket:id="img4"></li>
+								<li><label><span wicket:id="label5" /></label><img src="#" wicket:id="img5"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div style="clear: both;"></div>
+
+			</div>
+
+			<div class="bottom">
+				<span></span>
+			</div>
+
+			<!-- end of column three -->
+
+
+
+		</div>
+		<!-- end of main_content -->
+
+
+
+
+
+
+	</div>
+	<!-- end of main_container -->
+
+</wicket:panel>

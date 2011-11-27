@@ -20,7 +20,7 @@ public class OkCancelComponent extends WebComponent {
 		
        super.onComponentTag(tag);
        checkComponentTag(tag, "img");
-       if (yesNoValue.booleanValue() == true) {
+       if (yesNoValue != null && yesNoValue.booleanValue() == true) {
       	 tag.put("src", "images/buttons/ok_16x16_mini.png");
 
        } else {

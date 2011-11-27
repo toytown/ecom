@@ -7,5 +7,5 @@ public interface ImageService {
 
 	public void saveUploadedImageFile(FileUpload uploadedFile, ObjectId realStateId, boolean isTitleImage);
 	
-	public void deleteImage(ObjectId id, boolean isTitleImage);
+	public void deleteImage(ObjectId realStateId, ObjectId realStateImageId);
 }

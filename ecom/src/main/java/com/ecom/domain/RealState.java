@@ -3,7 +3,9 @@ package com.ecom.domain;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
@@ -115,8 +117,8 @@ public class RealState implements Serializable {
 
 	private Date updatedTs;
 
-	private String titleImage;
-
+	private List<RealStateImage> images = new ArrayList<RealStateImage>();
+	
 	@Transient
 	private String addressInfo;
 	
@@ -502,13 +504,21 @@ public class RealState implements Serializable {
 	}
 
 	public String getTitleImage() {
-		return titleImage;
+		
+		String value = "";
+		for (RealStateImage img : this.getImages()) {
+			
+			if (img.isTitleImage()) {
+				value = img.getImageFileName();
+				break;
+			}
+		}
+		
+		return value;
 	}
 
-	public void setTitleImage(String titleImage) {
-		this.titleImage = titleImage;
-	}
 
+	
 	public String getTitleImageLocation(String imageRepository) {
 		try {
 			URL url =  new URL("http://localhost/image-repository" + "/" + getId() + "/" + getTitleImage());
@@ -548,4 +558,23 @@ public class RealState implements Serializable {
     public void setActivationDate(Date activationDate) {
         this.activationDate = activationDate;
     }
+
+	public List<RealStateImage> getImages() {
+		return images;
+	}
+
+	public void setImages(List<RealStateImage> images) {
+		this.images = images;
+	}
+	
+	public List<RealStateImage> getGalleryImages() {
+		List<RealStateImage> galleryImages = new ArrayList<RealStateImage>();
+		for (RealStateImage galleryImage : this.images) {
+			if (!galleryImage.isTitleImage()) {
+				galleryImages.add(galleryImage);
+			}
+		}
+		
+		return galleryImages;
+	}
 }

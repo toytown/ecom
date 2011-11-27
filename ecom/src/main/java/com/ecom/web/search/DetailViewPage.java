@@ -9,12 +9,10 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.bson.types.ObjectId;
 
-import com.ecom.domain.QRealStateImage;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
-import com.ecom.repository.RealStateImageRepository;
 import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.components.image.OkCancelComponent;
 import com.ecom.web.data.DetachableRealStateModel;
@@ -25,20 +23,18 @@ public class DetailViewPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 8694888856825299786L;
 
-	@SpringBean
-	private RealStateImageRepository imageRepository;
-	
+
 	
 	public DetailViewPage(PageParameters params) {
 		String appartmentId = params.get("appartment-id").toString();
-		IModel<RealState> realState = new DetachableRealStateModel(appartmentId);
+		IModel<RealState> realState = new DetachableRealStateModel(new ObjectId(appartmentId));
 		setStatelessHint(true);
 
 		final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		setDefaultModel(realStateModel);
 
 		
-		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(appartmentId));
+		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realState.getObject()));
 		add(imageNavigationPanel);
 		add(new ToolsPanel("toolsPanel"));
 		add(new MultiLineLabel("title",  realStateModel.bind("title")));
@@ -146,18 +142,15 @@ public class DetailViewPage extends GenericTemplatePage {
         }        
 	}
 	
-	private List<String> getImageURList(String appartmentId) {
+	private List<String> getImageURList(RealState realState) {
+		List<RealStateImage> images = realState.getImages();
+		List<String> urls = new ArrayList<String>();
 		
-		QRealStateImage images = new QRealStateImage("realStateImage");
-		Iterable<RealStateImage> imageList = imageRepository.findAll(images.realStateId.eq(appartmentId));
-		
-		List<String> imageUrlList = new ArrayList<String>();
-		
-		for (RealStateImage img : imageList) {
-		    img.setRealStateId(appartmentId);
-			imageUrlList.add(img.getImageURL());
+		for (RealStateImage realStateImg : images) {
+			urls.add(realStateImg.getImageURL());
+
 		}
 		
-		return imageUrlList;
+		return urls;
 	}
 }

@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ecom.domain.RealState;
-import com.ecom.domain.RealStateImage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:applicationContext.xml" })
@@ -23,8 +22,7 @@ public abstract class AbstractIntegrationTest {
     static final String COLLECTION = "realstate";
 
     protected List<RealState> realStates = new ArrayList<RealState>();
-    
-    protected List<RealStateImage> images = new ArrayList<RealStateImage>();
+
     
     @Autowired
     MongoTemplate mongoTemplate;	

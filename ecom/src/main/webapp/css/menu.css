@@ -1,0 +1,59 @@
+#navigation ul {
+	margin: 0;
+	padding: 0;
+	background-color: #eee;
+	height: 2em;
+	#border-bottom:        1px solid #888;
+}
+
+#navigation li {
+	float: left;
+	list-style-type: none;
+	#border-right:         1px solid #888;
+}
+
+#navigation a {
+	float: left;
+	margin: 0;
+	margin-right:5px;
+	background-repeat: no-repeat;
+	background-position: 5px 50%;
+	text-decoration: none;
+	color: #424849;
+
+}
+
+
+#navigation a:hover, a:focus {
+	text-decoration: none;
+
+	font-weight: bold;
+
+}
+
+#navigation .inner {
+	padding: 0 .4em 0 26px; /* Adjust based on the width of icon + 10px */
+	display: inline;
+	line-height: 2em;
+	vertical-align: middle;
+}
+
+#navigation .contacts {
+	background-image: url(../images/usericons/user_icon&16.png)
+}
+
+#navigation .activities {
+	background-image: url(../images/usericons/list_bullets_icon&16.png)
+}
+
+#navigation .reports {
+	background-image: url(../images/usericons/notepad_2_icon&16.png)
+}
+
+#navigation .utilities {
+	background-image: url(../images/usericons/push_pin_icon&16.png)
+}
+
+#navigation a:hover {
+	background-color: #fff;
+}

@@ -25,6 +25,11 @@ public class ImageNavigationPanel extends Panel {
 
 	}
 
+	public ImageNavigationPanel(String id, IModel<List<String>> imagesUrlsModel) {
+		super(id, imagesUrlsModel);
+
+	}
+	
 	private static final long serialVersionUID = 1L;
 
 	@Override

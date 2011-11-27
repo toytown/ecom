@@ -15,14 +15,14 @@ public class DetachableRealStateModel extends LoadableDetachableModel<RealState>
 	@SpringBean
 	private RealStateRepository realStateRepository;
 
-	private String realStateId;
+	private ObjectId realStateId;
 
 	public DetachableRealStateModel() {
 		super();
 		Injector.get().inject(this);
 	}
 	
-	public DetachableRealStateModel(String realStateId) {
+	public DetachableRealStateModel(ObjectId realStateId) {
 		this();
 		this.realStateId = realStateId;
 	}
@@ -35,7 +35,7 @@ public class DetachableRealStateModel extends LoadableDetachableModel<RealState>
 			return realState;
 		}		
 		
-		return realStateRepository.findOne(new ObjectId(realStateId));
+		return realStateRepository.findOne(realStateId);
 
 	}
 
