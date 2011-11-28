@@ -16,11 +16,13 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.StringValidator;
 import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.image.StaticImage;
+import com.ecom.web.components.validation.ValidationErrorLabel;
 import com.ecom.web.components.wizard.WizardStep;
 import com.ecom.web.data.DetachableRealStateModel;
 
@@ -50,15 +52,13 @@ public class BasicInfoStep extends WizardStep {
 
 			@Override
 			public final void onSubmit() {
-
-				System.out.println("Saved object ..." + this.getModelObject().getId());
 				realStateRepository.save(this.getModelObject());
 			}
 		};
 
 		titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
 		realStateUploadInfoForm.add(titleImageContainer);
-
+		
 		final ModalWindow modalWindow;
 		modalWindow = new ModalWindow("titleUploadFileModalWindow");
 		modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
@@ -102,11 +102,24 @@ public class BasicInfoStep extends WizardStep {
 
 		realStateUploadInfoForm.add(modalWindow);
 		TextArea<String> title = new TextArea<String>("title");
+		title.setRequired(true);
+		title.add(StringValidator.maximumLength(150));
+		realStateUploadInfoForm.add(new ValidationErrorLabel<String>("title.error", title, "asdfhsafkjhsafhsalk"));
+		
 		TextArea<String> description = new TextArea<String>("description");
+		description.setRequired(true);
+		description.add(StringValidator.maximumLength(600));
+		
 		TextArea<String> areaDescription = new TextArea<String>("areaDescription");
+		
 		TextArea<String> fittings = new TextArea<String>("fittings");
+		
 		TextField<String> city = new TextField<String>("city");
+		city.setRequired(true);
+		
 		TextField<String> areaCode = new TextField<String>("areaCode");
+		areaCode.setRequired(true);
+		
 		TextField<String> street = new TextField<String>("street");
 		TextField<String> houseNo = new TextField<String>("houseNo");
 		TextField<Double> size = new TextField<Double>("size");

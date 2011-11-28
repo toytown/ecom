@@ -1,0 +1,189 @@
+/* WIRECARD AG */
+/* -----------------------------------------------------
+[Forms Stylesheet]
+Project:		Wirecard Enterprise Portal
+Version:		1.0
+Last Change:	01.10.2008
+----------------------------------------------------- */
+
+.first_column, .second_column {
+	float: left;
+	width: 440px;
+	margin-left: 3px;
+} * html
+.first_column, .second_column {
+    display: inline;
+}
+.second_column {
+	margin-left: 20px;
+}
+/* Search Form */
+.search_form {
+	background-color: #E2ECF6;
+	width: 440px;
+}
+	.search_form p {
+	    border-top: 1px solid #FFFFFF;
+	    margin: 0;
+	    padding: 2px 0 3px 0;
+	    height: 23px;
+	    clear: both;
+	}
+		.search_form p.grouped {
+		    border-bottom: none;
+		}
+		.search_form p.end {
+		    border-bottom: none;
+		    margin-bottom: 3px;
+		}
+	.search_form h2 {
+		padding-left: 12px;
+	}
+	.search_form span.headline {
+		font-size: 12px;
+		color: #666;
+		font-weight: bold;
+		padding: 0 0 0 10px;
+		margin-top: 8px;
+	}
+	.search_form span.text {
+		font-size: 12px;
+		margin-top: 4px;
+		color: #333;
+		float: left;
+	}
+	.search_form textarea{   
+		float: left;
+	    margin-top: 3px;
+	    margin-bottom: 3px;
+	    margin-right: 4px;
+	    padding: 1px 2px;
+	    width: 229px;
+	}
+	/* Labels */
+	.search_form label {
+	    line-height: 15px;
+		padding: 4px 10px 0 10px;
+		display: block;
+	    float: left;
+	    color: #666666;
+		width: 160px;
+	}
+		.search_form label.radio, .search_form label.checkbox {
+		    float: left;
+		    width: 300px;
+		}
+		.search_form label.date_one_field {
+		    float: left;
+		    width: 35px;
+		    padding-left: 80px;
+		}
+		.search_form label.date_two_fields {
+		    float: left;
+		    width: 35px;
+		    padding-left: 26px;
+		}
+		.search_form label.month {
+		    float: left;
+		    width: 35px;
+		    padding-left: 80px;
+		}
+	/* Selects */
+	.search_form select {
+		line-height: 15px;
+		margin: 1px 4px 3px 0;
+		width:232px;
+		height:22px;
+		float: left;
+		padding: 1px 2px;
+		z-index: 1;
+	}
+		.search_form select.month, select.year, select.amount {
+		    padding: 0;
+		    margin-right: 6px;
+		}
+		.search_form select.month, select.year {
+		    margin-left: 10px;
+		}
+		.search_form select.month {
+		    width: 45px;
+		}
+		.search_form select.year {
+		    width: 60px;
+		}
+		.search_form select.amount {
+		    width: 115px;
+		}
+		.search_form select.status {
+		    width: 100px;
+		}
+		.search_form select.with-help {
+		    width: 180px;
+		}
+	.search_form .multipleSelect{
+	    height: 62px;
+	    width: 235px;
+	}
+		.search_form .multipleSelect optgroup{
+		    font-weight: normal;
+		}
+		.search_form .multipleSelect optgroup option{
+		    margin-left: 8px;
+		}
+	/* Inputs */
+	.search_form input {
+		line-height: 15px;
+		padding: 2px 2px 0 2px;
+	    height: 17px;
+		float: left;
+	    margin: 1px 4px 3px 0;
+		width: 225px;
+	}
+		.search_form input.date {
+		    width: 75px;
+		}
+		.search_form input.time {
+		    width: 40px;
+		}
+		.search_form input.amount {
+		    width: 44px;
+		}
+		.search_form input.plus_help {
+			width: 160px;
+		}
+		.search_form input.merchantaccount {
+			width: 195px !important;
+		}
+	/* Checkboxes */
+	.search_form .checkbox {
+	    height: 19px;
+	    width: 19px;
+	    margin: 4px 10px 0 10px;
+	    padding: 0;
+	}
+	/* Miscellaneous */
+	.search_form .disabled {
+	    background-color: transparent;
+	    color: #000000;
+	}
+	.search_form img.help-link {
+			cursor: pointer;    
+			float: left;
+		    margin-top: 4px;
+		    border: 0;
+	}
+	.search_form img.merchantaccountbutton {
+	    cursor: pointer;
+	    vertical-align: text-bottom;
+	    padding-right: 3px;
+	    margin: 5px 0 0 4px;
+	}
+	.search_form .datepicker {
+	    float: left;
+	    margin-top: 2px;
+	    margin-right: 6px;
+	}
+	.search_form .small_button {
+		float: right;
+		margin-right: 24px;
+	}

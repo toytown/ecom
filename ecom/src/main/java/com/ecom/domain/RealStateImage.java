@@ -24,7 +24,8 @@ public class RealStateImage implements Serializable {
 	
 	private boolean isTitleImage;
 	
-
+	private boolean isThumbNail;
+	
 	public String getId() {
 		return id;
 	}
@@ -99,5 +100,13 @@ public class RealStateImage implements Serializable {
 
     public void setTitleImage(boolean isTitleImage) {
         this.isTitleImage = isTitleImage;
+    }
+
+    public boolean isThumbNail() {
+        return isThumbNail;
+    }
+
+    public void setThumbNail(boolean isThumbNail) {
+        this.isThumbNail = isThumbNail;
     }
 }
