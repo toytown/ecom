@@ -10,18 +10,16 @@
 <link rel="stylesheet" type="text/css" href="css/forms.css" />
 <link rel="stylesheet" type="text/css" href="css/menu.css" />
 <link rel="stylesheet" type="text/css" href="css/messages.css" />
-<script src="js/jquery.corner.js" type="text/javascript"></script>
-<script src="js/jquery.bubble.js" type="text/javascript"></script>
-<script src="js/custom.bubbles.js" type="text/javascript"></script>
+
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
+		
 <script type="text/javascript">
 
 		$(function(){
-			showErrors();
-			highlightErrors();
 			$(":file").change(addSelectedValue);			
-			$(":img").click(removeSelectedValue);			
+			$(":img").click(removeSelectedValue);	
+		
 		});
 
 		function addSelectedValue() {

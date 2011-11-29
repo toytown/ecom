@@ -451,9 +451,3 @@ div.first_column,.second_column {
 div.second_column {
 	margin-left: 20px;
 }
-
-/* Input Field for combined usage with Error Message */
-input.error {
-	border: 2px solid #e30f0e;
-	background-color: #ffebec;
-}

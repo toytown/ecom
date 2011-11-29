@@ -101,7 +101,7 @@ public class ValidationErrorLabel<T> extends Label {
     @Override
     public void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
         if ((component != null && component.getFeedbackMessage() != null) || text != null) {
-            final AppendingStringBuffer buffer = new AppendingStringBuffer("<div class=\"bubble error\"><p>" + getDefaultModelObjectAsString() + "</p></div>");
+            final AppendingStringBuffer buffer = new AppendingStringBuffer("<div style=\"text-style:bold; color:red;\"><p>" + getDefaultModelObjectAsString() + "</p></div>");
             replaceComponentTagBody(markupStream, openTag, buffer);
         }
     }

@@ -1,72 +1,32 @@
-div.bubble {
-	width: 90%;
-	padding: 3px 0 3px 0;
-	color: #fff;
-	display: none;
-	margin: 0 auto;
-}
-div.bubble-top {
-	width: 400px;
-	padding: 3px 0 3px 0;
-	color: #fff;
-	display: none;
-	margin: 0;
-}
-div.bubble h2, div.bubble-top h2, p {
-	margin: 5px 10px;
-	color: #fff;
-	padding: 0px;
-}
-div.error, div.error p {
-	background-color: #e30f0e;
-	color: #fff;
-}
-div.warning, div.warning p {
-    background-color: #ff8c00;
-    color: #fff;
-}
-div.error p {
-	border-top: 0;
-	margin-left: 10px;
-	max-height: 400px;
-    overflow: auto;
-}
-div.warning p {
-    border-top: 0;
-    margin-left: 10px;
-}
-div.failure, div.failure p {
-	background-color: #e30f0e;
-	color: #fff;
-}
-div.success, div.success p {
-	background-color: #79b00c;
-	color: #fff;
-}
-div.info {
-	background-color: #c6dbee;
-}
-div.info p {
-	border-top: 0;
-    margin-left: 10px;
-}
-div.help {
-	background-color: #feff99;
-}
-div.help p {
-	border-top: 0;
-	margin-left: 10px;
-}
-div.help img.close {
-	float:right;
-	margin: 3px 5px 0 0;
-	cursor: pointer;
-}
-div.grey h2, p {
-	color: #333;
+.feedbackPanelERROR {
+    color: red;
+    list-style: circle;
+    font-weight: bold;
 }
 
-input.error {
-	border: 2px solid #e30f0e;
-	background-color: #ffebec;
+.feedbackPanelINFO {
+    color: green;
+    list-style: circle;
+    font-weight: bold;
+}
+.feedbacklabel {
+    font-weight: bold;
+    color: red;
+}
+
+.feedbacklabel.info {
+    color: green;
+}
+
+.feedbacklabel.error {
+    color: red;
+}
+
+.formcomponent.invalid {
+    border: 2px solid red;
+    color: red;
+}
+
+.formcomponent.valid {
+    color: #333333;
 }

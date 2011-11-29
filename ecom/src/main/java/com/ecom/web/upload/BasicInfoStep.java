@@ -1,5 +1,6 @@
 package com.ecom.web.upload;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -12,6 +13,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -22,7 +24,7 @@ import org.bson.types.ObjectId;
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.image.StaticImage;
-import com.ecom.web.components.validation.ValidationErrorLabel;
+import com.ecom.web.components.validation.FeedbackLabel;
 import com.ecom.web.components.wizard.WizardStep;
 import com.ecom.web.data.DetachableRealStateModel;
 
@@ -55,7 +57,8 @@ public class BasicInfoStep extends WizardStep {
 				realStateRepository.save(this.getModelObject());
 			}
 		};
-
+		realStateUploadInfoForm.setOutputMarkupId(true);
+		
 		titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
 		realStateUploadInfoForm.add(titleImageContainer);
 		
@@ -101,10 +104,28 @@ public class BasicInfoStep extends WizardStep {
 		});
 
 		realStateUploadInfoForm.add(modalWindow);
-		TextArea<String> title = new TextArea<String>("title");
+		final TextArea<String> title = new TextArea<String>("title");
 		title.setRequired(true);
 		title.add(StringValidator.maximumLength(150));
-		realStateUploadInfoForm.add(new ValidationErrorLabel<String>("title.error", title, "asdfhsafkjhsafhsalk"));
+		title.setOutputMarkupId(true);
+		//realStateUploadInfoForm.add(new ValidationErrorLabel<String>("title.error", title));
+		
+        final FeedbackLabel nameFeedbackLabel = new FeedbackLabel("title.error", title);
+        nameFeedbackLabel.setOutputMarkupId(true);
+        realStateUploadInfoForm.add(nameFeedbackLabel);
+
+		title.add(new AttributeModifier("class", new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+                if (!title.isValid()) {
+                    return "formcomponent invalid";
+                } else {
+                    return "formcomponent valid";
+                }
+                
+            }
+        }));
 		
 		TextArea<String> description = new TextArea<String>("description");
 		description.setRequired(true);

@@ -4,7 +4,7 @@
       height: 14,
       margin: 60
     }, options);
-    var isTop       = /top/.test((type||'').toLowerCase());
+    var isTop       = true;
     var marginTypeY = isTop ? 'margin-top' : 'margin-bottom';
     var sign        = isTop ? 1 : -1;
     
