@@ -570,7 +570,7 @@ public class RealState implements Serializable {
 	public List<RealStateImage> getGalleryImages() {
 		List<RealStateImage> galleryImages = new ArrayList<RealStateImage>();
 		for (RealStateImage galleryImage : this.images) {
-			if (!galleryImage.isTitleImage()) {
+			if (!galleryImage.isThumbNail()) {
 				galleryImages.add(galleryImage);
 			}
 		}

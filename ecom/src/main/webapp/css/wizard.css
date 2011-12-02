@@ -1,8 +1,8 @@
 /* ------------------ Wizard ---------------------------------*/
 div.step_active {
-	background: transparent url(../images/buttons/step_current.gif) no-repeat;
-	width: 23px;
-	height: 30px;
+	background: transparent url(../images/wizard/step_active.png) no-repeat;
+	width: 120px;
+	height: 80px;
 	float: left;
 	color: #fff;
 	font-size: 12px;
@@ -18,8 +18,8 @@ div.step_active a {
 
 div.step_grey {
 	background: #e8e8e8;
-	width: 23px;
-	height: 23px;
+	width: 120px;
+	height: 80px;
 	float: left;
 	font-size: 12px;
 	line-height: 23px;

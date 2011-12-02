@@ -91,43 +91,44 @@
 				<div class="pagination" style="width: 480px;" wicket:id="pagingNavigator"></div>
 				<div style="clear: both;"></div>
 
-				<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
+								<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
 					<li wicket:id="searchResultsView">
 						<div class="offer_box_new">
-							<wicket:link>
-								<a wicket:id="detailImageLink" class="linkopacity"><img class="img_left" wicket:id="title_image" /></a>
-							</wicket:link>
 							<div class="offer_box_title">
 								<wicket:link>
 									<a wicket:id="detailTitleLink"><span wicket:id="title" /></a>
 								</wicket:link>
 							</div>
-							<div class="offer_box_info" style="width: 150px;">
-								<ul>
-									<li><label style="font-weight: bold;"><wicket:message key="lbl_price" /><span wicket:id="price" /></label></li>
-									<li><label><wicket:message key="lbl_size" /><span wicket:id="size" /></label></li>
-									<li><label><wicket:message key="lbl_rooms" /><span wicket:id="rooms" /></label></li>
-								</ul>
-							</div>
-
-							<div class="offer_box_info_right" style="width: 120px;">
-								<ul>
-									<li><span wicket:id="label1" /></li>
-									<li><span wicket:id="label2" /></li>
-									<li><span wicket:id="label3" /></li>
-								</ul>
-							</div>
-							<div class="offer_box_info" style="width: 90px;">
-								<div class="buttons" style="float: right; width: 80px;">
-									<a href="" class="regular"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Merken
-									</a>
-								</div>
-							</div>
-
-
-							<div class="offer_box_info" style="width: 380px; float: left; margin-top: 2px; padding-top: 2px;">
+							<wicket:link>
+								<a wicket:id="detailImageLink" class="linkopacity"><img class="img_left" wicket:id="title_image" /></a>
+							</wicket:link>
+							<div class="offer_box_info" style="margin-top: 2px; padding-top: 2px;">
 								<span wicket:id="address" />
 							</div>
+							<div class="offer_box_info label_right" style="width: 150px;margin-top: 10px;">
+								<ul>
+									<li><label style="font-weight: bold;"><wicket:message key="lbl_price" /></label><span wicket:id="price" /></li>
+									<li><label><wicket:message key="lbl_size" /></label><span wicket:id="size" /></li>
+									<li><label><wicket:message key="lbl_rooms" /></label><span wicket:id="rooms" /></li>
+								</ul>
+							</div>
+
+							<div class="offer_box_info_right label_left" style="width: 130px;margin-top: 10px;">
+								<ul>
+									<li><label wicket:id="label1" /></li>
+									<li><label wicket:id="label2" /></li>
+									<li><label wicket:id="label3" /></li>
+									<li>
+										<div class="buttons" style="float: right; width: 80px; margin-top: 13px;">
+											<a href="" class="regular"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Merken</a>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div >
+								<img src="images/underline.png" width="470px" height="1px;" style="margin-top:15px;"/>
+							</div>
+
 						</div>
 					</li>
 				</ol>

@@ -41,8 +41,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
 			ObjectId objId = new ObjectId();
 			appartment.setId(objId);
-
-
+			String title_image = "large_image_1.jpg";
+			
 			if (i % 2 == 0) {
 				
 				appartment.setTotalRooms(2d);
@@ -57,6 +57,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("4b");
 				appartment.setAreaCode("81667");
 				appartment.setCity("München");
+				title_image = "large_image_" + i + ".jpg";
 
 			} else if (i % 3 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -72,6 +73,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("24 b");
 				appartment.setAreaCode("10337");
 				appartment.setCity("Berlin");
+				title_image = "large_image_" + i + ".jpg";
 
 			} else if (i % 4 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -86,6 +88,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("15");
 				appartment.setAreaCode("10337");				
 				appartment.setCity("Frankfirt");
+				title_image = "large_image_" + i + ".jpg";
 
 			} else if (i % 5 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -100,6 +103,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("23 -37a");
 				appartment.setAreaCode("67789");
 				appartment.setCity("Hamburg");
+				title_image = "large_image_" + i + ".jpg";
 	
 			} else {
 				appartment.setBalconyAvailable(false);
@@ -114,6 +118,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("22a");
 				appartment.setAreaCode("10117");
 				appartment.setCity("Berlin");
+				title_image = "large_image_" + i + ".jpg";
 			}
 
 			appartment.setDescription("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
@@ -125,20 +130,36 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			appartment.setUserName("test");
 
 
-		   boolean titleImage = true;
-			for (int j = 1; j <= 4; j++) {
-				String largeImage = "large_image_" + j + ".jpg";
-				BufferedImage large_image = ImageIO.read(readImageFile("test-images/" + largeImage));
+			BufferedImage title_image_buf = ImageIO.read(readImageFile("test-images/" + title_image));
+			RealStateImage titleImage = new RealStateImage();
+			titleImage.setImageFileName(title_image);
+			createImage(title_image_buf, appartment.getId().toString(), titleImage.getImageFileName(), false);
+			titleImage.setId(new ObjectId().toString());
+			titleImage.setTitleImage(true);
+			titleImage.setSize(100);				
+			titleImage.setRealStateId(objId.toString());
+			appartment.getImages().add(titleImage);	
+			
+			for (int j = 2; j <= 8; j++) {
+				
+				String other_image = "large_image_" + j + ".jpg";
+				BufferedImage other_image_buf = ImageIO.read(readImageFile("test-images/" + other_image));
 				RealStateImage realStateImage = new RealStateImage();
-				realStateImage.setImageFileName(largeImage);
-				createImage(large_image, appartment.getId().toString(), realStateImage.getImageFileName(), titleImage);
-				realStateImage.setTitleImage(titleImage);
+				realStateImage.setImageFileName(other_image);
+				createImage(other_image_buf, appartment.getId().toString(), realStateImage.getImageFileName(), false);
+				realStateImage.setId(new ObjectId().toString());
+				realStateImage.setTitleImage(false);
 				realStateImage.setSize(100);				
 				realStateImage.setRealStateId(objId.toString());
 				appartment.getImages().add(realStateImage);				
-				titleImage = false;
+			
 			}
 
+			
+			for (RealStateImage largeImage : appartment.getImages()) {
+				
+			}
+			
 			realStateRepository.save(appartment);
 		}
 
@@ -146,9 +167,9 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 		assert (realStateRepository.count() > 0);
 	}
 
-	protected void createImage(BufferedImage image, String appartmentId, String fileName, boolean isTitle) throws IOException {
-		if (isTitle) {
-			image = ImageUtils.resize(image, 95, 95);
+	protected void createImage(BufferedImage image, String appartmentId, String fileName, boolean isThumbNail) throws IOException {
+		if (isThumbNail) {
+			image = ImageUtils.resize(image, 120, 90);
 		} else {
 			image = ImageUtils.resize(image, 480, 367);
 		}
@@ -171,8 +192,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			fos.write(imageBytes);
 			fos.flush();
 			fos.close();
-
 		}
+		
 		baos.close();
 	}
 }

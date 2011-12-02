@@ -67,6 +67,9 @@ img.img_left {
 	padding: 0px 5px 5px 0px;
 	border-style: none;
 	border: 0px;
+	width: 130px;
+	height: 100px;
+
 }
 
 img.img_right {
@@ -497,16 +500,20 @@ way to fit your requirements.
 
 .offer_box_new {
 	width: 480px;
-	height: 80px;
-	background-color: #f3f5f6;
+	height: 130px;
 	padding: 10px;
 	margin: 5px 0px 5px 0px;
+
+}
+
+.offer_box_title {
+	margin-bottom: 10px;
 }
 
 .offer_box_title a {
 	font-weight: bold;
 	text-decoration: none;
-	height: 25px;
+	color: #000;
 }
 
 .offer_box_title a:hover {
@@ -545,8 +552,16 @@ way to fit your requirements.
 .offer_box_info label {
 	font-size: 11px;
 	padding-top: 2px;
+	display:inline-block;
 }
 
+.label_right label {
+	width: 70px;
+}
+
+.label_left label {
+	font-size: 11px;
+}
 .offer_box_info span {
 	font-weight: normal;
 	font-size: 10px;

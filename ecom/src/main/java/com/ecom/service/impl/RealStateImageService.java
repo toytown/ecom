@@ -82,32 +82,32 @@ public class RealStateImageService implements ImageService {
 				realState.setId(realStateId);
 			}
 
-			if (isTitle) {
-				// creates a additional thumb nail title image
-				createResizedImage(originalImage, newResizedFile, true);
-				RealStateImage titleImage = new RealStateImage();
-				ObjectId id = new ObjectId();
-				titleImage.setId(id.toString());
-				titleImage.setRealStateId(realStateId.toString());
-				titleImage.setMimeType(mimeType);
-				titleImage.setSize(size);
-				titleImage.setImageFileName(clientFileName);
-				titleImage.setTitleImage(true);
-				realState.getImages().add(titleImage);
-				realStateRepository.save(realState);
-			}
+			// creates a thumb nail title image for each uploaded image
+			createResizedImage(originalImage, newResizedFile, true);
+			RealStateImage thumbNailImage = new RealStateImage();
+			ObjectId idThumbNail = new ObjectId();
+			thumbNailImage.setId(idThumbNail.toString());
+			thumbNailImage.setRealStateId(realStateId.toString());
+			thumbNailImage.setMimeType(mimeType);
+			thumbNailImage.setSize(size);
+			thumbNailImage.setImageFileName(clientFileName);
+			thumbNailImage.setTitleImage(isTitle);
+			thumbNailImage.setThumbNail(true);
+			realState.getImages().add(thumbNailImage);
 
 			// creates a corresponding image
 			RealStateImage image = new RealStateImage();
 			createResizedImage(originalImage, newResizedFile, false);
-			ObjectId id = new ObjectId();
-			image.setId(id.toString());
+			ObjectId idImage = new ObjectId();
+			image.setId(idImage.toString());
 			image.setRealStateId(realStateId.toString());
 			image.setMimeType(mimeType);
 			image.setSize(size);
 			image.setImageFileName(clientFileName);
-			image.setTitleImage(false);
+			image.setTitleImage(isTitle);
+			image.setThumbNail(false);
 			realState.getImages().add(image);
+			
 			realStateRepository.save(realState);
 
 		} catch (Exception e) {
@@ -142,9 +142,9 @@ public class RealStateImageService implements ImageService {
 	 * @param isTitle
 	 * @throws IOException
 	 */
-	protected void createResizedImage(BufferedImage image, File resizedImageFile, boolean isTitle) throws IOException {
-		if (isTitle) {
-			image = ImageUtils.resize(image, 95, 95);
+	protected void createResizedImage(BufferedImage image, File resizedImageFile, boolean isThumbNail) throws IOException {
+		if (isThumbNail) {
+			image = ImageUtils.resize(image, 120, 90);
 		} else {
 			image = ImageUtils.resize(image, 480, 367);
 		}
@@ -167,11 +167,11 @@ public class RealStateImageService implements ImageService {
 	@Override
 	public void deleteImage(ObjectId realStateId, ObjectId realStateImageId) {
 		RealState realState = realStateRepository.findOne(realStateId);
-		
+
 		if (!realState.getImages().isEmpty()) {
 			Iterator<RealStateImage> iter = realState.getImages().iterator();
-			
-			while(iter.hasNext()) {
+
+			while (iter.hasNext()) {
 				RealStateImage img = iter.next();
 				if (realStateImageId != null && img != null && img.getId().equals(realStateImageId.toString())) {
 					iter.remove();
@@ -179,7 +179,6 @@ public class RealStateImageService implements ImageService {
 				}
 			}
 		}
-		
 
 	}
 

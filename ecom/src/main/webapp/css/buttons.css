@@ -138,22 +138,22 @@ a.standard_button:active span,a.emphasized_button:active span {
 	padding: 2px 0 2px 18px; /* push text down 1px */
 }
 
-
 .clearfloat {
-    clear: both;
-    margin: 0;
-    padding: 0;
+	clear: both;
+	margin: 0;
+	padding: 0;
 }
 
 /*--------------------------------- Standard Wizard Buttons specific --------------------------------*/
 a.standard_button {
-	background: transparent url('../images/buttons/bg_standard_button_a.gif')
-		no-repeat scroll top right;
+	background: transparent
+		url('../images/buttons/bg_standard_button_a.gif') no-repeat scroll top
+		right;
 }
 
 a.standard_button span {
-	background: transparent url('../images/buttons/bg_standard_button_span.gif')
-		no-repeat;
+	background: transparent
+		url('../images/buttons/bg_standard_button_span.gif') no-repeat;
 }
 
 /* Disabled Button specific */
@@ -178,13 +178,14 @@ a.hidden_button {
 
 /* Emphasized Buttons specific */
 a.emphasized_button {
-	background: transparent url('../images/buttons/bg_emphasized_button_a.gif')
-		no-repeat scroll top right;
+	background: transparent
+		url('../images/buttons/bg_emphasized_button_a.gif') no-repeat scroll
+		top right;
 }
 
 a.emphasized_button span {
-	background: transparent url('../images/buttons/bg_emphasized_button_span.gif')
-		no-repeat;
+	background: transparent
+		url('../images/buttons/bg_emphasized_button_span.gif') no-repeat;
 }
 
 /* Small Buttons */
@@ -194,15 +195,16 @@ a.small_button {
 	margin: 2px 4px 2px 0;
 	text-decoration: none;
 	cursor: pointer;
-	background: transparent url('../images/buttons/bg_small_button_a.gif') no-repeat
-		scroll top right;
+	background: transparent url('../images/buttons/bg_small_button_a.gif')
+		no-repeat scroll top right;
 }
 
 a.small_button span {
 	font: normal 10px arial, sans-serif;
 	line-height: 20px;
 	padding: 2px 6px 1px 8px;
-	background: transparent url('../images/buttons/bg_small_button_span.gif') no-repeat;
+	background: transparent
+		url('../images/buttons/bg_small_button_span.gif') no-repeat;
 }
 
 a.small_button:active {
@@ -214,4 +216,153 @@ a.small_button:active {
 a.small_button:active span {
 	background-position: bottom left;
 	padding: 2px 6px 1px 8px; /* push text down 1px */
+}
+
+/*-------------------------- Mini Buttons with sprites--------------------*/
+.minibutton {
+	font-family: helvetica, arial, freesans, clean, sans-serif;
+	display: inline-block;
+	height: 23px;
+	padding: 0 0 0 3px;
+	font-size: 10px;
+	font-weight: bold;
+	color: #333;
+	text-shadow: 1px 1px 0 #fff;
+	background: url(../images/buttons/bix_matrix.png) 0 0 no-repeat;
+	white-space: nowrap;
+	border: none;
+	overflow: visible;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+input[type=text]+.minibutton {
+	margin-left: 5px;
+}
+
+button.minibutton::-moz-focus-inner {
+	margin: -1px -3px;
+}
+
+.minibutton>span {
+	display: block;
+	height: 23px;
+	padding: 0 10px 0 8px;
+	line-height: 23px;
+	background: url(../images/buttons/bix_matrix.png) 100% 0 no-repeat;
+}
+
+.minibutton:hover {
+	color: #fff;
+	text-decoration: none;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	background-position: 0 -30px;
+}
+
+.minibutton:hover>span {
+	background-position: 100% -30px;
+}
+
+.btn-admin .icon,.btn-watch
+.icon,.btn-download .icon,.btn-pull-request .icon,.btn-fork .icon,.btn-leave .icon,.btn-compare .icon,.btn-reply
+.icon,.btn-back .icon,.btn-forward .icon {
+	float: left;
+	margin-left: -4px;
+	width: 18px;
+	height: 22px;
+	background: url(../images/buttons/bix_icons.png) 0 0 no-repeat;
+}
+
+.btn-forward .icon {
+	float: right;
+	margin-left: 0;
+	margin-right: -4px;
+}
+
+.btn-admin .icon {
+	width: 16px;
+	background-position: 0 0;
+}
+
+.btn-admin:hover .icon {
+	background-position: 0 -25px;
+}
+
+.btn-watch .icon {
+	background-position: -20px 0;
+}
+
+.btn-watch:hover .icon {
+	background-position: -20px -25px;
+}
+
+.btn-download .icon {
+	background-position: -40px 0;
+}
+
+.btn-download:hover .icon {
+	background-position: -40px -25px;
+}
+
+.btn-pull-request .icon {
+	width: 17px;
+	background-position: -60px 0;
+}
+
+.btn-pull-request:hover .icon {
+	background-position: -60px -25px;
+}
+
+.btn-fork .icon {
+	width: 17px;
+	background-position: -80px 0;
+}
+
+.btn-fork:hover .icon {
+	background-position: -80px -25px;
+}
+
+.btn-leave .icon {
+	width: 15px;
+	background-position: -120px 0;
+}
+
+.btn-leave:hover .icon {
+	background-position: -120px -25px;
+}
+
+.btn-compare .icon {
+	width: 17px;
+	background-position: -100px 0;
+}
+
+.btn-compare:hover .icon {
+	background-position: -100px -25px;
+}
+
+.btn-reply .icon {
+	width: 16px;
+	background-position: -140px 0;
+}
+
+.btn-reply:hover .icon {
+	background-position: -140px -25px;
+}
+
+.btn-back .icon {
+	width: 16px;
+	background-position: -160px 0;
+}
+
+.btn-back:hover .icon {
+	background-position: -160px -25px;
+}
+
+.btn-forward .icon {
+	width: 16px;
+	background-position: -180px 0;
+}
+
+.btn-forward:hover .icon {
+	background-position: -180px -25px;
 }
