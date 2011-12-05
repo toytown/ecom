@@ -22,7 +22,12 @@
 			<param-name>applicationClassName</param-name>
 			<param-value>com.ecom.web.main.EcomApplication</param-value>
  		</init-param>
+		<init-param>
+		  <param-name>GoogleMapsAPIkey</param-name>
+		  <param-value>ABQIAAAAzaZpf6nHOd9w1PfLaM9u2xQRS2YPSd8S9D1NKPBvdB1fr18_CxR-svEYj6URCf5QDFq3i03mqrDlbA</param-value>
+		</init-param> 		
  	</filter>
+
 
 	<filter-mapping>
 		<filter-name>ecomAppFilter</filter-name>

@@ -23,13 +23,14 @@ public class DetailViewPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 8694888856825299786L;
 
-
-	
 	public DetailViewPage(PageParameters params) {
 		String appartmentId = params.get("appartment-id").toString();
 		IModel<RealState> realState = new DetachableRealStateModel(new ObjectId(appartmentId));
 		setStatelessHint(true);
 
+		MapPanel gMappanel = new MapPanel("mapPanel", "Schlesierstr 4, 81669, München");
+		add(gMappanel);
+		
 		final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		setDefaultModel(realStateModel);
 
