@@ -49,7 +49,7 @@ public class WizardButtonBar extends Panel implements IDefaultButtonProvider {
         return (WizardButton)get(WizardButton.BUTTON_FINISH);
     }
     
-    @SuppressWarnings("unchecked")
+
     @Override
     protected void onBeforeRender() {
         if (finishButton != null) {

@@ -1,49 +1,49 @@
 /* ------------------ Wizard ---------------------------------*/
 div.step_active {
-	background: transparent url(../images/wizard/step_active.png) no-repeat;
-	width: 120px;
-	height: 80px;
+	background: transparent url(../images/step_active.png) no-repeat;
+	width: 193px;
+	height: 50px;
 	float: left;
 	color: #fff;
 	font-size: 12px;
-	line-height: 23px;
+	line-height: 44px;
 	text-align: center;
-	margin-right: 6px;
+	margin-right: -48px;
 }
 
 div.step_active a {
 	color: #fff;
-	line-height: 23px;
+	line-height: 44px;
 }
 
 div.step_grey {
-	background: #e8e8e8;
-	width: 120px;
-	height: 80px;
+	background: transparent url(../images/step_inactive.png) no-repeat;
+	width: 193px;
+	height: 50px;
 	float: left;
 	font-size: 12px;
-	line-height: 23px;
+	line-height: 44px;
 	text-align: center;
-	margin-right: 6px;
+	margin-right: -48px;
 }
 
 div.step_grey a {
-	line-height: 23px;
+	line-height: 44px;
 }
 
 div.step_blue {
 	background: #99bce2;
-	width: 23px;
-	height: 23px;
+	width: 193px;
+	height: 50px;
 	float: left;
 	color: #fff;
 	font-size: 12px;
-	line-height: 23px;
+	line-height: 44px;
 	text-align: center;
-	margin-right: 6px;
+	margin-right: -48px;
 }
 
 div.step_blue a {
 	color: #fff;
-	line-height: 23px;
+	line-height: 44px;
 }

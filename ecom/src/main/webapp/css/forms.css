@@ -1,11 +1,11 @@
 /* Form styles */
 .div-regForm {
-	border: 1px solid #eeeeee;
+	#border: 1px solid #eeeeee;
 	padding: 15px;
 	#background: url(img/bg.jpg) repeat-x #cbd4e4;
 	color: #203360;
-	margin: 30px auto 40px auto;
-	width: 480px;
+	margin: 10px auto 10px auto;
+	width: 670px;
 }
 
 .div-regForm input[type='text'],input[type='password'],select,textarea {
@@ -17,7 +17,7 @@
 }
 
 .div-regForm input[type='text'] {
-	width: 120px;
+	width: 110px;
 }
 
 .div-regForm textarea {
@@ -62,7 +62,7 @@
 }
 
 .div-regForm table {
-	width: 540px;
+	width: 640px;
 }
 
 .div-regForm td {
@@ -167,7 +167,7 @@ div.search_form textarea {
 	margin-bottom: 3px;
 	margin-right: 4px;
 	padding: 1px 2px;
-	width: 229px;
+	width: 440px;
 }
 
 div.search_form textarea.infobox {
@@ -439,7 +439,7 @@ div.simple_form_light_blue {
 /* Columns */
 div.first_column,.second_column {
 	float: left;
-	width: 440px;
+	width: 667px;
 	margin-left: 3px;
 }
 

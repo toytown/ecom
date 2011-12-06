@@ -18,7 +18,9 @@ import com.ecom.web.components.validation.ErrorLevelsFeedbackMessageFilter;
 
 public class WizardComponent extends Wizard {
 
-    private WizardButtonBar buttonBar;
+
+	private static final long serialVersionUID = -8874860187906015162L;
+	private WizardButtonBar buttonBar;
 
     /**
      * creates a wizard component out of provided list of steps
@@ -41,6 +43,7 @@ public class WizardComponent extends Wizard {
 
         // initialize the wizard with the wizard model we just built
         init(wizardModel);
+    
     }
     
     public void disableFeedbackPanelErrorMessages() {
@@ -78,15 +81,21 @@ public class WizardComponent extends Wizard {
      */
     private class WizardStepNumbersPanel extends Panel {
         
-        public WizardStepNumbersPanel(String id, int stepsNumber) {
+		private static final long serialVersionUID = -1078320170760794153L;
+
+		public WizardStepNumbersPanel(String id, int stepsNumber) {
             super(id);
             
             add(new Loop("stepList", stepsNumber) {
-                @Override
+					private static final long serialVersionUID = 4388288969775260249L;
+
+					@Override
                 protected void populateItem(LoopItem item) {
                     final int currIteration = item.getIndex() + 1;
                     item.add(new Label("step", "" + currIteration){
-                        @Override
+							private static final long serialVersionUID = -335727644970135956L;
+
+								@Override
                         protected void onComponentTag(ComponentTag tag) {
                             super.onComponentTag(tag);
                             int currentStep = ((WizardStep)getActiveStep()).getStepNumber();

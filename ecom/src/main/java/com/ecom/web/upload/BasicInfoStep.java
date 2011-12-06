@@ -85,10 +85,12 @@ public class BasicInfoStep extends WizardStep {
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
 				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
-				String titleImgageURL = realState.getTitleImageLocation("");
+				String titleImgageURL = "";
+				if (realState != null) {
+					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(titleImgageURL)));
+					target.add(titleImageContainer);
+				}
 
-				titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(titleImgageURL)));
-				target.add(titleImageContainer);
 				return true;
 			}
 		});
@@ -116,7 +118,9 @@ public class BasicInfoStep extends WizardStep {
 
 		title.add(new AttributeModifier("class", new AbstractReadOnlyModel<String>() {
 
-            @Override
+			private static final long serialVersionUID = 1L;
+
+				@Override
             public String getObject() {
                 if (!title.isValid()) {
                     return "formcomponent invalid";

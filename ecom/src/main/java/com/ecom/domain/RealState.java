@@ -29,6 +29,8 @@ public class RealState implements Serializable {
 
 	private int typeId;
 
+	private int realStateType;
+	
 	private String areaCode;
 
 	private String city;
@@ -576,5 +578,13 @@ public class RealState implements Serializable {
 		}
 		
 		return galleryImages;
+	}
+
+	public int getRealStateType() {
+		return realStateType;
+	}
+
+	public void setRealStateType(int realStateType) {
+		this.realStateType = realStateType;
 	}
 }

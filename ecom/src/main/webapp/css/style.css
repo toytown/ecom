@@ -430,6 +430,16 @@ way to fit your requirements.
 	font-weight: bold;
 }
 
+.wizard_title {
+	background-color: #385870;
+	text-align: left;
+	width: 670px;
+	padding: 5px 5px 5px 15px;
+	color: #FFFFFF;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
 .title2 {
 	background-color: #eef1f3;
 	text-align: left;
