@@ -156,10 +156,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			}
 
 			
-			for (RealStateImage largeImage : appartment.getImages()) {
-				
-			}
-			
+		
 			realStateRepository.save(appartment);
 		}
 

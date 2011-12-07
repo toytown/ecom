@@ -13,16 +13,20 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.validation.FeedbackLabel;
 import com.ecom.web.components.wizard.WizardStep;
@@ -43,7 +47,9 @@ public class BasicInfoStep extends WizardStep {
 		
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
-
+		ExternalLink link = new ExternalLink("link", "");	        
+		link.setBody(Model.of(""));
+		titleImageContainer.add(link);
 		final RealState realState = new RealState();
 		realState.setId(realStateIdModel.getObject());
 		
@@ -87,7 +93,18 @@ public class BasicInfoStep extends WizardStep {
 				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
 				String titleImgageURL = "";
 				if (realState != null) {
-					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(titleImgageURL)));
+					final ResourceReference imagesResourceReference = new EcomImageResouceReference();
+					final PageParameters imageParameters = new PageParameters();
+					String imageName = realState.getTitleImage();
+					imageParameters.set("name", "4edeeea6aec0bcbf1a6fb8b5");
+
+					// generates nice looking url (the mounted one) to the current image
+					CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+					ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
+					link.setBody(Model.of(imageName));
+										
+					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForWordAsImage.toString())));
+					titleImageContainer.addOrReplace(link);
 					target.add(titleImageContainer);
 				}
 

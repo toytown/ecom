@@ -6,13 +6,16 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ResourceReference;
 
 import com.ecom.domain.RealState;
+import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.RealStateDataProvider;
@@ -64,7 +67,16 @@ public class SearchResultPage extends GenericTemplatePage {
 				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
 				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
 
-				StaticImage img = getTitleImageFromUrl(realState);
+				final ResourceReference imagesResourceReference = new EcomImageResouceReference();
+				final PageParameters imageParameters = new PageParameters();
+				String imageName = realState.getTitleImage();
+				imageParameters.set("name", imageName);
+
+				// generates nice looking url (the mounted one) to the current image
+				CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+//				ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
+				StaticImage img = getTitleImageFromUrl(urlForWordAsImage.toString());
+				
 				detailImageLink.add(img);
 				item.add(detailImageLink);
 

@@ -21,7 +21,10 @@ public abstract class GenericTemplatePage extends WebPage {
 	@SpringBean
 	private AppConfig appConfig;
 	
-
+	protected StaticImage getTitleImageFromUrl(String url) {
+		return new StaticImage("title_image", new Model<String>(url)); 
+	}
+	
 	protected StaticImage getTitleImageFromUrl(RealState realState) {
 		return new StaticImage("title_image", new Model<String>(realState.getTitleImageLocation(appConfig.getImageRepository()))); 
 	}

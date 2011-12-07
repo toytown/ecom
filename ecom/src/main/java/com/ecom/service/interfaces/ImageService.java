@@ -8,4 +8,6 @@ public interface ImageService {
 	public void saveUploadedImageFile(FileUpload uploadedFile, ObjectId realStateId, boolean isTitleImage);
 	
 	public void deleteImage(ObjectId realStateId, ObjectId realStateImageId);
+	
+	public byte[] getImageAsBytes(String objectId) throws Exception;
 }

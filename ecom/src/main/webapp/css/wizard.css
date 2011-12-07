@@ -1,14 +1,14 @@
 /* ------------------ Wizard ---------------------------------*/
 div.step_active {
 	background: transparent url(../images/step_active.png) no-repeat;
-	width: 193px;
-	height: 50px;
+	width: 162px;
+	height: 45px;
 	float: left;
 	color: #fff;
 	font-size: 12px;
 	line-height: 44px;
 	text-align: center;
-	margin-right: -48px;
+	margin-right: -23px;
 }
 
 div.step_active a {
@@ -18,13 +18,13 @@ div.step_active a {
 
 div.step_grey {
 	background: transparent url(../images/step_inactive.png) no-repeat;
-	width: 193px;
-	height: 50px;
+	width: 162px;
+	height: 45px;
 	float: left;
 	font-size: 12px;
 	line-height: 44px;
 	text-align: center;
-	margin-right: -48px;
+	margin-right: -23px;
 }
 
 div.step_grey a {
@@ -33,14 +33,14 @@ div.step_grey a {
 
 div.step_blue {
 	background: #99bce2;
-	width: 193px;
-	height: 50px;
+	width: 162px;
+	height: 45px;
 	float: left;
 	color: #fff;
 	font-size: 12px;
 	line-height: 44px;
 	text-align: center;
-	margin-right: -48px;
+	margin-right: -23px;
 }
 
 div.step_blue a {

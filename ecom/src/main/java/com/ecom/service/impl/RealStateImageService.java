@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -13,6 +15,8 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.util.file.Files;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ecom.common.utils.AppConfig;
@@ -22,6 +26,9 @@ import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.web.data.DetachableRealStateModel;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.gridfs.GridFSInputFile;
 
 @Service("imageService")
 public class RealStateImageService implements ImageService {
@@ -32,24 +39,33 @@ public class RealStateImageService implements ImageService {
 	@Autowired
 	private RealStateRepository realStateRepository;
 
+	@Autowired
+	@Qualifier("mongoTemplate")
+	private MongoTemplate mongoTemplate;
+
 	private File imageStoreDir;
+
+	private GridFS gridFS;
 
 	public RealStateImageService() {
 		super();
+
 	}
+
 
 	@Override
 	public void saveUploadedImageFile(FileUpload uploadedFile, ObjectId realStateId, boolean isTitle) {
-
+		this.gridFS = new GridFS(mongoTemplate.getDb(), "realStateImages");
+		
 		this.imageStoreDir = appConfig.getImageStoreDir();
 		if (uploadedFile == null || uploadedFile.getSize() == 0l) {
 			return;
 		}
 
 		// Create a new file
-		String mimeType = uploadedFile.getContentType();
+		// String mimeType = uploadedFile.getContentType();
 		String clientFileName = uploadedFile.getClientFileName();
-		long size = uploadedFile.getSize();
+		// long size = uploadedFile.getSize();
 
 		File uploadDir = new File(imageStoreDir + File.separator + realStateId);
 		File uploadDirOriginalImages = new File(imageStoreDir + File.separator + realStateId + "/tmp");
@@ -74,7 +90,7 @@ public class RealStateImageService implements ImageService {
 
 			BufferedImage originalImage = ImageIO.read(newFile);
 
-			File newResizedFile = new File(uploadDir, clientFileName);
+			File originalUploadedFile = new File(uploadDir, clientFileName);
 
 			RealState realState = new DetachableRealStateModel(realStateId).getObject();
 			if (realState == null) {
@@ -83,31 +99,37 @@ public class RealStateImageService implements ImageService {
 			}
 
 			// creates a thumb nail title image for each uploaded image
-			createResizedImage(originalImage, newResizedFile, true);
 			RealStateImage thumbNailImage = new RealStateImage();
-			ObjectId idThumbNail = new ObjectId();
-			thumbNailImage.setId(idThumbNail.toString());
+			byte[] thumNailImgBytes = createResizedImage(originalImage, originalUploadedFile, true);
+			GridFSInputFile gridInputThumImgFile = this.gridFS.createFile(thumNailImgBytes);
+			thumbNailImage.setId(gridInputThumImgFile.getId().toString());
 			thumbNailImage.setRealStateId(realStateId.toString());
-			thumbNailImage.setMimeType(mimeType);
-			thumbNailImage.setSize(size);
-			thumbNailImage.setImageFileName(clientFileName);
+			thumbNailImage.setMimeType(gridInputThumImgFile.getContentType());
+			thumbNailImage.setSize(gridInputThumImgFile.getLength());
+			thumbNailImage.setImageFileName(gridInputThumImgFile.getFilename());
 			thumbNailImage.setTitleImage(isTitle);
 			thumbNailImage.setThumbNail(true);
+			if (isTitle) {
+				realState.setTitle(gridInputThumImgFile.getFilename());
+			}
 			realState.getImages().add(thumbNailImage);
 
 			// creates a corresponding image
 			RealStateImage image = new RealStateImage();
-			createResizedImage(originalImage, newResizedFile, false);
-			ObjectId idImage = new ObjectId();
-			image.setId(idImage.toString());
+			byte[] imageBytes = createResizedImage(originalImage, originalUploadedFile, false);
+			GridFSInputFile gridInputImgFile = this.gridFS.createFile(imageBytes);
+			image.setId(gridInputImgFile.getId().toString());
 			image.setRealStateId(realStateId.toString());
-			image.setMimeType(mimeType);
-			image.setSize(size);
-			image.setImageFileName(clientFileName);
+			image.setMimeType(gridInputImgFile.getContentType());
+			image.setSize(gridInputImgFile.getLength());
+			image.setImageFileName(gridInputImgFile.getFilename());
 			image.setTitleImage(isTitle);
 			image.setThumbNail(false);
+			if (isTitle) {
+				realState.setTitle(gridInputImgFile.getFilename());
+			}
 			realState.getImages().add(image);
-			
+
 			realStateRepository.save(realState);
 
 		} catch (Exception e) {
@@ -115,6 +137,23 @@ public class RealStateImageService implements ImageService {
 			throw new IllegalStateException("Unable to write file");
 		}
 
+	}
+
+	public byte[] getImageAsBytes(String objectId) throws Exception {
+		GridFSDBFile imgDBFile = this.gridFS.find(new ObjectId(objectId));
+		MessageDigest md5 = MessageDigest.getInstance("MD5");
+		md5.reset();
+		DigestInputStream is = new DigestInputStream(imgDBFile.getInputStream(), md5);
+
+		while (is.read() >= 0) {
+
+			int r = is.read(new byte[2048]);
+			if (r < 0)
+				break;
+
+		}
+		byte[] digest = md5.digest();
+		return digest;
 	}
 
 	/**
@@ -142,7 +181,7 @@ public class RealStateImageService implements ImageService {
 	 * @param isTitle
 	 * @throws IOException
 	 */
-	protected void createResizedImage(BufferedImage image, File resizedImageFile, boolean isThumbNail) throws IOException {
+	protected byte[] createResizedImage(BufferedImage image, File resizedImageFile, boolean isThumbNail) throws IOException {
 		if (isThumbNail) {
 			image = ImageUtils.resize(image, 120, 90);
 		} else {
@@ -152,16 +191,18 @@ public class RealStateImageService implements ImageService {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
 		ImageIO.write(image, "jpeg", baos);
 		baos.flush();
+
 		byte[] imageBytes = baos.toByteArray();
+		baos.close();
 
 		if (resizedImageFile.createNewFile()) {
 			FileOutputStream fos = new FileOutputStream(resizedImageFile);
 			fos.write(imageBytes);
 			fos.flush();
 			fos.close();
-
 		}
-		baos.close();
+
+		return imageBytes;
 	}
 
 	@Override
@@ -175,6 +216,9 @@ public class RealStateImageService implements ImageService {
 				RealStateImage img = iter.next();
 				if (realStateImageId != null && img != null && img.getId().equals(realStateImageId.toString())) {
 					iter.remove();
+					if (this.gridFS.findOne(realStateImageId) != null) {
+						this.gridFS.remove(realStateImageId);
+					}
 					realStateRepository.save(realState);
 				}
 			}

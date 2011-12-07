@@ -10,27 +10,18 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.Model;
 import org.bson.types.ObjectId;
 
+import com.ecom.domain.OfferType;
 import com.ecom.domain.RealState;
+import com.ecom.domain.RealStateType;
 import com.ecom.web.components.wizard.WizardStep;
 
 public class SelectOfferStep extends WizardStep {
 
 	private static final long serialVersionUID = 1L;
-	// TODO - Internationalization
-	private static final List<String> OFFER_TYPES = Arrays.asList(new String[] { "Mieten", "Kaufen" });
-
-	private static final List<String> REAL_STATE_TYPES = Arrays.asList(new String[] { "Wohnung", "Haus", "Gewerbe" });
-
-	private static final List<String> REAL_STATE_CATEGORY = Arrays.asList(new String[] { "Wohnung", "Haus", "Gewerbe" });
-
 	private WebMarkupContainer realStateTypesContainer;
-
-	private String selectedOfferType ="";
-	private String selectedRealStateType ="";
-	private String selectedCategoryType ="";
 	
 	public SelectOfferStep(IModel<String> title, IModel<String> summary, IModel<ObjectId> realStateIdModel) {
 		super(title, summary);
@@ -48,8 +39,9 @@ public class SelectOfferStep extends WizardStep {
 		offerSelectionForm.setDefaultModel(realStateModel);
 
 		
-		
-		RadioChoice<String> offerType = new RadioChoice<String>("typeId", new PropertyModel<String>(this, "selectedOfferType"), OFFER_TYPES);
+		List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
+		final IModel<OfferType> defaultOfferTypeModel = Model.of(OfferType.None);
+		RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("typeId", defaultOfferTypeModel, offerTypeList);
 
 		offerType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
 
@@ -57,27 +49,36 @@ public class SelectOfferStep extends WizardStep {
 
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
-				realStateTypesContainer.setVisible(true);
-				target.add(realStateTypesContainer);
+			    
+			    if (getDefaultModel()!= null) {
+			        OfferType offerTypeSelected = defaultOfferTypeModel.getObject();
+			        List<RealStateType> realStateTypeList = null;
+			        if (offerTypeSelected.equals(OfferType.Rent)) {
+			            realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+			        } else {
+			            realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+			        }
+			        IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
+			        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
+			        realStateTypesContainer.addOrReplace(realStateType);
+			        realStateTypesContainer.setVisible(true);
+			        realStateType.setRequired(true);
+			        target.add(realStateTypesContainer);
+			    }
 			}
 
 		});
-
-		RadioChoice<String> realStateType = new RadioChoice<String>("realStateType", new PropertyModel<String>(this, "selectedRealStateType"), REAL_STATE_TYPES);
-		realStateTypesContainer.add(realStateType);
+		offerType.setRequired(true);
+		List<RealStateType> realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+        IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
+        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
+        realStateTypesContainer.add(realStateType);
+        realStateTypesContainer.setVisible(true);		
 		realStateTypesContainer.setVisible(false);
-
+		
 		offerSelectionForm.add(offerType);
 		offerSelectionForm.add(realStateTypesContainer);
 		add(offerSelectionForm);
-	}
-
-	public String getSelectedOfferType() {
-		return selectedOfferType;
-	}
-
-	public void setSelectedOfferType(String selectedOfferType) {
-		this.selectedOfferType = selectedOfferType;
 	}
 
 }
