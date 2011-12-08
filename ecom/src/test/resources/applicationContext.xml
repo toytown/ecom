@@ -18,7 +18,11 @@
 
 
     <context:property-placeholder location="classpath*:ecom.properties" ignore-resource-not-found="true" ignore-unresolvable="true"/>
-
+    
+    <context:component-scan base-package="com.ecom.service.*, com.ecom.service.impl.*"/>
+    
+    <context:annotation-config/>
+       
 	<!-- Sets up a Mongo DB instance. Configure host, port and credentials if needed. -->
 	<mongo:db-factory dbname="${dbname}"/>
 
@@ -34,7 +38,7 @@
 	</bean>
 	
 	<!-- creates a java.util.Properties instance with values loaded from the supplied location -->
-	<bean id="appProperties" class="com.ecom.common.utils.AppConfig">
+	<bean id="appConfig" class="com.ecom.common.utils.AppConfig" >
 		<property name="imageRepository" value="${image.repository}" />
 		<property name="env" value="${env}" />
 	</bean>	

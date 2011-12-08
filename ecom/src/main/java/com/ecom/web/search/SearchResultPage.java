@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.repeater.Item;
@@ -72,14 +73,14 @@ public class SearchResultPage extends GenericTemplatePage {
 				String imageName = realState.getTitleImage();
 				imageParameters.set("name", imageName);
 
-				// generates nice looking url (the mounted one) to the current image
 				CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-//				ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
+				ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
 				StaticImage img = getTitleImageFromUrl(urlForWordAsImage.toString());
-				
+
 				detailImageLink.add(img);
 				item.add(detailImageLink);
-
+				item.add(link);
+				
 				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
 				item.add(new Label("price", String.valueOf(realState.getCost())));
 				item.add(new Label("size", String.valueOf(realState.getSize())));

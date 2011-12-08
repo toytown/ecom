@@ -1,5 +1,6 @@
 package com.ecom.web.upload;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -135,15 +136,11 @@ public class ImageUploadStep extends WizardStep {
 									imageContainer.addOrReplace(this);
 								}
 							});
-
 						}
-
-
 				};
 
 				imageContainer.addOrReplace(imgListView);
 				imageContainer.setVisible(true);
-
 			}
 
 		});
@@ -156,7 +153,10 @@ public class ImageUploadStep extends WizardStep {
 
 	private void saveUploadedFiles(List<FileUpload> uploadedFiles, ObjectId realStateId) {
 		for (FileUpload uploadedFile : uploadedFiles) {
-			imageService.saveUploadedImageFile(uploadedFile, realStateId, false);
+		    File newFile = imageService.createUploadedFileInFileSystem(uploadedFile, realStateId);
+		    if (newFile != null) {
+		        imageService.saveUploadedImageFileInDB(newFile, realStateId, false);
+		    }
 		}
 	}
 

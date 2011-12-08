@@ -510,10 +510,8 @@ public class RealState implements Serializable {
 		String value = "";
 		for (RealStateImage img : this.getImages()) {
 			
-			if (img.isTitleImage()) {
-				//value = img.getImageFileName();
-				img.getId().toString();
-				break;
+			if (img != null && img.getId() != null && img.isTitleImage() && img.isThumbNail()) {
+				return img.getId().toString();
 			}
 		}
 		

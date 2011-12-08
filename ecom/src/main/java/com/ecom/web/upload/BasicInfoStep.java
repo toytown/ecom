@@ -91,17 +91,17 @@ public class BasicInfoStep extends WizardStep {
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
 				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
-				String titleImgageURL = "";
+
 				if (realState != null) {
 					final ResourceReference imagesResourceReference = new EcomImageResouceReference();
 					final PageParameters imageParameters = new PageParameters();
-					String imageName = realState.getTitleImage();
-					imageParameters.set("name", "4edeeea6aec0bcbf1a6fb8b5");
+					String imageId = realState.getTitleImage();
+					imageParameters.set("name", imageId);
 
 					// generates nice looking url (the mounted one) to the current image
 					CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
 					ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
-					link.setBody(Model.of(imageName));
+					link.setBody(Model.of(urlForWordAsImage.toString()));
 										
 					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForWordAsImage.toString())));
 					titleImageContainer.addOrReplace(link);

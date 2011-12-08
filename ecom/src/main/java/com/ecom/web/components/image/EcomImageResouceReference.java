@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
@@ -23,11 +24,11 @@ import com.ecom.service.interfaces.ImageService;
 
 public class EcomImageResouceReference extends ResourceReference {
 
-	@SpringBean
-	private ImageService imageService;
-	
-    public EcomImageResouceReference() {
+	private static final long serialVersionUID = 1L;
+
+	public EcomImageResouceReference() {
         super(EcomImageResouceReference.class, ".");
+
     }
 
     @Override
@@ -40,8 +41,16 @@ public class EcomImageResouceReference extends ResourceReference {
     * For the demo it generates the image on the fly but in real life the
     * image can be read from DB, file system, Internet, ...
     */
-    private class ImageResource extends DynamicImageResource {
+    private static class ImageResource extends DynamicImageResource {
 
+		private static final long serialVersionUID = 1L;
+
+		@SpringBean
+        private ImageService imageService;
+        
+        public ImageResource() {
+           Injector.get().inject(this);
+        }
         @Override
         protected byte[] getImageData(Attributes attributes) {
 

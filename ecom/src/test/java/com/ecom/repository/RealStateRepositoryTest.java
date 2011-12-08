@@ -16,17 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
-import com.ecom.domain.RealStateImage;
+import com.ecom.service.interfaces.ImageService;
 import com.ecom.test.AbstractIntegrationTest;
 
 public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
 	@Autowired
-	AppConfig config;
+	private AppConfig config;
 
 	@Autowired
-	RealStateRepository realStateRepository;
-	
+	private RealStateRepository realStateRepository;
+
+	@Autowired
+	private ImageService imageService;
+
 	@Before
 	public void purgeRepository() {
 		realStateRepository.deleteAll();
@@ -35,16 +38,15 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 	@Test
 	public void testSaveRealState() throws Exception {
 
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 1; i++) {
 			RealState appartment = new RealState();
 			appartment.setTitle(i + " zimmer appartment");
 
 			ObjectId objId = new ObjectId();
 			appartment.setId(objId);
-			String title_image = "large_image_1.jpg";
-			
+
 			if (i % 2 == 0) {
-				
+
 				appartment.setTotalRooms(2d);
 				appartment.setBedRooms(1);
 				appartment.setCost(600);
@@ -57,14 +59,13 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("4b");
 				appartment.setAreaCode("81667");
 				appartment.setCity("München");
-				title_image = "large_image_" + i + ".jpg";
 
 			} else if (i % 3 == 0) {
 				appartment.setBalconyAvailable(true);
 				appartment.setTotalRooms(3d);
 				appartment.setBedRooms(2);
 				appartment.setCost(800);
-				appartment.setSize(67d + i * 1.1);				
+				appartment.setSize(67d + i * 1.1);
 				appartment.setKitchenAvailable(true);
 				appartment.setProvisionFree(true);
 				appartment.setBalconyAvailable(true);
@@ -73,7 +74,6 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("24 b");
 				appartment.setAreaCode("10337");
 				appartment.setCity("Berlin");
-				title_image = "large_image_" + i + ".jpg";
 
 			} else if (i % 4 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -86,9 +86,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setTitle("4 zimmer hell, ruhig, provisinfrei mit panoromablick. Einbaukuche");
 				appartment.setStreet("Hauptstr");
 				appartment.setHouseNo("15");
-				appartment.setAreaCode("10337");				
+				appartment.setAreaCode("10337");
 				appartment.setCity("Frankfirt");
-				title_image = "large_image_" + i + ".jpg";
 
 			} else if (i % 5 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -103,8 +102,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("23 -37a");
 				appartment.setAreaCode("67789");
 				appartment.setCity("Hamburg");
-				title_image = "large_image_" + i + ".jpg";
-	
+
 			} else {
 				appartment.setBalconyAvailable(false);
 				appartment.setTotalRooms(1d);
@@ -118,48 +116,50 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("22a");
 				appartment.setAreaCode("10117");
 				appartment.setCity("Berlin");
-				title_image = "large_image_" + i + ".jpg";
 			}
 
-			appartment.setDescription("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
-			appartment.setAreaDescription("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
-			
+			appartment
+					.setDescription("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+			appartment
+					.setAreaDescription("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+
 			appartment.setCategoryId(1);
 			appartment.setTypeId(1);
 
 			appartment.setUserName("test");
+			realStateRepository.save(appartment);
 
+			// save images
+			File dir = new File(config.getImageRepository() + File.separator + appartment.getId().toString());
 
-			BufferedImage title_image_buf = ImageIO.read(readImageFile("test-images/" + title_image));
-			RealStateImage titleImage = new RealStateImage();
-			titleImage.setImageFileName(title_image);
-			createImage(title_image_buf, appartment.getId().toString(), titleImage.getImageFileName(), false);
-			titleImage.setId(new ObjectId().toString());
-			titleImage.setTitleImage(true);
-			titleImage.setSize(100);				
-			titleImage.setRealStateId(objId.toString());
-			appartment.getImages().add(titleImage);	
-			
-			for (int j = 2; j <= 8; j++) {
-				
-				String other_image = "large_image_" + j + ".jpg";
-				BufferedImage other_image_buf = ImageIO.read(readImageFile("test-images/" + other_image));
-				RealStateImage realStateImage = new RealStateImage();
-				realStateImage.setImageFileName(other_image);
-				createImage(other_image_buf, appartment.getId().toString(), realStateImage.getImageFileName(), false);
-				realStateImage.setId(new ObjectId().toString());
-				realStateImage.setTitleImage(false);
-				realStateImage.setSize(100);				
-				realStateImage.setRealStateId(objId.toString());
-				appartment.getImages().add(realStateImage);				
-			
+			if (!dir.exists()) {
+				dir.mkdirs();
 			}
 
-			
-		
-			realStateRepository.save(appartment);
-		}
+			for (int j = 2; j <= 3; j++) {
 
+				String other_image = "large_image_" + j + ".jpg";
+				File largeImageFile = readImageFile("test-images/" + other_image);
+				imageService.saveUploadedImageFileInDB(largeImageFile, appartment.getId(), false);
+
+			}
+
+			String title_image = "large_image_" + i + ".jpg";
+
+			if (i % 2 == 0) {
+				title_image = "large_image_" + i + ".jpg";
+			} else if (i % 3 == 0) {
+				title_image = "large_image_" + i + ".jpg";
+			} else if (i % 4 == 0) {
+				title_image = "large_image_" + i + ".jpg";
+			} else if (i % 5 == 0) {
+				title_image = "large_image_" + i + ".jpg";
+			}
+
+			File titleImageFile = readImageFile("test-images/" + title_image);
+			imageService.saveUploadedImageFileInDB(titleImageFile, appartment.getId(), true);
+
+		}
 
 		assert (realStateRepository.count() > 0);
 	}
@@ -170,7 +170,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 		} else {
 			image = ImageUtils.resize(image, 480, 367);
 		}
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
 		ImageIO.write(image, "jpeg", baos);
 		baos.flush();
@@ -190,7 +190,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			fos.flush();
 			fos.close();
 		}
-		
+
 		baos.close();
 	}
 }

@@ -1,5 +1,7 @@
 package com.ecom.web.upload;
 
+import java.io.File;
+
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
@@ -18,7 +20,7 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
     private Form<ObjectId> titleImageUploadForm = null;
 
-    @SpringBean(name="imageService")    
+    @SpringBean(name = "imageService")
     private RealStateImageService imageService;
 
     private final FileUploadField uploadTitleField;
@@ -38,11 +40,17 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
                 if (uploadFile != null) {
                     ObjectId realStateId = titleImageUploadForm.getModelObject();
-                    imageService.saveUploadedImageFile(uploadFile, realStateId, true);
+                    saveUploadedFiles(uploadFile, realStateId);
                 }
             }
         });
         add(titleImageUploadForm);
     }
 
+    private void saveUploadedFiles(FileUpload uploadedFile, ObjectId realStateId) {
+        File newFile = imageService.createUploadedFileInFileSystem(uploadedFile, realStateId);
+        if (newFile != null) {
+            imageService.saveUploadedImageFileInDB(newFile, realStateId, false);
+        }
+    }
 }

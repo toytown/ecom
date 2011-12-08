@@ -19,6 +19,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 import com.ecom.common.utils.AppConfig;
+import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
 import com.ecom.web.login.UserDetailPage;
@@ -26,6 +27,7 @@ import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
+import com.ecom.web.utils.RootMapper;
 
 public class EcomApplication extends WebApplication {
 
@@ -48,6 +50,10 @@ public class EcomApplication extends WebApplication {
         mountPage("/registration", RegistrationPage.class);
         mountPage("/home/results", SearchResultPage.class);
         mountPage("/addRealState", AddRealStateInfoPage.class);
+        mountResource("/images/${name}", new EcomImageResouceReference());
+        
+        setRootRequestMapper(new RootMapper(getRootRequestMapper()));
+        
         getRootRequestMapperAsCompound().add(new MountedMapper("/home", HomePage.class));
         getRootRequestMapperAsCompound().add(new MountedMapper("/home/results", SearchResultPage.class));
         getRootRequestMapperAsCompound().add(new MountedMapper("/addRealState", AddRealStateInfoPage.class));
