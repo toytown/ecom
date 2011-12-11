@@ -95,7 +95,7 @@ public class BasicInfoStep extends WizardStep {
 				if (realState != null) {
 					final ResourceReference imagesResourceReference = new EcomImageResouceReference();
 					final PageParameters imageParameters = new PageParameters();
-					String imageId = realState.getTitleImage();
+					String imageId = realState.getTitleThumbNailImage();
 					imageParameters.set("name", imageId);
 
 					// generates nice looking url (the mounted one) to the current image

@@ -505,7 +505,7 @@ public class RealState implements Serializable {
 		this.updatedTs = updatedTs;
 	}
 
-	public String getTitleImage() {
+	public String getTitleThumbNailImage() {
 		
 		String value = "";
 		for (RealStateImage img : this.getImages()) {
@@ -518,11 +518,22 @@ public class RealState implements Serializable {
 		return value;
 	}
 
-
+	public String getTitleImage() {
+		
+		String value = "";
+		for (RealStateImage img : this.getImages()) {
+			
+			if (img != null && img.getId() != null && img.isTitleImage() && !img.isThumbNail()) {
+				return img.getId().toString();
+			}
+		}
+		
+		return value;
+	}
 	
 	public String getTitleImageLocation(String imageRepository) {
 		try {
-			URL url =  new URL("http://localhost/image-repository" + "/" + getId() + "/" + getTitleImage());
+			URL url =  new URL("http://localhost/image-repository" + "/" + getId() + "/" + getTitleThumbNailImage());
 			return url.toString();
 			
 		} catch (MalformedURLException e) {

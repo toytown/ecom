@@ -9,10 +9,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
+import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.components.image.OkCancelComponent;
 import com.ecom.web.data.DetachableRealStateModel;
@@ -144,11 +146,17 @@ public class DetailViewPage extends GenericTemplatePage {
 	}
 	
 	private List<String> getImageURList(RealState realState) {
-		List<RealStateImage> images = realState.getImages();
+		List<RealStateImage> images = realState.getGalleryImages();
 		List<String> urls = new ArrayList<String>();
 		
+		final ResourceReference imagesResourceReference = new EcomImageResouceReference();
+		
 		for (RealStateImage realStateImg : images) {
-			urls.add(realStateImg.getImageURL());
+			final PageParameters imageParameters = new PageParameters();
+			String imageId = realStateImg.getId();
+			imageParameters.set("id", imageId);			
+			CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+			urls.add(urlForWordAsImage.toString());
 
 		}
 		

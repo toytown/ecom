@@ -1,11 +1,8 @@
 package com.ecom.web.components.image;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -18,7 +15,7 @@ import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.string.StringValue;
+import org.apache.wicket.util.io.ByteArrayOutputStream;
 
 import com.ecom.service.interfaces.ImageService;
 
@@ -27,97 +24,91 @@ public class EcomImageResouceReference extends ResourceReference {
 	private static final long serialVersionUID = 1L;
 
 	public EcomImageResouceReference() {
-        super(EcomImageResouceReference.class, ".");
+		super(EcomImageResouceReference.class, "ecomRef");
 
-    }
+	}
 
-    @Override
-    public IResource getResource() {
-        return new ImageResource();
-    }
+	@Override
+	public IResource getResource() {
+		return new ImageResource();
+	}
 
-    /**
-    * A resource which shows how to return back the image as bytes.
-    * For the demo it generates the image on the fly but in real life the
-    * image can be read from DB, file system, Internet, ...
-    */
-    private static class ImageResource extends DynamicImageResource {
+	/**
+	 * A resource which shows how to return back the image as bytes. For the demo
+	 * it generates the image on the fly but in real life the image can be read
+	 * from DB, file system, Internet, ...
+	 */
+	private static class ImageResource extends DynamicImageResource {
 
 		private static final long serialVersionUID = 1L;
 
 		@SpringBean
-        private ImageService imageService;
-        
-        public ImageResource() {
-           Injector.get().inject(this);
-        }
-        @Override
-        protected byte[] getImageData(Attributes attributes) {
+		private ImageService imageService;
 
-            PageParameters parameters = attributes.getParameters();
-            StringValue name = parameters.get("name");
+		public ImageResource() {
+			Injector.get().inject(this);
+		}
 
-            byte[] imageBytes = null;
+		@Override
+		protected byte[] getImageData(Attributes attributes) {
 
-            if (name.isEmpty() == false) {
-                try {
-						imageBytes = imageService.getImageAsBytes(name.toString());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} //getImageAsBytes(name.toString());
+			PageParameters parameters = attributes.getParameters();
+			byte[] imageBytes = null;
+			org.apache.wicket.util.string.StringValue id = parameters.get("id");
 
-            }
-            return imageBytes;
-        }
+			if (id.isEmpty() == false) {
+				try {
+					imageBytes = getImageAsBytes(id.toString());
 
-        /**
-        * Generates an image with a label.
-        * For real life application this method will read the image bytes from
-        * external source.
-        *
-        * @param label
-        * the image text to render
-        * @return
-        */
-        private byte[] getImageAsBytes(String label)
-        {
-            BufferedImage image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = (Graphics2D) image.getGraphics();
-            g.setColor(Color.BLACK);
-            g.setBackground(Color.WHITE);
-            g.clearRect(0, 0, image.getWidth(), image.getHeight());
-            g.setFont(new Font("SansSerif", Font.PLAIN, 48));
-            g.drawString(label, 50, 50);
-            g.dispose();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
-            ImageWriter writer = writers.next();
-            if (writer == null) {
-                throw new RuntimeException("JPG not supported?!");
-            }
+			}
 
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			return imageBytes;
+		}
 
-            byte[] imageBytes = null;
-            try {
 
-                ImageOutputStream imageOut = ImageIO.createImageOutputStream(out);
-                writer.setOutput(imageOut);
-                writer.write(image);
-                imageOut.close();
-                imageBytes = out.toByteArray();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return imageBytes;
-        }
+		private byte[] getImageAsBytes(String id) {
 
-        // Needed by ResourceMapper to be able to match the request Url with
-        // the mounted ResourceReference
-        @Override
-        public boolean equals(Object that) {
-            return that instanceof ImageResource;
-        }
-    }
+			BufferedImage large_image = null;
+			try {
+				InputStream in  = imageService.getImageAsBytes(id);
+				large_image = ImageIO.read(in);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
+			ImageWriter writer = writers.next();
+			if (writer == null) {
+				throw new RuntimeException("JPG not supported?!");
+			}
+
+			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+			byte[] imageBytes = null;
+			try {
+
+				ImageOutputStream imageOut = ImageIO.createImageOutputStream(out);
+				writer.setOutput(imageOut);
+				writer.write(large_image);
+				imageOut.close();
+				imageBytes = out.toByteArray();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return imageBytes;
+
+		}
+
+		@Override
+		public boolean equals(Object that) {
+			return that instanceof ImageResource;
+		}
+
+	}
+
 }

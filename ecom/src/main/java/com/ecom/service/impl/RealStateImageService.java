@@ -5,10 +5,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.util.Iterator;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 
 import org.apache.wicket.markup.html.form.upload.FileUpload;
@@ -48,9 +50,13 @@ public class RealStateImageService implements ImageService {
 
     public RealStateImageService() {
         super();
-
     }
 
+    @PostConstruct
+    public void postInitialize() {
+   	 this.gridFS = new GridFS(mongoTemplate.getDb(), "realStateImages");
+    }
+    
     public File createUploadedFileInFileSystem(FileUpload uploadedFile, ObjectId realStateId) {
         if (uploadedFile == null || uploadedFile.getSize() == 0l) {
             return null;
@@ -90,7 +96,7 @@ public class RealStateImageService implements ImageService {
 
     @Override
     public void saveUploadedImageFileInDB(File newFile, ObjectId realStateId, boolean isTitle) {
-        this.gridFS = new GridFS(mongoTemplate.getDb(), "realStateImages");
+        
 
         this.imageStoreDir = appConfig.getImageStoreDir();
         File uploadDir = new File(imageStoreDir + File.separator + realStateId);
@@ -147,21 +153,11 @@ public class RealStateImageService implements ImageService {
 
     }
 
-    public byte[] getImageAsBytes(String objectId) throws Exception {
+    public InputStream getImageAsBytes(String objectId) {
         GridFSDBFile imgDBFile = this.gridFS.find(new ObjectId(objectId));
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        md5.reset();
-        DigestInputStream is = new DigestInputStream(imgDBFile.getInputStream(), md5);
+        
+        return imgDBFile.getInputStream();
 
-        while (is.read() >= 0) {
-
-            int r = is.read(new byte[2048]);
-            if (r < 0)
-                break;
-
-        }
-        byte[] digest = md5.digest();
-        return digest;
     }
 
     /**

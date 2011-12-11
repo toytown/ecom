@@ -5,9 +5,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -70,16 +68,14 @@ public class SearchResultPage extends GenericTemplatePage {
 
 				final ResourceReference imagesResourceReference = new EcomImageResouceReference();
 				final PageParameters imageParameters = new PageParameters();
-				String imageName = realState.getTitleImage();
-				imageParameters.set("name", imageName);
+				String imageId = realState.getTitleThumbNailImage();
+				imageParameters.set("id", imageId);
 
 				CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-				ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
 				StaticImage img = getTitleImageFromUrl(urlForWordAsImage.toString());
 
 				detailImageLink.add(img);
 				item.add(detailImageLink);
-				item.add(link);
 				
 				item.add(detailTitleLink.add(new Label("title", realState.getTitle())));
 				item.add(new Label("price", String.valueOf(realState.getCost())));

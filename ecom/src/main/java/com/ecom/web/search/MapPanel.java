@@ -20,38 +20,35 @@ import com.ecom.web.main.EcomApplication;
 
 public class MapPanel extends Panel {
 
-    private final FeedbackPanel feedback;
-    
-    public MapPanel(String id, String address) {
-        super(id);
+	private static final long serialVersionUID = -3261651741714233014L;
+	private final FeedbackPanel feedback;
 
-        feedback = new FeedbackPanel("feedback");
-        feedback.setOutputMarkupId(true);
-        add(feedback);
-        
-        final GMap2 bottomMap = new GMap2("bottomPanel", new GMapHeaderContributor(EcomApplication.get().getGoogleMapsAPIkey()));
-            bottomMap.setOutputMarkupId(true);
-            bottomMap.setMapType(GMapType.G_NORMAL_MAP);
-            bottomMap.addControl(GControl.GSmallMapControl);
-            add(bottomMap);      
-            
-            
-            try {
-                GLatLng latLng = EcomApplication.get().getServerGeocoder().findAddress(address);
-                
-                bottomMap.getInfoWindow().open(latLng,
-                        new GInfoWindowTab(address, new Label(address, address)));
-                
-                GOverlay marker = new GMarker(latLng, new GMarkerOptions(
-                        "My Title"));
+	public MapPanel(String id, String address) {
+		super(id);
 
-                bottomMap.addOverlay(marker);
-                    
-            } catch (IOException e) {
-                error("Unable to geocode (" + e.getMessage() + ")");
-            }
-    }
+		feedback = new FeedbackPanel("feedback");
+		feedback.setOutputMarkupId(true);
+		add(feedback);
 
-    
-    
+		final GMap2 bottomMap = new GMap2("bottomPanel", new GMapHeaderContributor(EcomApplication.get().getGoogleMapsAPIkey()));
+		bottomMap.setOutputMarkupId(true);
+		bottomMap.setMapType(GMapType.G_NORMAL_MAP);
+		bottomMap.addControl(GControl.GSmallMapControl);
+		add(bottomMap);
+
+		try {
+			GLatLng latLng = EcomApplication.get().getServerGeocoder().findAddress(address);
+
+			bottomMap.getInfoWindow().open(latLng, new GInfoWindowTab(address, new Label(address, address)));
+
+			GOverlay marker = new GMarker(latLng, new GMarkerOptions("My Title"));
+
+			bottomMap.addOverlay(marker);
+
+			
+		} catch (IOException e) {
+			error("Unable to geocode (" + e.getMessage() + ")");
+		}
+	}
+
 }

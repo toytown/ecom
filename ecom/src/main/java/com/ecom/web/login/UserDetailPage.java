@@ -42,7 +42,7 @@ public class UserDetailPage extends GenericTemplatePage {
 				BookmarkablePageLink<String> detailImageLink = new BookmarkablePageLink<String>("detailImageLink", DetailViewPage.class, detailParam);
 				BookmarkablePageLink<String> detailTitleLink = new BookmarkablePageLink<String>("detailTitleLink", DetailViewPage.class, detailParam);
 
-				if (realState.getTitleImage() != null) {
+				if (realState.getTitleThumbNailImage() != null) {
 					StaticImage img = getTitleImageFromUrl(realState);
 					detailImageLink.add(img);
 					item.add(detailImageLink);					
