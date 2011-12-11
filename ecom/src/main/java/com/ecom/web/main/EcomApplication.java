@@ -1,14 +1,18 @@
 package com.ecom.web.main;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.authorization.Action;
+import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.mapper.MountedMapper;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -17,11 +21,11 @@ import com.ecom.common.utils.AppConfig;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
+import com.ecom.web.login.UserDetailPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
-import com.ecom.web.utils.RootMapper;
 
 public class EcomApplication extends WebApplication {
 
@@ -39,7 +43,7 @@ public class EcomApplication extends WebApplication {
 		serverGeocoder = new ServerGeocoder(getGoogleMapsAPIkey());
 
 		mountResource("/img-repo/${id}", new EcomImageResouceReference());
-		setRootRequestMapper(new RootMapper(getRootRequestMapper()));
+		//setRootRequestMapper(new RootMapper(getRootRequestMapper()));
 
 		mountPage("/home", HomePage.class);
 		mountPage("/details", DetailViewPage.class);
@@ -63,7 +67,48 @@ public class EcomApplication extends WebApplication {
 
 		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
 
-		// okay to proceed return true; } });
+      // Register the authorization strategy
+      getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
+          public boolean isActionAuthorized(Component component, Action action) {
+              // authorize everything
+              return true;
+          }
+
+          public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
+              // Check if the new Page requires authentication (implements the
+              // marker interface)
+              if (UserDetailPage.class.isAssignableFrom(componentClass)) {
+                  // Is user signed in?
+                  if (((EcomSession) Session.get()).isSignedIn()) {
+                      // okay to proceed
+                      return true;
+                  }
+
+                  // Intercept the request, but remember the target for later.
+                  // Invoke Component.continueToOriginalDestination() after
+                  // successful logon to
+                  // continue with the target remembered.
+
+                  throw new RestartResponseAtInterceptPageException(LoginPage.class);
+              }
+              if (AddRealStateInfoPage.class.isAssignableFrom(componentClass)) {
+                  // Is user signed in?
+                  if (((EcomSession) Session.get()).isSignedIn()) {
+                      // okay to proceed
+                      return true;
+                  }
+
+                  // Intercept the request, but remember the target for later.
+                  // Invoke Component.continueToOriginalDestination() after
+                  // successful logon to
+                  // continue with the target remembered.
+
+                  throw new RestartResponseAtInterceptPageException(LoginPage.class);
+              }
+              // okay to proceed
+              return true;
+          }
+      });		
 	}
 
 	@Override
@@ -75,10 +120,6 @@ public class EcomApplication extends WebApplication {
 	public Session newSession(Request req, Response resp) {
 		return new EcomSession(req);
 
-	}
-
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/style.css");
 	}
 
 	@Override
