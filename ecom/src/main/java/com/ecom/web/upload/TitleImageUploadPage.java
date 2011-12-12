@@ -46,9 +46,9 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
     private void saveUploadedFiles(FileUpload uploadedFile, ObjectId realStateId) {
 
-        if (uploadedFile != null && uploadedFile.getClientFileName() != null && realStateId != null) {
+        if (uploadedFile != null && uploadedFile.getClientFileName() != null) {
             try {
-                imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realStateId, false);
+                imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realStateId, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

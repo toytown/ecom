@@ -71,8 +71,8 @@ public class SearchResultPage extends GenericTemplatePage {
 				String imageId = realState.getTitleThumbNailImage();
 				imageParameters.set("id", imageId);
 
-				CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-				StaticImage img = getTitleImageFromUrl(urlForWordAsImage.toString());
+				CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+				StaticImage img = getTitleImageFromUrl(urlForImage.toString());
 
 				detailImageLink.add(img);
 				item.add(detailImageLink);

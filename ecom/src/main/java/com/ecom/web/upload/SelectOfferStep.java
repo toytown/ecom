@@ -61,6 +61,8 @@ public class SelectOfferStep extends WizardStep {
 			        IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
 			        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
 			        realStateTypesContainer.addOrReplace(realStateType);
+			        realStateTypesContainer.setVisible(true);
+			        realStateType.setRequired(true);
 			        target.add(realStateTypesContainer);
 			    }
 			}

@@ -17,6 +17,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
@@ -24,6 +26,7 @@ import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.service.interfaces.ImageService;
+import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.wizard.WizardStep;
 
@@ -122,20 +125,30 @@ public class ImageUploadStep extends WizardStep {
                         RealStateImage img = listItem.getModelObject();
 
                         // title thumb nail should be hidden
+                        final ResourceReference imagesResourceReference = new EcomImageResouceReference();
+                        final PageParameters imageParameters = new PageParameters();
+                        String imageId = img.getId();
+                        imageParameters.set("id", imageId);
 
-                        listItem.add(new StaticImage("img", new Model<String>(img.getImageURL())));
-                        listItem.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
-
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClick() {
-                                String imgId = this.getDefaultModelObjectAsString();
-                                imageService.deleteImage(id, new ObjectId(imgId));
-                                this.setVisible(false);
-                                imageContainer.addOrReplace(this);
-                            }
-                        });
+                        CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+                        
+                        //only title images are allowed to edit on this step
+                        if (!img.isTitleImage()) {
+                            
+                            listItem.add(new StaticImage("img", new Model<String>(urlForImage.toString())));
+                            listItem.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
+                                
+                                private static final long serialVersionUID = 1L;
+                                
+                                @Override
+                                public void onClick() {
+                                    String imgId = this.getDefaultModelObjectAsString();
+                                    imageService.deleteImage(id, new ObjectId(imgId));
+                                    this.setVisible(false);
+                                    imageContainer.addOrReplace(this);
+                                }
+                            });
+                        }
                     }
                 };
 
@@ -154,7 +167,7 @@ public class ImageUploadStep extends WizardStep {
     private void saveUploadedFiles(List<FileUpload> uploadedFiles, ObjectId realStateId) {
         for (FileUpload uploadedFile : uploadedFiles) {
             
-            if (uploadedFile != null && uploadedFile.getSize() > 0l) {
+            if (uploadedFile != null && uploadedFile.getClientFileName() != null) {
                 //saves images in gridFS 
                 try {
                     imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realStateId, false);

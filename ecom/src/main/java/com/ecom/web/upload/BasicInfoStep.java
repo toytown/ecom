@@ -13,7 +13,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
-import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -28,7 +27,6 @@ import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
-import com.ecom.web.components.validation.FeedbackLabel;
 import com.ecom.web.components.wizard.WizardStep;
 import com.ecom.web.data.DetachableRealStateModel;
 
@@ -47,19 +45,22 @@ public class BasicInfoStep extends WizardStep {
 		
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
-		ExternalLink link = new ExternalLink("link", "");	        
-		link.setBody(Model.of(""));
-		titleImageContainer.add(link);
+
 		final RealState realState = new RealState();
 		realState.setId(realStateIdModel.getObject());
 		
 		CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
-		Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
+		
+		final Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public final void onSubmit() {
+
+			    RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
+			    RealState realStateFromGUI = this.getModelObject();
+			    realStateFromGUI.getImages().addAll(realStateFromDB.getImages());
 				realStateRepository.save(this.getModelObject());
 			}
 		};
@@ -90,14 +91,14 @@ public class BasicInfoStep extends WizardStep {
 
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
+				RealState realStateDetachModel = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
 
-				if (realState != null) {
+				if (realStateDetachModel != null) {
 					ResourceReference imagesResourceReference = new EcomImageResouceReference();
 					PageParameters imageParameters = new PageParameters();
-					String imageId = realState.getTitleThumbNailImage();
+					String imageId = realStateDetachModel.getTitleThumbNailImage();
 					imageParameters.set("id", imageId);
-
+		
 					// generates nice looking url (the mounted one) to the current image
 					CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
 										
@@ -124,11 +125,10 @@ public class BasicInfoStep extends WizardStep {
 		title.setRequired(true);
 		title.add(StringValidator.maximumLength(150));
 		title.setOutputMarkupId(true);
-		//realStateUploadInfoForm.add(new ValidationErrorLabel<String>("title.error", title));
 		
-        final FeedbackLabel nameFeedbackLabel = new FeedbackLabel("title.error", title);
-        nameFeedbackLabel.setOutputMarkupId(true);
-        realStateUploadInfoForm.add(nameFeedbackLabel);
+//        final FeedbackLabel nameFeedbackLabel = new FeedbackLabel("title.error", title);
+//        nameFeedbackLabel.setOutputMarkupId(true);
+//        realStateUploadInfoForm.add(nameFeedbackLabel);
 
 		title.add(new AttributeModifier("class", new AbstractReadOnlyModel<String>() {
 
