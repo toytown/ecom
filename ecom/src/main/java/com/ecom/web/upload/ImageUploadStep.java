@@ -1,6 +1,6 @@
 package com.ecom.web.upload;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,135 +29,141 @@ import com.ecom.web.components.wizard.WizardStep;
 
 public class ImageUploadStep extends WizardStep {
 
-	private static final long serialVersionUID = -7463392511943675380L;
-	public final Collection<FileUpload> uploads = new ArrayList<FileUpload>();
+    private static final long serialVersionUID = -7463392511943675380L;
+    public final Collection<FileUpload> uploads = new ArrayList<FileUpload>();
 
-	@SpringBean
-	private ImageService imageService;
+    @SpringBean
+    private ImageService imageService;
 
-	private FileUploadField file1;
-	private FileUploadField file2;
-	private FileUploadField file3;
-	private FileUploadField file4;
-	private FileUploadField file5;
-	private FileUploadField file6;
-	private FileUploadField file7;
-	private FileUploadField file8;
-	private FileUploadField file9;
-	private FileUploadField file10;
+    private FileUploadField file1;
+    private FileUploadField file2;
+    private FileUploadField file3;
+    private FileUploadField file4;
+    private FileUploadField file5;
+    private FileUploadField file6;
+    private FileUploadField file7;
+    private FileUploadField file8;
+    private FileUploadField file9;
+    private FileUploadField file10;
 
-	private FileUploadForm<ObjectId> imageUploadForm;
-	private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
+    private FileUploadForm<ObjectId> imageUploadForm;
+    private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 
-	@SpringBean
-	private RealStateRepository realStateRepository;
+    @SpringBean
+    private RealStateRepository realStateRepository;
 
-	public ImageUploadStep(IModel<String> title, IModel<String> summary, final IModel<ObjectId> realStateIdModel) {
-		super(title, summary);
-		Injector.get().inject(this);
+    public ImageUploadStep(IModel<String> title, IModel<String> summary, final IModel<ObjectId> realStateIdModel) {
+        super(title, summary);
+        Injector.get().inject(this);
 
-		imageUploadForm = new FileUploadForm<ObjectId>("uploadForm", realStateIdModel);
-		imageUploadForm.setMultiPart(true);
+        imageUploadForm = new FileUploadForm<ObjectId>("uploadForm", realStateIdModel);
+        imageUploadForm.setMultiPart(true);
 
-		IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
-		imageUploadForm.add(file1 = new FileUploadField("file1", model));
-		imageUploadForm.add(file2 = new FileUploadField("file2", model));
-		imageUploadForm.add(file3 = new FileUploadField("file3", model));
-		imageUploadForm.add(file4 = new FileUploadField("file4", model));
-		imageUploadForm.add(file5 = new FileUploadField("file5", model));
-		imageUploadForm.add(file6 = new FileUploadField("file6", model));
-		imageUploadForm.add(file7 = new FileUploadField("file7", model));
-		imageUploadForm.add(file8 = new FileUploadField("file8", model));
-		imageUploadForm.add(file9 = new FileUploadField("file9", model));
-		imageUploadForm.add(file10 = new FileUploadField("file10", model));
+        IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
+        imageUploadForm.add(file1 = new FileUploadField("file1", model));
+        imageUploadForm.add(file2 = new FileUploadField("file2", model));
+        imageUploadForm.add(file3 = new FileUploadField("file3", model));
+        imageUploadForm.add(file4 = new FileUploadField("file4", model));
+        imageUploadForm.add(file5 = new FileUploadField("file5", model));
+        imageUploadForm.add(file6 = new FileUploadField("file6", model));
+        imageUploadForm.add(file7 = new FileUploadField("file7", model));
+        imageUploadForm.add(file8 = new FileUploadField("file8", model));
+        imageUploadForm.add(file9 = new FileUploadField("file9", model));
+        imageUploadForm.add(file10 = new FileUploadField("file10", model));
 
-		imageUploadForm.add(new Button("upload") {
+        imageUploadForm.add(new Button("upload") {
 
-			private static final long serialVersionUID = 2718354305648397798L;
+            private static final long serialVersionUID = 2718354305648397798L;
 
-			@SuppressWarnings("serial")
-			@Override
-			public void onSubmit() {
-				List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
-				FileUpload uploadedFile1 = file1.getFileUpload();
-				FileUpload uploadedFile2 = file2.getFileUpload();
-				FileUpload uploadedFile3 = file3.getFileUpload();
-				FileUpload uploadedFile4 = file4.getFileUpload();
-				FileUpload uploadedFile5 = file5.getFileUpload();
-				FileUpload uploadedFile6 = file6.getFileUpload();
-				FileUpload uploadedFile7 = file7.getFileUpload();
-				FileUpload uploadedFile8 = file8.getFileUpload();
-				FileUpload uploadedFile9 = file9.getFileUpload();
-				FileUpload uploadedFile10 = file10.getFileUpload();
+            @SuppressWarnings("serial")
+            @Override
+            public void onSubmit() {
+                List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
+                FileUpload uploadedFile1 = file1.getFileUpload();
+                FileUpload uploadedFile2 = file2.getFileUpload();
+                FileUpload uploadedFile3 = file3.getFileUpload();
+                FileUpload uploadedFile4 = file4.getFileUpload();
+                FileUpload uploadedFile5 = file5.getFileUpload();
+                FileUpload uploadedFile6 = file6.getFileUpload();
+                FileUpload uploadedFile7 = file7.getFileUpload();
+                FileUpload uploadedFile8 = file8.getFileUpload();
+                FileUpload uploadedFile9 = file9.getFileUpload();
+                FileUpload uploadedFile10 = file10.getFileUpload();
 
-				uploadedFilesList.add(uploadedFile1);
-				uploadedFilesList.add(uploadedFile2);
-				uploadedFilesList.add(uploadedFile3);
-				uploadedFilesList.add(uploadedFile4);
-				uploadedFilesList.add(uploadedFile5);
-				uploadedFilesList.add(uploadedFile6);
-				uploadedFilesList.add(uploadedFile7);
-				uploadedFilesList.add(uploadedFile8);
-				uploadedFilesList.add(uploadedFile9);
-				uploadedFilesList.add(uploadedFile10);
+                uploadedFilesList.add(uploadedFile1);
+                uploadedFilesList.add(uploadedFile2);
+                uploadedFilesList.add(uploadedFile3);
+                uploadedFilesList.add(uploadedFile4);
+                uploadedFilesList.add(uploadedFile5);
+                uploadedFilesList.add(uploadedFile6);
+                uploadedFilesList.add(uploadedFile7);
+                uploadedFilesList.add(uploadedFile8);
+                uploadedFilesList.add(uploadedFile9);
+                uploadedFilesList.add(uploadedFile10);
 
-				saveUploadedFiles(uploadedFilesList, imageUploadForm.getModelObject());
+                saveUploadedFiles(uploadedFilesList, imageUploadForm.getModelObject());
 
-				final ObjectId id = imageUploadForm.getModelObject();
+                final ObjectId id = imageUploadForm.getModelObject();
 
-				IModel<List<RealStateImage>> realStateImagesListModel = new LoadableDetachableModel<List<RealStateImage>>() {
+                IModel<List<RealStateImage>> realStateImagesListModel = new LoadableDetachableModel<List<RealStateImage>>() {
 
-					@Override
-					protected List<RealStateImage> load() {
-						RealState realState = realStateRepository.findOne(id);
-						return realState.getGalleryImages();
-					}
-				};
+                    @Override
+                    protected List<RealStateImage> load() {
+                        RealState realState = realStateRepository.findOne(id);
+                        return realState.getGalleryImages();
+                    }
+                };
 
-				ListView<RealStateImage> imgListView = new ListView<RealStateImage>("imagesListView", realStateImagesListModel) {
+                ListView<RealStateImage> imgListView = new ListView<RealStateImage>("imagesListView", realStateImagesListModel) {
 
-					@Override
-					protected void populateItem(ListItem<RealStateImage> listItem) {
+                    @Override
+                    protected void populateItem(ListItem<RealStateImage> listItem) {
 
-						RealStateImage img = listItem.getModelObject();
+                        RealStateImage img = listItem.getModelObject();
 
-						// title thumb nail should be hidden
+                        // title thumb nail should be hidden
 
-							listItem.add(new StaticImage("img", new Model<String>(img.getImageURL())));
-							listItem.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
+                        listItem.add(new StaticImage("img", new Model<String>(img.getImageURL())));
+                        listItem.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
 
-								private static final long serialVersionUID = 1L;
+                            private static final long serialVersionUID = 1L;
 
-								@Override
-								public void onClick() {
-									String imgId = this.getDefaultModelObjectAsString();
-									imageService.deleteImage(id, new ObjectId(imgId));
-									this.setVisible(false);
-									imageContainer.addOrReplace(this);
-								}
-							});
-						}
-				};
+                            @Override
+                            public void onClick() {
+                                String imgId = this.getDefaultModelObjectAsString();
+                                imageService.deleteImage(id, new ObjectId(imgId));
+                                this.setVisible(false);
+                                imageContainer.addOrReplace(this);
+                            }
+                        });
+                    }
+                };
 
-				imageContainer.addOrReplace(imgListView);
-				imageContainer.setVisible(true);
-			}
+                imageContainer.addOrReplace(imgListView);
+                imageContainer.setVisible(true);
+            }
 
-		});
+        });
 
-		add(imageUploadForm);
-		imageContainer.setOutputMarkupId(true);
-		imageContainer.setVisible(false);
-		add(imageContainer);
-	}
+        add(imageUploadForm);
+        imageContainer.setOutputMarkupId(true);
+        imageContainer.setVisible(false);
+        add(imageContainer);
+    }
 
-	private void saveUploadedFiles(List<FileUpload> uploadedFiles, ObjectId realStateId) {
-		for (FileUpload uploadedFile : uploadedFiles) {
-		    File newFile = imageService.createUploadedFileInFileSystem(uploadedFile, realStateId);
-		    if (newFile != null) {
-		        imageService.saveUploadedImageFileInDB(newFile, realStateId, false);
-		    }
-		}
-	}
+    private void saveUploadedFiles(List<FileUpload> uploadedFiles, ObjectId realStateId) {
+        for (FileUpload uploadedFile : uploadedFiles) {
+            
+            if (uploadedFile != null && uploadedFile.getSize() > 0l) {
+                //saves images in gridFS 
+                try {
+                    imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realStateId, false);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }

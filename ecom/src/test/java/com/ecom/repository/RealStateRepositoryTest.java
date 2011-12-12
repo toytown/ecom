@@ -3,8 +3,10 @@ package com.ecom.repository;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -140,7 +142,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
 				String other_image = "large_image_" + j + ".jpg";
 				File largeImageFile = readImageFile("test-images/" + other_image);
-				imageService.saveUploadedImageFileInDB(largeImageFile, appartment.getId(), false);
+				InputStream in = new FileInputStream(largeImageFile);
+				imageService.saveUploadedImageFileInDB(largeImageFile.getName(), in, appartment.getId(), false);
 
 			}
 
@@ -157,7 +160,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			}
 
 			File titleImageFile = readImageFile("test-images/" + title_image);
-			imageService.saveUploadedImageFileInDB(titleImageFile, appartment.getId(), true);
+            InputStream in = new FileInputStream(titleImageFile);
+			imageService.saveUploadedImageFileInDB(titleImageFile.getName(), in, appartment.getId(), true);
 
 		}
 

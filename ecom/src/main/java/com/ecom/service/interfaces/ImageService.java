@@ -1,16 +1,12 @@
 package com.ecom.service.interfaces;
 
-import java.io.File;
 import java.io.InputStream;
 
-import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.bson.types.ObjectId;
 
 public interface ImageService {
 
-    public void saveUploadedImageFileInDB(File newFile, ObjectId realStateId, boolean isTitle) ;
-    
-    public File createUploadedFileInFileSystem(FileUpload uploadedFile, ObjectId realStateId);
+    public void saveUploadedImageFileInDB(String originalFileName, InputStream in, ObjectId realStateId, boolean isTitle) ;
 	
 	public void deleteImage(ObjectId realStateId, ObjectId realStateImageId);
 	

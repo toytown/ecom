@@ -1,6 +1,6 @@
 package com.ecom.web.upload;
 
-import java.io.File;
+import java.io.IOException;
 
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.form.Form;
@@ -37,20 +37,21 @@ public class TitleImageUploadPage extends GenericTemplatePage {
             @Override
             public void onSubmit() {
                 FileUpload uploadFile = uploadTitleField.getFileUpload();
-
-                if (uploadFile != null) {
-                    ObjectId realStateId = titleImageUploadForm.getModelObject();
-                    saveUploadedFiles(uploadFile, realStateId);
-                }
+                ObjectId realStateId = titleImageUploadForm.getModelObject();
+                saveUploadedFiles(uploadFile, realStateId);
             }
         });
         add(titleImageUploadForm);
     }
 
     private void saveUploadedFiles(FileUpload uploadedFile, ObjectId realStateId) {
-        File newFile = imageService.createUploadedFileInFileSystem(uploadedFile, realStateId);
-        if (newFile != null) {
-            imageService.saveUploadedImageFileInDB(newFile, realStateId, false);
+
+        if (uploadedFile != null && uploadedFile.getClientFileName() != null && realStateId != null) {
+            try {
+                imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realStateId, false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

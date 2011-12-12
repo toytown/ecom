@@ -93,18 +93,15 @@ public class BasicInfoStep extends WizardStep {
 				RealState realState = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
 
 				if (realState != null) {
-					final ResourceReference imagesResourceReference = new EcomImageResouceReference();
-					final PageParameters imageParameters = new PageParameters();
+					ResourceReference imagesResourceReference = new EcomImageResouceReference();
+					PageParameters imageParameters = new PageParameters();
 					String imageId = realState.getTitleThumbNailImage();
-					imageParameters.set("name", imageId);
+					imageParameters.set("id", imageId);
 
 					// generates nice looking url (the mounted one) to the current image
-					CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-					ExternalLink link = new ExternalLink("link", urlForWordAsImage.toString());	        
-					link.setBody(Model.of(urlForWordAsImage.toString()));
+					CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
 										
-					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForWordAsImage.toString())));
-					titleImageContainer.addOrReplace(link);
+					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForImage.toString())));
 					target.add(titleImageContainer);
 				}
 

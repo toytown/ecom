@@ -37,9 +37,9 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
         WizardModel wizardModel = new WizardModel();
 
         IModel<ObjectId> realStateObjId = new Model<ObjectId>(new ObjectId());
-        wizardModel.add(new SelectOfferStep(new Model<String>("Step ...1"), null, realStateObjId));
-        wizardModel.add(new BasicInfoStep(new Model<String>("Step ...1"), null, realStateObjId));
-        wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images"), null, realStateObjId));
+        wizardModel.add(new SelectOfferStep(new Model<String>("Chose real state type 1"), null, realStateObjId));
+        wizardModel.add(new BasicInfoStep(new Model<String>("Provide Basic Info ...2"), null, realStateObjId));
+        wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images...3"), null, realStateObjId));
         wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateObjId));
         UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true);
         wizard.disableFeedbackPanelErrorMessages();
