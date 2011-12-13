@@ -60,8 +60,11 @@ public class BasicInfoStep extends WizardStep {
 
 			    RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
 			    RealState realStateFromGUI = this.getModelObject();
-			    realStateFromGUI.getImages().addAll(realStateFromDB.getImages());
-				realStateRepository.save(this.getModelObject());
+			    
+			    if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
+			        realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
+			        realStateRepository.save(realStateFromGUI);
+			    }
 			}
 		};
 		realStateUploadInfoForm.setOutputMarkupId(true);

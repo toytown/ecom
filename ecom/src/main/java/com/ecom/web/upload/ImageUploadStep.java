@@ -113,7 +113,7 @@ public class ImageUploadStep extends WizardStep {
                     @Override
                     protected List<RealStateImage> load() {
                         RealState realState = realStateRepository.findOne(id);
-                        return realState.getGalleryImages();
+                        return realState.getNonTitleImages();
                     }
                 };
 
@@ -133,22 +133,20 @@ public class ImageUploadStep extends WizardStep {
                         CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
                         
                         //only title images are allowed to edit on this step
-                        if (!img.isTitleImage()) {
+                        listItem.add(new StaticImage("img", new Model<String>(urlForImage.toString())));
+                        listItem.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
                             
-                            listItem.add(new StaticImage("img", new Model<String>(urlForImage.toString())));
-                            listItem.add(new Link<String>("deleteLink", new Model<String>(img.getId().toString())) {
-                                
-                                private static final long serialVersionUID = 1L;
-                                
-                                @Override
-                                public void onClick() {
-                                    String imgId = this.getDefaultModelObjectAsString();
-                                    imageService.deleteImage(id, new ObjectId(imgId));
-                                    this.setVisible(false);
-                                    imageContainer.addOrReplace(this);
-                                }
-                            });
-                        }
+                            private static final long serialVersionUID = 1L;
+                            
+                            @Override
+                            public void onClick() {
+                                String imgId = this.getDefaultModelObjectAsString();
+                                imageService.deleteImage(id, new ObjectId(imgId));
+                                this.setVisible(false);
+                                imageContainer.addOrReplace(this);
+                            }
+                        });
+                    
                     }
                 };
 

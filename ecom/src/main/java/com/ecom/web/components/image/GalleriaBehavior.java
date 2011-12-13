@@ -65,9 +65,6 @@ public class GalleriaBehavior extends Behavior {
 	public void renderHead(Component component, IHeaderResponse response) {
 		super.renderHead(component, response);
 
-		if (isRenderJqueryReference()) {
-			response.renderJavaScriptReference("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js");
-		}
 		response.renderJavaScriptReference(GALLERIA_JS);
 		response.renderJavaScriptReference(GALLERIA_THEME_JS);
 	}

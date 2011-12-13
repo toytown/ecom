@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -531,17 +532,37 @@ public class RealState implements Serializable {
 		return value;
 	}
 	
-    public RealStateImage getTitleImage() {
-        
-        RealStateImage value = null;
-        for (RealStateImage img : this.getImages()) {
-            
-            if (img != null && img.getId() != null && img.isTitleImage() && !img.isThumbNail()) {
-                return img;
+	/**
+	 * Returns both actual and thumbnail image
+	 * @return
+	 */
+    public List<RealStateImage> getTitleImages() {
+        List<RealStateImage> realStateImgList = new ArrayList<RealStateImage>();
+
+        for (RealStateImage img : this.getImages()) {            
+            if (img != null && img.getId() != null && img.isTitleImage()) {
+                realStateImgList.add(img);
             }
         }
         
-        return value;
+        return realStateImgList;
+    }
+    
+    public void addTitleImages(List<RealStateImage> titlImages) {
+        if (titlImages.isEmpty()) {
+            return;
+        }
+        
+        Iterator<RealStateImage> iter = getImages().iterator();
+
+        //removes previously stored title images
+        while(iter.hasNext()) {
+            RealStateImage img = iter.next();
+            if (img.isTitleImage()) {
+                iter.remove();
+            }
+        }
+       this.getImages().addAll(titlImages);
     }
     
 	public String getTitleImageLocation(String imageRepository) {
@@ -603,6 +624,16 @@ public class RealState implements Serializable {
 		return galleryImages;
 	}
 
+    public List<RealStateImage> getNonTitleImages() {
+        List<RealStateImage> nonTitleImages = new ArrayList<RealStateImage>();
+        for (RealStateImage img : this.images) {
+            if (!img.isThumbNail() && !img.isTitleImage()) {
+                nonTitleImages.add(img);
+            }
+        }
+        
+        return nonTitleImages;
+    }
     
 	public int getRealStateType() {
 		return realStateType;
