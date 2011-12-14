@@ -113,7 +113,7 @@ public class ImageUploadStep extends WizardStep {
                     @Override
                     protected List<RealStateImage> load() {
                         RealState realState = realStateRepository.findOne(id);
-                        return realState.getGalleryImages();
+                        return realState.getNonTitleImages();
                     }
                 };
 

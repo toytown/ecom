@@ -63,6 +63,7 @@ public class BasicInfoStep extends WizardStep {
 			    
 			    if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
 			        realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
+			        realStateRepository.delete(this.getModelObject().getId());
 			        realStateRepository.save(realStateFromGUI);
 			    }
 			}
