@@ -6,16 +6,16 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 
-import wicket.contrib.gmap.GMap2;
-import wicket.contrib.gmap.GMapHeaderContributor;
-import wicket.contrib.gmap.api.GControl;
-import wicket.contrib.gmap.api.GInfoWindowTab;
-import wicket.contrib.gmap.api.GLatLng;
-import wicket.contrib.gmap.api.GMapType;
-import wicket.contrib.gmap.api.GMarker;
-import wicket.contrib.gmap.api.GMarkerOptions;
-import wicket.contrib.gmap.api.GOverlay;
 
+import com.ecom.web.components.gmap.GMap2;
+import com.ecom.web.components.gmap.GMapHeaderContributor;
+import com.ecom.web.components.gmap.api.GControl;
+import com.ecom.web.components.gmap.api.GInfoWindowTab;
+import com.ecom.web.components.gmap.api.GLatLng;
+import com.ecom.web.components.gmap.api.GMapType;
+import com.ecom.web.components.gmap.api.GMarker;
+import com.ecom.web.components.gmap.api.GMarkerOptions;
+import com.ecom.web.components.gmap.api.GOverlay;
 import com.ecom.web.main.EcomApplication;
 
 public class MapPanel extends Panel {
@@ -44,7 +44,6 @@ public class MapPanel extends Panel {
 			GOverlay marker = new GMarker(latLng, new GMarkerOptions("My Title"));
 
 			bottomMap.addOverlay(marker);
-
 			
 		} catch (IOException e) {
 			error("Unable to geocode (" + e.getMessage() + ")");

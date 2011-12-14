@@ -627,7 +627,7 @@ public class RealState implements Serializable {
     public List<RealStateImage> getNonTitleImages() {
         List<RealStateImage> nonTitleImages = new ArrayList<RealStateImage>();
         for (RealStateImage img : this.images) {
-            if (!img.isThumbNail() && !img.isTitleImage()) {
+            if (!img.isTitleImage() && !img.isThumbNail()) {
                 nonTitleImages.add(img);
             }
         }

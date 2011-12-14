@@ -6,9 +6,10 @@ import java.net.URLConnection;
 
 import org.apache.wicket.util.io.Streams;
 
-import wicket.contrib.gmap.api.GLatLng;
-import wicket.contrib.gmap.util.Geocoder;
-import wicket.contrib.gmap.util.GeocoderException;
+import com.ecom.web.components.gmap.api.GLatLng;
+import com.ecom.web.components.gmap.util.Geocoder;
+import com.ecom.web.components.gmap.util.GeocoderException;
+
 
 /**
  * A serverside Geocoder.
