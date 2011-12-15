@@ -4,9 +4,11 @@ import java.io.InputStream;
 
 import org.bson.types.ObjectId;
 
+import com.ecom.domain.RealState;
+
 public interface ImageService {
 
-    public void saveUploadedImageFileInDB(String originalFileName, InputStream in, ObjectId realStateId, boolean isTitle) ;
+    public void saveUploadedImageFileInDB(String originalFileName, InputStream in, RealState realState, boolean isTitle) ;
 	
 	public void deleteImage(ObjectId realStateId, ObjectId realStateImageId);
 	

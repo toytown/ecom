@@ -8,10 +8,8 @@ import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioChoice;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.bson.types.ObjectId;
 
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealState;
@@ -23,19 +21,16 @@ public class SelectOfferStep extends WizardStep {
 	private static final long serialVersionUID = 1L;
 	private WebMarkupContainer realStateTypesContainer;
 	
-	public SelectOfferStep(IModel<String> title, IModel<String> summary, IModel<ObjectId> realStateIdModel) {
+	public SelectOfferStep(IModel<String> title, IModel<String> summary, IModel<RealState> realStateModel) {
 		super(title, summary);
 
-		final RealState realState = new RealState();
+
 		realStateTypesContainer = new WebMarkupContainer("realStateTypesContainer");
 		realStateTypesContainer.setOutputMarkupId(true);
 		realStateTypesContainer.setOutputMarkupPlaceholderTag(true);
-		
-		realState.setId(realStateIdModel.getObject());
 
 		Form<Void> offerSelectionForm = new Form<Void>("offerSelectionForm");
 		offerSelectionForm.setOutputMarkupId(true);
-		IModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		offerSelectionForm.setDefaultModel(realStateModel);
 
 		

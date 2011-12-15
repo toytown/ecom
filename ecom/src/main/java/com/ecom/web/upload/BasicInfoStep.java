@@ -14,21 +14,18 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
-import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.wizard.WizardStep;
-import com.ecom.web.data.DetachableRealStateModel;
 
 public class BasicInfoStep extends WizardStep {
 
@@ -39,17 +36,14 @@ public class BasicInfoStep extends WizardStep {
 	@SpringBean
 	private RealStateRepository realStateRepository;
 
-	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<ObjectId> realStateIdModel) {
+	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<RealState> realStateModel) {
 		super(wizard_title, summary);
 		Injector.get().inject(this);
 		
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
 
-		final RealState realState = new RealState();
-		realState.setId(realStateIdModel.getObject());
-		
-		CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
+		titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
 		
 		final Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
@@ -58,20 +52,31 @@ public class BasicInfoStep extends WizardStep {
 			@Override
 			public final void onSubmit() {
 
-			    RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
-			    RealState realStateFromGUI = this.getModelObject();
+			    RealState realState = this.getModelObject();
 			    
-			    if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
-			        realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
-			        realStateRepository.delete(this.getModelObject().getId());
-			        realStateRepository.save(realStateFromGUI);
+			    if (realState != null) {
+			        realStateRepository.save(realState);
 			    }
 			}
+			
+
+			@Override
+			protected void onModelChanged(){
+                RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
+                RealState realStateFromGUI = this.getModelObject();
+                
+                if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
+                    realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
+                    realStateRepository.delete(this.getModelObject().getId());
+                    realStateRepository.save(realStateFromGUI);
+                }
+                
+			}
+            
 		};
-		realStateUploadInfoForm.setOutputMarkupId(true);
-		
-		titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
 		realStateUploadInfoForm.add(titleImageContainer);
+		realStateUploadInfoForm.setOutputMarkupId(true);
+
 		
 		final ModalWindow modalWindow;
 		modalWindow = new ModalWindow("titleUploadFileModalWindow");
@@ -85,8 +90,10 @@ public class BasicInfoStep extends WizardStep {
 
 			@Override
 			public Page createPage() {
-				return new TitleImageUploadPage(modalWindow, realStateIdModel);
+				return new TitleImageUploadPage(modalWindow, realStateModel);
 			}
+			
+
 		});
 
 		modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
@@ -95,17 +102,18 @@ public class BasicInfoStep extends WizardStep {
 
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-				RealState realStateDetachModel = new DetachableRealStateModel(realStateIdModel.getObject()).getObject();
 
-				if (realStateDetachModel != null) {
+				RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
+
+				if (realState != null) {
 					ResourceReference imagesResourceReference = new EcomImageResouceReference();
 					PageParameters imageParameters = new PageParameters();
-					String imageId = realStateDetachModel.getTitleThumbNailImage();
+					String imageId = realState.getTitleThumbNailImage();
 					imageParameters.set("id", imageId);
 		
 					// generates nice looking url (the mounted one) to the current image
 					CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-										
+					realStateUploadInfoForm.modelChanged();					
 					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForImage.toString())));
 					target.add(titleImageContainer);
 				}

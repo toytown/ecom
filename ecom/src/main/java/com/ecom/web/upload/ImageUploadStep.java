@@ -49,17 +49,17 @@ public class ImageUploadStep extends WizardStep {
     private FileUploadField file9;
     private FileUploadField file10;
 
-    private FileUploadForm<ObjectId> imageUploadForm;
+    private FileUploadForm<RealState> imageUploadForm;
     private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 
     @SpringBean
     private RealStateRepository realStateRepository;
 
-    public ImageUploadStep(IModel<String> title, IModel<String> summary, final IModel<ObjectId> realStateIdModel) {
+    public ImageUploadStep(IModel<String> title, IModel<String> summary, final IModel<RealState> realStateModel) {
         super(title, summary);
         Injector.get().inject(this);
 
-        imageUploadForm = new FileUploadForm<ObjectId>("uploadForm", realStateIdModel);
+        imageUploadForm = new FileUploadForm<RealState>("uploadForm", realStateModel);
         imageUploadForm.setMultiPart(true);
 
         IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
@@ -106,14 +106,14 @@ public class ImageUploadStep extends WizardStep {
 
                 saveUploadedFiles(uploadedFilesList, imageUploadForm.getModelObject());
 
-                final ObjectId id = imageUploadForm.getModelObject();
+
 
                 IModel<List<RealStateImage>> realStateImagesListModel = new LoadableDetachableModel<List<RealStateImage>>() {
 
                     @Override
                     protected List<RealStateImage> load() {
-                        RealState realState = realStateRepository.findOne(id);
-                        return realState.getNonTitleImages();
+                        RealState realState = realStateRepository.findOne(imageUploadForm.getModelObject().getId());
+                        return realState.getGalleryImages();
                     }
                 };
 
@@ -141,12 +141,13 @@ public class ImageUploadStep extends WizardStep {
                             @Override
                             public void onClick() {
                                 String imgId = this.getDefaultModelObjectAsString();
-                                imageService.deleteImage(id, new ObjectId(imgId));
+                                imageService.deleteImage(realStateModel.getObject().getId(), new ObjectId(imgId));
                                 this.setVisible(false);
                                 imageContainer.addOrReplace(this);
                             }
                         });
                     
+                        listItem.setVisible(!img.isTitleImage());
                     }
                 };
 
@@ -162,13 +163,13 @@ public class ImageUploadStep extends WizardStep {
         add(imageContainer);
     }
 
-    private void saveUploadedFiles(List<FileUpload> uploadedFiles, ObjectId realStateId) {
+    private void saveUploadedFiles(List<FileUpload> uploadedFiles, RealState realState) {
         for (FileUpload uploadedFile : uploadedFiles) {
             
             if (uploadedFile != null && uploadedFile.getClientFileName() != null) {
                 //saves images in gridFS 
                 try {
-                    imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realStateId, false);
+                    imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realState, false);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

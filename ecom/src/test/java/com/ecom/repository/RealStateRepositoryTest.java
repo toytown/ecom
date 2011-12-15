@@ -143,7 +143,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				String other_image = "large_image_" + j + ".jpg";
 				File largeImageFile = readImageFile("test-images/" + other_image);
 				InputStream in = new FileInputStream(largeImageFile);
-				imageService.saveUploadedImageFileInDB(largeImageFile.getName(), in, appartment.getId(), false);
+				imageService.saveUploadedImageFileInDB(largeImageFile.getName(), in, appartment, false);
 
 			}
 
@@ -161,7 +161,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
 			File titleImageFile = readImageFile("test-images/" + title_image);
             InputStream in = new FileInputStream(titleImageFile);
-			imageService.saveUploadedImageFileInDB(titleImageFile.getName(), in, appartment.getId(), true);
+			imageService.saveUploadedImageFileInDB(titleImageFile.getName(), in, appartment, true);
 
 		}
 

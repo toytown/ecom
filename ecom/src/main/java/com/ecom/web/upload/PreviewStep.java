@@ -12,7 +12,6 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
@@ -21,7 +20,6 @@ import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.components.image.OkCancelComponent;
 import com.ecom.web.components.wizard.WizardStep;
-import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.search.ToolsPanel;
 
 public class PreviewStep extends WizardStep {
@@ -33,14 +31,12 @@ public class PreviewStep extends WizardStep {
     @SpringBean
     private RealStateRepository realStateRepository;
 
-    public PreviewStep(IModel<String> title, IModel<String> summary, IModel<ObjectId> realStateModelId) {
+    public PreviewStep(IModel<String> title, IModel<String> summary, IModel<RealState> realStateModelParam) {
         super(title, summary);
 
-        IModel<RealState> realState = new DetachableRealStateModel(realStateModelId.getObject());
-
-        final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
+        final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realStateModelParam.getObject());
         setDefaultModel(realStateModel);
-        imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realState));
+        imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realStateModelParam));
         add(imageNavigationPanel);
         add(new ToolsPanel("toolsPanel"));
         add(new MultiLineLabel("title", realStateModel.bind("title")));
@@ -73,7 +69,7 @@ public class PreviewStep extends WizardStep {
 
         int labelId = 1;
 
-        RealState obj = realState.getObject();
+        RealState obj = realStateModel.getObject();
 
         if (obj != null && obj.isKitchenAvailable()) {
             add(new Label("label" + labelId, new ResourceModel("lbl_kitchen_available")));

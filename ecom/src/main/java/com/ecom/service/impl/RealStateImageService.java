@@ -47,24 +47,18 @@ public class RealStateImageService implements ImageService {
 
 
     @Override
-    public void saveUploadedImageFileInDB(String originalFileName, InputStream in, ObjectId realStateId, boolean isTitle) {
+    public void saveUploadedImageFileInDB(String originalFileName, InputStream in, RealState realState, boolean isTitle) {
 
         try {
 
             BufferedImage originalImage = ImageIO.read(in);
-
-            RealState realState = realStateRepository.findOne(realStateId);
-            if (realState == null) {
-                realState = new RealState();
-                realState.setId(realStateId);
-            }
 
             // creates a thumb nail title image for each uploaded image
             RealStateImage thumbNailImage = new RealStateImage();
             byte[] thumNailImgBytes = createResizedImage(originalImage, true);
             GridFSInputFile gridInputThumImgFile = this.gridFS.createFile(thumNailImgBytes);
             thumbNailImage.setId(gridInputThumImgFile.getId().toString());
-            thumbNailImage.setRealStateId(realStateId.toString());
+            thumbNailImage.setRealStateId(realState.getId().toString());
             thumbNailImage.setMimeType(gridInputThumImgFile.getContentType());
             thumbNailImage.setSize(gridInputThumImgFile.getLength());
             thumbNailImage.setImageFileName(gridInputThumImgFile.getFilename());
@@ -77,7 +71,7 @@ public class RealStateImageService implements ImageService {
             byte[] imageBytes = createResizedImage(originalImage, false);
             GridFSInputFile gridInputImgFile = this.gridFS.createFile(imageBytes);
             image.setId(gridInputImgFile.getId().toString());
-            image.setRealStateId(realStateId.toString());
+            image.setRealStateId(realState.getId().toString());
             image.setMimeType(gridInputImgFile.getContentType());
             image.setSize(gridInputImgFile.getLength());
             image.setImageFileName(gridInputImgFile.getFilename());
