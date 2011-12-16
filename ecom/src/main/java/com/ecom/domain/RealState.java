@@ -548,6 +548,19 @@ public class RealState implements Serializable {
         return realStateImgList;
     }
     
+    public void removeTitleImages() {
+
+        Iterator<RealStateImage> iter = this.getImages().iterator();
+        
+        while (iter.hasNext()) {
+            RealStateImage img = iter.next();
+            
+            if (img != null && img.isTitleImage()) {
+                iter.remove();
+            }
+        }
+    }
+    
     public void addTitleImages(List<RealStateImage> titlImages) {
         if (titlImages.isEmpty()) {
             return;

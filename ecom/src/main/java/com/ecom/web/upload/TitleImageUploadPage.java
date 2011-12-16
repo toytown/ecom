@@ -2,6 +2,7 @@ package com.ecom.web.upload;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
@@ -49,7 +50,13 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
         if (uploadedFile != null && uploadedFile.getClientFileName() != null) {
             try {
+                if (!StringUtils.isEmpty(realState.getTitleImageId())) {
+                    imageService.deleteImage(realState, realState.getTitleImageId());
+                    realState.removeTitleImages();
+                }
+                //saves the newly uploaded title image
                 imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realState, true);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

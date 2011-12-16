@@ -15,7 +15,6 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.request.component.IRequestableComponent;
-import org.apache.wicket.request.mapper.MountedMapper;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
@@ -23,12 +22,11 @@ import com.ecom.common.utils.AppConfig;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
-import com.ecom.web.login.UserDetailPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
-import com.ecom.web.utils.RootMapper;
+import com.ecom.web.user.UserDetailPage;
 
 public class EcomApplication extends WebApplication {
 
@@ -47,22 +45,14 @@ public class EcomApplication extends WebApplication {
         
         mountPage("/home", HomePage.class);
         mountPage("/details", DetailViewPage.class);
-        mountPage("/login", LoginPage.class);
-        mountPage("/registration", RegistrationPage.class);
+        mountPage("/home/login", LoginPage.class);
+        mountPage("/home/registration", RegistrationPage.class);
         mountPage("/home/results", SearchResultPage.class);
-        mountPage("/addRealState", AddRealStateInfoPage.class);
+        mountPage("/home/dashboard", UserDetailPage.class);
+        
         mountResource("/imagerepo/${id}", new EcomImageResouceReference());
         this.getComponentPostOnBeforeRenderListeners().add(new StatelessChecker());
 
-
-        setRootRequestMapper(new RootMapper(getRootRequestMapper()));
-        
-        getRootRequestMapperAsCompound().add(new MountedMapper("/home", HomePage.class));
-        getRootRequestMapperAsCompound().add(new MountedMapper("/home/results", SearchResultPage.class));
-        getRootRequestMapperAsCompound().add(new MountedMapper("/addRealState", AddRealStateInfoPage.class));
-        getRootRequestMapperAsCompound().add(new MountedMapper("/login", LoginPage.class));
-        getRootRequestMapperAsCompound().add(new MountedMapper("/details", DetailViewPage.class));
-        getRootRequestMapperAsCompound().add(new MountedMapper("/registration", RegistrationPage.class));
 
         // disables echoing of wicket tags and their attributes to resulting html
         getMarkupSettings().setStripWicketTags(true);

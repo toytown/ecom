@@ -11,6 +11,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
+import com.ecom.web.user.UserDetailPage;
 
 public class LoginPage extends GenericTemplatePage {
 

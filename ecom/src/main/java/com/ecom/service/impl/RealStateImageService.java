@@ -127,18 +127,18 @@ public class RealStateImageService implements ImageService {
     }
 
     @Override
-    public void deleteImage(ObjectId realStateId, ObjectId realStateImageId) {
-        RealState realState = realStateRepository.findOne(realStateId);
+    public void deleteImage(RealState realState, String realStateImageId) {
 
-        if (!realState.getImages().isEmpty()) {
+        if (realState != null && !realState.getImages().isEmpty()) {
             Iterator<RealStateImage> iter = realState.getImages().iterator();
 
             while (iter.hasNext()) {
                 RealStateImage img = iter.next();
-                if (realStateImageId != null && img != null && img.getId().equals(realStateImageId.toString())) {
-                    iter.remove();
+                if (realStateImageId != null && img != null && img.getId().equals(realStateImageId)) {
+                    
                     if (this.gridFS.findOne(realStateImageId) != null) {
                         this.gridFS.remove(realStateImageId);
+                        iter.remove();
                     }
                     realStateRepository.save(realState);
                 }

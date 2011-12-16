@@ -20,7 +20,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
@@ -141,7 +140,7 @@ public class ImageUploadStep extends WizardStep {
                             @Override
                             public void onClick() {
                                 String imgId = this.getDefaultModelObjectAsString();
-                                imageService.deleteImage(realStateModel.getObject().getId(), new ObjectId(imgId));
+                                imageService.deleteImage(realStateModel.getObject(), imgId);
                                 this.setVisible(false);
                                 imageContainer.addOrReplace(this);
                             }
