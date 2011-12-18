@@ -74,37 +74,38 @@
 						<li><a href="" class="utilities"><span class="inner">Utilities</span></a></li>
 					</ul>
 				</div>
-			<div wicket:id="dataContainer">
 
 				
 				<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
 				<div style="clear: both;"></div>
 
-				<ol style="list-style: none; margin: 0px 0px 0px 0px; padding: 0px">
-					<table wicket:id="userResultsView">
-						<tr><td colspan="4"><span wicket:id="title" /></td></tr>
+
+					<table cellspacing="0" class="dataview">
 						<tr>
-							<td>
+							<th></th>
+							<th>Address</th>
+							<th wicket:id="orderByCost">Price</th>
+							<th wicket:id="orderByArea">Area</th>
+							<th wicket:id="orderByRooms">Rooms</th>
+						</tr>
+						<tr wicket:id="userResultsView">
+							<td width="20%">								
 								<img class="img_left" wicket:id="title_image" />
 							</td>
-							<td><p><span wicket:id="address" /></p>
-								<p wicket:id="description"></p>
-							</td>							
-							<td>								
-								<ul>
-									<li><label style="font-weight: bold;"><wicket:message key="lbl_price" /></label><span wicket:id="price" /></li>
-									<li><label><wicket:message key="lbl_size" /></label><span wicket:id="size" /></li>
-									<li><label><wicket:message key="lbl_rooms" /></label><span wicket:id="rooms" /></li>
-								</ul>
-							</td>							
+							<td width="20%" valign="top">
+								<span wicket:id="address" />
+							</td>
+							<td width="10%" valign="top"><span wicket:id="price" /></td>
+							<td width="10%" valign="top"><span wicket:id="size" /></td>
+							<td width="10%" valign="top"><span wicket:id="rooms" /></td>
+							<tr><td colspan="5"><span wicket:id="title" /></td></tr>						
 						</tr>
-						<tr><td colspan="4"><img src="images/underline.png" width="640px" height="1px;" style="margin-top:15px;"/></td></tr>
+						
 
 					</table>
-				</ol>
+
 			</div>
 
-		</div>
 		<!-- end of column three -->
 
 	</div>

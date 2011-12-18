@@ -1,10 +1,12 @@
 package com.ecom.web.user;
 
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.domain.RealState;
@@ -24,14 +26,12 @@ public class UserDetailPage extends GenericTemplatePage {
 		String userName = session.getUserName();
 
 		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userName);
-
-		final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
 		
-		DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
+		final DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void populateItem(Item<RealState> item) {
+			protected void populateItem(final Item<RealState> item) {
 				final RealState realState = (RealState) item.getModelObject();
 
 				PageParameters detailParam = new PageParameters();
@@ -42,7 +42,7 @@ public class UserDetailPage extends GenericTemplatePage {
 					item.add(img);					
 				}
 				item.add(new Label("title", realState.getTitle()));
-				item.add(new Label("description", realState.getDescription()));
+				//item.add(new Label("description", realState.getDescription()));
 				item.add(new Label("price", String.valueOf(realState.getCost())));
 				item.add(new Label("size", String.valueOf(realState.getSize())));
 				item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
@@ -50,19 +50,64 @@ public class UserDetailPage extends GenericTemplatePage {
 				String addressInfo = realState.getAddressInfo();
 
 				item.add(new Label("address", addressInfo));
+				
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
+				{
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject()
+					{
+						return (item.getIndex() % 2 == 1) ? "even" : "odd";
+					}
+				}));				
 
 			}
 
 		};
 	
 		dataView.setOutputMarkupId(true);
+		
+		add(new OrderByBorder("orderByRooms", "totalRooms", dataProvider)
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged()
+			{
+				dataView.setCurrentPage(0);
+			}
+		});
+
+		add(new OrderByBorder("orderByCost", "cost", dataProvider)
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged()
+			{
+				dataView.setCurrentPage(0);
+			}
+		});
+		
+		add(new OrderByBorder("orderByArea", "area", dataProvider)
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged()
+			{
+				dataView.setCurrentPage(0);
+			}
+		});
+		
 		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, UserDetailPage.class, null);
 		pagingNavigator.setVisible(true);
 		pagingNavigator.setOutputMarkupId(true);
 		
-		dataContainer.add(dataView);
-		dataContainer.add(pagingNavigator);
-		add(dataContainer);
+		add(dataView);
+		add(pagingNavigator);
+
 
 	}
 
