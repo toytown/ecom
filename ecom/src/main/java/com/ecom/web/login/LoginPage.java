@@ -11,6 +11,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
+import com.ecom.web.user.UserDashBoardPage;
 import com.ecom.web.user.UserDetailPage;
 
 public class LoginPage extends GenericTemplatePage {
@@ -62,7 +63,7 @@ public class LoginPage extends GenericTemplatePage {
 					EcomSession session = (EcomSession) EcomSession.get();					
 					if (session.signIn(loginRequest.getUserName(), loginRequest.getPassword())) {
 						session.setUserName(loginRequest.getUserName());
-						setResponsePage(UserDetailPage.class);
+						setResponsePage(UserDashBoardPage.class);
 					}
 						
 				} else {
