@@ -366,3 +366,38 @@ button.minibutton::-moz-focus-inner {
 .btn-forward:hover .icon {
 	background-position: -180px -25px;
 }
+
+/* Small Buttons */
+a.small_button {
+	color: #333;
+	display: block;
+	float: left;
+	height: 16px;
+	margin: 3px 6px 3px 0;
+	padding-right: 10px; /* sliding doors padding */
+	text-decoration: none;
+	cursor: pointer;
+	-moz-user-select: none;
+	background: transparent url('../images/buttons/bg_small_button_a.gif')
+		no-repeat scroll top right;
+}
+
+a.small_button span {
+	display: block;
+	font: normal 10px arial, sans-serif;
+	line-height: 13px;
+	padding: 2px 0 1px 10px;
+	background: transparent
+		url('../images/buttons/bg_small_button_span.gif') no-repeat;
+}
+
+a.small_button:active {
+	background-position: bottom right;
+	color: #000;
+	outline: none; /* hide dotted outline in Firefox */
+}
+
+a.small_button:active span {
+	background-position: bottom left;
+	padding: 2px 0 1px 10px; /* push text down 1px */
+}

@@ -122,6 +122,26 @@ public class RealState implements Serializable {
 
 	private List<RealStateImage> images = new ArrayList<RealStateImage>();
 	
+	public enum STATUS {
+	        NEW, VALID, ACTIVE, INACTIVE;
+	        
+	        public static int getValue(STATUS status) {
+	            
+	            switch(status) {
+                case VALID:
+                    return 1;
+                case ACTIVE:
+                    return 2;
+                case INACTIVE:
+                    return 100;
+	            case NEW:
+    	                return 0;
+    	            default:
+    	                return 0;
+	            }
+	        }
+	    };
+	
 	@Transient
 	private String addressInfo;
 	
@@ -656,6 +676,38 @@ public class RealState implements Serializable {
 		this.realStateType = realStateType;
 	}
 
+	public boolean isValid() {
+	    
+	    if (StringUtils.isEmpty(getTitle())) {
+	        return false;
+	    } 
+	    
+	    if (StringUtils.isEmpty(getDescription())) {
+	        return false;
+	    }
+	    
+	    if(StringUtils.isEmpty(this.getStreet())) {
+	        return false;
+	    }
+	    
+        if(StringUtils.isEmpty(this.getCity())) {
+            return false;
+        }
+        
+        if(StringUtils.isEmpty(this.getAreaCode())) {
+            return false;
+        }
+        
+	    return true;	    
+	}
+	
+	public void changeStatus() {
+	
+	    if (isValid()) {
+	        this.setStatus(STATUS.getValue(STATUS.VALID));
+	    }
+	}
+	
     @Override
     public int hashCode() {
         final int prime = 31;
