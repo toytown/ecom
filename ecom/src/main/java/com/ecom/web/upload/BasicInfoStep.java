@@ -1,6 +1,5 @@
 package com.ecom.web.upload;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -10,21 +9,24 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
+import com.ecom.web.components.validation.ErrorClassAppender;
 import com.ecom.web.components.wizard.WizardStep;
 
 public class BasicInfoStep extends WizardStep {
@@ -39,12 +41,12 @@ public class BasicInfoStep extends WizardStep {
 	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<RealState> realStateModel) {
 		super(wizard_title, summary);
 		Injector.get().inject(this);
-		
+
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
 
 		titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
-		
+
 		final Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
 			private static final long serialVersionUID = 1L;
@@ -52,32 +54,37 @@ public class BasicInfoStep extends WizardStep {
 			@Override
 			public final void onSubmit() {
 
-			    RealState realState = this.getModelObject();
-			    
-			    if (realState != null) {
-			        realStateRepository.save(realState);
-			    }
+				RealState realState = this.getModelObject();
+
+				if (realState != null) {
+					realStateRepository.save(realState);
+				}
 			}
-			
 
 			@Override
-			protected void onModelChanged(){
-                RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
-                RealState realStateFromGUI = this.getModelObject();
-                
-                if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
-                    realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
-                    realStateRepository.delete(this.getModelObject().getId());
-                    realStateRepository.save(realStateFromGUI);
-                }
-                
+			protected void onModelChanged() {
+				RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
+				RealState realStateFromGUI = this.getModelObject();
+
+				if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
+					realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
+					realStateRepository.delete(this.getModelObject().getId());
+					realStateRepository.save(realStateFromGUI);
+				}
+
 			}
-            
+
 		};
 		realStateUploadInfoForm.add(titleImageContainer);
 		realStateUploadInfoForm.setOutputMarkupId(true);
+		realStateUploadInfoForm.visitChildren(FormComponent.class, new IVisitor<FormComponent<?>, Void>() {
 
-		
+			@Override
+			public void component(FormComponent<?> component, IVisit<Void> visit) {				
+				component.add(new ErrorClassAppender());
+			}
+		});
+
 		final ModalWindow modalWindow;
 		modalWindow = new ModalWindow("titleUploadFileModalWindow");
 		modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
@@ -92,7 +99,6 @@ public class BasicInfoStep extends WizardStep {
 			public Page createPage() {
 				return new TitleImageUploadPage(modalWindow, realStateModel);
 			}
-			
 
 		});
 
@@ -110,10 +116,11 @@ public class BasicInfoStep extends WizardStep {
 					PageParameters imageParameters = new PageParameters();
 					String imageId = realState.getTitleThumbNailImage();
 					imageParameters.set("id", imageId);
-		
-					// generates nice looking url (the mounted one) to the current image
+
+					// generates nice looking url (the mounted one) to the current
+					// image
 					CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-					realStateUploadInfoForm.modelChanged();					
+					realStateUploadInfoForm.modelChanged();
 					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForImage.toString())));
 					target.add(titleImageContainer);
 				}
@@ -137,40 +144,22 @@ public class BasicInfoStep extends WizardStep {
 		title.setRequired(true);
 		title.add(StringValidator.maximumLength(150));
 		title.setOutputMarkupId(true);
-		
-//        final FeedbackLabel nameFeedbackLabel = new FeedbackLabel("title.error", title);
-//        nameFeedbackLabel.setOutputMarkupId(true);
-//        realStateUploadInfoForm.add(nameFeedbackLabel);
+		title.add(new ErrorClassAppender());
 
-		title.add(new AttributeModifier("class", new AbstractReadOnlyModel<String>() {
-
-			private static final long serialVersionUID = 1L;
-
-				@Override
-            public String getObject() {
-                if (!title.isValid()) {
-                    return "formcomponent invalid";
-                } else {
-                    return "formcomponent valid";
-                }
-                
-            }
-        }));
-		
 		TextArea<String> description = new TextArea<String>("description");
 		description.setRequired(true);
 		description.add(StringValidator.maximumLength(600));
-		
+
 		TextArea<String> areaDescription = new TextArea<String>("areaDescription");
-		
+
 		TextArea<String> fittings = new TextArea<String>("fittings");
-		
+
 		TextField<String> city = new TextField<String>("city");
 		city.setRequired(true);
-		
+
 		TextField<String> areaCode = new TextField<String>("areaCode");
 		areaCode.setRequired(true);
-		
+
 		TextField<String> street = new TextField<String>("street");
 		TextField<String> houseNo = new TextField<String>("houseNo");
 		TextField<Double> size = new TextField<Double>("size");
@@ -249,6 +238,5 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(seniorAppartment);
 		add(realStateUploadInfoForm);
 	}
-
 
 }

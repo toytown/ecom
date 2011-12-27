@@ -44,8 +44,10 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
         wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images...3"), null, realStateModel));
         wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateModel));
         UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true) {
-            
-            @Override
+
+			private static final long serialVersionUID = 1L;
+
+				@Override
             public void onFinish() {
                 realStateRepository.save(realStateModel.getObject());
                 setResponsePage(HomePage.class);

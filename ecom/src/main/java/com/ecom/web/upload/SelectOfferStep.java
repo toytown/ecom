@@ -64,13 +64,14 @@ public class SelectOfferStep extends WizardStep {
 
 		});
 		offerType.setRequired(true);
-		List<RealStateType> realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
-        IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
-        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
-        realStateType.setRequired(true);
-        realStateTypesContainer.add(realStateType);
+		List<RealStateType> realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House,
+				RealStateType.Land, RealStateType.Garage);
+		IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
+		RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
+		realStateType.setRequired(true);
+		realStateTypesContainer.add(realStateType);
 		realStateTypesContainer.setVisible(false);
-		
+
 		offerSelectionForm.add(offerType);
 		offerSelectionForm.add(realStateTypesContainer);
 		add(offerSelectionForm);

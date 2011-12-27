@@ -87,6 +87,7 @@
 							<th wicket:id="orderByCost">Price</th>
 							<th wicket:id="orderByArea">Area</th>
 							<th wicket:id="orderByRooms">Rooms</th>
+							<th><wicket:message key="action"/></th>
 						</tr>
 						<tr wicket:id="userResultsView">
 							<td width="20%">								
@@ -98,7 +99,9 @@
 							<td width="10%" valign="top"><span wicket:id="price" /></td>
 							<td width="10%" valign="top"><span wicket:id="size" /></td>
 							<td width="10%" valign="top"><span wicket:id="rooms" /></td>
-							<tr><td colspan="5"><span wicket:id="title" /></td></tr>						
+							<td valign="top"><div class="buttons" style="float: right; width: 80px;">
+											<a href="" class="regular" wicket:id="delete"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Delete</a>
+										</div></td>
 						</tr>
 						
 
