@@ -16,7 +16,9 @@ import com.ecom.web.components.wizard.WizardStep;
 public class SaveButton extends WizardButton {
 
 
-    public SaveButton(String id, IWizard wizard) {
+	private static final long serialVersionUID = -5352088185473868894L;
+
+	public SaveButton(String id, IWizard wizard) {
         this(id, new Model<String>("Save"), wizard);
     }
     

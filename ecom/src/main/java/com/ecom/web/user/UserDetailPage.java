@@ -36,9 +36,9 @@ public class UserDetailPage extends GenericTemplatePage {
 	public UserDetailPage() {
 
 		EcomSession session = (EcomSession) EcomSession.get();
-		String userName = session.getUserName();
+		String userId = session.getUserId();
 
-		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userName);
+		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId);
 
 		final DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
 			private static final long serialVersionUID = 1L;

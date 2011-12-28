@@ -22,7 +22,8 @@ import com.ecom.web.main.GenericTemplatePage;
 
 public class InboxPage extends GenericTemplatePage {
 
-    private String userId;
+	private static final long serialVersionUID = -520591566156931738L;
+	private String userId;
     
     public InboxPage(PageParameters params) {
 
@@ -31,7 +32,9 @@ public class InboxPage extends GenericTemplatePage {
         SortableDataProvider<Message> dataProvider = new MessageDataProvider(userId);
         final DataView<Message> dataView = new DataView<Message>("userMessageResultsView", dataProvider) {
 
-            @Override
+			private static final long serialVersionUID = 6097489432223932704L;
+
+				@Override
             protected void populateItem(Item<Message> item) {
                 Message msg = item.getModelObject();
                 CheckBox selector = new CheckBox("messageSelector");

@@ -112,7 +112,7 @@ public class RealState implements Serializable {
 
 	private boolean seniorAppartment;
 
-	private String userName;
+	private String userId;
 
 	private Date activationDate;
 	   
@@ -622,12 +622,12 @@ public class RealState implements Serializable {
 		return this.addressInfo;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
     public Date getActivationDate() {
@@ -771,7 +771,7 @@ public class RealState implements Serializable {
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + typeId;
         result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
-        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
         return result;
     }
 
@@ -938,10 +938,10 @@ public class RealState implements Serializable {
                 return false;
         } else if (!updatedTs.equals(other.updatedTs))
             return false;
-        if (userName == null) {
-            if (other.userName != null)
+        if (userId == null) {
+            if (other.userId != null)
                 return false;
-        } else if (!userName.equals(other.userName))
+        } else if (!userId.equals(other.userId))
             return false;
         return true;
     }

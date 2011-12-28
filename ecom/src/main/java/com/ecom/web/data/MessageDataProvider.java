@@ -20,7 +20,9 @@ import com.ecom.repository.MessageRepository;
 
 public class MessageDataProvider extends SortableDataProvider<Message> {
 
-    public static final int PAGE_SIZE = 15;
+	private static final long serialVersionUID = 431164733248836183L;
+
+	public static final int PAGE_SIZE = 15;
     
     public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "insertTs");
 
@@ -49,11 +51,11 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
             Sort sort = null;
             
             if (sortParam.getProperty().equalsIgnoreCase("insertedTs")) {
-                sort = new Sort(Direction.DESC, "insertedTs" );
+                sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "insertedTs" );
             }
             
             if (sortParam.getProperty().equalsIgnoreCase("title")) {
-                sort = new Sort(Direction.ASC, "title" );
+                sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "title" );
             }
 
             req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
@@ -76,7 +78,9 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
     public IModel<Message> model(final Message object) {
         IModel<Message> realStateModel = new LoadableDetachableModel<Message>() {
 
-            protected Message load() {
+			private static final long serialVersionUID = 1L;
+
+				protected Message load() {
                 return messageRepository.findOne(object.getId());
             }
         };

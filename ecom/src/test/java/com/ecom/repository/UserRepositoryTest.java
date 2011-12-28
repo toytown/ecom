@@ -10,7 +10,7 @@ import com.ecom.test.AbstractIntegrationTest;
 public class UserRepositoryTest extends AbstractIntegrationTest {
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	
     @Before
@@ -28,8 +28,8 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
     	user.setZip("80337");
     	user.setPhone1("49 89 76755263");
     	user.setFax("prasanna");
-    	user.setUserName("test");
-    	user.setPassword("test");
+    	user.setUserName("my-user");
+    	user.setPassword("my-passwd");
     	userRepository.save(user);
     }	
 }

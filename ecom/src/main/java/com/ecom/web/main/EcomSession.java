@@ -13,7 +13,9 @@ public class EcomSession extends WebSession {
 	private static final long serialVersionUID = 1L;
 	private volatile boolean signedIn;
 	private String userName = null;
-
+	private String userId = null;
+	
+	
 	@SpringBean
 	private UserRepository userRepository;
 
@@ -30,6 +32,9 @@ public class EcomSession extends WebSession {
 
 		if (signedIn) {
 			bind();
+			
+			setUserId(user.getId().toString());
+			setUserName(user.getUserName());
 		}
 		return signedIn;
 	}
@@ -50,6 +55,15 @@ public class EcomSession extends WebSession {
 		super.invalidate();
 		signedIn = false;
 		userName = null;
+		userId = null;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }
