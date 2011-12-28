@@ -1,5 +1,6 @@
 package com.ecom.web.components.wizard;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import org.apache.wicket.Component;
@@ -16,7 +17,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.ecom.web.components.validation.ErrorLevelsFeedbackMessageFilter;
 
-public class WizardComponent extends Wizard {
+public class WizardComponent extends Wizard implements Serializable {
 
 
 	private static final long serialVersionUID = -8874860187906015162L;

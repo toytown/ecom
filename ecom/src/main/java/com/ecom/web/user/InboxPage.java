@@ -9,6 +9,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
@@ -16,7 +17,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.domain.Message;
-import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.MessageDataProvider;
 import com.ecom.web.main.GenericTemplatePage;
 
@@ -80,7 +80,9 @@ public class InboxPage extends GenericTemplatePage {
             }
         });        
         add(dataView);
-        final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, InboxPage.class, params);
+        dataView.setItemsPerPage(5);
+        final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", dataView);
+        
         pagingNavigator.setVisible(true);
         pagingNavigator.setOutputMarkupId(true);
         add(pagingNavigator);

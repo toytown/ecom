@@ -723,7 +723,7 @@ div.pagination a {
 	color: #d8325d;
 }
 
-div.pagination a:hover,div.pagination a:active {
+div.pagination a:hover, div.pagination a:active {
 	border: 1px solid #ddd;
 	color: #fff;
 	background-color: #d8325d;

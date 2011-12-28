@@ -70,7 +70,7 @@ public class CustomizedPagingNavigator extends Panel {
 				AbstractLink link = CustomizedPagingNavigator.this.newPagingNavigationLink(id, pageable, pageIndex);
 				if (pageIndex == pageable.getCurrentPage()) {
 					link.add(new AttributeModifier("style", new Model<String>(
-							"border: 1px solid #ddd;padding: 2px 5px 2px 5px;margin-right: 2px;background-color: #d8325d;")));
+							"border: 1px solid #ddd;padding: 2px 5px 2px 5px;margin-right: 2px;background-color: #d8325d;color: #fff")));
 				}
 				return link;
 			}
