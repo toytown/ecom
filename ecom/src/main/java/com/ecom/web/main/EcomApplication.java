@@ -50,6 +50,7 @@ public class EcomApplication extends WebApplication {
         mountPage("/home/registration", RegistrationPage.class);
         mountPage("/home/results", SearchResultPage.class);
         mountPage("/home/dashboard", UserDashBoardPage.class);
+        mountPage("/home/addRealState", AddRealStateInfoPage.class);
         
         mountResource("/imagerepo/${id}", new EcomImageResouceReference());
         this.getComponentPostOnBeforeRenderListeners().add(new StatelessChecker());

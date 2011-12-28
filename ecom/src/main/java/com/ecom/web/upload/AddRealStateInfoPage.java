@@ -1,5 +1,7 @@
 package com.ecom.web.upload;
 
+import java.io.Serializable;
+
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -20,7 +22,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage {
     @SpringBean
     private RealStateRepository realStateRepository;
     
-    private class UploadRealStateWizard extends WizardComponent {
+    private class UploadRealStateWizard extends WizardComponent implements Serializable{
 
         private static final long serialVersionUID = -3026931598109913934L;
 

@@ -62,7 +62,6 @@ public class LoginPage extends GenericTemplatePage {
 				if (loginRequest != null && loginRequest.getUserName() != null) {
 					EcomSession session = (EcomSession) EcomSession.get();					
 					if (session.signIn(loginRequest.getUserName(), loginRequest.getPassword())) {
-						session.setUserName(loginRequest.getUserName());
 						setResponsePage(UserDashBoardPage.class);
 					}
 						

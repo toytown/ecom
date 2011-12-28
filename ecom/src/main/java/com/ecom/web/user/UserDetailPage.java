@@ -5,6 +5,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
@@ -17,7 +18,6 @@ import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.web.components.image.StaticImage;
-import com.ecom.web.components.pagination.CustomizedPagingNavigator;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
@@ -36,9 +36,9 @@ public class UserDetailPage extends GenericTemplatePage {
 	public UserDetailPage() {
 
 		EcomSession session = (EcomSession) EcomSession.get();
-		String userName = session.getUserName();
+		String userId = session.getUserId();
 
-		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userName);
+		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId);
 
 		final DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
 			private static final long serialVersionUID = 1L;
@@ -120,7 +120,8 @@ public class UserDetailPage extends GenericTemplatePage {
 			}
 		});
 
-		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, UserDetailPage.class, null);
+		dataView.setItemsPerPage(5);
+		final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", dataView);
 		pagingNavigator.setVisible(true);
 		pagingNavigator.setOutputMarkupId(true);
 

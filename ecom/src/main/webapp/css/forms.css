@@ -187,13 +187,11 @@ div.search_form label {
 	width: 160px;
 }
 
-div.search_form img {
+img.title_image_preview {
 	height: 90px;
 	width: 110px;
 	float: left;
-	
 }
-
 div.search_form label.radio,div.search_form label.checkbox {
 	float: left;
 	width: 300px;
@@ -325,7 +323,6 @@ div.search_form input {
 	width: 245px;
 	font-size: 10px;
 }
-
 
 div.search_form input.date {
 	width: 75px;

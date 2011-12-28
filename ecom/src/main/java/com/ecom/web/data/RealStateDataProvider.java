@@ -26,7 +26,7 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 	private static final long serialVersionUID = -6508771802462213044L;
 	public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "insertTs");
 	private transient PageRequest req = new PageRequest(0, PAGE_SIZE, DEFAULT_SORT);
-	private String userName = null;
+	private String userId = null;
 	
 	@SpringBean
 	private RealStateRepository realStateRepository;
@@ -36,9 +36,9 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 		Injector.get().inject(this);
 	}
 
-	public RealStateDataProvider(String userName) {
+	public RealStateDataProvider(String userId) {
 		this();
-		this.userName = userName;
+		this.userId = userId;
 		setSort("insertTs", SortOrder.DESCENDING);
 	}
 
@@ -53,34 +53,32 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 		Iterator<RealState> iter = null;
 
 		
-		if (!StringUtils.isEmpty(userName)) {
+		if (!StringUtils.isEmpty(userId)) {
 			QRealState realStateQuery = new QRealState("realState");			
 
 			SortParam sortParam = this.getSort();
+			Sort sort = null;
 			
 			if (sortParam.getProperty().equalsIgnoreCase("cost")) {
-				Sort sort = new Sort(Direction.ASC, "cost" );
-				req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-				iter = realStateRepository.findAll(realStateQuery.userName.eq(userName), req).iterator();
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "cost" );
+
 			}
 			
 			if (sortParam.getProperty().equalsIgnoreCase("totalRooms")) {
-				Sort sort = new Sort(Direction.ASC, "totalRooms" );
-				req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-				iter = realStateRepository.findAll(realStateQuery.userName.eq(userName), req).iterator();
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "totalRooms" );
 			}
 			
 			if (sortParam.getProperty().equalsIgnoreCase("area")) {
-				Sort sort = new Sort(Direction.ASC, "size" );
-				req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-				iter = realStateRepository.findAll(realStateQuery.userName.eq(userName), req).iterator();
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "size" );
 			}	
 			
 			if (sortParam.getProperty().equalsIgnoreCase("insertTs")) {
-				Sort sort = new Sort(Direction.DESC, "id" );
-				req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-				iter = realStateRepository.findAll(realStateQuery.userName.eq(userName), req).iterator();
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "id" );
 			}			
+
+			req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
+			
+			iter = realStateRepository.findAll(realStateQuery.userId.eq(userId), req).iterator();
 			
 		} else {
 			iter = realStateRepository.findAll(req).iterator();
@@ -92,7 +90,14 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
 	@Override
 	public int size() {
-		return Long.valueOf(realStateRepository.count()).intValue();
+		
+		if (!StringUtils.isEmpty(userId)) {
+			QRealState realStateQuery = new QRealState("realState");	
+			return Long.valueOf(realStateRepository.count(realStateQuery.userId.eq(userId))).intValue();
+		} else {
+			return Long.valueOf(realStateRepository.count()).intValue();
+		}
+		
 	}
 
 	@Override

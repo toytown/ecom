@@ -296,4 +296,167 @@ public class User implements Serializable {
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activationCode == null) ? 0 : activationCode.hashCode());
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+		result = prime * result + contactStatus;
+		result = prime * result + ((countryCode == null) ? 0 : countryCode.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((fax == null) ? 0 : fax.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((homePageURL == null) ? 0 : homePageURL.hashCode());
+		result = prime * result + ((houseNumber == null) ? 0 : houseNumber.hashCode());
+		result = prime * result + ((insertTs == null) ? 0 : insertTs.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((password2 == null) ? 0 : password2.hashCode());
+		result = prime * result + ((phone1 == null) ? 0 : phone1.hashCode());
+		result = prime * result + ((phone2 == null) ? 0 : phone2.hashCode());
+		result = prime * result + status;
+		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
+		result = prime * result + ((userCategory == null) ? 0 : userCategory.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (activationCode == null) {
+			if (other.activationCode != null)
+				return false;
+		} else if (!activationCode.equals(other.activationCode))
+			return false;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (companyName == null) {
+			if (other.companyName != null)
+				return false;
+		} else if (!companyName.equals(other.companyName))
+			return false;
+		if (contactStatus != other.contactStatus)
+			return false;
+		if (countryCode == null) {
+			if (other.countryCode != null)
+				return false;
+		} else if (!countryCode.equals(other.countryCode))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (fax == null) {
+			if (other.fax != null)
+				return false;
+		} else if (!fax.equals(other.fax))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (homePageURL == null) {
+			if (other.homePageURL != null)
+				return false;
+		} else if (!homePageURL.equals(other.homePageURL))
+			return false;
+		if (houseNumber == null) {
+			if (other.houseNumber != null)
+				return false;
+		} else if (!houseNumber.equals(other.houseNumber))
+			return false;
+		if (insertTs == null) {
+			if (other.insertTs != null)
+				return false;
+		} else if (!insertTs.equals(other.insertTs))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (mobile == null) {
+			if (other.mobile != null)
+				return false;
+		} else if (!mobile.equals(other.mobile))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (password2 == null) {
+			if (other.password2 != null)
+				return false;
+		} else if (!password2.equals(other.password2))
+			return false;
+		if (phone1 == null) {
+			if (other.phone1 != null)
+				return false;
+		} else if (!phone1.equals(other.phone1))
+			return false;
+		if (phone2 == null) {
+			if (other.phone2 != null)
+				return false;
+		} else if (!phone2.equals(other.phone2))
+			return false;
+		if (status != other.status)
+			return false;
+		if (street == null) {
+			if (other.street != null)
+				return false;
+		} else if (!street.equals(other.street))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (updatedTs == null) {
+			if (other.updatedTs != null)
+				return false;
+		} else if (!updatedTs.equals(other.updatedTs))
+			return false;
+		if (userCategory == null) {
+			if (other.userCategory != null)
+				return false;
+		} else if (!userCategory.equals(other.userCategory))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		if (zip == null) {
+			if (other.zip != null)
+				return false;
+		} else if (!zip.equals(other.zip))
+			return false;
+		return true;
+	}
 }

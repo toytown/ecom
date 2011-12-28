@@ -29,6 +29,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 	@Autowired
 	private RealStateRepository realStateRepository;
 
+	
 	@Autowired
 	private ImageService imageService;
 
@@ -128,7 +129,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			appartment.setCategoryId(1);
 			appartment.setTypeId(1);
 
-			appartment.setUserName("test");
+			appartment.setUserId(getDefaultUser().getId().toString());
 			realStateRepository.save(appartment);
 
 			// save images

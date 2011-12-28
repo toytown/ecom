@@ -8,7 +8,10 @@ import org.apache.wicket.model.Model;
 
 public class FinishButton extends WizardButton {
 
-    public FinishButton(String id, IWizard wizard) {
+
+	private static final long serialVersionUID = 1L;
+
+	public FinishButton(String id, IWizard wizard) {
         this(id, new Model<String>("Finish"), wizard);
     }
     

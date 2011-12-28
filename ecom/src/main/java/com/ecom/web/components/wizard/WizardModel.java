@@ -7,7 +7,8 @@ import org.apache.wicket.extensions.wizard.IWizardStep;
  */
 public class WizardModel extends org.apache.wicket.extensions.wizard.WizardModel {
 
-    public WizardModel() {
+	private static final long serialVersionUID = 8087837150558160793L;
+	public WizardModel() {
         super();
     }
     /**
