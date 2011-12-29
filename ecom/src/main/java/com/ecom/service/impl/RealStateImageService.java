@@ -136,11 +136,11 @@ public class RealStateImageService implements ImageService {
                 RealStateImage img = iter.next();
                 if (realStateImageId != null && img != null && img.getId().equals(realStateImageId)) {
                     
-                    if (this.gridFS.findOne(realStateImageId) != null) {
+                    if (this.gridFS.findOne(new ObjectId(realStateImageId)) != null) {
                         this.gridFS.remove(realStateImageId);
                         iter.remove();
+                        realStateRepository.save(realState);
                     }
-                    realStateRepository.save(realState);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.ecom.repository;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
+import com.ecom.domain.RealStateImage;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.test.AbstractIntegrationTest;
 
@@ -38,6 +41,33 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 		realStateRepository.deleteAll();
 	}
 
+   @Test
+    public void testFindImageById() throws Exception {
+       RealState appartment = new RealState();
+       appartment.setTitle(" zimmer appartment");
+       appartment.setTotalRooms(2d);
+       appartment.setBedRooms(1);
+       appartment.setCost(600);
+       appartment.setSize(50);
+       appartment.setKitchenAvailable(true);
+       appartment.setProvisionFree(true);
+       appartment.setBalconyAvailable(false);
+       appartment.setDescription("2 rooms appartment, schöne wohnlage. Sehr gutes lage, ideal für couples.");
+       appartment.setStreet("Schlesierstr");
+       appartment.setHouseNo("4b");
+       appartment.setAreaCode("81667");
+       appartment.setCity("München");
+       
+       RealStateImage img = new RealStateImage();
+       ObjectId id = new ObjectId();
+       img.setId(id.toString());
+       appartment.getImages().add(img);
+       realStateRepository.save(appartment);
+       
+       RealStateImage imgFound = realStateRepository.findImagesById(id.toString());       
+       assertNotNull(imgFound);
+   }
+   
 	@Test
 	public void testSaveRealState() throws Exception {
 

@@ -109,4 +109,59 @@ public class RealStateImage implements Serializable {
     public void setThumbNail(boolean isThumbNail) {
         this.isThumbNail = isThumbNail;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + height;
+        result = prime * result + ((imageFileName == null) ? 0 : imageFileName.hashCode());
+        result = prime * result + (isThumbNail ? 1231 : 1237);
+        result = prime * result + (isTitleImage ? 1231 : 1237);
+        result = prime * result + lastUpdated;
+        result = prime * result + ((mimeType == null) ? 0 : mimeType.hashCode());
+        result = prime * result + ((realStateId == null) ? 0 : realStateId.hashCode());
+        result = prime * result + (int) (size ^ (size >>> 32));
+        result = prime * result + width;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RealStateImage other = (RealStateImage) obj;
+        if (height != other.height)
+            return false;
+        if (imageFileName == null) {
+            if (other.imageFileName != null)
+                return false;
+        } else if (!imageFileName.equals(other.imageFileName))
+            return false;
+        if (isThumbNail != other.isThumbNail)
+            return false;
+        if (isTitleImage != other.isTitleImage)
+            return false;
+        if (lastUpdated != other.lastUpdated)
+            return false;
+        if (mimeType == null) {
+            if (other.mimeType != null)
+                return false;
+        } else if (!mimeType.equals(other.mimeType))
+            return false;
+        if (realStateId == null) {
+            if (other.realStateId != null)
+                return false;
+        } else if (!realStateId.equals(other.realStateId))
+            return false;
+        if (size != other.size)
+            return false;
+        if (width != other.width)
+            return false;
+        return true;
+    }
 }
