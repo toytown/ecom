@@ -33,7 +33,7 @@ public class TitleImageUploadPage extends GenericTemplatePage {
         titleImageUploadForm.setMultiPart(true);
         uploadTitleField = new FileUploadField("file1");
         titleImageUploadForm.add(uploadTitleField);
-        IndicatingAjaxSubmitLink uploadLink = new IndicatingAjaxSubmitLink("upload", new Model("Upload")) {
+        IndicatingAjaxSubmitLink uploadLink = new IndicatingAjaxSubmitLink("upload", Model.of("Upload")) {
 
             private static final long serialVersionUID = 1L;
 

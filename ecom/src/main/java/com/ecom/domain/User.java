@@ -1,9 +1,12 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -18,6 +21,19 @@ public class User implements Serializable {
 	// 0=Inactive, 1= Active, 2=SUSPENDED
 	public enum USER_STATUS {
 		INACTIVE, ACTIVE, SUSPENDED;
+		
+		public static int getStatusId(USER_STATUS status) {
+			
+			if (status.equals(INACTIVE)) {
+				return 0;
+			} else if (status.equals(ACTIVE)) {
+				return 1;
+			} else if (status.equals(SUSPENDED)) {
+				return 2;
+			}
+			
+			return -100;
+		}
 	};
 
 
@@ -77,6 +93,10 @@ public class User implements Serializable {
 
 	private Date updatedTs;
 
+	private Date activationTs;
+	
+	private List<SearchRequest> searchRequests = new ArrayList<SearchRequest>();
+	
 	public ObjectId getId() {
 		return id;
 	}
@@ -297,6 +317,31 @@ public class User implements Serializable {
         this.password2 = password2;
     }
 
+    
+    public void activateUser() {
+   	 this.setStatus(USER_STATUS.getStatusId(USER_STATUS.ACTIVE));
+   	 this.setActivationTs(Calendar.getInstance().getTime());
+    }
+    
+    public void deActivateUser() {
+   	 this.setStatus(USER_STATUS.getStatusId(USER_STATUS.INACTIVE));
+   	 this.setActivationTs(Calendar.getInstance().getTime());
+    }
+    
+    public boolean changePassword(String newPassword1, String newPassword2, String oldPassword) {
+   	 
+   	 if (!StringUtils.isEmpty(newPassword1) && !StringUtils.isEmpty(newPassword2)) {
+   		 if (!oldPassword.equals(newPassword1) && newPassword1.equals(newPassword2)) {
+   			 setPassword(newPassword1);
+   			 return true;
+   		 } else {
+   			 return false;
+   		 }
+   	 }
+   	 
+   	 return false;
+    }
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -458,5 +503,21 @@ public class User implements Serializable {
 		} else if (!zip.equals(other.zip))
 			return false;
 		return true;
+	}
+
+	public Date getActivationTs() {
+		return activationTs;
+	}
+
+	public void setActivationTs(Date activationTs) {
+		this.activationTs = activationTs;
+	}
+
+	public List<SearchRequest> getSearchRequests() {
+		return searchRequests;
+	}
+
+	public void setSearchRequests(List<SearchRequest> searchRequests) {
+		this.searchRequests = searchRequests;
 	}
 }

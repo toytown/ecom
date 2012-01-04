@@ -16,8 +16,8 @@ import org.springframework.data.domain.Sort.Direction;
 
 import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
+import com.ecom.domain.SearchRequest;
 import com.ecom.repository.RealStateRepository;
-import com.ecom.web.search.SearchRequest;
 
 public class RealStateDataProvider extends SortableDataProvider<RealState> {
 

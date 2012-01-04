@@ -1,0 +1,27 @@
+
+		
+<wicket:extend>
+	
+		<div class="column33" style="width: 610px;">
+
+			<div id="navigation">
+				<ul>
+					<li><a href="" class="contacts"><span class="inner">Contacts</span></a></li>
+					<li><a href="" class="activities"><span class="inner">Activities</span></a></li>
+					<li><a href="" class="reports"><span class="inner">Reports</span></a></li>
+					<li><a href="" class="utilities"><span class="inner">Utilities</span></a></li>
+				</ul>
+			</div>
+			<div style="clear: both;"></div>
+	
+			<ul class="inbox">
+				<li><wicket:message key="lbl_msg_sender"/><span wicket:id="sender">[title]</span></li>
+				<li><wicket:message key="lbl_title_msg"/><span wicket:id="title">[title]</span></li>
+				<li><wicket:message key="lbl_sent_date"/><span wicket:id="sentDate">[Date Sent]</span></li>
+				<li><wicket:message key="lbl_msg_detail"/><div wicket:id="message">Message</div></li>
+			</ul>
+			
+		</div>
+
+</wicket:extend>
+

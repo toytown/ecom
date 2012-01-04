@@ -51,7 +51,7 @@ public class UserDashBoardPage extends GenericTemplatePage {
               public void onClick() {
                   PageParameters params = new PageParameters();
                   params.add("userId", this.getModel().getObject().getId().toString());
-                  setResponsePage(UserDetailPage.class);
+                  setResponsePage(EntriesPage.class);
               }
 	            
 	        };
@@ -64,7 +64,7 @@ public class UserDashBoardPage extends GenericTemplatePage {
                 public void onClick() {
                     PageParameters params = new PageParameters();
                     params.add("userId", this.getModel().getObject().getId().toString());
-                    setResponsePage(InboxPage.class, params);
+                    setResponsePage(MessageInboxPage.class, params);
                 }
 	            
 	        };

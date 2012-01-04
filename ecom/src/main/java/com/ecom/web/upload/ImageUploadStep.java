@@ -81,7 +81,9 @@ public class ImageUploadStep extends WizardStep {
         // refreshing view
         final RefreshingView<RealStateImage> imgListView = new RefreshingView<RealStateImage>("imagesListView") {
 
-            @Override
+			private static final long serialVersionUID = 1L;
+
+				@Override
             protected Iterator<IModel<RealStateImage>> getItemModels() {
                 Iterator<RealStateImage> imageIter = realStateRepository.findOne(imageUploadForm.getModelObject().getId()).getGalleryImages()
                         .iterator();
@@ -136,7 +138,6 @@ public class ImageUploadStep extends WizardStep {
 
             private static final long serialVersionUID = 2718354305648397798L;
 
-            @SuppressWarnings("serial")
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();

@@ -10,60 +10,11 @@
 <link rel="stylesheet" type="text/css" href="css/forms.css" />
 <link rel="stylesheet" type="text/css" href="css/menu.css" />
 <link rel="stylesheet" type="text/css" href="css/messages.css" />
-<script type="text/javascript"src="http://www.google.com/jsapi?key=ABQIAAAAAvjPG27_YGX_QFkS0r4pFhTSFwdSeNxRFI7aDXghYLBQdwjB1RQeJvxzqskvTmU4gGR6vsJOweYo3Q">
-<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="js/main.js"></script>
-		
-<script type="text/javascript">
+<link rel="stylesheet" type="text/css" href="css/inbox.css" />
+<script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAAvjPG27_YGX_QFkS0r4pFhTSFwdSeNxRFI7aDXghYLBQdwjB1RQeJvxzqskvTmU4gGR6vsJOweYo3Q"></script>
+<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+</head>	
 
-		$(function(){
-			$(":file").change(addSelectedValue);			
-			$(":img").click(removeSelectedValue);	
-		
-		});
-
-		function addSelectedValue() {
-			var index = $(":file").index(this);
-			var index_id = index + 1;
-			var value = $(this).val();
-			var spanId =  "#" + index_id;
-			var aRefId =  "#aref_" + index_id;
-			var methodCall = ' onClick=removeSelectedValue('+ index_id + ');' ;
-			
-			var tag = '<img id=' + aRefId +  ' src="images/buttons/cross.png"' + methodCall  + ' style="width:16px; height:16px;"' + ' />';
-			
-		 	$(spanId).text(value).append(tag);
-		}
-		
-		function removeSelectedValue(index) {
-			var spanId =  "#" + index;
-			
-			$(":file").eq(index-1).val("");
-			$(spanId).text("");
-		}
-		
-		function showErrors() {
-			jQuery('div.bubble').fadeIn('slow').corner('5px round').bubble();
-			jQuery('div.bubble-top').fadeIn('slow').corner('5px round').bubble('top');
-		}
-
-		function highlightErrors() {
-			jQuery("div.error").each( function() {
-				var name = jQuery(this).parent().attr("id");
-				if (name) {
-					jQuery("input[id='" + name + "'],select[id='" + name + "']").addClass("error");
-				}
-			});
-			return true;
-		}
-
-		function cleanupErrors() {
-			jQuery("div.error *").remove();
-			jQuery(".error").removeClass("error");
-			return true;
-		}		
-  </script>    
-</head>
 
 <body>
 

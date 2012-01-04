@@ -1,4 +1,4 @@
-package com.ecom.web.search;
+package com.ecom.domain;
 
 import java.io.Serializable;
 

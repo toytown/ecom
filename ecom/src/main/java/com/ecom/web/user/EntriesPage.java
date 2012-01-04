@@ -20,9 +20,8 @@ import com.ecom.service.interfaces.ImageService;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
-import com.ecom.web.main.GenericTemplatePage;
 
-public class UserDetailPage extends GenericTemplatePage {
+public class EntriesPage extends UserDashBoardPage {
 
 	private static final long serialVersionUID = -999171714434875305L;
 
@@ -33,7 +32,7 @@ public class UserDetailPage extends GenericTemplatePage {
 	private ImageService imageService;
 	
 	
-	public UserDetailPage() {
+	public EntriesPage() {
 
 		EcomSession session = (EcomSession) EcomSession.get();
 		String userId = session.getUserId();

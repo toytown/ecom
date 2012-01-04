@@ -27,7 +27,7 @@ import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
 import com.ecom.web.user.UserDashBoardPage;
-import com.ecom.web.user.UserDetailPage;
+import com.ecom.web.user.EntriesPage;
 
 public class EcomApplication extends WebApplication {
 
@@ -74,7 +74,7 @@ public class EcomApplication extends WebApplication {
             public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
                 // Check if the new Page requires authentication (implements the
                 // marker interface)
-                if (UserDetailPage.class.isAssignableFrom(componentClass)) {
+                if (EntriesPage.class.isAssignableFrom(componentClass)) {
                     // Is user signed in?
                     if (((EcomSession) Session.get()).isSignedIn()) {
                         // okay to proceed

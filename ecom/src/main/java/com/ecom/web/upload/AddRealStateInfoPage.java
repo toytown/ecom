@@ -2,9 +2,13 @@ package com.ecom.web.upload;
 
 import java.io.Serializable;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
@@ -17,46 +21,63 @@ import com.ecom.web.search.HomePage;
 
 public class AddRealStateInfoPage extends GenericTemplatePage {
 
-    private static final long serialVersionUID = 2150895889155872074L;
-    
-    @SpringBean
-    private RealStateRepository realStateRepository;
-    
-    private class UploadRealStateWizard extends WizardComponent implements Serializable{
+	private static final long serialVersionUID = 2150895889155872074L;
+	private static final JavaScriptResourceReference JS_UPLOAD_UTL = new JavaScriptResourceReference(AddRealStateInfoPage.class, "upload_file.js");
+	
+	@SpringBean
+	private RealStateRepository realStateRepository;
 
-        private static final long serialVersionUID = -3026931598109913934L;
+	private class UploadRealStateWizard extends WizardComponent implements Serializable {
 
-        public UploadRealStateWizard(String id, WizardModel wizardModel, boolean showStepNumbers) {
-            super(id, wizardModel, showStepNumbers);
-        }
-    }
+		private static final long serialVersionUID = -3026931598109913934L;
 
-    public AddRealStateInfoPage() {
-        super();
-        WizardModel wizardModel = new WizardModel();
+		public UploadRealStateWizard(String id, WizardModel wizardModel, boolean showStepNumbers) {
+			super(id, wizardModel, showStepNumbers);
+		}
+	}
 
-       // IModel<ObjectId> realStateObjId = new Model<ObjectId>(new ObjectId());
-        //wizardModel.add(new SelectOfferStep(new Model<String>("Chose real state type 1"), null, realStateObjId));
-        RealState realState = new RealState();
-        realState.setId(new ObjectId());
-        
-        final IModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
-        wizardModel.add(new SelectOfferStep(new Model<String>("Setup Basic Info ...2"), null, realStateModel));
-        wizardModel.add(new BasicInfoStep(new Model<String>("Provide Basic Info ...2"), null, realStateModel));
-        wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images...3"), null, realStateModel));
-        wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateModel));
-        UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true) {
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
+		
+		add(new Behavior() {
 
 			private static final long serialVersionUID = 1L;
 
-				@Override
-            public void onFinish() {
-                realStateRepository.save(realStateModel.getObject());
-                setResponsePage(HomePage.class);
-            }            
-        };
-        wizard.disableFeedbackPanelErrorMessages();
-        add(wizard);
-    }
+			@Override
+			public void renderHead(Component component, IHeaderResponse response) {
+				response.renderJavaScriptReference(JS_UPLOAD_UTL);
+			}
+		});
+	}
+
+	public AddRealStateInfoPage() {
+		super();
+		WizardModel wizardModel = new WizardModel();
+
+		// IModel<ObjectId> realStateObjId = new Model<ObjectId>(new ObjectId());
+		// wizardModel.add(new SelectOfferStep(new
+		// Model<String>("Chose real state type 1"), null, realStateObjId));
+		RealState realState = new RealState();
+		realState.setId(new ObjectId());
+
+		final IModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
+		wizardModel.add(new SelectOfferStep(new Model<String>("Setup Basic Info ...2"), null, realStateModel));
+		wizardModel.add(new BasicInfoStep(new Model<String>("Provide Basic Info ...2"), null, realStateModel));
+		wizardModel.add(new ImageUploadStep(new Model<String>("Upload Images...3"), null, realStateModel));
+		wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateModel));
+		UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onFinish() {
+				realStateRepository.save(realStateModel.getObject());
+				setResponsePage(HomePage.class);
+			}
+		};
+		wizard.disableFeedbackPanelErrorMessages();
+		add(wizard);
+	}
 
 }

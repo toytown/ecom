@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import com.ecom.domain.SearchRequest;
 import com.ecom.web.main.GenericTemplatePage;
 
 public class HomePage extends GenericTemplatePage {

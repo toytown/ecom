@@ -12,7 +12,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
 import com.ecom.web.user.UserDashBoardPage;
-import com.ecom.web.user.UserDetailPage;
+import com.ecom.web.user.EntriesPage;
 
 public class LoginPage extends GenericTemplatePage {
 
@@ -49,7 +49,7 @@ public class LoginPage extends GenericTemplatePage {
 		EcomSession session = (EcomSession) Session.get();
 		
 		if (session.isSignedIn()) {
-		    setResponsePage(UserDetailPage.class);
+		    setResponsePage(EntriesPage.class);
 		}
 		add(new SubmitLink("submitLogin", loginForm) {
 

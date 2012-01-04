@@ -24,7 +24,7 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 
 	public static final int PAGE_SIZE = 15;
     
-    public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "insertTs");
+    public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "sentTs");
 
     private transient PageRequest req = new PageRequest(0, PAGE_SIZE, DEFAULT_SORT);
     
@@ -36,7 +36,7 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
     public MessageDataProvider(String userId) {
         Injector.get().inject(this);
         this.userId = userId;
-        setSort("insertTs", SortOrder.DESCENDING);        
+        setSort("sentTs", SortOrder.DESCENDING);        
     }
     
     @Override
@@ -50,8 +50,8 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
             SortParam sortParam = this.getSort();
             Sort sort = null;
             
-            if (sortParam.getProperty().equalsIgnoreCase("insertedTs")) {
-                sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "insertedTs" );
+            if (sortParam.getProperty().equalsIgnoreCase("sentTs")) {
+                sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "sentTs" );
             }
             
             if (sortParam.getProperty().equalsIgnoreCase("title")) {
