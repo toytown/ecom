@@ -18,31 +18,10 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -3721902561262002897L;
 
 
-	// 0=Inactive, 1= Active, 2=SUSPENDED
-	public enum USER_STATUS {
-		INACTIVE, ACTIVE, SUSPENDED;
-		
-		public static int getStatusId(USER_STATUS status) {
-			
-			if (status.equals(INACTIVE)) {
-				return 0;
-			} else if (status.equals(ACTIVE)) {
-				return 1;
-			} else if (status.equals(SUSPENDED)) {
-				return 2;
-			}
-			
-			return -100;
-		}
-	};
-
-
 	public static final Category defaultCategory = Category.getDefaultCategory();
 			
 	@Id
 	private ObjectId id;
-
-	private String category;
 	
 	private String title;
 
@@ -51,8 +30,6 @@ public class User implements Serializable {
 	private String lastName;
 
 	private String companyName;
-
-	private Category userCategory;
 
 	private String userName;
 
@@ -93,7 +70,11 @@ public class User implements Serializable {
 
 	private Date updatedTs;
 
+	private Date lastLoginTs;
+	
 	private Date activationTs;
+	
+	private int userType;
 	
 	private List<SearchRequest> searchRequests = new ArrayList<SearchRequest>();
 	
@@ -103,14 +84,6 @@ public class User implements Serializable {
 
 	public void setId(ObjectId id) {
 		this.id = id;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	public String getTitle() {
@@ -143,14 +116,6 @@ public class User implements Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-	}
-
-	public Category getUserCategory() {
-		return userCategory;
-	}
-
-	public void setUserCategory(Category userCategory) {
-		this.userCategory = userCategory;
 	}
 
 	public String getUserName() {
@@ -298,17 +263,13 @@ public class User implements Serializable {
 	}
 	
 	public final void activate() {
-		setStatus(Integer.valueOf(USER_STATUS.ACTIVE.toString()));		
+		setStatus(Integer.valueOf(UserStatus.ACTIVE.toString()));		
 	}
 	
 	public final void suspend() {
-		setStatus(Integer.valueOf(USER_STATUS.SUSPENDED.toString()));		
+		setStatus(Integer.valueOf(UserStatus.SUSPENDED.toString()));		
 	}	
 	
-	public static List<Category> getCategories() {
-		return Category.categories;		
-	}
-
     public String getPassword2() {
         return password2;
     }
@@ -316,15 +277,14 @@ public class User implements Serializable {
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
-
     
     public void activateUser() {
-   	 this.setStatus(USER_STATUS.getStatusId(USER_STATUS.ACTIVE));
+   	 this.setStatus(UserStatus.getStatusId(UserStatus.ACTIVE));
    	 this.setActivationTs(Calendar.getInstance().getTime());
     }
     
     public void deActivateUser() {
-   	 this.setStatus(USER_STATUS.getStatusId(USER_STATUS.INACTIVE));
+   	 this.setStatus(UserStatus.getStatusId(UserStatus.INACTIVE));
    	 this.setActivationTs(Calendar.getInstance().getTime());
     }
     
@@ -347,7 +307,7 @@ public class User implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((activationCode == null) ? 0 : activationCode.hashCode());
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((activationTs == null) ? 0 : activationTs.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
 		result = prime * result + contactStatus;
@@ -358,17 +318,18 @@ public class User implements Serializable {
 		result = prime * result + ((homePageURL == null) ? 0 : homePageURL.hashCode());
 		result = prime * result + ((houseNumber == null) ? 0 : houseNumber.hashCode());
 		result = prime * result + ((insertTs == null) ? 0 : insertTs.hashCode());
+		result = prime * result + ((lastLoginTs == null) ? 0 : lastLoginTs.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((password2 == null) ? 0 : password2.hashCode());
 		result = prime * result + ((phone1 == null) ? 0 : phone1.hashCode());
 		result = prime * result + ((phone2 == null) ? 0 : phone2.hashCode());
+		result = prime * result + ((searchRequests == null) ? 0 : searchRequests.hashCode());
 		result = prime * result + status;
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
-		result = prime * result + ((userCategory == null) ? 0 : userCategory.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
 		return result;
@@ -388,10 +349,10 @@ public class User implements Serializable {
 				return false;
 		} else if (!activationCode.equals(other.activationCode))
 			return false;
-		if (category == null) {
-			if (other.category != null)
+		if (activationTs == null) {
+			if (other.activationTs != null)
 				return false;
-		} else if (!category.equals(other.category))
+		} else if (!activationTs.equals(other.activationTs))
 			return false;
 		if (city == null) {
 			if (other.city != null)
@@ -440,6 +401,11 @@ public class User implements Serializable {
 				return false;
 		} else if (!insertTs.equals(other.insertTs))
 			return false;
+		if (lastLoginTs == null) {
+			if (other.lastLoginTs != null)
+				return false;
+		} else if (!lastLoginTs.equals(other.lastLoginTs))
+			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
@@ -470,6 +436,11 @@ public class User implements Serializable {
 				return false;
 		} else if (!phone2.equals(other.phone2))
 			return false;
+		if (searchRequests == null) {
+			if (other.searchRequests != null)
+				return false;
+		} else if (!searchRequests.equals(other.searchRequests))
+			return false;
 		if (status != other.status)
 			return false;
 		if (street == null) {
@@ -486,11 +457,6 @@ public class User implements Serializable {
 			if (other.updatedTs != null)
 				return false;
 		} else if (!updatedTs.equals(other.updatedTs))
-			return false;
-		if (userCategory == null) {
-			if (other.userCategory != null)
-				return false;
-		} else if (!userCategory.equals(other.userCategory))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
@@ -519,5 +485,21 @@ public class User implements Serializable {
 
 	public void setSearchRequests(List<SearchRequest> searchRequests) {
 		this.searchRequests = searchRequests;
+	}
+
+	public Date getLastLoginTs() {
+		return lastLoginTs;
+	}
+
+	public void setLastLoginTs(Date lastLoginTs) {
+		this.lastLoginTs = lastLoginTs;
+	}
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 }

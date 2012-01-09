@@ -8,6 +8,7 @@ ul.inbox li {
 	list-style-type: none;
 }
 
-ul.inbox span {
-	font-weight: bold;
+ul.inbox li span {
+	margin-left: 5px;
 }
+

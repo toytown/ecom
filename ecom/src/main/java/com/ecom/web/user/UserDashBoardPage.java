@@ -43,15 +43,26 @@ public class UserDashBoardPage extends GenericTemplatePage {
                 }
             };
  
- 	        Link<User> editLink = new Link<User>("editLink", userModel) {
+  	        Link<User> editLink = new Link<User>("editLink", userModel) {
+
+  				private static final long serialVersionUID = 1L;
+
+  				@Override
+                public void onClick() {
+                    PageParameters params = new PageParameters();
+                    params.add("userId", this.getModel().getObject().getId().toString());
+                    setResponsePage(EntriesPage.class);
+                }
+  	            
+  	        };
+  	        
+ 	        Link<User> accountLink = new Link<User>("accountLink", userModel) {
 
 				private static final long serialVersionUID = 1L;
 
 				@Override
               public void onClick() {
-                  PageParameters params = new PageParameters();
-                  params.add("userId", this.getModel().getObject().getId().toString());
-                  setResponsePage(EntriesPage.class);
+                  setResponsePage(AccountPage.class);
               }
 	            
 	        };
@@ -68,8 +79,12 @@ public class UserDashBoardPage extends GenericTemplatePage {
                 }
 	            
 	        };
+	        
+	        accountLink.add(new ContextImage("accountIcon", "images/usericons/user.png"));
 	        editLink.add(new ContextImage("editIcon", "images/usericons/edit.png"));
 	        messagesLink.add(new ContextImage("msgIcon", "images/usericons/message.png"));
+	        
+	        add(accountLink);
 	        add(messagesLink);
 	        add(editLink);
 	    } else {

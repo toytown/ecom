@@ -12,7 +12,7 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
 import com.ecom.web.components.validation.CustomBusyIndicator;
 
 public class IndicatingAjaxSubmitLink extends AjaxSubmitLink implements IAjaxIndicatorAware {
-
+	private static final long serialVersionUID = -4920432859082882826L;
 	private static final String CSS_EMPHASIZED = "emphasized_button";
 	private static final String CSS_STANDARD = "standard_button";
 	private final CustomBusyIndicator indicatorAppender = new CustomBusyIndicator();

@@ -13,7 +13,8 @@ import org.apache.wicket.feedback.FeedbackMessage;
  */
 public class ErrorLevelsFeedbackMessageFilter implements IFeedbackMessageFilter {
 
-    /** The minimum error level */
+	private static final long serialVersionUID = 1L;
+	/** The minimum error level */
     private int[] filteredErrorLevels;
 
     /**

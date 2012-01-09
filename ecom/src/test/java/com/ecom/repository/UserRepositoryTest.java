@@ -1,5 +1,7 @@
 package com.ecom.repository;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,11 @@ public class UserRepositoryTest extends AbstractIntegrationTest {
     	user.setPhone1("49 89 76755263");
     	user.setFax("prasanna");
     	user.setUserName("my-user");
+    	user.setFirstName("Prasanna");
+    	user.setLastName("Tuladhar");
+    	user.setInsertTs(new Date());
     	user.setPassword("my-passwd");
+    	user.setUserType(0);
     	userRepository.save(user);
     }	
 }

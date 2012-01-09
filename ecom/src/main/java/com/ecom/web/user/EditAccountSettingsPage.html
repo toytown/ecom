@@ -1,0 +1,66 @@
+<wicket:extend>
+
+	<div class="column33" style="width: 610px;">
+
+
+		<div style="clear: both;"></div>
+
+		<div class="div-regForm" style="width:480px; float:left;">
+			
+			<form action="post" wicket:id="userEditForm">
+				<div class="first_column search_form rounded_all" style="width:480px; float:left;">
+					<div class="main_info_box_header">User Info :</div>
+					<p>
+						<label><wicket:message key="lbl_user_name"/></label>
+						<input type="text" wicket:id="userName"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_user_password"/></label>
+						<input type="text" wicket:id="password"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_user_status"/></label>
+						<select wicket:id="userStatus"/>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_email"/></label>
+						<input type="email" wicket:id="email"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_phone1"/></label>
+						<input type="text" wicket:id="phone1"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_phone2"/></label>
+						<input type="text" wicket:id="phone2"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_homepage_url"/></label>
+						<input type="text" wicket:id="homePageURL"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_user_street"/></label>
+						<input type="text" wicket:id="street"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_user_house_no"/></label>
+						<input type="text" wicket:id="houseNumber"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_user_area_code"/></label>
+						<input type="text" wicket:id="zip"></input>
+					</p>
+					<p>
+						<label><wicket:message key="lbl_user_city"/></label>
+						<input type="text"pan wicket:id="city"></input>
+					</p>
+					
+				</div>
+				<div><input type="submit" id="greenButton" wicket:id="saveChanges"/></div>			
+			</form>
+		</div>
+
+	</div>
+
+</wicket:extend>
+

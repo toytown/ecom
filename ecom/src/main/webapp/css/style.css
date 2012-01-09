@@ -1069,6 +1069,7 @@ div.box label span {
 	width: 100px;
 	display: inline-block;
 	cursor: pointer;
+	color: #203360;
 }
 
 .main_info_box span {

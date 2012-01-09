@@ -1,6 +1,8 @@
 package com.ecom.web.upload;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
@@ -28,6 +30,7 @@ import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.validation.ErrorClassAppender;
 import com.ecom.web.components.wizard.WizardStep;
+import com.ecom.web.main.EcomSession;
 
 public class BasicInfoStep extends WizardStep {
 
@@ -57,6 +60,8 @@ public class BasicInfoStep extends WizardStep {
 				RealState realState = this.getModelObject();
 
 				if (realState != null) {
+					EcomSession session = (EcomSession) Session.get();
+					realState.setUserId(session.getUserId());
 					realStateRepository.save(realState);
 				}
 			}
@@ -111,7 +116,7 @@ public class BasicInfoStep extends WizardStep {
 
 				RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
 
-				if (realState != null) {
+				if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
 					ResourceReference imagesResourceReference = new EcomImageResouceReference();
 					PageParameters imageParameters = new PageParameters();
 					String imageId = realState.getTitleThumbNailImage();

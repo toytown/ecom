@@ -26,6 +26,7 @@ import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
+import com.ecom.web.user.LogoutPage;
 import com.ecom.web.user.UserDashBoardPage;
 import com.ecom.web.user.EntriesPage;
 
@@ -51,6 +52,7 @@ public class EcomApplication extends WebApplication {
         mountPage("/home/results", SearchResultPage.class);
         mountPage("/home/dashboard", UserDashBoardPage.class);
         mountPage("/home/addRealState", AddRealStateInfoPage.class);
+        mountPage("/home/logout", LogoutPage.class);
         
         mountResource("/imagerepo/${id}", new EcomImageResouceReference());
         this.getComponentPostOnBeforeRenderListeners().add(new StatelessChecker());

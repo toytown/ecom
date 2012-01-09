@@ -8,7 +8,7 @@
 	width: 670px;
 }
 
-.div-regForm input[type='text'],input[type='password'],select,textarea {
+.div-regForm input[type='text'],input[type='password'],input[type='email'],select,textarea {
 	padding: 3px;
 	color: #333333;
 	border: 1px solid #96A6C5;
@@ -18,6 +18,10 @@
 
 .div-regForm input[type='text'] {
 	width: 110px;
+}
+
+.div-regForm input[type='email'] {
+	width: 150px;
 }
 
 .div-regForm textarea {
@@ -59,6 +63,7 @@
 	text-align: left;
 	float: left;
 	padding: 4px 10px 0 10px;
+	color: #203360;
 }
 
 .div-regForm table {
@@ -96,6 +101,7 @@
 	outline: medium none;
 	padding: 3px 4px;
 	width: auto;
+	text-decoration: none;
 }
 
 .greenButton:active {
@@ -184,8 +190,9 @@ div.search_form label {
 	display: block;
 	float: left;
 	color: #203360;
-	width: 160px;
+	width: 150px;
 }
+
 
 img.title_image_preview {
 	height: 90px;

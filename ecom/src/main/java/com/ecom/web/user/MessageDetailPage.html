@@ -14,12 +14,19 @@
 			</div>
 			<div style="clear: both;"></div>
 	
-			<ul class="inbox">
-				<li><wicket:message key="lbl_msg_sender"/><span wicket:id="sender">[title]</span></li>
-				<li><wicket:message key="lbl_title_msg"/><span wicket:id="title">[title]</span></li>
-				<li><wicket:message key="lbl_sent_date"/><span wicket:id="sentDate">[Date Sent]</span></li>
-				<li><wicket:message key="lbl_msg_detail"/><div wicket:id="message">Message</div></li>
-			</ul>
+			<div class="main_info_box" style="width: 640px;">
+				<div class="main_info_box_header"><span wicket:id="title" id="msg_title">[title]</span></div>
+				<ul class="inbox">
+					<li><h4><wicket:message key="lbl_msg_sender"/><span wicket:id="sender">[title]</span> <div wicket:id="sentDate" style="float: right; display: inline;">SEnt</div></h4></li>
+					<li><p wicket:id="message">Message</p></li>
+					<li><a href="#" wicket:id="replyBtn">[Reply]</a></li>
+					<li><form wicket:id="replyForm">
+							<p><textarea type="text" wicket:id="replyMessage"/></p>
+							<p><a href="#" wicket:id="sendBtn">[Send]</a></p>
+						</form>	
+					</li>
+				</ul>
+			</div>
 			
 		</div>
 
