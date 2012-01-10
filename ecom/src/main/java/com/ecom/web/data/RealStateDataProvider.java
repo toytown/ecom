@@ -18,6 +18,7 @@ import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
 import com.ecom.repository.RealStateRepository;
+import com.mysema.query.types.Predicate;
 
 public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
@@ -27,18 +28,21 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 	public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "insertTs");
 	private transient PageRequest req = new PageRequest(0, PAGE_SIZE, DEFAULT_SORT);
 	private String userId = null;
+	private String filterVal = null; 
 	
 	@SpringBean
 	private RealStateRepository realStateRepository;
 
+	
 	public RealStateDataProvider() {
 		super();
 		Injector.get().inject(this);
 	}
 
-	public RealStateDataProvider(String userId) {
+	public RealStateDataProvider(String userId, String filterVal) {
 		this();
 		this.userId = userId;
+		this.filterVal = filterVal;
 		setSort("insertTs", SortOrder.DESCENDING);
 	}
 
@@ -79,6 +83,12 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 			req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
 			
 			iter = realStateRepository.findAll(realStateQuery.userId.eq(userId), req).iterator();
+			
+			if (!StringUtils.isEmpty(filterVal)) {
+			    Predicate condition = realStateQuery.userId.eq(userId).and(realStateQuery.city.contains(filterVal).or(realStateQuery.street.contains(filterVal)));
+			    iter = realStateRepository.findAll(condition, req).iterator();
+			    return iter;
+			}
 			
 		} else {
 			iter = realStateRepository.findAll(req).iterator();

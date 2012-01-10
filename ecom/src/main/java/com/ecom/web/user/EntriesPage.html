@@ -14,11 +14,13 @@
 					</ul>
 				</div>
 
-				
-				<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
-				<div style="clear: both;"></div>
 
-
+				<form action="post" wicket:id="filteredResultForm">
+					<p><input type="text" wicket:id="filter"/></p>
+					<p><input type="submit" wicket:id="filterResults" id="greenButton"/></p>
+					
+					<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
+					<div style="clear: both;"></div>
 					<table cellspacing="0" class="dataview">
 						<tr>
 							<th></th>
@@ -38,16 +40,17 @@
 							<td width="10%" valign="top"><span wicket:id="price" /></td>
 							<td width="10%" valign="top"><span wicket:id="size" /></td>
 							<td width="10%" valign="top"><span wicket:id="rooms" /></td>
-							<td valign="top"><div class="buttons" style="float: right; width: 80px;">
-											<a href="" class="regular" wicket:id="delete"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Delete</a>
-										</div></td>
+							<td valign="top">
+								<div class="buttons" style="float: right; width: 80px;">
+									<a href="" class="regular" wicket:id="delete"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Delete</a>
+								</div>
+							</td>
 						</tr>
-						
-
 					</table>
+					
+				</form>				
 
-			</div>
-
+		</div>
 		<!-- end of column three -->
 
 </wicket:extend>
