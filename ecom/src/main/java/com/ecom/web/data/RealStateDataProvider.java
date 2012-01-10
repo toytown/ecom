@@ -10,6 +10,7 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -85,7 +86,7 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 			iter = realStateRepository.findAll(realStateQuery.userId.eq(userId), req).iterator();
 			
 			if (!StringUtils.isEmpty(filterVal)) {
-			    Predicate condition = realStateQuery.userId.eq(userId).and(realStateQuery.city.contains(filterVal).or(realStateQuery.street.contains(filterVal)));
+			    Predicate condition = realStateQuery.userId.eq(userId).and(realStateQuery.city.contains(filterVal).or(realStateQuery.street.contains(filterVal)).or(realStateQuery.id.eq(new ObjectId(filterVal))));
 			    iter = realStateRepository.findAll(condition, req).iterator();
 			    return iter;
 			}

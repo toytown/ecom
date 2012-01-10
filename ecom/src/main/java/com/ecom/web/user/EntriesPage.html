@@ -31,7 +31,8 @@
 							<th><wicket:message key="action"/></th>
 						</tr>
 						<tr wicket:id="userResultsView">
-							<td width="20%">								
+							<td width="20%">
+								<div wicket:id="id"></div>								
 								<img class="img_left" wicket:id="title_image" />
 							</td>
 							<td width="20%" valign="top">
@@ -43,6 +44,9 @@
 							<td valign="top">
 								<div class="buttons" style="float: right; width: 80px;">
 									<a href="" class="regular" wicket:id="delete"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Delete</a>
+								</div>
+								<div class="buttons" style="float: right; width: 80px;">
+									<a href="" class="regular" wicket:id="edit"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Edit</a>
 								</div>
 							</td>
 						</tr>

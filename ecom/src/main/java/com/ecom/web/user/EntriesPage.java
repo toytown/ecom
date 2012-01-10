@@ -28,6 +28,7 @@ import com.ecom.service.interfaces.ImageService;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
+import com.ecom.web.upload.AddRealStateInfoPage;
 
 public class EntriesPage extends UserDashBoardPage {
 
@@ -46,7 +47,7 @@ public class EntriesPage extends UserDashBoardPage {
 		EcomSession session = (EcomSession) EcomSession.get();
 		final String userId = session.getUserId();
 		
-		final TextField<String> filter = new TextField("filter", new PropertyModel(this, "filterStr"));		
+		final TextField<String> filter = new TextField<String>("filter", new PropertyModel<String>(this, "filterStr"));		
 		
 		final Form<Void> filteredResultForm = new Form<Void>("filteredResultForm");
 		add(filteredResultForm);
@@ -55,7 +56,9 @@ public class EntriesPage extends UserDashBoardPage {
 		filteredResultForm.add(filter);
 		filteredResultForm.add(new AjaxButton("filterResults") {
 		    
-            @Override
+			private static final long serialVersionUID = 1L;
+
+				@Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 String filterStrVal = filter.getDefaultModelObjectAsString();
                 final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId, filterStrVal);     
@@ -100,7 +103,7 @@ public class EntriesPage extends UserDashBoardPage {
 
 	}
 
-	public List<OrderByBorder> getSortOrderList(ISortableDataProvider<RealState> dataProvider, final DataView results) {
+	public List<OrderByBorder> getSortOrderList(ISortableDataProvider<RealState> dataProvider, final DataView<RealState> results) {
 	    List<OrderByBorder> sortOrderList = new ArrayList<OrderByBorder>();
 	    
 	    OrderByBorder orderByCost = new OrderByBorder("orderByCost", "cost", dataProvider) {
@@ -138,7 +141,7 @@ public class EntriesPage extends UserDashBoardPage {
         return sortOrderList;
 	}
 	
-	public DataView getDataView(ISortableDataProvider<RealState> dataProvider) {
+	public DataView<RealState> getDataView(ISortableDataProvider<RealState> dataProvider) {
 	    
 	     DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
             private static final long serialVersionUID = 1L;
@@ -155,7 +158,7 @@ public class EntriesPage extends UserDashBoardPage {
                     item.add(img);
                 }
                 // item.add(new Label("title", realState.getTitle()));
-                // item.add(new Label("description", realState.getDescription()));
+                item.add(new Label("id", realState.getId().toString()));
                 item.add(new Label("price", String.valueOf(realState.getCost())));
                 item.add(new Label("size", String.valueOf(realState.getSize())));
                 item.add(new Label("rooms", String.valueOf(realState.getTotalRooms())));
@@ -173,7 +176,16 @@ public class EntriesPage extends UserDashBoardPage {
                     }
 
                 });
+                item.add(new Link<String>("edit", new ResourceModel("btn_edit")) {
 
+                   private static final long serialVersionUID = 1L;
+
+                   @Override
+                   public void onClick() {
+                       setResponsePage(AddRealStateInfoPage.class);
+                   }
+
+               });
                 String addressInfo = realState.getAddressInfo();
 
                 item.add(new Label("address", addressInfo));
