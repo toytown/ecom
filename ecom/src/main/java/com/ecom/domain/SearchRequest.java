@@ -22,6 +22,15 @@ public class SearchRequest implements Serializable {
 
     private int searchType;
     
+    private boolean isProvisionFrei;
+    
+    private boolean isKitchenAvailable;
+    
+    private boolean isFurnished;
+    
+    private int heatingTypeId;
+    
+    
     public String getCity() {
         return city;
     }
@@ -84,6 +93,101 @@ public class SearchRequest implements Serializable {
 
     public void setPriceTo(double priceTo) {
         this.priceTo = priceTo;
+    }
+
+    public boolean isProvisionFrei() {
+        return isProvisionFrei;
+    }
+
+    public void setProvisionFrei(boolean isProvisionFrei) {
+        this.isProvisionFrei = isProvisionFrei;
+    }
+
+    public boolean isKitchenAvailable() {
+        return isKitchenAvailable;
+    }
+
+    public void setKitchenAvailable(boolean isKitchenAvailable) {
+        this.isKitchenAvailable = isKitchenAvailable;
+    }
+
+    public boolean isFurnished() {
+        return isFurnished;
+    }
+
+    public void setFurnished(boolean isFurnished) {
+        this.isFurnished = isFurnished;
+    }
+
+    public int getHeatingTypeId() {
+        return heatingTypeId;
+    }
+
+    public void setHeatingTypeId(int heatingTypeId) {
+        this.heatingTypeId = heatingTypeId;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(areaFrom);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(areaTo);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + heatingTypeId;
+        result = prime * result + (isFurnished ? 1231 : 1237);
+        result = prime * result + (isKitchenAvailable ? 1231 : 1237);
+        result = prime * result + (isProvisionFrei ? 1231 : 1237);
+        temp = Double.doubleToLongBits(priceFrom);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(priceTo);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + roomsFrom;
+        result = prime * result + roomsTo;
+        result = prime * result + searchType;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SearchRequest other = (SearchRequest) obj;
+        if (Double.doubleToLongBits(areaFrom) != Double.doubleToLongBits(other.areaFrom))
+            return false;
+        if (Double.doubleToLongBits(areaTo) != Double.doubleToLongBits(other.areaTo))
+            return false;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (heatingTypeId != other.heatingTypeId)
+            return false;
+        if (isFurnished != other.isFurnished)
+            return false;
+        if (isKitchenAvailable != other.isKitchenAvailable)
+            return false;
+        if (isProvisionFrei != other.isProvisionFrei)
+            return false;
+        if (Double.doubleToLongBits(priceFrom) != Double.doubleToLongBits(other.priceFrom))
+            return false;
+        if (Double.doubleToLongBits(priceTo) != Double.doubleToLongBits(other.priceTo))
+            return false;
+        if (roomsFrom != other.roomsFrom)
+            return false;
+        if (roomsTo != other.roomsTo)
+            return false;
+        if (searchType != other.searchType)
+            return false;
+        return true;
     }
     
 }

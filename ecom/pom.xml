@@ -14,7 +14,7 @@
 		<spring.version>3.1.0.RELEASE</spring.version>
 		<spring.data.mongo.version>1.0.0.RC1</spring.data.mongo.version>
 		<slf4j.version>1.6.1</slf4j.version>
-		<querydsl.version>2.2.4</querydsl.version>
+		<querydsl.version>2.3.0</querydsl.version>
 		<wicket.version>1.5.3</wicket.version>
 	</properties>
 
@@ -37,20 +37,20 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-	     <repository>
-	         <id>wiquery-maven-repo</id>
-	         <name>WiQuery repository</name>
-	         <url>https://wiquery.googlecode.com/svn/repo/</url>
-	     </repository>		
 		<repository>
-		  <id>xaloon</id>
-		  <name>xaloon components</name>
-		  <url>http://xaloon.googlecode.com/svn/maven2/releases/</url>
-		</repository>	     
+			<id>wiquery-maven-repo</id>
+			<name>WiQuery repository</name>
+			<url>https://wiquery.googlecode.com/svn/repo/</url>
+		</repository>
+		<repository>
+			<id>xaloon</id>
+			<name>xaloon components</name>
+			<url>http://xaloon.googlecode.com/svn/maven2/releases/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -72,7 +72,7 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
-		
+
 		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -85,7 +85,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -106,13 +106,13 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${spring.data.mongo.version}</version>
 		</dependency>
-				
+
 		<!-- Querydsl -->
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
@@ -125,13 +125,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 			<version>${querydsl.version}</version>
 		</dependency>
-		
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -151,8 +151,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<!--  Wicket dependencies -->
+
+		<!-- Wicket dependencies -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
@@ -167,7 +167,7 @@
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-datetime</artifactId>
 			<version>${wicket.version}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-spring</artifactId>
@@ -179,23 +179,23 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.wicketstuff</groupId>
-			<artifactId>gmap2</artifactId>
-			<version>1.5-RC5.1</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.wicketstuff</groupId> <artifactId>gmap2</artifactId> 
+			<version>1.5-RC5.1</version> </dependency> -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-devutils</artifactId>
 			<version>1.5.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.3</version>
 		</dependency>
 	</dependencies>
 
@@ -262,7 +262,7 @@
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>maven-apt-plugin</artifactId>
 				<version>1.0.2</version>
- 
+
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -276,11 +276,12 @@
 					</execution>
 				</executions>
 			</plugin>
-		
+
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
