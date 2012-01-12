@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.ecom.domain.RealState;
-import com.ecom.domain.SearchRequest;
 
 public interface RealStateRepository extends PagingAndSortingRepository<RealState, ObjectId>,
 		CrudRepository<RealState, ObjectId>, QueryDslPredicateExecutor<RealState> {

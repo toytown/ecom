@@ -216,6 +216,11 @@
 				<version>2.4.2</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
+					<resources>
+						<resource>
+							<directory>target/generated-sources/queries</directory>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
 			<plugin>
