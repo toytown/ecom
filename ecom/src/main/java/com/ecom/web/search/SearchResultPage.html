@@ -26,9 +26,30 @@
 								<label class="left">Price: </label><input type="text" class="form_input_small" wicket:id="priceFrom" /><input type="text"
 									class="form_input_small" wicket:id="priceTo" />
 							</div>
+							<div class="form_row">
+								<ul class="search_options">
+									<li><label class="left"><wicket:message key="lbl_provision_free"/></label> <input type="checkbox" wicket:id="isProvisionFree"/></li>
+									<li><label class="left"><wicket:message key="lbl_kitchen_available"/></label> <input type="checkbox" wicket:id="isKitchenAvailable"/></li>
+									<li><label class="left"><wicket:message key="lbl_furnished"/></label> <input type="checkbox" wicket:id="isFurnished"/></li>
+									<li><label class="left"><wicket:message key="lbl_balcon_available"/></label> <input type="checkbox" wicket:id="isBalconyAvailable"/></li>
+									<li><label class="left"><wicket:message key="lbl_lift_available"/></label> <input type="checkbox" wicket:id="isLiftAvailable"/></li>
+									<li><label class="left"><wicket:message key="lbl_garden_available"/></label> <input type="checkbox" wicket:id="isGardenAvailable"/></li>
+								</ul>
+							</div>	
+							<div class="form_row">
+			                    <label class="uiButton uiButtonConfirm">
+									<input type="submit" value="Search" style="color: #FFFFFF;" wicket:id="submitSearch">
+								</label>
+		                    </div>						
 						</div>
 					</form>
-
+					<div class="box_title">
+						<span>My Favourites</span> 
+						<ul wicket:id="view" class="bookmark">
+							<li><label wicket:id="markedRealState"></label></li>
+						</ul>
+						<span wicket:id="clearAll"></span>
+					</div>
 
 				</div>
 				<div class="bottom_left_box"></div>
@@ -120,9 +141,9 @@
 									<li><label wicket:id="label2" /></li>
 									<li><label wicket:id="label3" /></li>
 									<li>
-										<div class="buttons" style="float: right; width: 80px; margin-top: 13px;">
-											<a href="" class="regular"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Merken</a>
-										</div>
+
+											<a href="#" wicket:id="bookmark"> Merken</a>
+
 									</li>
 								</ul>
 							</div>

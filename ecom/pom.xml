@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.1.0.RELEASE</spring.version>
-		<spring.data.mongo.version>1.0.0.RC1</spring.data.mongo.version>
+		<spring.data.mongo.version>1.0.1.BUILD-SNAPSHOT</spring.data.mongo.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<querydsl.version>2.3.0</querydsl.version>
 		<wicket.version>1.5.3</wicket.version>
@@ -47,6 +47,11 @@
 			<name>xaloon components</name>
 			<url>http://xaloon.googlecode.com/svn/maven2/releases/</url>
 		</repository>
+		<repository>
+		    <id>spring-snapshot</id>
+		    <name>Spring Maven SNAPSHOT Repository</name>
+		    <url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>
+		</repository>		
 	</repositories>
 
 	<dependencies>

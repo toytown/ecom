@@ -455,3 +455,30 @@ div.first_column,.second_column {
 div.second_column {
 	margin-left: 20px;
 }
+ul.bookmark {
+	list-style: none;
+	text-align: left;
+	margin-top: 4px;
+	margin-bottom: 0px;
+	margin-left: 25px;
+	
+}
+ul.bookmark li {
+	font-size: 11px;
+	list-style-image: url('../images/buttons/star.png');
+}
+
+ul.bookmark li label {
+	font-size: 11px;	
+}
+
+
+/* Search Option */
+ul.search_options {
+	list-style: none;
+	text-align: left;
+	margin-top: 4px;
+	margin-bottom: 0px;
+	margin-left: 25px;
+	
+}

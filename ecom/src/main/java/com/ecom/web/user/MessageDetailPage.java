@@ -16,7 +16,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.domain.Message;
-import com.ecom.web.components.buttons.WepButton;
+import com.ecom.web.components.buttons.MiniBUtton;
 import com.ecom.web.components.buttons.WepJsButton;
 import com.ecom.web.data.DetachableMessageModel;
 
@@ -70,7 +70,7 @@ public class MessageDetailPage extends UserDashBoardPage {
 		});
 		replyForm.setVisible(false);
 
-		WepButton<String> replyBtn = new WepButton<String>("replyBtn", new Model<String>("Reply")) {
+		MiniBUtton<String> replyBtn = new MiniBUtton<String>("replyBtn", new Model<String>("Reply")) {
 
 			private static final long serialVersionUID = 1L;
 

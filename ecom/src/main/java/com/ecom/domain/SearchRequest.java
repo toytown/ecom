@@ -22,11 +22,17 @@ public class SearchRequest implements Serializable {
 
     private int searchType;
     
-    private boolean isProvisionFrei;
+    private boolean isProvisionFree ;
     
     private boolean isKitchenAvailable;
     
     private boolean isFurnished;
+    
+    private boolean isBalconyAvailable;
+    
+    private boolean isLiftAvailable;
+    
+    private boolean isGardenAvailable;
     
     private int heatingTypeId;
     
@@ -95,12 +101,12 @@ public class SearchRequest implements Serializable {
         this.priceTo = priceTo;
     }
 
-    public boolean isProvisionFrei() {
-        return isProvisionFrei;
+    public boolean isProvisionFree() {
+        return isProvisionFree;
     }
 
-    public void setProvisionFrei(boolean isProvisionFrei) {
-        this.isProvisionFrei = isProvisionFrei;
+    public void setProvisionFree(boolean isProvisionFree) {
+        this.isProvisionFree = isProvisionFree;
     }
 
     public boolean isKitchenAvailable() {
@@ -140,7 +146,7 @@ public class SearchRequest implements Serializable {
         result = prime * result + heatingTypeId;
         result = prime * result + (isFurnished ? 1231 : 1237);
         result = prime * result + (isKitchenAvailable ? 1231 : 1237);
-        result = prime * result + (isProvisionFrei ? 1231 : 1237);
+        result = prime * result + (isProvisionFree ? 1231 : 1237);
         temp = Double.doubleToLongBits(priceFrom);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(priceTo);
@@ -175,7 +181,7 @@ public class SearchRequest implements Serializable {
             return false;
         if (isKitchenAvailable != other.isKitchenAvailable)
             return false;
-        if (isProvisionFrei != other.isProvisionFrei)
+        if (isProvisionFree != other.isProvisionFree)
             return false;
         if (Double.doubleToLongBits(priceFrom) != Double.doubleToLongBits(other.priceFrom))
             return false;
@@ -189,5 +195,29 @@ public class SearchRequest implements Serializable {
             return false;
         return true;
     }
+
+	public boolean isBalconyAvailable() {
+		return isBalconyAvailable;
+	}
+
+	public void setBalconyAvailable(boolean isBalconyAvailable) {
+		this.isBalconyAvailable = isBalconyAvailable;
+	}
+
+	public boolean isLiftAvailable() {
+		return isLiftAvailable;
+	}
+
+	public void setLiftAvailable(boolean isLiftAvailable) {
+		this.isLiftAvailable = isLiftAvailable;
+	}
+
+	public boolean isGardenAvailable() {
+		return isGardenAvailable;
+	}
+
+	public void setGardenAvailable(boolean isGardenAvailable) {
+		this.isGardenAvailable = isGardenAvailable;
+	}
     
 }

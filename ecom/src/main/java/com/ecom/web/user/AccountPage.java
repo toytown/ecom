@@ -41,12 +41,14 @@ public class AccountPage extends UserDashBoardPage {
 		
 		DropDownChoice<UserType> userCategories = new DropDownChoice<UserType>("userType", userTypeSel, Arrays.asList(UserType.values()), userTypeEnum);
 		add(userCategories);
-
+		userCategories.setEnabled(false);
+		
 		UserStatus status = UserStatus.getUserStatusById(user.getObject().getStatus());
 		EnumChoiceRenderer<UserStatus> userStatusEnum = new EnumChoiceRenderer<UserStatus>(this);
 		IModel<UserStatus> userStatusSel = new Model<UserStatus>(status);
 		DropDownChoice<UserStatus> userStatuses = new DropDownChoice<UserStatus>("userStatus", userStatusSel, Arrays.asList(UserStatus.values()), userStatusEnum);
 		add(userStatuses);
+		userStatuses.setEnabled(false);
 		
 		TextField<String> firstName = new TextField<String>("firstName");
 		add(firstName);

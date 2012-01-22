@@ -13,9 +13,10 @@ import com.ecom.domain.User;
 import com.ecom.repository.UserRepository;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
-import com.ecom.web.search.HomePage;
+import com.ecom.web.utils.SecurePage;
 
-public class UserDashBoardPage extends GenericTemplatePage {
+
+public class UserDashBoardPage extends GenericTemplatePage implements SecurePage {
 
 	/**
 	 * 
@@ -24,73 +25,68 @@ public class UserDashBoardPage extends GenericTemplatePage {
 
 	@SpringBean
 	private UserRepository userRepository;
-	
+
 	public UserDashBoardPage() {
-	
-	    
-	    EcomSession sess = (EcomSession) Session.get();
-	    final String userName = sess.getUserName();
-	    
-	    if (sess.isSignedIn()) {
-	        IModel<User> userModel = new LoadableDetachableModel<User>() {
 
-				private static final long serialVersionUID = 1L;
+		EcomSession sess = (EcomSession) Session.get();
+		final String userName = sess.getUserName();
 
-					@Override
-                protected User load() {
-                    QUser user = new QUser("user");
-                    return userRepository.findOne(user.userName.eq(userName));
-                }
-            };
- 
-  	        Link<User> editLink = new Link<User>("editLink", userModel) {
+		IModel<User> userModel = new LoadableDetachableModel<User>() {
 
-  				private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-  				@Override
-                public void onClick() {
-                    PageParameters params = new PageParameters();
-                    params.add("userId", this.getModel().getObject().getId().toString());
-                    setResponsePage(EntriesPage.class);
-                }
-  	            
-  	        };
-  	        
- 	        Link<User> accountLink = new Link<User>("accountLink", userModel) {
+			@Override
+			protected User load() {
+				QUser user = new QUser("user");
+				return userRepository.findOne(user.userName.eq(userName));
+			}
+		};
 
-				private static final long serialVersionUID = 1L;
+		Link<User> editLink = new Link<User>("editLink", userModel) {
 
-				@Override
-              public void onClick() {
-                  setResponsePage(AccountPage.class);
-              }
-	            
-	        };
-	        
-	        Link<User> messagesLink = new Link<User>("messagesLink", userModel) {
+			private static final long serialVersionUID = 1L;
 
-				private static final long serialVersionUID = 1L;
+			@Override
+			public void onClick() {
+				PageParameters params = new PageParameters();
+				params.add("userId", this.getModel().getObject().getId().toString());
+				setResponsePage(EntriesPage.class);
+			}
 
-					@Override
-                public void onClick() {
-                    PageParameters params = new PageParameters();
-                    params.add("userId", this.getModel().getObject().getId().toString());
-                    setResponsePage(MessageInboxPage.class, params);
-                }
-	            
-	        };
-	        
-	        accountLink.add(new ContextImage("accountIcon", "images/usericons/user.png"));
-	        editLink.add(new ContextImage("editIcon", "images/usericons/edit.png"));
-	        messagesLink.add(new ContextImage("msgIcon", "images/usericons/message.png"));
-	        
-	        add(accountLink);
-	        add(messagesLink);
-	        add(editLink);
-	    } else {
-	        setResponsePage(HomePage.class);
-	    }
+		};
+
+		Link<User> accountLink = new Link<User>("accountLink", userModel) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick() {
+				setResponsePage(AccountPage.class);
+			}
+
+		};
+
+		Link<User> messagesLink = new Link<User>("messagesLink", userModel) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick() {
+				PageParameters params = new PageParameters();
+				params.add("userId", this.getModel().getObject().getId().toString());
+				setResponsePage(MessageInboxPage.class, params);
+			}
+
+		};
+
+		accountLink.add(new ContextImage("accountIcon", "images/usericons/user.png"));
+		editLink.add(new ContextImage("editIcon", "images/usericons/edit.png"));
+		messagesLink.add(new ContextImage("msgIcon", "images/usericons/message.png"));
+
+		add(accountLink);
+		add(messagesLink);
+		add(editLink);
+
 	}
-	
-	 
+
 }

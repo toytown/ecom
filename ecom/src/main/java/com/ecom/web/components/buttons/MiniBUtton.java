@@ -3,6 +3,7 @@ package com.ecom.web.components.buttons;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.string.AppendingStringBuffer;
 
@@ -10,26 +11,25 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
  * Extension of {@link Link}, that renders as a button defined in WEP styleguide
  * 
  */
-public abstract class WepButton<T> extends Link<T> {
+public abstract class MiniBUtton<T> extends StatelessLink<T> {
 
 	private static final long serialVersionUID = 1976291861141359223L;
 	private boolean emphasized;
 	private static final String CSS_EMPHASIZED = "emphasized_button";
 	private static final String CSS_STANDARD = "standard_button";
 	private static final String CSS_SMALL = "small_button";
+	
+	private boolean isSmallButton = true;
 
-	private boolean isSmallButton = false;
 
-	public WepButton(String id) {
+	public MiniBUtton(String id, IModel<String> model) {
 		super(id);
+		this.setDefaultModel(model);
 	}
 
-	public WepButton(String id, IModel<T> model) {
-		super(id, model);
-	}
-
-	public WepButton(String id, IModel<T> model, boolean smallButton) {
-		super(id, model);
+	public MiniBUtton(String id, IModel<String> model, boolean smallButton) {
+		super(id);
+		this.setDefaultModel(model);
 		this.isSmallButton = smallButton;
 	}
 
@@ -57,7 +57,7 @@ public abstract class WepButton<T> extends Link<T> {
 
 	@Override
 	public void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
-		final AppendingStringBuffer buffer = new AppendingStringBuffer("<span>" + getDefaultModelObjectAsString() + "</span>");
+		final AppendingStringBuffer buffer = new AppendingStringBuffer("<span>" + "Add" + "</span>");
 		replaceComponentTagBody(markupStream, openTag, buffer);
 	}
 
@@ -74,7 +74,7 @@ public abstract class WepButton<T> extends Link<T> {
 	 * @param emphasized
 	 * @return this
 	 */
-	public WepButton<T> setEmphasized(boolean emphasized) {
+	public MiniBUtton<T> setEmphasized(boolean emphasized) {
 		this.emphasized = emphasized;
 		return this;
 	}
@@ -86,4 +86,6 @@ public abstract class WepButton<T> extends Link<T> {
 	public void setSmallButton(boolean isSmallButton) {
 		this.isSmallButton = isSmallButton;
 	}
+	
+
 }

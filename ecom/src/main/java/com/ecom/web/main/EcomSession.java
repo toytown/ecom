@@ -1,5 +1,8 @@
 package com.ecom.web.main;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
@@ -14,7 +17,7 @@ public class EcomSession extends WebSession {
 	private volatile boolean signedIn;
 	private String userName = null;
 	private String userId = null;
-	
+	private final ConcurrentMap<String, String> bookMarkMap =  new ConcurrentHashMap<String, String>();
 	
 	@SpringBean
 	private UserRepository userRepository;
@@ -24,6 +27,26 @@ public class EcomSession extends WebSession {
 		Injector.get().inject(this);
 	}
 
+	public synchronized final void addToFavourites(String id, String title) {
+		if (this.isTemporary()) {
+			bind();
+		}
+		
+		if (!bookMarkMap.containsKey(id)) {
+			System.out.println("Added to favourites" + bookMarkMap.size());
+			this.getId();
+			bookMarkMap.put(id, title);
+		}
+	}
+	
+	public synchronized final void clearFavourites() {
+		bookMarkMap.clear();
+	}
+	
+	public ConcurrentMap<String, String> getFavourites() {
+		return bookMarkMap;
+	}
+	
 	public final boolean signIn(final String username, final String password) {
 		User user = userRepository.findUserByUserNameAndPassword(username, password);
 		if (user != null) {

@@ -19,8 +19,9 @@ import com.ecom.web.components.wizard.WizardModel;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.main.GenericTemplatePage;
 import com.ecom.web.search.HomePage;
+import com.ecom.web.utils.SecurePage;
 
-public class AddRealStateInfoPage extends GenericTemplatePage {
+public class AddRealStateInfoPage extends GenericTemplatePage implements SecurePage {
 
 	private static final long serialVersionUID = 2150895889155872074L;
 	private static final JavaScriptResourceReference JS_UPLOAD_UTL = new JavaScriptResourceReference(AddRealStateInfoPage.class, "upload_file.js");
