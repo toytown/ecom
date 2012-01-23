@@ -25,7 +25,7 @@ import org.apache.wicket.request.resource.ResourceReference;
 
 import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
-import com.ecom.web.components.buttons.MiniBUtton;
+import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
@@ -202,7 +202,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
 		};
 
-		add(new MiniBUtton<String>("clearAll", new Model<String>("clear")) {
+		add(new MiniButton<String>("clearAll", new Model<String>("clear")) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -251,7 +251,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
 				item.add(new Label("address", addressInfo));
 
-				item.add(new MiniBUtton<String>("bookmark", new Model<String>("Add")) {
+				item.add(new MiniButton<String>("bookmark", new Model<String>("Add")) {
 
 					private static final long serialVersionUID = 1L;
 

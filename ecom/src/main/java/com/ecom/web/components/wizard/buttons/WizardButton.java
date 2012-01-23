@@ -5,7 +5,7 @@ import org.apache.wicket.extensions.wizard.IWizardModel;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 
-import com.ecom.web.components.buttons.WepJsButton;
+import com.ecom.web.components.buttons.CustomButton;
 
 
 
@@ -17,7 +17,7 @@ import com.ecom.web.components.buttons.WepJsButton;
  * should do the real work.
  * </p>
  */
-public abstract class WizardButton extends WepJsButton {
+public abstract class WizardButton extends CustomButton {
 
     private static final long serialVersionUID = 1L;
     

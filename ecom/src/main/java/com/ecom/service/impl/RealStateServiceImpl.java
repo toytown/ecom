@@ -92,15 +92,15 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		
 		Predicate condition = null;
 		if (!StringUtils.isEmpty(filterVal) && !StringUtils.isEmpty(userId)) {
-			builder.or(realStateQuery.userId.eq(userId.trim()));
 			builder.or(realStateQuery.city.contains(filterVal));
 			builder.or(realStateQuery.street.contains(filterVal));
 			builder.or(realStateQuery.areaCode.contains(filterVal));
-			condition = builder;
-		} else {
-			condition = realStateQuery.userId.eq(userId);
+			if (ObjectId.isValid(filterVal)) {
+				builder.or(realStateQuery.id.eq(new ObjectId(filterVal)));
+			}
 		}
 
+		condition = builder.and(realStateQuery.userId.eq(userId));
 		return condition;
 	}
 

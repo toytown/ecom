@@ -21,9 +21,14 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.bson.types.ObjectId;
 
 import com.ecom.domain.Message;
+import com.ecom.repository.MessageRepository;
+import com.ecom.web.components.buttons.CustomButton;
 import com.ecom.web.data.MessageDataProvider;
 import com.ecom.web.main.EcomSession;
 
@@ -32,6 +37,9 @@ public class MessageInboxPage extends UserDashBoardPage {
 
 	private Set<String> selectedIds = new HashSet<String>();
 
+	@SpringBean
+	private MessageRepository messageRepository;
+	
 	public MessageInboxPage() {
 
 		EcomSession session = (EcomSession) Session.get();
@@ -42,15 +50,22 @@ public class MessageInboxPage extends UserDashBoardPage {
 
 			private static final long serialVersionUID = 1L;
 
-			public void onSubmit() {
+		};
 
+		CustomButton deleteBtn = new CustomButton("delete", new ResourceModel("btn_delete")) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
 				for (String id : selectedIds) {
-					System.out.println(id);
+					messageRepository.delete(new ObjectId(id));
 				}
 			}
 		};
 
-
+		messageForm.add(deleteBtn);
+		
 		final DataView<Message> dataView = new DataView<Message>("userMessageResultsView", dataProvider) {
 
 			private static final long serialVersionUID = 6097489432223932704L;
@@ -61,7 +76,6 @@ public class MessageInboxPage extends UserDashBoardPage {
 				final String msgId = msg.getId().toString();
 
 				item.add(new Check<String>("check", Model.of(msgId)));
-				
 				
 				Link<Void> senderLink = new Link<Void>("senderLink") {
 
@@ -75,6 +89,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 					}
 					
 				};
+				
 				Label sender = new Label("sender", Model.of(msg.getSender()));
 				senderLink.add(sender);
 				

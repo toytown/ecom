@@ -11,7 +11,7 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
  * Extension of {@link Link}, that renders as a button defined in WEP styleguide
  * 
  */
-public abstract class MiniBUtton<T> extends StatelessLink<T> {
+public abstract class MiniButton<T> extends StatelessLink<T> {
 
 	private static final long serialVersionUID = 1976291861141359223L;
 	private boolean emphasized;
@@ -22,12 +22,12 @@ public abstract class MiniBUtton<T> extends StatelessLink<T> {
 	private boolean isSmallButton = true;
 
 
-	public MiniBUtton(String id, IModel<String> model) {
+	public MiniButton(String id, IModel<String> model) {
 		super(id);
 		this.setDefaultModel(model);
 	}
 
-	public MiniBUtton(String id, IModel<String> model, boolean smallButton) {
+	public MiniButton(String id, IModel<String> model, boolean smallButton) {
 		super(id);
 		this.setDefaultModel(model);
 		this.isSmallButton = smallButton;
@@ -57,7 +57,7 @@ public abstract class MiniBUtton<T> extends StatelessLink<T> {
 
 	@Override
 	public void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
-		final AppendingStringBuffer buffer = new AppendingStringBuffer("<span>" + "Add" + "</span>");
+		final AppendingStringBuffer buffer = new AppendingStringBuffer("<span>" + this.getDefaultModelObjectAsString() + "</span>");
 		replaceComponentTagBody(markupStream, openTag, buffer);
 	}
 
@@ -74,7 +74,7 @@ public abstract class MiniBUtton<T> extends StatelessLink<T> {
 	 * @param emphasized
 	 * @return this
 	 */
-	public MiniBUtton<T> setEmphasized(boolean emphasized) {
+	public MiniButton<T> setEmphasized(boolean emphasized) {
 		this.emphasized = emphasized;
 		return this;
 	}

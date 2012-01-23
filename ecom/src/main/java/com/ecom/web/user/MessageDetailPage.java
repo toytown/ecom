@@ -3,6 +3,7 @@ package com.ecom.web.user;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.Session;
 import org.apache.wicket.datetime.PatternDateConverter;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.markup.html.basic.Label;
@@ -14,20 +15,27 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.bson.types.ObjectId;
 
 import com.ecom.domain.Message;
-import com.ecom.web.components.buttons.MiniBUtton;
-import com.ecom.web.components.buttons.WepJsButton;
+import com.ecom.repository.MessageRepository;
+import com.ecom.web.components.buttons.CustomButton;
+import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.data.DetachableMessageModel;
+import com.ecom.web.main.EcomSession;
 
 public class MessageDetailPage extends UserDashBoardPage {
 
 	private static final long serialVersionUID = 1L;
 	private String replyMessage = "";
 
+	@SpringBean
+	private MessageRepository messageRepository;
+	
 	public MessageDetailPage(PageParameters params) {
 
-		String messageId = params.get("MSG_ID").toString();
+		final String messageId = params.get("MSG_ID").toString();
 
 		DetachableMessageModel msgModel = new DetachableMessageModel(messageId);
 		CompoundPropertyModel<Message> msg = new CompoundPropertyModel<Message>(msgModel);
@@ -49,28 +57,36 @@ public class MessageDetailPage extends UserDashBoardPage {
 
 		setDefaultModel(msg);
 
-		final Form<Void> replyForm = new Form<Void>("replyForm");
+		final Form<String> replyForm = new Form<String>("replyForm", new Model<String>(messageId));
 		replyForm.setOutputMarkupId(true);
 		final TextArea<String> replyMessageText = new TextArea<String>("replyMessage", new PropertyModel<String>(this, "replyMessage"));
 
 		replyForm.add(replyMessageText);
 
-		replyForm.add(new WepJsButton("sendBtn", new Model<String>("send")) {
+		replyForm.add(new CustomButton("send", new Model<String>("send")) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onSubmit() {
 				String replyMsg = replyMessageText.getDefaultModelObjectAsString();
+				String messageId = replyForm.getDefaultModelObjectAsString();
 				if (!StringUtils.isEmpty(replyMsg)) {
-					System.out.println(" " + replyMsg);
+					Message msg = messageRepository.findOne(new ObjectId(messageId));
+					String userId = ((EcomSession) Session.get()).getUserId();
+					Message replyMessage = new Message();
+					replyMessage.setMessage(replyMsg);
+					replyMessage.setUserId(msg.getUserId());
+					replyMessage.setSender(userId);
+					replyMessage.setSentTs(new Date());
+					messageRepository.save(replyMessage);
 				}
 			}
 
 		});
 		replyForm.setVisible(false);
 
-		MiniBUtton<String> replyBtn = new MiniBUtton<String>("replyBtn", new Model<String>("Reply")) {
+		MiniButton<String> replyBtn = new MiniButton<String>("replyBtn", new Model<String>("Reply")) {
 
 			private static final long serialVersionUID = 1L;
 
