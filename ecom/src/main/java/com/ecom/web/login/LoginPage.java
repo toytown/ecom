@@ -34,17 +34,6 @@ public class LoginPage extends GenericTemplatePage {
 		BookmarkablePageLink<Void> newRegistrationLink = new BookmarkablePageLink<Void>("isNewRegistraion", RegistrationPage.class);
 		loginForm.add(newRegistrationLink);
 		
-//		CheckBox newRegistration = new CheckBox("isNewRegistraion");
-//		newRegistration.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-//
-//            @Override
-//            protected void onUpdate(AjaxRequestTarget target) {
-//               setResponsePage(RegistrationPage.class);
-//                
-//            }
-//		    
-//		});
-		//loginForm.add(newRegistration);
 		
 		EcomSession session = (EcomSession) Session.get();
 		

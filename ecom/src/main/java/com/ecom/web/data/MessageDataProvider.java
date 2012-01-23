@@ -23,69 +23,67 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 	private static final long serialVersionUID = 431164733248836183L;
 
 	public static final int PAGE_SIZE = 15;
-    
-    public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "sentTs");
 
-    private transient PageRequest req = new PageRequest(0, PAGE_SIZE, DEFAULT_SORT);
-    
-    private String userId;
-    
-    @SpringBean
-    private MessageRepository messageRepository;
-    
-    public MessageDataProvider(String userId) {
-        Injector.get().inject(this);
-        this.userId = userId;
-        setSort("sentTs", SortOrder.DESCENDING);        
-    }
-    
-    @Override
-    public Iterator<? extends Message> iterator(int first, int count) {
-        Iterator<Message> iter = null;
+	public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "sentTs");
 
-        
-        if (!StringUtils.isEmpty(this.userId)) {
-            QMessage messageQuery = new QMessage("message");            
+	private transient PageRequest req = new PageRequest(0, PAGE_SIZE, DEFAULT_SORT);
 
-            SortParam sortParam = this.getSort();
-            Sort sort = null;
-            
-            if (sortParam.getProperty().equalsIgnoreCase("sentTs")) {
-                sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "sentTs" );
-            }
-            
-            if (sortParam.getProperty().equalsIgnoreCase("title")) {
-                sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "title" );
-            }
+	private String userId;
 
-            req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-            iter = messageRepository.findAll(messageQuery.userId.eq(this.userId), req).iterator();
-            
-        } else {
-            iter = messageRepository.findAll(req).iterator();
-        }
+	@SpringBean
+	private MessageRepository messageRepository;
 
-        return iter;        
+	public MessageDataProvider(String userId) {
+		Injector.get().inject(this);
+		this.userId = userId;
+		setSort("sentTs", SortOrder.DESCENDING);
+	}
 
-    }
+	@Override
+	public Iterator<? extends Message> iterator(int first, int count) {
+		Iterator<Message> iter = null;
 
-    @Override
-    public int size() {
-        return Long.valueOf(messageRepository.count()).intValue();
-    }
+		if (!StringUtils.isEmpty(this.userId)) {
+			QMessage messageQuery = new QMessage("message");
 
-    @Override
-    public IModel<Message> model(final Message object) {
-        IModel<Message> realStateModel = new LoadableDetachableModel<Message>() {
+			SortParam sortParam = this.getSort();
+			Sort sort = null;
+
+			if (sortParam.getProperty().equalsIgnoreCase("sentTs")) {
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "sentTs");
+			}
+
+			if (sortParam.getProperty().equalsIgnoreCase("title")) {
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "title");
+			}
+
+			req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
+			iter = messageRepository.findAll(messageQuery.userId.eq(this.userId), req).iterator();
+
+		}
+
+		return iter;
+
+	}
+
+	@Override
+	public int size() {
+		QMessage messageQuery = new QMessage("message");
+		return Long.valueOf(messageRepository.count(messageQuery.userId.eq(this.userId))).intValue();
+	}
+
+	@Override
+	public IModel<Message> model(final Message object) {
+		IModel<Message> realStateModel = new LoadableDetachableModel<Message>() {
 
 			private static final long serialVersionUID = 1L;
 
-				protected Message load() {
-                return messageRepository.findOne(object.getId());
-            }
-        };
+			protected Message load() {
+				return messageRepository.findOne(object.getId());
+			}
+		};
 
-        return realStateModel;
-    }
+		return realStateModel;
+	}
 
 }

@@ -88,11 +88,15 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	public Predicate buildPredicate(String userId, String filterVal) {
 		QRealState realStateQuery = new QRealState("realStateUser");
+		BooleanBuilder builder = new BooleanBuilder();
+		
 		Predicate condition = null;
-		if (!StringUtils.isEmpty(filterVal)) {
-			condition = realStateQuery.userId.eq(userId).and(
-					realStateQuery.city.contains(filterVal).or(realStateQuery.street.contains(filterVal))
-							.or(realStateQuery.id.eq(new ObjectId(filterVal))));
+		if (!StringUtils.isEmpty(filterVal) && !StringUtils.isEmpty(userId)) {
+			builder.or(realStateQuery.userId.eq(userId.trim()));
+			builder.or(realStateQuery.city.contains(filterVal));
+			builder.or(realStateQuery.street.contains(filterVal));
+			builder.or(realStateQuery.areaCode.contains(filterVal));
+			condition = builder;
 		} else {
 			condition = realStateQuery.userId.eq(userId);
 		}

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.datetime.PatternDateConverter;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
@@ -24,17 +25,18 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.domain.Message;
 import com.ecom.web.data.MessageDataProvider;
+import com.ecom.web.main.EcomSession;
 
 public class MessageInboxPage extends UserDashBoardPage {
 	private static final long serialVersionUID = -520591566156931738L;
-	private String userId;
+
 	private Set<String> selectedIds = new HashSet<String>();
 
-	public MessageInboxPage(PageParameters params) {
+	public MessageInboxPage() {
 
-		this.userId = params.get("userId").toString();
+		EcomSession session = (EcomSession) Session.get();
 
-		SortableDataProvider<Message> dataProvider = new MessageDataProvider(userId);
+		SortableDataProvider<Message> dataProvider = new MessageDataProvider(session.getUserId());
 
 		final Form<Void> messageForm = new Form<Void>("messageForm") {
 

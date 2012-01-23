@@ -18,9 +18,7 @@ import com.ecom.web.utils.SecurePage;
 
 public class UserDashBoardPage extends GenericTemplatePage implements SecurePage {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 8655494738660715236L;
 
 	@SpringBean
@@ -72,9 +70,7 @@ public class UserDashBoardPage extends GenericTemplatePage implements SecurePage
 
 			@Override
 			public void onClick() {
-				PageParameters params = new PageParameters();
-				params.add("userId", this.getModel().getObject().getId().toString());
-				setResponsePage(MessageInboxPage.class, params);
+				setResponsePage(MessageInboxPage.class);
 			}
 
 		};

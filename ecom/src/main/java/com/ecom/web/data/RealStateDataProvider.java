@@ -64,7 +64,7 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
             pageReq = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
 
-            iter = realStateService.findBySearchRequest(searchRequest, pageReq).iterator();
+            iter = realStateService.findByUserSearchFilter(this.userId, this.filterVal, pageReq).iterator();
             return iter;
 
         } else {
