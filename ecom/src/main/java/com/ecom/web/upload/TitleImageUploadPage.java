@@ -2,15 +2,16 @@ package com.ecom.web.upload;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.service.impl.RealStateImageService;
@@ -28,6 +29,12 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
     private final FileUploadField uploadTitleField;
 
+    @Override
+    public void onInitialize() {
+        super.onInitialize();
+        Injector.get().inject(this);
+    }
+    
     public TitleImageUploadPage(final ModalWindow modalWindow, final IModel<RealState> realStateModel) {
         titleImageUploadForm = new Form<Void>("titleImageUploadForm");
         titleImageUploadForm.setMultiPart(true);
@@ -56,11 +63,11 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
         if (uploadedFile != null && uploadedFile.getClientFileName() != null) {
             try {
-                if (!StringUtils.isEmpty(realState.getTitleImageId())) {
+                if (realState != null && ObjectId.isValid(realState.getTitleImageId())) {
                     imageService.deleteImage(realState, realState.getTitleImageId());
                     realState.removeTitleImages();
+                    //saves the newly uploaded title image
                 }
-                //saves the newly uploaded title image
                 imageService.saveUploadedImageFileInDB(uploadedFile.getClientFileName(), uploadedFile.getInputStream(), realState, true);
 
             } catch (IOException e) {

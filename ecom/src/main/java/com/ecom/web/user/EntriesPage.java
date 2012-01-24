@@ -31,6 +31,7 @@ import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.web.components.image.StaticImage;
+import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.upload.AddRealStateInfoPage;
@@ -198,7 +199,7 @@ public class EntriesPage extends UserDashBoardPage {
 
                    @Override
                    public void onClick() {
-                       setResponsePage(AddRealStateInfoPage.class);
+                       setResponsePage(new AddRealStateInfoPage(new DetachableRealStateModel(realState.getId())));
                    }
 
                });

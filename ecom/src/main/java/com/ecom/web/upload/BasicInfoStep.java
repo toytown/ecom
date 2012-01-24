@@ -41,14 +41,24 @@ public class BasicInfoStep extends WizardStep {
 	@SpringBean
 	private RealStateRepository realStateRepository;
 
+	@Override
+	public void onInitialize() {
+	    super.onInitialize();
+	    Injector.get().inject(this);
+	}
+	
 	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<RealState> realStateModel) {
 		super(wizard_title, summary);
-		Injector.get().inject(this);
 
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
 
-		titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
+		if (realStateModel.getObject() != null && !StringUtils.isEmpty(realStateModel.getObject().getTitleImageId())) {
+		    titleImageContainer.add(getTitileImage(realStateModel.getObject()));
+		} else {
+		    titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
+		}
+		
 
 		final Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
@@ -117,16 +127,7 @@ public class BasicInfoStep extends WizardStep {
 				RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
 
 				if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
-					ResourceReference imagesResourceReference = new EcomImageResouceReference();
-					PageParameters imageParameters = new PageParameters();
-					String imageId = realState.getTitleThumbNailImage();
-					imageParameters.set("id", imageId);
-
-					// generates nice looking url (the mounted one) to the current
-					// image
-					CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-					realStateUploadInfoForm.modelChanged();
-					titleImageContainer.addOrReplace(new StaticImage("title_image", new Model<String>(urlForImage.toString())));
+					titleImageContainer.addOrReplace(getTitileImage(realState));
 					target.add(titleImageContainer);
 				}
 
@@ -244,4 +245,20 @@ public class BasicInfoStep extends WizardStep {
 		add(realStateUploadInfoForm);
 	}
 
+	private StaticImage getTitileImage(RealState realState) {
+	    if (realState != null) {
+	        ResourceReference imagesResourceReference = new EcomImageResouceReference();
+	        PageParameters imageParameters = new PageParameters();
+	        String imageId = realState.getTitleThumbNailImage();
+	        imageParameters.set("id", imageId);
+	        
+	        CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+	        StaticImage titleImage = new StaticImage("title_image", Model.of(urlForImage.toString()));
+	        
+	        return titleImage;
+	        
+	    } else {
+	        return null;
+	    }
+	}
 }

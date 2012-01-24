@@ -45,6 +45,7 @@ public class IndicatingAjaxSubmitLink extends AjaxSubmitLink implements IAjaxInd
         
     }
 
+    
     /**
      * @inheritDoc
      * @see org.apache.wicket.Component#onComponentTag(org.apache.wicket.markup.ComponentTag)

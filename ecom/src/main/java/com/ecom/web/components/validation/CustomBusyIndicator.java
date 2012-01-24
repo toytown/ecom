@@ -13,7 +13,7 @@ public class CustomBusyIndicator extends AjaxIndicatorAppender {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String WEP_INDICATOR_IMG = "busy.gif";
+    private static final String WEP_INDICATOR_IMG = "busy_big.gif";
 
     public static final ResourceReference INDICATOR = new PackageResourceReference(CustomBusyIndicator.class, WEP_INDICATOR_IMG);
 
