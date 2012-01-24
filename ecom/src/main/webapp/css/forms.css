@@ -92,6 +92,10 @@
 	padding: 6px 0 15px 0;
 }
 
+.form input {
+	
+}
+
 #greenButton {
 	background-color: #589D39;
 	border: 1px solid #006600;

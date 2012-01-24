@@ -661,6 +661,15 @@ tr.color1 {
 	width: 257px;
 	text-align: center;
 	padding: 3px 0 3px 0;
+	background: #E2ECF6;
+}
+
+.form_row input {
+	padding: 3px;
+	color: #333333;
+	border: 1px solid #96A6C5;
+	margin: 2px 0 0 0;
+	font-size: 11px;
 }
 
 label.left {
@@ -675,24 +684,6 @@ label.left_long {
 	width: 90px;
 	padding-top: 3px;
 	text-align: right;
-}
-
-input.form_input {
-	border: 1px solid #C8D2D9;
-	background-color: #FFFFFF;
-	margin: 0px;
-	width: 150px;
-	float: left;
-	margin-left: 10px;
-}
-
-input.form_input_small {
-	border: 1px solid #C8D2D9;
-	background-color: #FFFFFF;
-	margin: 0px;
-	width: 70px;
-	float: left;
-	margin-left: 10px;
 }
 
 .contact_information {
