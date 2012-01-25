@@ -1188,3 +1188,7 @@ table.dataview #message {
 table.dataview caption {
 	padding-bottom: 2px;
 }
+
+.wupb-foreground {
+	color: green;
+}

@@ -1,6 +1,5 @@
 <wicket:panel>
 
-	<form wicket:id="uploadForm">
 		<div class="first_column search_form rounded_all" style="margin-top: 15px; width:540px;">
 			<div class="main_info_box_header">Upload Images</div>
 			<p>
@@ -45,7 +44,10 @@
 			
 		</div>
 
-	</form>
+	
+	<div class="first_column search_form rounded_all" style="margin-top: 15px; width:540px;">
+		<p wicket:id="progress" >downloadFileModalWindow</p>
+	</div>
 	
 	<div wicket:id="uploadedImagesContainer" class="main_info_first_col">
 		

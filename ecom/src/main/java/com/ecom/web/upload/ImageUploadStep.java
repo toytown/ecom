@@ -52,7 +52,6 @@ public class ImageUploadStep extends WizardStep {
     private FileUploadField file9;
     private FileUploadField file10;
 
-    private FileUploadForm<RealState> imageUploadForm;
     private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
 
     @SpringBean
@@ -61,23 +60,23 @@ public class ImageUploadStep extends WizardStep {
     public ImageUploadStep(IModel<String> title, IModel<String> summary, final IModel<RealState> realStateModel) {
         super(title, summary);
         Injector.get().inject(this);
-
-        imageUploadForm = new FileUploadForm<RealState>("uploadForm", realStateModel);
-        imageUploadForm.setMultiPart(true);
         imageContainer.setOutputMarkupId(true);
-
+        imageContainer.setOutputMarkupPlaceholderTag(true);
+        
         IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
-        imageUploadForm.add(file1 = new FileUploadField("file1", model));
-        imageUploadForm.add(file2 = new FileUploadField("file2", model));
-        imageUploadForm.add(file3 = new FileUploadField("file3", model));
-        imageUploadForm.add(file4 = new FileUploadField("file4", model));
-        imageUploadForm.add(file5 = new FileUploadField("file5", model));
-        imageUploadForm.add(file6 = new FileUploadField("file6", model));
-        imageUploadForm.add(file7 = new FileUploadField("file7", model));
-        imageUploadForm.add(file8 = new FileUploadField("file8", model));
-        imageUploadForm.add(file9 = new FileUploadField("file9", model));
-        imageUploadForm.add(file10 = new FileUploadField("file10", model));
+        add(file1 = new FileUploadField("file1", model));
+        add(file2 = new FileUploadField("file2", model));
+        add(file3 = new FileUploadField("file3", model));
+        add(file4 = new FileUploadField("file4", model));
+        add(file5 = new FileUploadField("file5", model));
+        add(file6 = new FileUploadField("file6", model));
+        add(file7 = new FileUploadField("file7", model));
+        add(file8 = new FileUploadField("file8", model));
+        add(file9 = new FileUploadField("file9", model));
+        add(file10 = new FileUploadField("file10", model));
 
+       
+        
         // refreshing view
         final RefreshingView<RealStateImage> imgListView = new RefreshingView<RealStateImage>("imagesListView") {
 
@@ -85,7 +84,7 @@ public class ImageUploadStep extends WizardStep {
 
 				@Override
             protected Iterator<IModel<RealStateImage>> getItemModels() {
-                Iterator<RealStateImage> imageIter = realStateRepository.findOne(imageUploadForm.getModelObject().getId()).getGalleryImages()
+                Iterator<RealStateImage> imageIter = realStateRepository.findOne(realStateModel.getObject().getId()).getGalleryImages()
                         .iterator();
 
                 return new ModelIteratorAdapter<RealStateImage>(imageIter) {
@@ -134,12 +133,13 @@ public class ImageUploadStep extends WizardStep {
         imgListView.setOutputMarkupId(true);
         imageContainer.add(imgListView);
 
-        imageUploadForm.add(new IndicatingAjaxSubmitLink("upload", new Model<String>("Upload")) {
+        add(new IndicatingAjaxSubmitLink("upload", new Model<String>("Upload")) {
 
             private static final long serialVersionUID = 2718354305648397798L;
 
             @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+            protected void onSubmit(AjaxRequestTarget target, final Form<?> form) {
+
                 List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
                 FileUpload uploadedFile1 = file1.getFileUpload();
                 FileUpload uploadedFile2 = file2.getFileUpload();
@@ -163,7 +163,7 @@ public class ImageUploadStep extends WizardStep {
                 uploadedFilesList.add(uploadedFile9);
                 uploadedFilesList.add(uploadedFile10);
 
-                saveUploadedFiles(uploadedFilesList, imageUploadForm.getModelObject());
+                saveUploadedFiles(uploadedFilesList, realStateModel.getObject());
                 imageContainer.addOrReplace(imgListView);
                 target.add(imageContainer);
             }
@@ -171,7 +171,6 @@ public class ImageUploadStep extends WizardStep {
         });
 
         //imgListView.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
-        add(imageUploadForm);
         add(imageContainer);
     }
 

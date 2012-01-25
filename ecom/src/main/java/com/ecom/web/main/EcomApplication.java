@@ -64,7 +64,8 @@ public class EcomApplication extends WebApplication {
 		getMarkupSettings().setDefaultAfterDisabledLink("");
 
 		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
-
+		getApplicationSettings().setUploadProgressUpdatesEnabled(true);
+		
 		// Register the authorization strategy
 		getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
 			public boolean isActionAuthorized(Component component, Action action) {

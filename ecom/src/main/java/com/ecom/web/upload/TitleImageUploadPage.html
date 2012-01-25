@@ -8,37 +8,6 @@
 <link rel="stylesheet" type="text/css" href="css/admin.css" />
 <link rel="stylesheet" type="text/css" href="css/forms.css" />
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-
-<script>
-	$(function() {
-		$(":file").change(addSelectedValue);
-		$(":img").click(removeSelectedValue);
-		$("#header").remove();
-	});
-
-	function addSelectedValue() {
-		var index = $(":file").index(this);
-		var index_id = index + 1;
-		var value = $(this).val();
-		var spanId = "#" + index_id;
-		var aRefId = "#aref_" + index_id;
-		var methodCall = ' onClick=removeSelectedValue(' + index_id + ');';
-
-		var tag = '<img id=' + aRefId +  ' src="images/buttons/cross.png"' + methodCall  + ' style="width:16px; height:16px;"' + ' />';
-
-		$(spanId).text(value).append(tag);
-	}
-
-	function removeSelectedValue(index) {
-		var spanId = "#" + index;
-
-		$(":file").eq(index - 1).val("");
-		$(spanId).text("");
-	}
-</script>
-
-
 </head>
 
 <body>
@@ -52,13 +21,16 @@
 				<p>
 					<label for="file1"><wicket:message key="lbl_file_1" /></label> <input id="input_file" type="file" wicket:id="file1" />
 				</p>
-				<p><span id="1"></span></p>
+
 				<p>
 					<span wicket:id="upload">[Upload]</span>
 				</p>
-
 			</div>
+			
 		</form>
+		<div class="first_column search_form rounded_all" style="margin-top: 15px; width: 640px;">
+			<p wicket:id="feedback">feedbackmessages will be put here</p>			
+		</div>
 	</div>
 
 </body>

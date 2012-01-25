@@ -139,7 +139,7 @@ public class RealStateImageService implements ImageService {
                     
                     if (this.gridFS.findOne(new ObjectId(realStateImageId)) != null) {
                         this.gridFS.remove(realStateImageId);
-                        //iter.remove();
+                        iter.remove();
                         deleted = true;
                     }
                 }

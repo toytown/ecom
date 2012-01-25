@@ -15,7 +15,7 @@
 		<spring.data.mongo.version>1.0.1.BUILD-SNAPSHOT</spring.data.mongo.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<querydsl.version>2.3.0</querydsl.version>
-		<wicket.version>1.5.3</wicket.version>
+		<wicket.version>1.5.4</wicket.version>
 	</properties>
 
 	<repositories>

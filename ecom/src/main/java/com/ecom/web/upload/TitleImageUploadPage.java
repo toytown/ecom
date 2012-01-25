@@ -8,8 +8,10 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
@@ -24,6 +26,8 @@ public class TitleImageUploadPage extends GenericTemplatePage {
 
     private Form<Void> titleImageUploadForm = null;
 
+    private FeedbackPanel feedbackPanel = new FeedbackPanel("feedback");
+    
     @SpringBean(name = "imageService")
     private RealStateImageService imageService;
 
@@ -33,6 +37,7 @@ public class TitleImageUploadPage extends GenericTemplatePage {
     public void onInitialize() {
         super.onInitialize();
         Injector.get().inject(this);
+        feedbackPanel.setOutputMarkupId(true);
     }
     
     public TitleImageUploadPage(final ModalWindow modalWindow, final IModel<RealState> realStateModel) {
@@ -40,6 +45,8 @@ public class TitleImageUploadPage extends GenericTemplatePage {
         titleImageUploadForm.setMultiPart(true);
         uploadTitleField = new FileUploadField("file1");
         titleImageUploadForm.add(uploadTitleField);
+
+        
         IndicatingAjaxSubmitLink uploadLink = new IndicatingAjaxSubmitLink("upload", Model.of("Upload")) {
 
             private static final long serialVersionUID = 1L;
@@ -50,12 +57,17 @@ public class TitleImageUploadPage extends GenericTemplatePage {
                 RealState realState = realStateModel.getObject();
                 saveUploadedFiles(uploadFile, realState);
                 realStateModel.setObject(realState);
-               //TODO modalWindow.close(target);
+                StringResourceModel model = new StringResourceModel("msg_successful_upload", TitleImageUploadPage.this, null, new Object[] { uploadFile.getClientFileName() });
+                info(model.getObject());
+                target.add(feedbackPanel);
             }
         };
         
-        titleImageUploadForm.add(uploadLink);        
+        
+        titleImageUploadForm.add(uploadLink);      
+        add(feedbackPanel);
         add(titleImageUploadForm);
+
 
     }
 
