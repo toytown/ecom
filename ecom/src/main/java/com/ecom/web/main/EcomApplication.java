@@ -22,6 +22,7 @@ import com.ecom.common.utils.AppConfig;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
+import com.ecom.web.login.RetrievePasswordPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
@@ -48,6 +49,7 @@ public class EcomApplication extends WebApplication {
 		mountPage("/home", HomePage.class);
 		mountPage("/details", DetailViewPage.class);
 		mountPage("/home/login", LoginPage.class);
+		mountPage("/home/retrievePassword", RetrievePasswordPage.class);
 		mountPage("/home/registration", RegistrationPage.class);
 		mountPage("/home/results", SearchResultPage.class);
 		mountPage("/home/dashboard", UserDashBoardPage.class);

@@ -9,4 +9,8 @@ import com.ecom.domain.User;
 public interface UserRepository extends CrudRepository<User, ObjectId>, QueryDslPredicateExecutor<User> {
 
 	public User findUserByUserNameAndPassword(String userName, String password);
+	
+	public User findUserByUserName(String userName);
+	
+	public User findUserByEmail(String email);
 }
