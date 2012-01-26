@@ -1,6 +1,7 @@
 package com.ecom.web.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -9,6 +10,8 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -17,6 +20,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -24,6 +28,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters.NamedPair;
 import org.apache.wicket.request.resource.ResourceReference;
 
 import com.ecom.domain.RealState;
+import com.ecom.domain.RealStateSort;
 import com.ecom.domain.SearchRequest;
 import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
@@ -39,13 +44,15 @@ public class SearchResultPage extends GenericTemplatePage {
 
 	private PageParameters resultParams = null;
 
+
+	
 	public SearchResultPage(final PageParameters params) {
 		this.resultParams = params;
 		List<NamedPair> nameValueKey = params.getAllNamed();
 
 		setStatelessHint(true);
 
-		SearchRequest req = new SearchRequest();
+		final SearchRequest req = new SearchRequest();
 
 		for (NamedPair keyVal : nameValueKey) {
 
@@ -114,6 +121,23 @@ public class SearchResultPage extends GenericTemplatePage {
 
 		final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
 
+		IModel<RealStateSort> sortparamModel = new Model<RealStateSort>(RealStateSort.PRC_ASC);
+		DropDownChoice<RealStateSort> sortResults = new DropDownChoice<RealStateSort>("sortResults", sortparamModel, Arrays.asList(RealStateSort.values()), new EnumChoiceRenderer<RealStateSort>()) {
+
+			private static final long serialVersionUID = 1L;
+
+
+			protected boolean wantOnSelectionChangedNotifications() {
+            return true;
+        }
+
+
+        protected void onSelectionChanged(final RealStateSort newSelection) {
+      	  req.setSortOption(newSelection);
+        }			
+		};
+		searchForm.add(sortResults);
+		
 		TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
 		TextField<Double> priceToTxt = new TextField<Double>("priceTo");
 		TextField<Double> areaFromTxt = new TextField<Double>("areaFrom");

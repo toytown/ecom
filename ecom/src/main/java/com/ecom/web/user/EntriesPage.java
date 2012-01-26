@@ -27,9 +27,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.ecom.domain.RealState;
-import com.ecom.domain.RealStateImage;
-import com.ecom.repository.RealStateRepository;
-import com.ecom.service.interfaces.ImageService;
+import com.ecom.service.interfaces.RealStateService;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.data.RealStateDataProvider;
@@ -41,10 +39,7 @@ public class EntriesPage extends UserDashBoardPage {
 	private static final long serialVersionUID = -999171714434875305L;
 
 	@SpringBean
-	private RealStateRepository realStateRepository;
-	
-	@SpringBean
-	private ImageService imageService;
+	private RealStateService<RealState> realStateService;
 	
 	private String filterStr = "";
 	
@@ -184,11 +179,7 @@ public class EntriesPage extends UserDashBoardPage {
 
                     @Override
                     public void onClick() {
-                        for (RealStateImage realStateImage : realState.getImages()) {
-                            imageService.deleteImage(realState, realStateImage.getId());
-                        }
-                        
-                        realStateRepository.delete(realState);
+                  	  realStateService.deleteRealState(realState);
                     }
 
                 });

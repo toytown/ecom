@@ -11,6 +11,7 @@ import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.service.interfaces.ImageService;
 import com.ecom.service.interfaces.RealStateService;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.Predicate;
@@ -23,6 +24,9 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Autowired
 	private RealStateRepository realStateRepository;
 
+	@Autowired
+	private ImageService imageService;
+	
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
@@ -119,5 +123,12 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Override
 	public int count(String userId, String filter) {
 		return (int) realStateRepository.count(buildPredicate(userId, filter));
+	}
+
+	@Override
+	public void deleteRealState(RealState realState) {
+		imageService.deleteAllImages(realState);
+		realStateRepository.delete(realState);
+		
 	}
 }

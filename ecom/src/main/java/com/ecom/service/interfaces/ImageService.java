@@ -11,4 +11,6 @@ public interface ImageService {
 	public void deleteImage(RealState realState, String realStateImageId);
 	
 	public InputStream getImageAsBytes(String objectId) ;
+	
+	public void deleteAllImages(RealState realState);
 }

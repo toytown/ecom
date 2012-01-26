@@ -17,4 +17,6 @@ public interface RealStateService<RealState> extends Serializable {
 	
 	public int count(String userId, String filter);
 	
+	public void deleteRealState(RealState realState);
+	
 }

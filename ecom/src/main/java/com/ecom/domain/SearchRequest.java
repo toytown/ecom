@@ -36,6 +36,8 @@ public class SearchRequest implements Serializable {
     
     private int heatingTypeId;
     
+    private RealStateSort sortOption;
+    
     
     public String getCity() {
         return city;
@@ -219,5 +221,14 @@ public class SearchRequest implements Serializable {
 	public void setGardenAvailable(boolean isGardenAvailable) {
 		this.isGardenAvailable = isGardenAvailable;
 	}
+
+	public RealStateSort getSortOption() {
+		return sortOption;
+	}
+
+	public void setSortOption(RealStateSort sortOption) {
+		this.sortOption = sortOption;
+	}
+
     
 }
