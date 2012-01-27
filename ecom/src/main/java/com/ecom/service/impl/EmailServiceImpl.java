@@ -4,16 +4,21 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Service;
 
 import com.ecom.domain.Language;
 import com.ecom.service.interfaces.EmailService;
@@ -21,28 +26,26 @@ import com.ecom.service.interfaces.EmailService;
 /**
  * Provides an implementation of the <tt>EmailService</tt> interface
  * 
- * @author chaikou.balde
+ * @author Prasanna.Tuladhar
  *
  */
+@Service("emailService")
 public class EmailServiceImpl implements EmailService {
     
     /**
      * These string values are part of the 'message bundle' templates
      * */
-    private static final String TEMPLATE_MSG_SUBJECT    = "subject.";
-    private static final String TEMPLATE_MSG_BODY_ONE   = "body.part.one";
-    private static final String TEMPLATE_MSG_BODY_TWO   = "body.part.two.";
-    private static final String TEMPLATE_MSG_FOOTER     = "body.footer.";
+    private static final String TEMPLATE_MSG_SUBJECT    = "subject";
+    private static final String TEMPLATE_MSG_BODY   = "body";
+    private static final String TEMPLATE_MSG_FOOTER     = "footer";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(".+@.+\\.[a-z]+");
     
     private static final Logger logger = Logger.getLogger(EmailServiceImpl.class);
     
+    @Autowired
+    @Qualifier("mailSender")
     private JavaMailSender mailSender;
     
-    private String senderEmailAddress;
-    
-    private String defaultEmailRecipient;
-    
-    private String redirectMailsToDefault;
     
     public EmailServiceImpl() {
     }
@@ -61,55 +64,22 @@ public class EmailServiceImpl implements EmailService {
         this.mailSender = mailSender;
     }
     
-    /**
-     * @return the senderEmail
-     */
-    public String getSenderEmailAddress() {
-        return senderEmailAddress;
-    }
-
-    /**
-     * @param senderEmail the senderEmail to set
-     */
-    public void setSenderEmailAddress(String senderEmailAddress) {
-        this.senderEmailAddress = senderEmailAddress;
-    }
-
-    /**
-     * @return the defaultEmailRecipient
-     */
-    public String getDefaultEmailRecipient() {
-        return defaultEmailRecipient;
-    }
-
-    /**
-     * @param defaultEmailRecipient the defaultEmailRecipient to set
-     */
-    public void setDefaultEmailRecipient(String defaultEmailRecipient) {
-        this.defaultEmailRecipient = defaultEmailRecipient;
-    }
-
 
     /**
      * @see com.wirecard.ib.core.services.interfaces.EmailService#getEmailBodyTemplate(com.wirecard.ib.model.Language, java.lang.String, java.util.Map)
      */
     @Override
-    public String getEmailBodyTemplate(Language lang, String templateInitials, Map<String, Object> messageArguments) {
+    public String getEmailBodyTemplate(Language lang, String templateInitials, Object[] messageArguments) {
         Locale currentLocale = new Locale(lang.getLanguage());
         ResourceBundle bundle = ResourceBundle.getBundle(templateInitials,currentLocale);
         MessageFormat formatter = new MessageFormat("");
         formatter.setLocale(currentLocale);
      
-        formatter.applyPattern(bundle.getString(TEMPLATE_MSG_BODY_ONE));
+        formatter.applyPattern(bundle.getString(TEMPLATE_MSG_BODY));
         
         StringBuffer msgBuffer = new StringBuffer();
-        msgBuffer.append(formatter.format(messageArguments.values().toArray()));
-        
-        // Invoicing parties have different names in DB and template 
-        String partyName = (String)messageArguments.get("invoicingParty");
-        
-        msgBuffer.append(bundle.getString(TEMPLATE_MSG_BODY_TWO + partyName));
-        msgBuffer.append(bundle.getString(TEMPLATE_MSG_FOOTER + partyName));
+        msgBuffer.append(formatter.format(messageArguments));
+        msgBuffer.append(bundle.getString(TEMPLATE_MSG_FOOTER));
 
         return msgBuffer.toString();
     }
@@ -118,14 +88,13 @@ public class EmailServiceImpl implements EmailService {
      * @see com.wirecard.ib.core.services.interfaces.EmailService#getEmailHeaderTemplate(com.wirecard.ib.model.Language, java.lang.String, java.util.Map)
      */
     @Override
-    public String getEmailHeaderTemplate(Language lang, String templateInitials, Map<String, Object> messageArguments) {
+    public String getEmailHeaderTemplate(Language lang, String templateInitials, Object[] messageArguments) {
         Locale currentLocale = new Locale(lang.getLanguage());
         ResourceBundle bundle = ResourceBundle.getBundle(templateInitials,currentLocale);
         MessageFormat formatter = new MessageFormat("");
         formatter.setLocale(currentLocale);
-        String partyName = (String)messageArguments.get("invoicingParty");
-        formatter.applyPattern(bundle.getString(TEMPLATE_MSG_SUBJECT + partyName));
-        String msgSubject = formatter.format(messageArguments.values().toArray());
+        formatter.applyPattern(bundle.getString(TEMPLATE_MSG_SUBJECT));
+        String msgSubject = formatter.format(messageArguments);
         
         return msgSubject;
     }
@@ -165,11 +134,7 @@ public class EmailServiceImpl implements EmailService {
 
                 String[] recipientArr = new String[] {};
 
-                if (getRedirectMailsToDefault() != null && getRedirectMailsToDefault().equalsIgnoreCase("true")) {
-                    recipientArr = splitRecipientsIfRequired(getDefaultEmailRecipient());
-                } else {
-                    recipientArr = splitRecipientsIfRequired(recipientLists);
-                }
+                recipientArr = splitRecipientsIfRequired(recipientLists);
 
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
                 message.setTo(recipientArr);
@@ -205,12 +170,28 @@ public class EmailServiceImpl implements EmailService {
         }   
     }
     
-    public String getRedirectMailsToDefault() {
-        return redirectMailsToDefault;
-    }
+    public boolean validateEmail(String email){
 
-    public void setRedirectMailsToDefault(String redirectMailsToDefault) {
-        this.redirectMailsToDefault = redirectMailsToDefault;
-    }
+        // Match the given string with the pattern
+        Matcher m = EMAIL_PATTERN.matcher(email);
+
+        // check whether match is found
+        boolean matchFound = m.matches();
+
+        StringTokenizer st = new StringTokenizer(email, ".");
+        String lastToken = null;
+        while (st.hasMoreTokens()) {
+           lastToken = st.nextToken();
+        }
+
+        if (matchFound && lastToken.length() >= 2
+           && email.length() - 1 != lastToken.length()) {
+
+           // validate the country code
+           return true;
+        }
+        else return false;
+     }
+
     
 }

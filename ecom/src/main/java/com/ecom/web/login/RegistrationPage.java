@@ -1,48 +1,54 @@
 package com.ecom.web.login;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.ecom.domain.User;
 import com.ecom.repository.UserRepository;
+import com.ecom.web.components.captcha.Captcha;
 import com.ecom.web.main.GenericTemplatePage;
 
 public class RegistrationPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 1L;
-
+    
 	@SpringBean
 	private UserRepository userRepository;
 	
+
 	
 	public RegistrationPage() {
 		super();
 
 		final User user = new User();
-		
+
 		CompoundPropertyModel<User> userModel = new CompoundPropertyModel<User>(user);
 
-		StatelessForm<User> userRegistrationForm = new StatelessForm<User>("userRegistrationForm", userModel) {
-			/**
-			 * 
-			 */
+		Form<User> userRegistrationForm = new Form<User>("userRegistrationForm", userModel) {
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public final void onSubmit() {
 				User user = this.getModelObject();
 				user.setActivationCode(UUID.randomUUID().toString());
+				user.setInsertTs(new Date());
+				user.setPassword(user.getPassword());
+				user.setPassword2(user.getPassword2());
 				userRepository.save(user);
 			}
 
 		};
 
+		userRegistrationForm.add(new FeedbackPanel("feedback"));
 		/*
 		TextField<String> titleText = new TextField<String>("title");
 		userRegistrationForm.add(titleText);
@@ -113,7 +119,8 @@ public class RegistrationPage extends GenericTemplatePage {
 		*/
 		
 		userRegistrationForm.add(new Button("register"));
-
+		userRegistrationForm.add(new Captcha("captcha"));
+		
 		add(userRegistrationForm);
 
 	}

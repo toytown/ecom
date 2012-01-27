@@ -13,19 +13,19 @@ public class Captcha extends Panel {
     
     public Captcha(String id) {
         super(id);
-        
         setDefaultModel(challenge);
         add(new Image("challenge", new CaptchaImageResource(challenge)));
-        result = new TextField<String>("result", new Model<String>(null));
+        result = new TextField<String>("result", new Model<String>(""));
         result.setRequired(true);
         result.add(new ChallengeValidator(challenge));
         add(result);
+
     }
 
     @Override
     protected void onBeforeRender() {
         result.clearInput();
-        result.setModelObject(null);
+        result.setModelObject(null);  
         challenge.reset();
         super.onBeforeRender();
     }    

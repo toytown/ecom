@@ -37,8 +37,9 @@ public class User implements Serializable {
 
 	@Transient
 	private String password2;
-	   
-	private int status;
+	
+	//inactive
+	private int status = 0; 
 
 	private String activationCode;
 
@@ -281,6 +282,22 @@ public class User implements Serializable {
     public void activateUser() {
    	 this.setStatus(UserStatus.getStatusId(UserStatus.ACTIVE));
    	 this.setActivationTs(Calendar.getInstance().getTime());
+    }
+    
+    public boolean isActive() {
+        if (this.getStatus() == UserStatus.getStatusId(UserStatus.ACTIVE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isInactive() {
+        if (this.getStatus() == UserStatus.getStatusId(UserStatus.INACTIVE)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public void deActivateUser() {

@@ -26,12 +26,12 @@ public class UserActivationPage extends GenericTemplatePage {
 		setStatelessHint(true);		
 		
 		String userId = (String) pm.get("userId").toString();
-		String activationCodeParam = pm.get("activationCode").toString();
+		String activationCode = pm.get("activationCode").toString();
 		
-		if (!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(activationCodeParam) ) {
+		if (!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(activationCode) ) {
 			User newUser = userRepository.findOne(new ObjectId(userId));
 			
-			if (newUser != null && newUser.getActivationCode() != null && newUser.getActivationCode().equalsIgnoreCase(activationCodeParam)) {
+			if (newUser != null && newUser.getActivationCode() != null && newUser.getActivationCode().equals(activationCode)) {
 			    newUser.activate();
 				userRepository.save(newUser);
 				

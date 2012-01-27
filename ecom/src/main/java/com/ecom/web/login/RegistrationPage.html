@@ -95,14 +95,17 @@
 
 						</tr>
 						<tr>
-
+							<td><label><wicket:message key="lbl_captcha" /></label></td>
+							<td><wicket:container wicket:id="captcha"/></td>
+						</tr>						
+						<tr>
 							<td>&nbsp;</td>
 							<td><input type="submit" id="greenButton" value="Sign Up" wicket:id="register" /> <img id="loading" src="img/ajax-loader.gif" alt="working.." /></td>
-
 						</tr>
+						
 					</tbody>
 				</table>
-
+				<div wicket:id="feedback"></div>
 			</form>
 
 			<div id="error">&nbsp;</div>

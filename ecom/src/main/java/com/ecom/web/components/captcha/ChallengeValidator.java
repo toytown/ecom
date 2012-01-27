@@ -10,13 +10,12 @@ public class ChallengeValidator implements IValidator<String> {
     private final IModel<String> challenge;
     
     public ChallengeValidator(IModel<String> challenge) {
-        super();
         this.challenge = challenge;
     }
 
     @Override
     public void validate(IValidatable<String> validatable) {
-        
+
         if (!challenge.getObject().equals(validatable.getValue())) {
             
             ValidationError error = new ValidationError();

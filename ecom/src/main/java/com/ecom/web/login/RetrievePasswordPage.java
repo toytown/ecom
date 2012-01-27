@@ -2,16 +2,20 @@ package com.ecom.web.login;
 
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.ecom.service.interfaces.UserService;
-import com.ecom.web.components.captcha.Captcha;
 import com.ecom.web.main.GenericTemplatePage;
 
 
 
 public class RetrievePasswordPage extends GenericTemplatePage {
 
+
+    @SpringBean
+    private UserService userService;
 
     private String userNameOrEmail;
 
@@ -25,30 +29,23 @@ public class RetrievePasswordPage extends GenericTemplatePage {
         this.userNameOrEmail = userNameOrEmail;
     }
 
-
-    @SpringBean
-    private UserService userService;
-    
     
     public RetrievePasswordPage() {
         super();
         
-        TextField<String> userNameOrEmail = new TextField<String>("userNameOrEmail");
+        final TextField<String> userNameOrEmail = new TextField<String>("userNameOrEmail", new PropertyModel<String>(this, "userNameOrEmail"));
 
-        StatelessForm<String> passwordRetrivalForm = new StatelessForm<String>("passwordRetrievalForm") {
+        StatelessForm<Void> passwordRetrivalForm = new StatelessForm<Void>("passwordRetrievalForm") {
             
             @Override
             public void onSubmit() {
-                String userNameOrPassword = this.getDefaultModelObjectAsString();
-                
-                userService.retrivePassword(userNameOrPassword, false);
+                String userNameOrPassword = userNameOrEmail.getDefaultModelObjectAsString();
+                userService.retriveAndSendNewPassword(userNameOrPassword);
             }
         };
 
-        
+        passwordRetrivalForm.add(new FeedbackPanel("feedback"));
         passwordRetrivalForm.add(userNameOrEmail);
-        passwordRetrivalForm.add(new Captcha("captcha"));
-        
         add(passwordRetrivalForm);
     }
 
