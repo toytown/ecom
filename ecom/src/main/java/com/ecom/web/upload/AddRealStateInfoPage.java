@@ -18,7 +18,7 @@ import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.wizard.WizardComponent;
 import com.ecom.web.components.wizard.WizardModel;
 import com.ecom.web.main.GenericTemplatePage;
-import com.ecom.web.search.HomePage;
+import com.ecom.web.main.HomePage;
 import com.ecom.web.utils.SecurePage;
 
 public class AddRealStateInfoPage extends GenericTemplatePage implements SecurePage {

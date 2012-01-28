@@ -37,6 +37,7 @@ public class ImageNavigationPanel extends Panel {
 		super.onInitialize();
 		add(new GalleriaBehavior(0, 320));
 
+		@SuppressWarnings("unchecked")
 		ListView<String> imagesView = new ListView<String>("images", (IModel<? extends List<? extends String>>)getDefaultModel()) {
 
 			private static final long serialVersionUID = 5834906931354896004L;

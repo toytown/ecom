@@ -4,7 +4,7 @@ import org.apache.wicket.Session;
 
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
-import com.ecom.web.search.HomePage;
+import com.ecom.web.main.HomePage;
 
 public class LogoutPage extends GenericTemplatePage {
 

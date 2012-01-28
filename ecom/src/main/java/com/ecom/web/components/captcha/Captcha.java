@@ -8,25 +8,26 @@ import org.apache.wicket.model.Model;
 
 public class Captcha extends Panel {
 
-    private ChallengeModel challenge = new ChallengeModel();
-    private TextField<String> result = null;
-    
-    public Captcha(String id) {
-        super(id);
-        setDefaultModel(challenge);
-        add(new Image("challenge", new CaptchaImageResource(challenge)));
-        result = new TextField<String>("result", new Model<String>(""));
-        result.setRequired(true);
-        result.add(new ChallengeValidator(challenge));
-        add(result);
+	private static final long serialVersionUID = 8786263251821976499L;
+	private ChallengeModel challenge = new ChallengeModel();
+	private TextField<String> result = null;
 
-    }
+	public Captcha(String id) {
+		super(id);
+		setDefaultModel(challenge);
+		add(new Image("challenge", new CaptchaImageResource(challenge)));
+		result = new TextField<String>("result", new Model<String>(""));
+		result.setRequired(true);
+		result.add(new ChallengeValidator(challenge));
+		add(result);
 
-    @Override
-    protected void onBeforeRender() {
-        result.clearInput();
-        result.setModelObject(null);  
-        challenge.reset();
-        super.onBeforeRender();
-    }    
+	}
+
+	@Override
+	protected void onBeforeRender() {
+		result.clearInput();
+		result.setModelObject(null);
+		challenge.reset();
+		super.onBeforeRender();
+	}
 }

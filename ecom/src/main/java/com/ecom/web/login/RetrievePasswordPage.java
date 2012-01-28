@@ -13,8 +13,9 @@ import com.ecom.web.main.GenericTemplatePage;
 
 public class RetrievePasswordPage extends GenericTemplatePage {
 
+	private static final long serialVersionUID = 5812646828401262200L;
 
-    @SpringBean
+	@SpringBean
     private UserService userService;
 
     private String userNameOrEmail;
@@ -37,7 +38,9 @@ public class RetrievePasswordPage extends GenericTemplatePage {
 
         StatelessForm<Void> passwordRetrivalForm = new StatelessForm<Void>("passwordRetrievalForm") {
             
-            @Override
+			private static final long serialVersionUID = 1L;
+
+				@Override
             public void onSubmit() {
                 String userNameOrPassword = userNameOrEmail.getDefaultModelObjectAsString();
                 userService.retriveAndSendNewPassword(userNameOrPassword);

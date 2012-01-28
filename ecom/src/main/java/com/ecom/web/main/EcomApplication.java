@@ -24,7 +24,6 @@ import com.ecom.web.login.LoginPage;
 import com.ecom.web.login.RegistrationPage;
 import com.ecom.web.login.RetrievePasswordPage;
 import com.ecom.web.search.DetailViewPage;
-import com.ecom.web.search.HomePage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
 import com.ecom.web.user.LogoutPage;

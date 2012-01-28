@@ -15,6 +15,7 @@ import com.ecom.domain.User;
 import com.ecom.repository.UserRepository;
 import com.ecom.web.components.captcha.Captcha;
 import com.ecom.web.main.GenericTemplatePage;
+import com.ecom.web.user.UserDashBoardPage;
 
 public class RegistrationPage extends GenericTemplatePage {
 
@@ -44,6 +45,7 @@ public class RegistrationPage extends GenericTemplatePage {
 				user.setPassword(user.getPassword());
 				user.setPassword2(user.getPassword2());
 				userRepository.save(user);
+				setResponsePage(UserDashBoardPage.class);
 			}
 
 		};

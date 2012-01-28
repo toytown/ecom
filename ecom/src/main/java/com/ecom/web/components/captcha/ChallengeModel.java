@@ -6,7 +6,8 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 
 public class ChallengeModel extends AbstractReadOnlyModel<String>  implements Serializable {
 
-    private String challenge;
+	private static final long serialVersionUID = -5048606416975174405L;
+	private String challenge;
     
     @Override
     public String getObject() {

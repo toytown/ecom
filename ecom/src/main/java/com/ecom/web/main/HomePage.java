@@ -1,4 +1,4 @@
-package com.ecom.web.search;
+package com.ecom.web.main;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.StatelessForm;
@@ -7,7 +7,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.ecom.domain.SearchRequest;
-import com.ecom.web.main.GenericTemplatePage;
+import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
 
@@ -55,6 +55,7 @@ public class HomePage extends GenericTemplatePage {
 		});
 
 		add(searchForm);
+		add(new NewsletterPanel("newsLetter"));
 
 	}
 

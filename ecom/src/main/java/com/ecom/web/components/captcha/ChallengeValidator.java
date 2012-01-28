@@ -7,7 +7,8 @@ import org.apache.wicket.validation.ValidationError;
 
 public class ChallengeValidator implements IValidator<String> {
 
-    private final IModel<String> challenge;
+	private static final long serialVersionUID = 3993314924034401853L;
+	private final IModel<String> challenge;
     
     public ChallengeValidator(IModel<String> challenge) {
         this.challenge = challenge;

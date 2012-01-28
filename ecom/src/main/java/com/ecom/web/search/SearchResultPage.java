@@ -121,22 +121,12 @@ public class SearchResultPage extends GenericTemplatePage {
 
 		final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
 
+
 		IModel<RealStateSort> sortparamModel = new Model<RealStateSort>(RealStateSort.PRC_ASC);
-		DropDownChoice<RealStateSort> sortResults = new DropDownChoice<RealStateSort>("sortResults", sortparamModel, Arrays.asList(RealStateSort.values()), new EnumChoiceRenderer<RealStateSort>()) {
+		DropDownChoice<RealStateSort> sortResults = new DropDownChoice<RealStateSort>("sortResults", sortparamModel, Arrays.asList(RealStateSort.values()), new EnumChoiceRenderer<RealStateSort>());
 
-			private static final long serialVersionUID = 1L;
-
-
-			protected boolean wantOnSelectionChangedNotifications() {
-            return true;
-        }
-
-
-        protected void onSelectionChanged(final RealStateSort newSelection) {
-      	  req.setSortOption(newSelection);
-        }			
-		};
 		searchForm.add(sortResults);
+
 		
 		TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
 		TextField<Double> priceToTxt = new TextField<Double>("priceTo");
@@ -275,7 +265,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
 				item.add(new Label("address", addressInfo));
 
-				item.add(new MiniButton<String>("bookmark", new Model<String>("Add")) {
+				item.add(new MiniButton<String>("bookmark", new ResourceModel("btn_add_to_favourites")) {
 
 					private static final long serialVersionUID = 1L;
 
