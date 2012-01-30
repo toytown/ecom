@@ -22,21 +22,21 @@ public class SearchRequest implements Serializable {
 
     private Integer searchType;
     
-    private boolean isProvisionFree ;
+    private Boolean isProvisionFree ;
     
-    private boolean isKitchenAvailable;
+    private Boolean isKitchenAvailable;
     
-    private boolean isFurnished;
+    private Boolean isFurnished;
     
-    private boolean isBalconyAvailable;
+    private Boolean isBalconyAvailable;
     
-    private boolean isLiftAvailable;
+    private Boolean isLiftAvailable;
     
-    private boolean isGardenAvailable;
+    private Boolean isGardenAvailable;
     
     private Integer heatingTypeId;
     
-    private RealStateSort sortOption;
+    private RealStateSort sortOrder;
     
     
     public String getCity() {
@@ -103,27 +103,27 @@ public class SearchRequest implements Serializable {
         this.priceTo = priceTo;
     }
 
-    public boolean isProvisionFree() {
+    public Boolean isProvisionFree() {
         return isProvisionFree;
     }
 
-    public void setProvisionFree(boolean isProvisionFree) {
+    public void setProvisionFree(Boolean isProvisionFree) {
         this.isProvisionFree = isProvisionFree;
     }
 
-    public boolean isKitchenAvailable() {
+    public Boolean isKitchenAvailable() {
         return isKitchenAvailable;
     }
 
-    public void setKitchenAvailable(boolean isKitchenAvailable) {
+    public void setKitchenAvailable(Boolean isKitchenAvailable) {
         this.isKitchenAvailable = isKitchenAvailable;
     }
 
-    public boolean isFurnished() {
+    public Boolean isFurnished() {
         return isFurnished;
     }
 
-    public void setFurnished(boolean isFurnished) {
+    public void setFurnished(Boolean isFurnished) {
         this.isFurnished = isFurnished;
     }
 
@@ -136,129 +136,147 @@ public class SearchRequest implements Serializable {
     }
 
     @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((areaFrom == null) ? 0 : areaFrom.hashCode());
-		result = prime * result + ((areaTo == null) ? 0 : areaTo.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((heatingTypeId == null) ? 0 : heatingTypeId.hashCode());
-		result = prime * result + (isBalconyAvailable ? 1231 : 1237);
-		result = prime * result + (isFurnished ? 1231 : 1237);
-		result = prime * result + (isGardenAvailable ? 1231 : 1237);
-		result = prime * result + (isKitchenAvailable ? 1231 : 1237);
-		result = prime * result + (isLiftAvailable ? 1231 : 1237);
-		result = prime * result + (isProvisionFree ? 1231 : 1237);
-		result = prime * result + ((priceFrom == null) ? 0 : priceFrom.hashCode());
-		result = prime * result + ((priceTo == null) ? 0 : priceTo.hashCode());
-		result = prime * result + ((roomsFrom == null) ? 0 : roomsFrom.hashCode());
-		result = prime * result + ((roomsTo == null) ? 0 : roomsTo.hashCode());
-		result = prime * result + ((searchType == null) ? 0 : searchType.hashCode());
-		result = prime * result + ((sortOption == null) ? 0 : sortOption.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((areaFrom == null) ? 0 : areaFrom.hashCode());
+        result = prime * result + ((areaTo == null) ? 0 : areaTo.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((heatingTypeId == null) ? 0 : heatingTypeId.hashCode());
+        result = prime * result + ((isBalconyAvailable == null) ? 0 : isBalconyAvailable.hashCode());
+        result = prime * result + ((isFurnished == null) ? 0 : isFurnished.hashCode());
+        result = prime * result + ((isGardenAvailable == null) ? 0 : isGardenAvailable.hashCode());
+        result = prime * result + ((isKitchenAvailable == null) ? 0 : isKitchenAvailable.hashCode());
+        result = prime * result + ((isLiftAvailable == null) ? 0 : isLiftAvailable.hashCode());
+        result = prime * result + ((isProvisionFree == null) ? 0 : isProvisionFree.hashCode());
+        result = prime * result + ((priceFrom == null) ? 0 : priceFrom.hashCode());
+        result = prime * result + ((priceTo == null) ? 0 : priceTo.hashCode());
+        result = prime * result + ((roomsFrom == null) ? 0 : roomsFrom.hashCode());
+        result = prime * result + ((roomsTo == null) ? 0 : roomsTo.hashCode());
+        result = prime * result + ((searchType == null) ? 0 : searchType.hashCode());
+        result = prime * result + ((sortOrder == null) ? 0 : sortOrder.hashCode());
+        return result;
+    }
 
     @Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SearchRequest other = (SearchRequest) obj;
-		if (areaFrom == null) {
-			if (other.areaFrom != null)
-				return false;
-		} else if (!areaFrom.equals(other.areaFrom))
-			return false;
-		if (areaTo == null) {
-			if (other.areaTo != null)
-				return false;
-		} else if (!areaTo.equals(other.areaTo))
-			return false;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
-		if (heatingTypeId == null) {
-			if (other.heatingTypeId != null)
-				return false;
-		} else if (!heatingTypeId.equals(other.heatingTypeId))
-			return false;
-		if (isBalconyAvailable != other.isBalconyAvailable)
-			return false;
-		if (isFurnished != other.isFurnished)
-			return false;
-		if (isGardenAvailable != other.isGardenAvailable)
-			return false;
-		if (isKitchenAvailable != other.isKitchenAvailable)
-			return false;
-		if (isLiftAvailable != other.isLiftAvailable)
-			return false;
-		if (isProvisionFree != other.isProvisionFree)
-			return false;
-		if (priceFrom == null) {
-			if (other.priceFrom != null)
-				return false;
-		} else if (!priceFrom.equals(other.priceFrom))
-			return false;
-		if (priceTo == null) {
-			if (other.priceTo != null)
-				return false;
-		} else if (!priceTo.equals(other.priceTo))
-			return false;
-		if (roomsFrom == null) {
-			if (other.roomsFrom != null)
-				return false;
-		} else if (!roomsFrom.equals(other.roomsFrom))
-			return false;
-		if (roomsTo == null) {
-			if (other.roomsTo != null)
-				return false;
-		} else if (!roomsTo.equals(other.roomsTo))
-			return false;
-		if (searchType == null) {
-			if (other.searchType != null)
-				return false;
-		} else if (!searchType.equals(other.searchType))
-			return false;
-		if (sortOption != other.sortOption)
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SearchRequest other = (SearchRequest) obj;
+        if (areaFrom == null) {
+            if (other.areaFrom != null)
+                return false;
+        } else if (!areaFrom.equals(other.areaFrom))
+            return false;
+        if (areaTo == null) {
+            if (other.areaTo != null)
+                return false;
+        } else if (!areaTo.equals(other.areaTo))
+            return false;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (heatingTypeId == null) {
+            if (other.heatingTypeId != null)
+                return false;
+        } else if (!heatingTypeId.equals(other.heatingTypeId))
+            return false;
+        if (isBalconyAvailable == null) {
+            if (other.isBalconyAvailable != null)
+                return false;
+        } else if (!isBalconyAvailable.equals(other.isBalconyAvailable))
+            return false;
+        if (isFurnished == null) {
+            if (other.isFurnished != null)
+                return false;
+        } else if (!isFurnished.equals(other.isFurnished))
+            return false;
+        if (isGardenAvailable == null) {
+            if (other.isGardenAvailable != null)
+                return false;
+        } else if (!isGardenAvailable.equals(other.isGardenAvailable))
+            return false;
+        if (isKitchenAvailable == null) {
+            if (other.isKitchenAvailable != null)
+                return false;
+        } else if (!isKitchenAvailable.equals(other.isKitchenAvailable))
+            return false;
+        if (isLiftAvailable == null) {
+            if (other.isLiftAvailable != null)
+                return false;
+        } else if (!isLiftAvailable.equals(other.isLiftAvailable))
+            return false;
+        if (isProvisionFree == null) {
+            if (other.isProvisionFree != null)
+                return false;
+        } else if (!isProvisionFree.equals(other.isProvisionFree))
+            return false;
+        if (priceFrom == null) {
+            if (other.priceFrom != null)
+                return false;
+        } else if (!priceFrom.equals(other.priceFrom))
+            return false;
+        if (priceTo == null) {
+            if (other.priceTo != null)
+                return false;
+        } else if (!priceTo.equals(other.priceTo))
+            return false;
+        if (roomsFrom == null) {
+            if (other.roomsFrom != null)
+                return false;
+        } else if (!roomsFrom.equals(other.roomsFrom))
+            return false;
+        if (roomsTo == null) {
+            if (other.roomsTo != null)
+                return false;
+        } else if (!roomsTo.equals(other.roomsTo))
+            return false;
+        if (searchType == null) {
+            if (other.searchType != null)
+                return false;
+        } else if (!searchType.equals(other.searchType))
+            return false;
+        if (sortOrder != other.sortOrder)
+            return false;
+        return true;
+    }
 
-	public boolean isBalconyAvailable() {
+	public Boolean isBalconyAvailable() {
 		return isBalconyAvailable;
 	}
 
-	public void setBalconyAvailable(boolean isBalconyAvailable) {
+	public void setBalconyAvailable(Boolean isBalconyAvailable) {
 		this.isBalconyAvailable = isBalconyAvailable;
 	}
 
-	public boolean isLiftAvailable() {
+	public Boolean isLiftAvailable() {
 		return isLiftAvailable;
 	}
 
-	public void setLiftAvailable(boolean isLiftAvailable) {
+	public void setLiftAvailable(Boolean isLiftAvailable) {
 		this.isLiftAvailable = isLiftAvailable;
 	}
 
-	public boolean isGardenAvailable() {
+	public Boolean isGardenAvailable() {
 		return isGardenAvailable;
 	}
 
-	public void setGardenAvailable(boolean isGardenAvailable) {
+	public void setGardenAvailable(Boolean isGardenAvailable) {
 		this.isGardenAvailable = isGardenAvailable;
 	}
 
-	public RealStateSort getSortOption() {
-		return sortOption;
+	public RealStateSort getSortOrder() {
+		return sortOrder;
 	}
 
-	public void setSortOption(RealStateSort sortOption) {
-		this.sortOption = sortOption;
+	public void setSortOrder(RealStateSort sortOption) {
+		this.sortOrder = sortOption;
 	}
 
     

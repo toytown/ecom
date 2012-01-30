@@ -40,51 +40,41 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
 		}
 		
-		if (req.getAreaFrom() != null && req.getAreaFrom() > 0.0) {
-			builder.and(realStateQuery.size.goe(req.getAreaFrom()));
-		}
+        double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom().doubleValue() : 1.0;
+        double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue() : 9999;   
+        builder.and(realStateQuery.size.between(areaFrom, areaTo));
+        
+		double roomsFrom = req.getRoomsFrom() != null ? req.getRoomsFrom().doubleValue() : 0.0;
+		double roomsTo = req.getRoomsTo() != null ? req.getRoomsTo().doubleValue() : 999;		
+		builder.and(realStateQuery.totalRooms.between(roomsFrom, roomsTo));
+		
+		
+		double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom().doubleValue() : 0.0;
+        double priceTo = req.getPriceTo() != null ? req.getPriceTo().doubleValue() : 999999999;       
+        builder.and(realStateQuery.cost.between(priceFrom, priceTo));
 
-		if (req.getAreaTo() != null && req.getAreaTo() > 0.0) {
-			builder.and(realStateQuery.size.loe(req.getAreaTo()));
-		}
 
-		if (req.getRoomsFrom() != null && req.getRoomsFrom() > 0.0) {
-			builder.and(realStateQuery.totalRooms.goe(req.getRoomsFrom()));
-		}
-
-		if (req.getRoomsTo() != null && req.getRoomsTo() > 0.0) {
-			builder.and(realStateQuery.totalRooms.loe(req.getRoomsTo()));
-		}
-
-		if (req.getPriceFrom() != null && req.getPriceFrom() > 0.0) {
-			builder.and(realStateQuery.cost.goe(req.getPriceFrom()));
-		}
-
-		if (req.getPriceTo() != null && req.getPriceTo() > 0.0) {
-			builder.and(realStateQuery.cost.loe(req.getPriceTo()));
-		}
-
-		if (req.isProvisionFree()) {
+		if (req.isProvisionFree() != null && req.isProvisionFree().booleanValue() == true) {
 			builder.and(realStateQuery.provisionFree.eq(true));
 		}
 
-		if (req.isKitchenAvailable()) {
+		if (req.isKitchenAvailable() != null && req.isKitchenAvailable().booleanValue() == true) {
 			builder.and(realStateQuery.kitchenAvailable.eq(true));
 		}
 		
-		if (req.isFurnished()) {
+		if (req.isFurnished() != null && req.isFurnished() == true) {
 			builder.and(realStateQuery.furnished.eq(true));
 		}
 		
-		if (req.isBalconyAvailable()) {
+		if (req.isBalconyAvailable() != null && req.isBalconyAvailable() == true) {
 			builder.and(realStateQuery.balconyAvailable.eq(true));
 		}
 		
-		if (req.isLiftAvailable()) {
+		if (req.isLiftAvailable() != null && req.isLiftAvailable() == true) {
 			builder.and(realStateQuery.liftAvailable.eq(true));
 		}
 		
-		if (req.isGardenAvailable()) {
+		if (req.isGardenAvailable() != null && req.isGardenAvailable().booleanValue()) {
 			builder.and(realStateQuery.garageAvailable.eq(true));
 		}		
 		return builder;

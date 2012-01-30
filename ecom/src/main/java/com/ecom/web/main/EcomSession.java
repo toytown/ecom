@@ -8,6 +8,7 @@ import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.ecom.domain.SearchRequest;
 import com.ecom.domain.User;
 import com.ecom.repository.UserRepository;
 
@@ -18,6 +19,7 @@ public class EcomSession extends WebSession {
 	private String userName = null;
 	private String userId = null;
 	private final ConcurrentMap<String, String> bookMarkMap =  new ConcurrentHashMap<String, String>();
+	private SearchRequest req = null; 
 	
 	@SpringBean
 	private UserRepository userRepository;
@@ -89,4 +91,15 @@ public class EcomSession extends WebSession {
 		this.userId = userId;
 	}
 
+	public void saveSearchRequest(SearchRequest req) {
+        if (this.isTemporary()) {
+            bind();
+        }	    
+	    this.req = req;
+	}
+	
+	
+    public SearchRequest getSearchRequest() {
+        return this.req;
+    }	
 }
