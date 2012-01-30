@@ -40,27 +40,27 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
 		}
 		
-		if (req.getAreaFrom() > 0.0) {
+		if (req.getAreaFrom() != null && req.getAreaFrom() > 0.0) {
 			builder.and(realStateQuery.size.goe(req.getAreaFrom()));
 		}
 
-		if (req.getAreaTo() > 0.0) {
+		if (req.getAreaTo() != null && req.getAreaTo() > 0.0) {
 			builder.and(realStateQuery.size.loe(req.getAreaTo()));
 		}
 
-		if (req.getRoomsFrom() > 0.0) {
+		if (req.getRoomsFrom() != null && req.getRoomsFrom() > 0.0) {
 			builder.and(realStateQuery.totalRooms.goe(req.getRoomsFrom()));
 		}
 
-		if (req.getRoomsTo() > 0.0) {
+		if (req.getRoomsTo() != null && req.getRoomsTo() > 0.0) {
 			builder.and(realStateQuery.totalRooms.loe(req.getRoomsTo()));
 		}
 
-		if (req.getPriceFrom() > 0.0) {
+		if (req.getPriceFrom() != null && req.getPriceFrom() > 0.0) {
 			builder.and(realStateQuery.cost.goe(req.getPriceFrom()));
 		}
 
-		if (req.getPriceTo() > 0.0) {
+		if (req.getPriceTo() != null && req.getPriceTo() > 0.0) {
 			builder.and(realStateQuery.cost.loe(req.getPriceTo()));
 		}
 

@@ -672,11 +672,20 @@ tr.color1 {
 	font-size: 11px;
 }
 
+input.form_input_small {
+	padding: 3px;
+	color: #333333;
+	border: 1px solid #96A6C5;
+	margin: 2px 4px 0 0;
+	font-size: 11px;
+	width: 50px;
+}
 label.left {
 	float: left;
 	width: 70px;
 	padding-top: 3px;
 	text-align: right;
+	margin-right: 4px;
 }
 
 label.left_long {

@@ -8,19 +8,19 @@ public class SearchRequest implements Serializable {
 
     private String city;
 
-    private double areaFrom;
+    private Double areaFrom;
     
-    private double areaTo;
+    private Double areaTo;
 
-    private double priceFrom;
+    private Double priceFrom;
     
-    private double priceTo;
+    private Double priceTo;
     
-    private int roomsFrom;
+    private Double roomsFrom;
     
-    private int roomsTo;
+    private Double roomsTo;
 
-    private int searchType;
+    private Integer searchType;
     
     private boolean isProvisionFree ;
     
@@ -34,7 +34,7 @@ public class SearchRequest implements Serializable {
     
     private boolean isGardenAvailable;
     
-    private int heatingTypeId;
+    private Integer heatingTypeId;
     
     private RealStateSort sortOption;
     
@@ -47,59 +47,59 @@ public class SearchRequest implements Serializable {
         this.city = city;
     }
 
-    public int getRoomsFrom() {
+    public Double getRoomsFrom() {
         return roomsFrom;
     }
 
-    public void setRoomsFrom(int roomsFrom) {
+    public void setRoomsFrom(Double roomsFrom) {
         this.roomsFrom = roomsFrom;
     }
 
-    public int getRoomsTo() {
+    public Double getRoomsTo() {
         return roomsTo;
     }
 
-    public void setRoomsTo(int roomsTo) {
+    public void setRoomsTo(Double roomsTo) {
         this.roomsTo = roomsTo;
     }
 
-    public int getSearchType() {
+    public Integer getSearchType() {
         return searchType;
     }
 
-    public void setSearchType(int searchType) {
+    public void setSearchType(Integer searchType) {
         this.searchType = searchType;
     }
 
-    public double getAreaFrom() {
+    public Double getAreaFrom() {
         return areaFrom;
     }
 
-    public void setAreaFrom(double areaFrom) {
+    public void setAreaFrom(Double areaFrom) {
         this.areaFrom = areaFrom;
     }
 
-    public double getAreaTo() {
+    public Double getAreaTo() {
         return areaTo;
     }
 
-    public void setAreaTo(double areaTo) {
+    public void setAreaTo(Double areaTo) {
         this.areaTo = areaTo;
     }
 
-    public double getPriceFrom() {
+    public Double getPriceFrom() {
         return priceFrom;
     }
 
-    public void setPriceFrom(double priceFrom) {
+    public void setPriceFrom(Double priceFrom) {
         this.priceFrom = priceFrom;
     }
 
-    public double getPriceTo() {
+    public Double getPriceTo() {
         return priceTo;
     }
 
-    public void setPriceTo(double priceTo) {
+    public void setPriceTo(Double priceTo) {
         this.priceTo = priceTo;
     }
 
@@ -136,67 +136,98 @@ public class SearchRequest implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        long temp;
-        temp = Double.doubleToLongBits(areaFrom);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(areaTo);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + ((city == null) ? 0 : city.hashCode());
-        result = prime * result + heatingTypeId;
-        result = prime * result + (isFurnished ? 1231 : 1237);
-        result = prime * result + (isKitchenAvailable ? 1231 : 1237);
-        result = prime * result + (isProvisionFree ? 1231 : 1237);
-        temp = Double.doubleToLongBits(priceFrom);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(priceTo);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + roomsFrom;
-        result = prime * result + roomsTo;
-        result = prime * result + searchType;
-        return result;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((areaFrom == null) ? 0 : areaFrom.hashCode());
+		result = prime * result + ((areaTo == null) ? 0 : areaTo.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((heatingTypeId == null) ? 0 : heatingTypeId.hashCode());
+		result = prime * result + (isBalconyAvailable ? 1231 : 1237);
+		result = prime * result + (isFurnished ? 1231 : 1237);
+		result = prime * result + (isGardenAvailable ? 1231 : 1237);
+		result = prime * result + (isKitchenAvailable ? 1231 : 1237);
+		result = prime * result + (isLiftAvailable ? 1231 : 1237);
+		result = prime * result + (isProvisionFree ? 1231 : 1237);
+		result = prime * result + ((priceFrom == null) ? 0 : priceFrom.hashCode());
+		result = prime * result + ((priceTo == null) ? 0 : priceTo.hashCode());
+		result = prime * result + ((roomsFrom == null) ? 0 : roomsFrom.hashCode());
+		result = prime * result + ((roomsTo == null) ? 0 : roomsTo.hashCode());
+		result = prime * result + ((searchType == null) ? 0 : searchType.hashCode());
+		result = prime * result + ((sortOption == null) ? 0 : sortOption.hashCode());
+		return result;
+	}
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        SearchRequest other = (SearchRequest) obj;
-        if (Double.doubleToLongBits(areaFrom) != Double.doubleToLongBits(other.areaFrom))
-            return false;
-        if (Double.doubleToLongBits(areaTo) != Double.doubleToLongBits(other.areaTo))
-            return false;
-        if (city == null) {
-            if (other.city != null)
-                return false;
-        } else if (!city.equals(other.city))
-            return false;
-        if (heatingTypeId != other.heatingTypeId)
-            return false;
-        if (isFurnished != other.isFurnished)
-            return false;
-        if (isKitchenAvailable != other.isKitchenAvailable)
-            return false;
-        if (isProvisionFree != other.isProvisionFree)
-            return false;
-        if (Double.doubleToLongBits(priceFrom) != Double.doubleToLongBits(other.priceFrom))
-            return false;
-        if (Double.doubleToLongBits(priceTo) != Double.doubleToLongBits(other.priceTo))
-            return false;
-        if (roomsFrom != other.roomsFrom)
-            return false;
-        if (roomsTo != other.roomsTo)
-            return false;
-        if (searchType != other.searchType)
-            return false;
-        return true;
-    }
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SearchRequest other = (SearchRequest) obj;
+		if (areaFrom == null) {
+			if (other.areaFrom != null)
+				return false;
+		} else if (!areaFrom.equals(other.areaFrom))
+			return false;
+		if (areaTo == null) {
+			if (other.areaTo != null)
+				return false;
+		} else if (!areaTo.equals(other.areaTo))
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (heatingTypeId == null) {
+			if (other.heatingTypeId != null)
+				return false;
+		} else if (!heatingTypeId.equals(other.heatingTypeId))
+			return false;
+		if (isBalconyAvailable != other.isBalconyAvailable)
+			return false;
+		if (isFurnished != other.isFurnished)
+			return false;
+		if (isGardenAvailable != other.isGardenAvailable)
+			return false;
+		if (isKitchenAvailable != other.isKitchenAvailable)
+			return false;
+		if (isLiftAvailable != other.isLiftAvailable)
+			return false;
+		if (isProvisionFree != other.isProvisionFree)
+			return false;
+		if (priceFrom == null) {
+			if (other.priceFrom != null)
+				return false;
+		} else if (!priceFrom.equals(other.priceFrom))
+			return false;
+		if (priceTo == null) {
+			if (other.priceTo != null)
+				return false;
+		} else if (!priceTo.equals(other.priceTo))
+			return false;
+		if (roomsFrom == null) {
+			if (other.roomsFrom != null)
+				return false;
+		} else if (!roomsFrom.equals(other.roomsFrom))
+			return false;
+		if (roomsTo == null) {
+			if (other.roomsTo != null)
+				return false;
+		} else if (!roomsTo.equals(other.roomsTo))
+			return false;
+		if (searchType == null) {
+			if (other.searchType != null)
+				return false;
+		} else if (!searchType.equals(other.searchType))
+			return false;
+		if (sortOption != other.sortOption)
+			return false;
+		return true;
+	}
 
 	public boolean isBalconyAvailable() {
 		return isBalconyAvailable;

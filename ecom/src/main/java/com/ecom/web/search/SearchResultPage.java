@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -34,6 +35,7 @@ import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
+import com.ecom.web.components.stateless.StatelessAjaxFormComponentUpdatingBehavior;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
@@ -42,78 +44,12 @@ public class SearchResultPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = -6983320790900379278L;
 
-	private PageParameters resultParams = null;
-
-
 	
 	public SearchResultPage(final PageParameters params) {
-		this.resultParams = params;
-		List<NamedPair> nameValueKey = params.getAllNamed();
 
 		setStatelessHint(true);
 
-		final SearchRequest req = new SearchRequest();
-
-		for (NamedPair keyVal : nameValueKey) {
-
-			if (keyVal.getKey().equals("city")) {
-				req.setCity(keyVal.getValue());
-			}
-
-			if (keyVal.getKey().equals("areaFrom")) {
-				req.setAreaFrom(Double.valueOf(keyVal.getValue()));
-			}
-
-			if (keyVal.getKey().equals("priceTo")) {
-				req.setPriceTo(Double.valueOf(keyVal.getValue()));
-			}
-
-			if (keyVal.getKey().equals("roomsFrom")) {
-				req.setRoomsFrom(Integer.valueOf(keyVal.getValue()));
-			}
-
-			if (keyVal.getKey().equals("roomsTo")) {
-				req.setRoomsTo(Integer.valueOf(keyVal.getValue()));
-			}
-
-			if (keyVal.getKey().equals("provFree")) {
-				String value = keyVal.getValue();
-				if (Boolean.valueOf(value) == true)
-					req.setProvisionFree(true);
-			}
-
-			if (keyVal.getKey().equals("kitchenAvail")) {
-				String value = keyVal.getValue();
-				if (Boolean.valueOf(value) == true)
-					req.setKitchenAvailable(true);
-			}
-
-			if (keyVal.getKey().equals("furnished")) {
-				String value = keyVal.getValue();
-				if (Boolean.valueOf(value) == true)
-					req.setFurnished(true);
-			}
-
-			if (keyVal.getKey().equals("balcon")) {
-				String value = keyVal.getValue();
-				if (Boolean.valueOf(value) == true)
-					req.setBalconyAvailable(true);
-			}
-
-			if (keyVal.getKey().equals("liftAvail")) {
-				String value = keyVal.getValue();
-				if (Boolean.valueOf(value) == true)
-					req.setLiftAvailable(true);
-			}
-
-			if (keyVal.getKey().equals("gardenAvail")) {
-				String value = keyVal.getValue();
-				if (Boolean.valueOf(value) == true)
-					req.setGardenAvailable(true);
-			}
-
-		}
-
+		SearchRequest req = recreateSearchRequest(params); 
 		CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
 		final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
 		dataContainer.setOutputMarkupId(true);
@@ -124,16 +60,32 @@ public class SearchResultPage extends GenericTemplatePage {
 
 		IModel<RealStateSort> sortparamModel = new Model<RealStateSort>(RealStateSort.PRC_ASC);
 		DropDownChoice<RealStateSort> sortResults = new DropDownChoice<RealStateSort>("sortResults", sortparamModel, Arrays.asList(RealStateSort.values()), new EnumChoiceRenderer<RealStateSort>());
+		sortResults.add(new StatelessAjaxFormComponentUpdatingBehavior("onchange") {
 
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected PageParameters getPageParameters() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) {
+				System.out.println("Triggered");
+				
+			}
+			
+		});
 		searchForm.add(sortResults);
 
 		
-		TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
-		TextField<Double> priceToTxt = new TextField<Double>("priceTo");
-		TextField<Double> areaFromTxt = new TextField<Double>("areaFrom");
-		TextField<Double> areaToTxt = new TextField<Double>("areaTo");
-		TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
-		TextField<Double> roomsToTxt = new TextField<Double>("roomsTo");
+		final TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
+		final TextField<Double> priceToTxt = new TextField<Double>("priceTo");
+		final TextField<Double> areaFromTxt = new TextField<Double>("areaFrom");
+		final TextField<Double> areaToTxt = new TextField<Double>("areaTo");
+		final TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
+		final TextField<Double> roomsToTxt = new TextField<Double>("roomsTo");
 		CheckBox isProvisionFree = new CheckBox("isProvisionFree");
 		CheckBox isKitchenAvailable = new CheckBox("isKitchenAvailable");
 		CheckBox isFurnished = new CheckBox("isFurnished");
@@ -160,24 +112,19 @@ public class SearchResultPage extends GenericTemplatePage {
 
 			@Override
 			public void onSubmit() {
-
-				SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
-
-				PageParameters params = new PageParameters();
-				params.set("roomsFrom", req.getRoomsFrom());
-				params.set("roomsTo", req.getRoomsTo());
-				params.set("priceTo", req.getPriceTo());
-				params.set("areaFrom", req.getAreaFrom());
-				params.set("city", req.getCity());
-				params.set("provFree", req.isProvisionFree());
-				params.set("kitchenAvail", req.isKitchenAvailable());
-				params.set("furnished", req.isFurnished());
-				params.set("balcon", req.isBalconyAvailable());
-				params.set("liftAvail", req.isLiftAvailable());
-				params.set("gardenAvail", req.isGardenAvailable());
+				SearchRequest req = new SearchRequest();
+				req.setPriceFrom(priceFromTxt.getModelObject());
+				req.setPriceTo(priceToTxt.getModelObject());
+				req.setAreaFrom(areaFromTxt.getModelObject());
+				req.setAreaTo(areaToTxt.getModelObject());
+				req.setRoomsFrom(roomsFromTxt.getModelObject());
+				req.setRoomsTo(roomsToTxt.getModelObject());
+				
+				PageParameters params = createPageParameters(req);
 
 				setResponsePage(SearchResultPage.class, params);
 
+				this.clearInput();
 			}
 
 		});
@@ -313,7 +260,7 @@ public class SearchResultPage extends GenericTemplatePage {
 		int currentPage;
 
 		// Select current page
-		currentPage = getCurrentPage();
+		currentPage = getCurrentPage(params);
 		dataView.setItemsPerPage(3);
 		dataView.setCurrentPage(currentPage);
 
@@ -327,8 +274,118 @@ public class SearchResultPage extends GenericTemplatePage {
 
 	}
 
-	private int getCurrentPage() {
-		PageParameters params = this.resultParams;
+	
+	private SearchRequest recreateSearchRequest(PageParameters params) {
+		final SearchRequest req = new SearchRequest();
+
+		List<NamedPair> nameValueKey = params.getAllNamed();
+		
+		for (NamedPair keyVal : nameValueKey) {
+
+			//skip if value from request parameter is null
+			if (keyVal.getValue() == null || keyVal.getValue().length() == 0) {
+				continue;
+			}
+			
+			if (keyVal.getKey().equals("city")) {
+				req.setCity(keyVal.getValue());
+			}
+
+			if (keyVal.getKey().equals("areaFrom")) {
+				req.setAreaFrom(Double.valueOf(keyVal.getValue()));
+			}
+
+			if (keyVal.getKey().equals("priceTo")) {
+				req.setPriceTo(Double.valueOf(keyVal.getValue()));
+			}
+
+			if (keyVal.getKey().equals("roomsFrom")) {
+				req.setRoomsFrom(Double.valueOf(keyVal.getValue()));
+			}
+
+			if (keyVal.getKey().equals("roomsTo")) {
+				req.setRoomsTo(Double.valueOf(keyVal.getValue()));
+			}
+
+			if (keyVal.getKey().equals("provFree")) {
+				String value = keyVal.getValue();
+				if (Boolean.valueOf(value) == true)
+					req.setProvisionFree(true);
+			}
+
+			if (keyVal.getKey().equals("kitchenAvail")) {
+				String value = keyVal.getValue();
+				if (Boolean.valueOf(value) == true)
+					req.setKitchenAvailable(true);
+			}
+
+			if (keyVal.getKey().equals("furnished")) {
+				String value = keyVal.getValue();
+				if (Boolean.valueOf(value) == true)
+					req.setFurnished(true);
+			}
+
+			if (keyVal.getKey().equals("balcon")) {
+				String value = keyVal.getValue();
+				if (Boolean.valueOf(value) == true)
+					req.setBalconyAvailable(true);
+			}
+
+			if (keyVal.getKey().equals("liftAvail")) {
+				String value = keyVal.getValue();
+				if (Boolean.valueOf(value) == true)
+					req.setLiftAvailable(true);
+			}
+
+			if (keyVal.getKey().equals("gardenAvail")) {
+				String value = keyVal.getValue();
+				if (Boolean.valueOf(value) == true)
+					req.setGardenAvailable(true);
+			}
+
+		}
+		
+		return req;
+	}
+	
+	public PageParameters createPageParameters(SearchRequest req) {
+		PageParameters params = new PageParameters();
+		if (req.getRoomsFrom() != null) {
+			params.set("roomsFrom", req.getRoomsFrom());
+		}
+		
+		if (req.getRoomsTo() != null) {
+			params.set("roomsTo", req.getRoomsTo());
+		}
+
+		if (req.getPriceFrom() != null) {
+			params.set("priceFrom", req.getPriceFrom());
+		}
+		
+		if (req.getPriceTo() != null) {
+			params.set("priceTo", req.getPriceTo());
+		}
+		
+		if (req.getAreaFrom() != null) {
+			params.set("areaFrom", req.getAreaFrom());
+		}
+		
+		if (req.getCity() != null) {
+			params.set("city", req.getCity());
+		}
+
+		params.set("provFree", req.isProvisionFree());
+		params.set("kitchenAvail", req.isKitchenAvailable());
+		params.set("furnished", req.isFurnished());
+		params.set("balcon", req.isBalconyAvailable());
+		params.set("liftAvail", req.isLiftAvailable());
+		params.set("gardenAvail", req.isGardenAvailable());
+		
+		return params;
+	}
+	
+	private int getCurrentPage(PageParameters params) {
+
 		if (params.get(CustomizedPagingNavigator.PAGE_QUERY_ID) != null && !params.get(CustomizedPagingNavigator.PAGE_QUERY_ID).isEmpty()) {
 			return params.get(CustomizedPagingNavigator.PAGE_QUERY_ID).toInt() - CustomizedPagingNavigator.START_INDEX_POSITION;
 		}

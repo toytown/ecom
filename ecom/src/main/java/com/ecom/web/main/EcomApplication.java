@@ -30,6 +30,7 @@ import com.ecom.web.user.LogoutPage;
 import com.ecom.web.user.UserDashBoardPage;
 import com.ecom.web.utils.SecurePage;
 
+
 public class EcomApplication extends WebApplication {
 
 	private static final String GOOGLE_MAPS_API_KEY_PARAM = "GoogleMapsAPIkey";
@@ -66,6 +67,7 @@ public class EcomApplication extends WebApplication {
 
 		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
 		getApplicationSettings().setUploadProgressUpdatesEnabled(true);
+		getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
 		
 		// Register the authorization strategy
 		getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
@@ -129,4 +131,6 @@ public class EcomApplication extends WebApplication {
 	public ServerGeocoder getServerGeocoder() {
 		return serverGeocoder;
 	}
+	
+	
 }
