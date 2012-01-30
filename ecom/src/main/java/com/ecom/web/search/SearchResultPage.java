@@ -59,7 +59,9 @@ public class SearchResultPage extends GenericTemplatePage {
 
         final Form<SearchRequest> searchForm = new Form<SearchRequest>("searchForm", searchReqModel) {
 
-            @Override
+			private static final long serialVersionUID = 1L;
+
+				@Override
             public boolean getStatelessHint() {
                 return true;
             }
@@ -176,6 +178,7 @@ public class SearchResultPage extends GenericTemplatePage {
             @Override
             public void onClick() {
                 session.clearFavourites();
+                setResponsePage(SearchResultPage.class, params);
             }
 
             @Override
@@ -363,7 +366,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
             if (keyVal.getKey().equals("sortOrder")) {
                 String value = keyVal.getValue();
-                req.setSortOrder(RealStateSort.getSort("PRC_ASC"));
+                req.setSortOrder(RealStateSort.getSort(value));
             }
         }
 
