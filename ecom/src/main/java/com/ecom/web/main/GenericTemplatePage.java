@@ -1,5 +1,6 @@
 package com.ecom.web.main;
 
+import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.Model;
@@ -13,7 +14,13 @@ import com.ecom.web.components.image.StaticImage;
 
 public abstract class GenericTemplatePage extends WebPage {
 
-	private static final long serialVersionUID = 4433575012178589668L;
+	public GenericTemplatePage() {
+        super();
+        add(new DebugBar("debug"));
+    }
+
+
+    private static final long serialVersionUID = 4433575012178589668L;
 
 	protected StaticImage getTitleImageFromUrl(String url) {
 
