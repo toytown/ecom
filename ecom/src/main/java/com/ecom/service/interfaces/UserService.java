@@ -4,7 +4,7 @@ import com.ecom.domain.User;
 
 public interface UserService {
 
-    public void retriveAndSendNewPassword(String userNameOrEmail);
+    public boolean retriveAndSendNewPassword(String userNameOrEmail);
     
     public void save(User user);
 }

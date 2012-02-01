@@ -34,7 +34,7 @@ public class NewsletterPanel extends Panel {
 				Subscriber subscriber = this.getModelObject();
 				subscriberRepository.save(subscriber);
 				emailTxt.clearInput();
-				clearInput();
+				emailTxt.setModelObject("");
 			}
 		};
 		newsLetterForm.add(emailTxt);

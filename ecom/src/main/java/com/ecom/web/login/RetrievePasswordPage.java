@@ -1,5 +1,6 @@
 package com.ecom.web.login;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -35,7 +36,8 @@ public class RetrievePasswordPage extends GenericTemplatePage {
         super();
         
         final TextField<String> userNameOrEmail = new TextField<String>("userNameOrEmail", new PropertyModel<String>(this, "userNameOrEmail"));
-
+        userNameOrEmail.setRequired(true);
+        
         StatelessForm<Void> passwordRetrivalForm = new StatelessForm<Void>("passwordRetrievalForm") {
             
 			private static final long serialVersionUID = 1L;
@@ -43,7 +45,14 @@ public class RetrievePasswordPage extends GenericTemplatePage {
 				@Override
             public void onSubmit() {
                 String userNameOrPassword = userNameOrEmail.getDefaultModelObjectAsString();
-                userService.retriveAndSendNewPassword(userNameOrPassword);
+                if (!StringUtils.isEmpty(userNameOrPassword)) {
+                    boolean userRetrieved = userService.retriveAndSendNewPassword(userNameOrPassword);
+                    if (!userRetrieved) {
+                        error(getLocalizer().getString("err_no_user", this));
+                    } else {
+                        info(getLocalizer().getString("info_reset_passwd", this));
+                    }
+                } 
             }
         };
 

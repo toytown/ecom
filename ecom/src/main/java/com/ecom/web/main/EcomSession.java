@@ -1,5 +1,6 @@
 package com.ecom.web.main;
 
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -60,6 +61,8 @@ public class EcomSession extends WebSession {
 			
 			setUserId(user.getId().toString());
 			setUserName(user.getUserName());
+			user.setLastLoginTs(new Date());
+			userRepository.save(user);
 		}
 		return signedIn;
 	}
