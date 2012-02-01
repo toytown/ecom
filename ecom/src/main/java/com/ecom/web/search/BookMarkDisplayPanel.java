@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
+import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
@@ -25,13 +26,18 @@ public class BookMarkDisplayPanel extends Panel {
 
 		final EcomSession session = (EcomSession) Session.get();
 
-		List<String> favList = new ArrayList<String>();
+		List<IModel<String>> favList = new ArrayList<IModel<String>>();
 
 		for (Entry<String, String> keyVal : session.getFavourites().entrySet()) {
-			favList.add(keyVal.getKey());
+            if (keyVal.getValue().length() > 36) {
+                String valDisp = keyVal.getValue().substring(0, 32) + " ....";
+                favList.add(Model.of(valDisp));
+            } else {
+                favList.add(Model.of(keyVal.getValue()));
+            }
 		}
 
-		final List<IModel<String>> favModel = new ArrayList<IModel<String>>();
+		final List<IModel<String>> favModel = new ArrayList<IModel<String>>(favList);
 
 		RefreshingView<String> view = new RefreshingView<String>("view") {
 
@@ -50,9 +56,13 @@ public class BookMarkDisplayPanel extends Panel {
 
 		};
 		
+		view.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
 		add(view);
+		
+		
 	}
 
+	
 	@Override
 	public boolean getStatelessHint() {
 		return true;

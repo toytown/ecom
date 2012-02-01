@@ -1,9 +1,7 @@
 package com.ecom.web.search;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -17,8 +15,6 @@ import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -139,56 +135,28 @@ public class SearchResultPage extends GenericTemplatePage {
 
         ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
 
-        List<String> favList = new ArrayList<String>();
-        final EcomSession session = (EcomSession) Session.get();
 
-        for (Entry<String, String> keyVal : session.getFavourites().entrySet()) {
-            if (keyVal.getValue().length() > 36) {
-                String valDisp = keyVal.getValue().substring(0, 32) + " ....";
-                favList.add(valDisp);
-            } else {
-                favList.add(keyVal.getValue());
-            }
-
-        }
-
-        ListView<String> markerView = new ListView<String>("view", favList) {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void populateItem(ListItem<String> item) {
-                String markedVal = item.getModelObject();
-                item.add(new Label("markedRealState", Model.of(markedVal)));
-
-            }
-
-            @Override
-            public boolean isVisible() {
-
-                return !session.getFavourites().isEmpty();
-            }
-
-        };
-
+        BookMarkDisplayPanel bookmarkPanel = new BookMarkDisplayPanel("bookmark");
         add(new MiniButton<String>("clearAll", new Model<String>("clear")) {
 
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick() {
+                EcomSession session = (EcomSession) Session.get();
                 session.clearFavourites();
                 setResponsePage(SearchResultPage.class, params);
             }
 
             @Override
             public boolean isVisible() {
+                EcomSession session = (EcomSession) Session.get();
                 return !session.getFavourites().isEmpty();
             }
         });
 
-        add(markerView);
-
+        add(bookmarkPanel);
+        
         int currentPage;
         DataView<RealState> dataView = getResultView(dataProvider, params);
 
