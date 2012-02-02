@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
     
     @Override
-    public void retriveAndSendNewPassword(String userNameOrEmail) {
+    public boolean retriveAndSendNewPassword(String userNameOrEmail) {
         User foundUser = null;
         boolean isEmail = false;
         
@@ -49,7 +49,11 @@ public class UserServiceImpl implements UserService {
             String body = emailService.getEmailBodyTemplate(Language.EN, "activation_email", new Object[] { newPassword });
             
             emailService.sendEmail("prasanna.tuladhar@gmail.com", "support@ecom.com", subject, body);
+            
+            return true;
         }
+        
+        return false;
         
     }
 

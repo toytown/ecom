@@ -7,7 +7,8 @@
 		
 		<div class="div-regForm">
 				<div class="first_column search_form rounded_all" style="width:480px; float:left;">		
-				<div class="main_info_box_header">User Info :</div>
+				
+					<div class="main_info_box_header">User Login Info :</div>
 					<p>
 						<label><wicket:message key="lbl_user_type"/></label>
 						<select wicket:id="userType"/>
@@ -24,6 +25,9 @@
 						<label><wicket:message key="lbl_activated_ts"/></label>
 						<input type="text" wicket:id="activationTs"></input>
 					</p>
+
+				
+					<div class="main_info_box_header">Current User Settings :</div>	
 					<p>
 						<label><wicket:message key="lbl_user_firstname"/></label>
 						<input type="text" wicket:id="firstName"></input>
@@ -40,6 +44,9 @@
 						<label><wicket:message key="lbl_user_password"/></label>
 						<input type="text" wicket:id="password"></input>
 					</p>
+
+					
+					<div class="main_info_box_header">User Contact :</div>
 					<p>
 						<label><wicket:message key="lbl_email"/></label>
 						<input type="email" wicket:id="email"></input>
@@ -72,9 +79,11 @@
 						<label><wicket:message key="lbl_user_city"/></label>
 						<input type="text"pan wicket:id="city"></input>
 					</p>
-			</div>
-					<div class="clearfloat"></div>
-					<div class="button_panel"><a id="greenButton" href="#" wicket:id="editSetting"><wicket:message key="btn_edit_settings"/></a></div>
+			 </div>
+			 
+			<div class="clearfloat"></div>
+			
+			<div class="button_panel"><a id="greenButton" href="#" wicket:id="editSetting"><wicket:message key="btn_edit_settings"/></a></div>
 							
 		</div>
 
