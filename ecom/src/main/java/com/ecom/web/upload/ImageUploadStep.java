@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.markup.repeater.util.ModelIteratorAdapter;
@@ -53,7 +54,8 @@ public class ImageUploadStep extends WizardStep {
     private FileUploadField file10;
 
     private WebMarkupContainer imageContainer = new WebMarkupContainer("uploadedImagesContainer");
-
+    private FeedbackPanel imageUploadFeedback = new FeedbackPanel("imageUploadFeedback");
+     
     @SpringBean
     private RealStateRepository realStateRepository;
 
@@ -133,6 +135,9 @@ public class ImageUploadStep extends WizardStep {
         imgListView.setOutputMarkupId(true);
         imageContainer.add(imgListView);
 
+        imageUploadFeedback.setOutputMarkupId(true);
+        add(imageUploadFeedback);
+        
         add(new IndicatingAjaxSubmitLink("upload", new Model<String>("Upload")) {
 
             private static final long serialVersionUID = 2718354305648397798L;
@@ -163,9 +168,14 @@ public class ImageUploadStep extends WizardStep {
                 uploadedFilesList.add(uploadedFile9);
                 uploadedFilesList.add(uploadedFile10);
 
-                saveUploadedFiles(uploadedFilesList, realStateModel.getObject());
-                imageContainer.addOrReplace(imgListView);
-                target.add(imageContainer);
+                if (!isMaxSizeReached(uploadedFilesList)) {
+                    saveUploadedFiles(uploadedFilesList, realStateModel.getObject());
+                    imageContainer.addOrReplace(imgListView);
+                    target.add(imageContainer);
+                } else {
+                    target.add(imageUploadFeedback);
+                }
+                
             }
 
         });
@@ -174,6 +184,21 @@ public class ImageUploadStep extends WizardStep {
         add(imageContainer);
     }
 
+    private boolean isMaxSizeReached(List<FileUpload> uploadedFilesList) {
+        long size = 0;
+        
+        for (FileUpload f : uploadedFilesList) {
+            size = size + f.getSize();
+        }
+        
+        if (size > 10000) {
+            return true;
+        }
+        
+        return false;
+        
+    }
+    
     private void saveUploadedFiles(List<FileUpload> uploadedFiles, RealState realState) {
         for (FileUpload uploadedFile : uploadedFiles) {
 
