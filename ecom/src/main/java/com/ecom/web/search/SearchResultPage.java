@@ -46,7 +46,8 @@ public class SearchResultPage extends GenericTemplatePage {
         setStatelessHint(true);
 
         SearchRequest req = recreateSearchRequest(params);
-
+        final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
+        
         final CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
 
         final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
@@ -85,6 +86,10 @@ public class SearchResultPage extends GenericTemplatePage {
                 req.setSortOrder(sortOrder);
                 searchReqModel.setObject(req);
                 System.out.println("Triggered " + sortOrder);
+                
+                getResultView(dataProvider, params);
+                params.add("sortOrder", sortOrder.toString());
+                setResponsePage(SearchResultPage.class, params);
 
             }
 
@@ -133,7 +138,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
         });
 
-        ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
+
 
 
         BookMarkDisplayPanel bookmarkPanel = new BookMarkDisplayPanel("bookmark");
