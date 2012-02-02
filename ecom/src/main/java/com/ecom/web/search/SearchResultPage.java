@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -46,7 +48,9 @@ public class SearchResultPage extends GenericTemplatePage {
         setStatelessHint(true);
 
         SearchRequest req = recreateSearchRequest(params);
-
+        
+        final SortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
+        
         final CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
 
         final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
@@ -63,7 +67,15 @@ public class SearchResultPage extends GenericTemplatePage {
             }
         };
 
-        IModel<RealStateSort> sortparamModel = new Model<RealStateSort>(RealStateSort.PRC_ASC);
+        RealStateSort sortOrder = RealStateSort.PRC_ASC;
+        
+        if (req.getSortOrder() != null) {
+            sortOrder = req.getSortOrder();
+        }
+        
+        IModel<RealStateSort> sortparamModel = new Model<RealStateSort>(sortOrder);
+        dataProvider.setSort(new SortParam(sortOrder.toString(), false));
+        
         final DropDownChoice<RealStateSort> sortResults = new DropDownChoice<RealStateSort>("sortResults", sortparamModel,
                 Arrays.asList(RealStateSort.values()), new EnumChoiceRenderer<RealStateSort>());
         sortResults.add(new StatelessAjaxFormComponentUpdatingBehavior("onchange") {
@@ -85,7 +97,8 @@ public class SearchResultPage extends GenericTemplatePage {
                 req.setSortOrder(sortOrder);
                 searchReqModel.setObject(req);
                 System.out.println("Triggered " + sortOrder);
-
+                PageParameters sortparams = createPageParameters(req);
+                setResponsePage(SearchResultPage.class, sortparams);
             }
 
         });
@@ -133,7 +146,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
         });
 
-        ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
+
 
 
         BookMarkDisplayPanel bookmarkPanel = new BookMarkDisplayPanel("bookmark");
@@ -164,7 +177,7 @@ public class SearchResultPage extends GenericTemplatePage {
         currentPage = getCurrentPage(params);
         dataView.setItemsPerPage(3);
         dataView.setCurrentPage(currentPage);
-
+        
         final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, SearchResultPage.class,
                 SearchResultPage.this.getPageParameters());
 

@@ -5,6 +5,7 @@ public enum RealStateSort {
 	 
 	 public static RealStateSort getSort(String sortOrder) {
 	     
+     
 	     if (sortOrder.equalsIgnoreCase("PRC_ASC")) {
 	         return PRC_ASC;
 	     }

@@ -30,11 +30,10 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
     private String userId = null;
     private String filterVal = null;
     private transient SearchRequest searchRequest = null;
-    
+
     @SpringBean
     private RealStateService<RealState> realStateService;
 
-    
     public RealStateDataProvider() {
         super();
         Injector.get().inject(this);
@@ -60,7 +59,7 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
         if (!StringUtils.isEmpty(userId)) {
 
             SortParam sortParam = this.getSort();
-            Sort sort = new Sort(getSortOrder(sortParam));
+            Sort sort = new Sort(getUserSortOrder(sortParam));
 
             pageReq = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
 
@@ -68,7 +67,10 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
             return iter;
 
         } else {
-      	  pageReq = new PageRequest((first + 1) / PAGE_SIZE, count);
+            SortParam sortParam = this.getSort();
+            Sort sort = new Sort(getSearchSortOrder(sortParam));
+            
+            pageReq = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
             iter = realStateService.findBySearchRequest(searchRequest, pageReq).iterator();
         }
 
@@ -76,47 +78,94 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
     }
 
+    public List<Order> getSearchSortOrder(SortParam sortParam) {
+        List<Order> sortOrder = new ArrayList<Sort.Order>();
+
+        Order orderDefault = new Order(Direction.DESC, "insertedTs");
+        Order orderSelected = null;
+
+        if (sortParam == null) {
+            sortOrder.add(orderDefault);
+            return sortOrder;
+        }
+        
+        if (sortParam.getProperty().equals("PRC_ASC")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.ASC, "cost");
+            sortOrder.add(orderSelected);
+        }
+
+        if (sortParam.getProperty().equals("PRC_DESC")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "cost");
+            sortOrder.add(orderSelected);
+        }
+
+        if (sortParam.getProperty().equals("ROOMS_ASC")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.ASC, "totalRooms");
+            sortOrder.add(orderSelected);
+        }
+
+        if (sortParam.getProperty().equals("ROOMS_DESC")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "totalRooms");
+            sortOrder.add(orderSelected);
+        }
+
+        if (sortParam.getProperty().equals("SIZE_ASC")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.DESC : Direction.ASC, "size");
+            sortOrder.add(orderSelected);
+        }
+
+        if (sortParam.getProperty().equals("SIZE_DESC")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.DESC : Direction.DESC, "size");
+            sortOrder.add(orderSelected);
+        }
+        
+        if (sortOrder.isEmpty()) {
+            sortOrder.add(orderDefault);
+        }
+
+        return sortOrder;
+    }
     
- 	public List<Order> getSortOrder(SortParam sortParam) {
-		List<Order> sortOrder = new ArrayList<Sort.Order>();
+    public List<Order> getUserSortOrder(SortParam sortParam) {
+        List<Order> sortOrder = new ArrayList<Sort.Order>();
 
-		Order orderDefault = new Order(Direction.DESC, "insertedTs");
-		Order orderSelected = null;
+        Order orderDefault = new Order(Direction.DESC, "insertedTs");
+        Order orderSelected = null;
 
-		if (sortParam.getProperty().equals("insertTs")) {
-			orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "insertedTs");
-			sortOrder.add(orderSelected);
-		}
+        if (sortParam.getProperty().equals("insertTs")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "insertedTs");
+            sortOrder.add(orderSelected);
+        }
 
-		if (sortParam.getProperty().equals("cost")) {
-			orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "cost");
-			sortOrder.add(orderSelected);
-		}
+        if (sortParam.getProperty().equals("cost")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "cost");
+            sortOrder.add(orderSelected);
+        }
 
-		if (sortParam.getProperty().equals("totalRooms")) {
-			orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "totalRooms");
-			sortOrder.add(orderSelected);
-		}
+        if (sortParam.getProperty().equals("totalRooms")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "totalRooms");
+            sortOrder.add(orderSelected);
+        }
 
-		if (sortParam.getProperty().equals("size")) {
-			orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "size");
-			sortOrder.add(orderSelected);
-		}
+        if (sortParam.getProperty().equals("size")) {
+            orderSelected = new Order(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "size");
+            sortOrder.add(orderSelected);
+        }
 
-		if (sortOrder.isEmpty()) {
-			sortOrder.add(orderDefault);
-		}
+        if (sortOrder.isEmpty()) {
+            sortOrder.add(orderDefault);
+        }
 
-		return sortOrder;
-	}
+        return sortOrder;
+    }
 
     @Override
     public int size() {
-   	 
+
         if (!StringUtils.isEmpty(userId)) {
-           return realStateService.count(userId, filterVal);
+            return realStateService.count(userId, filterVal);
         } else {
-      	  return realStateService.count(searchRequest);
+            return realStateService.count(searchRequest);
         }
 
     }
