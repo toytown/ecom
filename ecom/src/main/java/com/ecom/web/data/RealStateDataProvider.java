@@ -22,7 +22,7 @@ import com.ecom.service.interfaces.RealStateService;
 
 public class RealStateDataProvider extends SortableDataProvider<RealState> {
 
-    public static final int PAGE_SIZE = 5;
+    public static final int PAGE_SIZE = 15;
 
     private static final long serialVersionUID = -6508771802462213044L;
     public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "insertTs");

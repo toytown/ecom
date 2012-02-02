@@ -42,7 +42,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 	@Test
 	public void testSaveRealState() throws Exception {
 
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 50; i++) {
 			RealState appartment = new RealState();
 			appartment.setTitle(i + " zimmer appartment");
 
