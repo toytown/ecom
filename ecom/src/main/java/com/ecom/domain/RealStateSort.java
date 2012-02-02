@@ -3,17 +3,9 @@ package com.ecom.domain;
 public enum RealStateSort {
 	 PRC_ASC, PRC_DESC, ROOMS_ASC, ROOMS_DESC, SIZE_ASC, SIZE_DESC;
 	 
-	 public String getValue(RealStateSort sortOrder) {
-		 if (sortOrder != null) {
-			 return sortOrder.toString();
-		 } else {
-			 return "PRC_DESC";
-		 }
-		 
-	 }
-	 
 	 public static RealStateSort getSort(String sortOrder) {
 	     
+     
 	     if (sortOrder.equalsIgnoreCase("PRC_ASC")) {
 	         return PRC_ASC;
 	     }
