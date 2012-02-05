@@ -18,42 +18,42 @@
 				<form action="post" wicket:id="filteredResultForm">
 					<p><input type="text" wicket:id="filter"/></p>
 					<p><input type="submit" wicket:id="filterResults" id="greenButton"/></p>
-					
 					<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
-					<div style="clear: both;"></div>
-					<table cellspacing="0" class="dataview">
-						<tr>
-							<th>Id</th>
-							<th>Address</th>
-							<th wicket:id="orderByCost">Price</th>
-							<th wicket:id="orderBySize">Area</th>
-							<th wicket:id="orderByRooms">Rooms</th>
-							<th wicket:id="orderByInsertedTs">Insert</th>
-							<th><wicket:message key="action"/></th>
-						</tr>
-						<tr wicket:id="userResultsView">
-							<td width="20%">
-								<div wicket:id="id"></div>								
-								<img class="img_left" wicket:id="title_image" />
-							</td>
-							<td width="20%" valign="top">
-								<span wicket:id="address" />
-							</td>
-							<td width="10%" valign="top"><span wicket:id="price" /></td>
-							<td width="10%" valign="top"><span wicket:id="size" /></td>
-							<td width="10%" valign="top"><span wicket:id="rooms" /></td>
-							<td><span wicket:id="insertedTs"/></td>
-							<td valign="top">
-								<div class="buttons" style="float: right; width: 80px;">
-									<a href="" class="regular" wicket:id="delete"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Delete</a>
-								</div>
-								<div class="buttons" style="float: right; width: 80px;">
-									<a href="" class="regular" wicket:id="edit"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Edit</a>
-								</div>
-							</td>
-						</tr>
-					</table>
-					
+					<span wicket:id="group">
+						<div style="clear: both;"></div>
+						<table cellspacing="0" class="dataview">
+							<tr>
+								<th><input type="checkbox" id="selectall" wicket:id="groupselector" /></th>
+								<th>Id</th>
+								<th>Address</th>
+								<th wicket:id="orderByCost">Price</th>
+								<th wicket:id="orderBySize">Area</th>
+								<th wicket:id="orderByRooms">Rooms</th>
+								<th wicket:id="orderByInsertedTs">Insert</th>
+								<th><wicket:message key="action"/></th>
+							</tr>
+							<tr wicket:id="userResultsView">
+								<td width="10%"><input type="checkbox" class="case" name="case" wicket:id="check" /></td>
+								<td width="20%">
+									<div wicket:id="id"></div>								
+									<img class="img_left" wicket:id="title_image" />
+								</td>
+								<td width="20%" valign="top">
+									<span wicket:id="address" />
+								</td>
+								<td width="7%" valign="top"><span wicket:id="price" /></td>
+								<td width="7%" valign="top"><span wicket:id="size" /></td>
+								<td width="7%" valign="top"><span wicket:id="rooms" /></td>
+								<td><span wicket:id="insertedTs"/></td>
+								<td valign="top">
+									<div class="buttons" style="float: right; width: 80px;">
+										<a href="" class="regular" wicket:id="edit"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Edit</a>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</span>
+					<div><a href="#" wicket:id="delete" /><a href="#" wicket:id="activate" /></div>
 				</form>				
 
 		</div>

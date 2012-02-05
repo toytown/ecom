@@ -2,7 +2,9 @@ package com.ecom.web.user;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -12,6 +14,9 @@ import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Check;
+import org.apache.wicket.markup.html.form.CheckGroup;
+import org.apache.wicket.markup.html.form.CheckGroupSelector;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
@@ -25,9 +30,11 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.RealStateService;
+import com.ecom.web.components.buttons.CustomButton;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.data.RealStateDataProvider;
@@ -37,7 +44,8 @@ import com.ecom.web.upload.AddRealStateInfoPage;
 public class EntriesPage extends UserDashBoardPage {
 
 	private static final long serialVersionUID = -999171714434875305L;
-
+	private Set<String> selectedIds = new HashSet<String>();
+	
 	@SpringBean
 	private RealStateService<RealState> realStateService;
 	
@@ -54,6 +62,10 @@ public class EntriesPage extends UserDashBoardPage {
 		add(filteredResultForm);
 		filteredResultForm.setOutputMarkupId(true);
 		
+		final CheckGroup<String> checkgroup = new CheckGroup<String>("group", selectedIds);
+		checkgroup.add(new CheckGroupSelector("groupselector"));
+		filteredResultForm.add(checkgroup);
+		
 		filteredResultForm.add(filter);
 		filteredResultForm.add(new AjaxButton("filterResults") {
 		    
@@ -67,14 +79,15 @@ public class EntriesPage extends UserDashBoardPage {
                 List<OrderByBorder> sortOrderList = getSortOrderList(dataProvider, results);
                 
                 for (OrderByBorder sortOrder: sortOrderList) {
-                    filteredResultForm.addOrReplace(sortOrder);
+               	 checkgroup.addOrReplace(sortOrder);
                 }
 
                 final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", results);
                 pagingNavigator.setVisible(true);
                 pagingNavigator.setOutputMarkupId(true);
                 filteredResultForm.addOrReplace(pagingNavigator);
-                filteredResultForm.addOrReplace(results);
+                checkgroup.addOrReplace(results);
+                filteredResultForm.addOrReplace(checkgroup);
                 
                 target.add(filteredResultForm);
                 
@@ -87,19 +100,49 @@ public class EntriesPage extends UserDashBoardPage {
             }
 		});
 		
+		CustomButton deleteBtn = new CustomButton("delete", new ResourceModel("btn_delete")) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
+				for (String id : selectedIds) {
+					realStateService.deleteRealState(new DetachableRealStateModel(new ObjectId(id)).getObject());
+				}
+			}
+		};
+		
+		CustomButton activateBtn = new CustomButton("activate", new ResourceModel("btn_activate")) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit() {
+				for (String id : selectedIds) {
+					realStateService.activateRealState(new DetachableRealStateModel(new ObjectId(id)).getObject(), new Date());
+					setResponsePage(EntriesPage.class);
+				}
+			}
+		};
+		
+		filteredResultForm.add(deleteBtn);
+		filteredResultForm.add(activateBtn);
+		
 		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId, filterStr);		
 		final DataView<RealState> results = getDataView(dataProvider);
 		List<OrderByBorder> sortOrderList = getSortOrderList(dataProvider, results);
 		
 		for (OrderByBorder sortOrder: sortOrderList) {
-		    filteredResultForm.add(sortOrder);
+			checkgroup.add(sortOrder);
 		}
 
+
+		
 		final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", results);
 		pagingNavigator.setVisible(true);
 		pagingNavigator.setOutputMarkupId(true);
 
-		filteredResultForm.add(results);
+		checkgroup.add(results);
 		filteredResultForm.add(pagingNavigator);
 
 	}
@@ -169,20 +212,11 @@ public class EntriesPage extends UserDashBoardPage {
                     item.add(img);
                 }
                 // item.add(new Label("title", realState.getTitle()));
+    				 item.add(new Check<String>("check", Model.of(realState.getId().toString())));
                 item.add(new Label("id", Model.of(realState.getId().toString())));
                 item.add(new Label("price", Model.of(String.valueOf(realState.getCost()))));
                 item.add(new Label("size", Model.of(String.valueOf(realState.getSize()))));
                 item.add(new Label("rooms", Model.of(String.valueOf(realState.getTotalRooms()))));
-                item.add(new Link<String>("delete", new ResourceModel("deleteBtn")) {
-
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void onClick() {
-                  	  realStateService.deleteRealState(realState);
-                    }
-
-                });
                 
                 item.add(new Link<String>("edit", new ResourceModel("btn_edit")) {
 

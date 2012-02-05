@@ -708,6 +708,13 @@ public class RealState implements Serializable {
 	    }
 	}
 	
+	public void activate(Date activationDate) {
+		
+	    if (STATUS.getValue(STATUS.VALID)  == this.getStatus()) {
+	   	 this.setActivationDate(activationDate);
+	       this.setStatus(STATUS.getValue(STATUS.ACTIVE));
+	    }
+	}	
     @Override
     public int hashCode() {
         final int prime = 31;

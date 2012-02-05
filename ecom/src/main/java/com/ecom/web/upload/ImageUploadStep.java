@@ -188,6 +188,7 @@ public class ImageUploadStep extends WizardStep {
         long size = 0;
         
         for (FileUpload f : uploadedFilesList) {
+      	  if (f == null) continue;
             size = size + f.getSize();
         }
         

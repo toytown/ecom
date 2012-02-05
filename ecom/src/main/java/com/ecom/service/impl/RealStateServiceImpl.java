@@ -1,5 +1,7 @@
 package com.ecom.service.impl;
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,6 +121,13 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	public void deleteRealState(RealState realState) {
 		imageService.deleteAllImages(realState);
 		realStateRepository.delete(realState);
+		
+	}
+
+	@Override
+	public void activateRealState(RealState realState, Date activationDate) {
+		realState.activate(activationDate);
+		realStateRepository.save(realState);
 		
 	}
 }

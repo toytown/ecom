@@ -1,6 +1,7 @@
 package com.ecom.service.interfaces;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,5 +19,7 @@ public interface RealStateService<RealState> extends Serializable {
 	public int count(String userId, String filter);
 	
 	public void deleteRealState(RealState realState);
+	
+	public void activateRealState(RealState realState, Date activate);
 	
 }
