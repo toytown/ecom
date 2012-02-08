@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.datetime.PatternDateConverter;
-import org.apache.wicket.datetime.markup.html.form.DateTextField;
+import org.apache.wicket.datetime.markup.html.basic.DateLabel;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.EmailTextField;
 import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
@@ -15,7 +16,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.ecom.domain.User;
-import com.ecom.domain.UserStatus;
 import com.ecom.domain.UserType;
 import com.ecom.web.data.DetachableUserModel;
 import com.ecom.web.main.EcomSession;
@@ -40,15 +40,18 @@ public class AccountPage extends UserDashBoardPage {
 		IModel<UserType> userTypeSel = new Model<UserType>(userType);
 		
 		DropDownChoice<UserType> userCategories = new DropDownChoice<UserType>("userType", userTypeSel, Arrays.asList(UserType.values()), userTypeEnum);
-		add(userCategories);
+		//add(userCategories);
 		userCategories.setEnabled(false);
+
+		Label userCategory = new Label("userType", userTypeEnum.getDisplayValue(userType).toString());
+		add(userCategory);
 		
-		UserStatus status = UserStatus.getUserStatusById(user.getObject().getStatus());
-		EnumChoiceRenderer<UserStatus> userStatusEnum = new EnumChoiceRenderer<UserStatus>(this);
-		IModel<UserStatus> userStatusSel = new Model<UserStatus>(status);
-		DropDownChoice<UserStatus> userStatuses = new DropDownChoice<UserStatus>("userStatus", userStatusSel, Arrays.asList(UserStatus.values()), userStatusEnum);
-		add(userStatuses);
-		userStatuses.setEnabled(false);
+		DateLabel lastLogin = new DateLabel("lastLoginTs", new PatternDateConverter("yyyy-MM-dd hh:mm:ss", true));
+		add(lastLogin);
+		
+		DateLabel activeDate = new DateLabel("activationTs", new PatternDateConverter("yyyy-MM-dd hh:mm:ss", true));
+		add(activeDate);
+
 		
 		TextField<String> firstName = new TextField<String>("firstName");
 		add(firstName);
@@ -66,13 +69,6 @@ public class AccountPage extends UserDashBoardPage {
 		add(password);
 		password.setEnabled(false);
 		
-		DateTextField lastLogin = new DateTextField("lastLoginTs", new PatternDateConverter("yyyy-MM-dd hh:mm:ss", true));
-		add(lastLogin);
-		lastLogin.setEnabled(false);
-		
-		DateTextField activeDate = new DateTextField("activationTs", new PatternDateConverter("yyyy-MM-dd", true));
-		add(activeDate);
-		activeDate.setEnabled(false);
 
 		
 		EmailTextField email = new EmailTextField("email");

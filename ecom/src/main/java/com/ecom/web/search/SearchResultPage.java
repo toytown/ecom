@@ -38,6 +38,7 @@ import com.ecom.web.components.stateless.StatelessAjaxFormComponentUpdatingBehav
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
+import com.ecom.web.main.NewsletterPanel;
 
 public class SearchResultPage extends GenericTemplatePage {
 
@@ -102,7 +103,7 @@ public class SearchResultPage extends GenericTemplatePage {
             }
 
         });
-        searchForm.add(sortResults);
+        add(sortResults);
 
         final TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
         final TextField<Double> priceToTxt = new TextField<Double>("priceTo");
@@ -185,6 +186,7 @@ public class SearchResultPage extends GenericTemplatePage {
         dataContainer.addOrReplace(pagingNavigator);
         addOrReplace(dataContainer);
         addOrReplace(searchForm);
+        add(new NewsletterPanel("newsLetter"));
 
     }
 

@@ -16,6 +16,15 @@
 	font-size: 11px;
 }
 
+#sort_combobox {
+    border: 1px solid #96A6C5;
+    color: #333333;
+    font-size: 11px;
+    margin: 0 0 0;
+    padding: 0;
+    float: right;
+}
+
 .div-regForm input[type='text'] {
 	width: 110px;
 }

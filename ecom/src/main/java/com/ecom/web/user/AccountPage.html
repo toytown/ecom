@@ -6,24 +6,24 @@
 		<div style="clear: both;"></div>
 		
 		<div class="div-regForm">
+
+				
 				<div class="first_column search_form rounded_all" style="width:480px; float:left;">		
 				
-					<div class="main_info_box_header">User Login Info :</div>
+					<div class="main_info_box_header"><span>User Login Info :</span>
+
+					</div>
 					<p>
 						<label><wicket:message key="lbl_user_type"/></label>
-						<select wicket:id="userType"/>
+						<label wicket:id="userType"/>
 					</p>				
 					<p>
-						<label><wicket:message key="lbl_user_status"/></label>
-						<select wicket:id="userStatus"/>
-					</p>
-					<p>
 						<label><wicket:message key="lbl_last_login"/></label>
-						<input type="text" wicket:id="lastLoginTs"></input>
+						<label wicket:id="lastLoginTs"></label>
 					</p>
 					<p>
 						<label><wicket:message key="lbl_activated_ts"/></label>
-						<input type="text" wicket:id="activationTs"></input>
+						<label wicket:id="activationTs"></label>
 					</p>
 
 				
@@ -77,14 +77,17 @@
 					</p>
 					<p>
 						<label><wicket:message key="lbl_user_city"/></label>
-						<input type="text"pan wicket:id="city"></input>
+						<input type="text" wicket:id="city"></input>
 					</p>
 			 </div>
 			 
 			<div class="clearfloat"></div>
-			
-			<div class="button_panel"><a id="greenButton" href="#" wicket:id="editSetting"><wicket:message key="btn_edit_settings"/></a></div>
-							
+
+			<div class="button_panel">
+				<a id="greenButton" href="#" wicket:id="editSetting"><img alt="" src="images/usericons/edit-yellow.gif" />
+				<wicket:message key="btn_edit_settings" /></a>
+			</div>
+
 		</div>
 
 	</div>

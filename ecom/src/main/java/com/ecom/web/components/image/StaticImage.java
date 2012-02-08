@@ -17,6 +17,7 @@ public class StaticImage extends WebComponent {
        super.onComponentTag(tag);
        checkComponentTag(tag, "img");
        tag.put("src", getDefaultModelObjectAsString());
+       tag.put("alt", "");
    }
 
 }

@@ -16,12 +16,12 @@
 					</p>
 					<p>
 						<label><wicket:message key="lbl_user_password"/></label>
-						<input type="text" wicket:id="password"></input>
+						<input type="password" wicket:id="password"></input>
 					</p>
 					<p>
-						<label><wicket:message key="lbl_user_status"/></label>
-						<select wicket:id="userStatus"/>
-					</p>
+						<label><wicket:message key="lbl_user_password"/></label>
+						<input type="password" wicket:id="password2"></input>
+					</p>					
 					<div class="main_info_box_header">User Contact :</div>
 					<p>
 						<label><wicket:message key="lbl_email"/></label>
@@ -57,7 +57,8 @@
 					</p>
 					
 				</div>
-				<div><input type="submit" id="greenButton" wicket:id="saveChanges"/></div>			
+				<div><input type="submit" id="greenButton" wicket:id="saveChanges"/></div>		
+				<div wicket:id="feedback"/>	
 			</form>
 		</div>
 

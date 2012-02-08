@@ -42,7 +42,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
 		}
 		
-        double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom().doubleValue() : 1.0;
+        double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom().doubleValue() : 0.0;
         double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue() : 9999;   
         builder.and(realStateQuery.size.between(areaFrom, areaTo));
         
@@ -127,6 +127,12 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Override
 	public void activateRealState(RealState realState, Date activationDate) {
 		realState.activate(activationDate);
+		realStateRepository.save(realState);
+		
+	}
+
+	@Override
+	public void saveOrUpdate(RealState realState) {
 		realStateRepository.save(realState);
 		
 	}

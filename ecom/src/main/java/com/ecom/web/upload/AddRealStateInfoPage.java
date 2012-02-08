@@ -14,7 +14,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
-import com.ecom.repository.RealStateRepository;
+import com.ecom.service.interfaces.RealStateService;
 import com.ecom.web.components.wizard.WizardComponent;
 import com.ecom.web.components.wizard.WizardModel;
 import com.ecom.web.main.GenericTemplatePage;
@@ -27,7 +27,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage implements SecureP
 	private static final JavaScriptResourceReference JS_UPLOAD_UTL = new JavaScriptResourceReference(AddRealStateInfoPage.class, "upload_file.js");
 	
 	@SpringBean
-	private RealStateRepository realStateRepository;
+	private RealStateService<RealState> realStateService;
 
 	private class UploadRealStateWizard extends WizardComponent implements Serializable {
 
@@ -86,8 +86,8 @@ public class AddRealStateInfoPage extends GenericTemplatePage implements SecureP
             
             @Override
             public void onFinish() {
-                realStateRepository.save(realStateModel.getObject());
-                setResponsePage(HomePage.class);
+            	realStateService.saveOrUpdate(realStateModel.getObject());
+               setResponsePage(HomePage.class);
             }
         };
         

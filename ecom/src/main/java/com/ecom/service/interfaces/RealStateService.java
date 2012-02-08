@@ -22,4 +22,5 @@ public interface RealStateService<RealState> extends Serializable {
 	
 	public void activateRealState(RealState realState, Date activate);
 	
+	public void saveOrUpdate(RealState realState);
 }
