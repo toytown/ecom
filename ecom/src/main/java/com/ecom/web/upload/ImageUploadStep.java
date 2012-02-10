@@ -32,7 +32,6 @@ import com.ecom.web.components.buttons.IndicatingAjaxSubmitLink;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.wizard.WizardStep;
-import com.ecom.web.data.DetachableRealStateModel;
 
 public class ImageUploadStep extends WizardStep {
 
@@ -62,7 +61,9 @@ public class ImageUploadStep extends WizardStep {
 		Injector.get().inject(this);
 		imageContainer.setOutputMarkupId(true);
 		imageContainer.setOutputMarkupPlaceholderTag(true);
-
+		System.out.println("title " + realStateModel.getObject().getTitleImageId());
+		setDefaultModel(realStateModel);
+		
 		IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
 		add(file1 = new FileUploadField("file1", model));
 		add(file2 = new FileUploadField("file2", model));
@@ -82,7 +83,7 @@ public class ImageUploadStep extends WizardStep {
 
 			@Override
 			protected Iterator<IModel<RealStateImage>> getItemModels() {
-				RealState realState = new DetachableRealStateModel(realStateModel.getObject().getId()).getObject();				
+				RealState realState = realStateModel.getObject();				
 				Iterator<RealStateImage> imageIter = realState.getGalleryImages().iterator();
 
 				return new ModelIteratorAdapter<RealStateImage>(imageIter) {
@@ -194,6 +195,7 @@ public class ImageUploadStep extends WizardStep {
 	}
 
 	private void saveUploadedFiles(List<FileUpload> uploadedFiles, RealState realState) {
+	    System.out.println(realState.getTitleImageId());
 		for (FileUpload uploadedFile : uploadedFiles) {
 
 			if (uploadedFile != null && uploadedFile.getClientFileName() != null) {

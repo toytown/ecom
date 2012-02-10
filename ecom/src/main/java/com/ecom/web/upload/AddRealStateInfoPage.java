@@ -86,7 +86,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage implements SecureP
             
             @Override
             public void onFinish() {
-            	realStateService.saveOrUpdate(realStateModel.getObject());
+               realStateService.saveOrUpdate(realStateModel.getObject());
                setResponsePage(HomePage.class);
             }
         };
