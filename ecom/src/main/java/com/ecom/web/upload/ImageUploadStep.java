@@ -61,7 +61,6 @@ public class ImageUploadStep extends WizardStep {
 		Injector.get().inject(this);
 		imageContainer.setOutputMarkupId(true);
 		imageContainer.setOutputMarkupPlaceholderTag(true);
-		System.out.println("title " + realStateModel.getObject().getTitleImageId());
 		setDefaultModel(realStateModel);
 		
 		IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
@@ -195,7 +194,6 @@ public class ImageUploadStep extends WizardStep {
 	}
 
 	private void saveUploadedFiles(List<FileUpload> uploadedFiles, RealState realState) {
-	    System.out.println(realState.getTitleImageId());
 		for (FileUpload uploadedFile : uploadedFiles) {
 
 			if (uploadedFile != null && uploadedFile.getClientFileName() != null) {

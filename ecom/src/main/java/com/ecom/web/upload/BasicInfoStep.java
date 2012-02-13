@@ -127,6 +127,7 @@ public class BasicInfoStep extends WizardStep {
 				RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
 
 				if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
+				    realStateUploadInfoForm.modelChanged();
 					titleImageContainer.addOrReplace(getTitileImage(realState));
 					target.add(titleImageContainer);
 				}
