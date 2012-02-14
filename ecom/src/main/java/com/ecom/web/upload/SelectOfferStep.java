@@ -20,8 +20,10 @@ public class SelectOfferStep extends WizardStep {
 
 	private static final long serialVersionUID = 1L;
 	private WebMarkupContainer realStateTypesContainer;
+	private static final List<RealStateType> realStateRentObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+	private static final List<RealStateType> realStateBuyObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
 	
-	public SelectOfferStep(IModel<String> title, IModel<String> summary, IModel<RealState> realStateModel) {
+	public SelectOfferStep(IModel<String> title, IModel<String> summary, final IModel<RealState> realStateModel) {
 		super(title, summary);
 
 
@@ -35,8 +37,9 @@ public class SelectOfferStep extends WizardStep {
 
 		
 		List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
-		final IModel<OfferType> defaultOfferTypeModel = Model.of(OfferType.None);
-		RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("typeId", defaultOfferTypeModel, offerTypeList);
+		
+		final IModel<OfferType> offerTypeModel = Model.of(OfferType.valueOf(realStateModel.getObject().getTypeId()));
+		RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("typeId", offerTypeModel, offerTypeList);
 
 		offerType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
 
@@ -45,32 +48,60 @@ public class SelectOfferStep extends WizardStep {
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 			    
-			    if (getDefaultModel()!= null) {
-			        OfferType offerTypeSelected = defaultOfferTypeModel.getObject();
+			    if (getDefaultModel() != null) {
+			        
+			        OfferType offerTypeSelected = offerTypeModel.getObject();
+			        
+			        RealState realState = realStateModel.getObject();			        
+			        realState.setTypeId(OfferType.getId(offerTypeSelected));
+			        realStateModel.setObject(realState);
+			        
 			        List<RealStateType> realStateTypeList = null;
+			        
 			        if (offerTypeSelected.equals(OfferType.Rent)) {
-			            realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+			            realStateTypeList = realStateRentObjectList;
 			        } else {
-			            realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+			            realStateTypeList = realStateBuyObjectList;
 			        }
-			        IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
-			        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
+			        
+			        final IModel<RealStateType> realStateTypeSel = Model.of(RealStateType.valueOf(realState.getRealStateType()));
+			        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", realStateTypeSel, realStateTypeList);
 			        realStateTypesContainer.addOrReplace(realStateType);
 			        realStateTypesContainer.setVisible(true);
-			        realStateType.setRequired(true);
+			        realStateType.setRequired(true);		        
+
+			        realStateType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
+			            
+			            @Override
+			            protected void onUpdate(AjaxRequestTarget target) {
+			                RealStateType realStateType = realStateTypeSel.getObject();
+			                
+			                RealState realState = realStateModel.getObject();                   
+			                realState.setRealStateType(RealStateType.getId(realStateType));
+			                realStateModel.setObject(realState);
+			                
+			            }
+			        });			        
 			        target.add(realStateTypesContainer);
 			    }
 			}
 
 		});
+		
 		offerType.setRequired(true);
-		List<RealStateType> realStateTypeList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House,
-				RealStateType.Land, RealStateType.Garage);
-		IModel<RealStateType> defaultRealStateType = Model.of(RealStateType.None);
-		RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", defaultRealStateType, realStateTypeList);
-		realStateType.setRequired(true);
-		realStateTypesContainer.add(realStateType);
-		realStateTypesContainer.setVisible(false);
+		
+		List<RealStateType> realStateTypeList = realStateRentObjectList;
+		
+		RealState realState = realStateModel.getObject();
+		RealStateType realStateType = RealStateType.valueOf(realState.getRealStateType());
+		
+		IModel<RealStateType> realStateTypeSel = Model.of(realStateType);
+		
+		RadioChoice<RealStateType> realStateTypeChoice = new RadioChoice<RealStateType>("realStateType", realStateTypeSel, realStateTypeList);
+		realStateTypeChoice.setRequired(true);
+		
+		realStateTypesContainer.add(realStateTypeChoice);
+		realStateTypesContainer.setVisible(realStateType.equals(RealStateType.None));
 
 		offerSelectionForm.add(offerType);
 		offerSelectionForm.add(realStateTypesContainer);

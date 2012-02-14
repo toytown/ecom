@@ -28,8 +28,10 @@ public class RealState implements Serializable {
 
 	private int originalPrice;
 
+	//offer type - Rent, Buy
 	private int typeId;
 
+	//type of real state - House, Appartment
 	private int realStateType;
 	
 	private String areaCode;

@@ -2,18 +2,33 @@ package com.ecom.domain;
 
 public enum OfferType {
 
-    None("None"), Rent("Rent"), Buy("Buy");
-    
-    private String value;
-    
-    private OfferType(String val) {
-        this.value = val;
+    None, Rent, Buy;
+
+    public static OfferType valueOf(int id) {
+
+        switch (id) {
+        case 0:
+            return OfferType.None;
+        case 1:
+            return OfferType.Rent;
+        case 2:
+            return OfferType.Buy;
+        default:
+            return OfferType.None;
+        }
     }
 
-    @Override
-    public String toString() {
-        return value;
-    }
-    
+    public static int getId(OfferType offerType) {
 
+        switch (offerType) {
+        case None:
+            return 0;
+        case Rent:
+            return 1;
+        case Buy:
+            return 2;
+        default:
+            return 0;
+        }
+    }
 }
