@@ -26,6 +26,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.mapper.parameter.PageParameters.NamedPair;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.string.Strings;
 
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateSort;
@@ -384,7 +385,7 @@ public class SearchResultPage extends GenericTemplatePage {
         }
 
         if (req.getCity() != null) {
-            params.set("city", req.getCity());
+            params.set("city", Strings.escapeMarkup(req.getCity()));
         }
 
         if (req.getSortOrder() != null) {
@@ -407,6 +408,7 @@ public class SearchResultPage extends GenericTemplatePage {
             return params.get(CustomizedPagingNavigator.PAGE_QUERY_ID).toInt() - CustomizedPagingNavigator.START_INDEX_POSITION;
         }
         return 0;
+        
     }
-
+    
 }

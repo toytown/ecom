@@ -45,7 +45,6 @@ public class EcomApplication extends WebApplication {
 		super.init();
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 		serverGeocoder = new ServerGeocoder(getGoogleMapsAPIkey());
-
 		mountPage("/home", HomePage.class);
 		mountPage("/details", DetailViewPage.class);
 		mountPage("/home/login", LoginPage.class);
@@ -68,6 +67,7 @@ public class EcomApplication extends WebApplication {
 		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
 		getApplicationSettings().setUploadProgressUpdatesEnabled(true);
 		getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
+		getMarkupSettings().setDefaultMarkupEncoding("UTF-8"); 
 		
 		// Register the authorization strategy
 		getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
@@ -131,6 +131,7 @@ public class EcomApplication extends WebApplication {
 	public ServerGeocoder getServerGeocoder() {
 		return serverGeocoder;
 	}
+	
 	
 	
 }

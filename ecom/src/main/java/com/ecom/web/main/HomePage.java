@@ -26,13 +26,11 @@ public class HomePage extends GenericTemplatePage {
 		TextField<String> areaTxt = new TextField<String>("areaFrom");
 		TextField<Double> priceTxt = new TextField<Double>("priceTo");
 		TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
-		TextField<Double> roomsToTxt = new TextField<Double>("roomsTo");
 
 		searchForm.add(cityTxt);
 		searchForm.add(areaTxt);
 		searchForm.add(priceTxt);
 		searchForm.add(roomsFromTxt);
-		searchForm.add(roomsToTxt);
 		searchForm.add(new Button("submitSearch") {
 
 			private static final long serialVersionUID = -8016115162670393962L;
@@ -43,11 +41,10 @@ public class HomePage extends GenericTemplatePage {
 				SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
 
 				PageParameters params = new PageParameters();
-				params.set("roomsFrom", req.getRoomsFrom());
-				params.set("roomsTo", req.getRoomsTo());
-				params.set("priceTo", req.getPriceTo());
-				params.set("areaFrom", req.getAreaFrom());
 				params.set("city", req.getCity());
+				params.set("areaFrom", req.getAreaFrom());
+				params.set("priceTo", req.getPriceTo());
+				params.set("roomsFrom", req.getRoomsFrom());
 				setResponsePage(SearchResultPage.class, params);
 
 			}

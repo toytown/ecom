@@ -1,6 +1,10 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import org.apache.wicket.util.string.Strings;
 
 public class SearchRequest implements Serializable {
 
@@ -44,7 +48,12 @@ public class SearchRequest implements Serializable {
     }
 
     public void setCity(String city) {
-        this.city = city;
+        try {
+			this.city = URLEncoder.encode(city, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public Double getRoomsFrom() {
