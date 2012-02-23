@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.apache.wicket.util.string.Strings;
-
 public class SearchRequest implements Serializable {
 
     private static final long serialVersionUID = -2062880133131607502L;
@@ -39,6 +37,10 @@ public class SearchRequest implements Serializable {
     private Boolean isGardenAvailable;
     
     private Integer heatingTypeId;
+    
+    private OfferType typeId = OfferType.Rent;
+    
+    private RealStateType realStateType = RealStateType.Appartment;
     
     private RealStateSort sortOrder;
     
@@ -287,6 +289,22 @@ public class SearchRequest implements Serializable {
 	public void setSortOrder(RealStateSort sortOption) {
 		this.sortOrder = sortOption;
 	}
+
+    public OfferType getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(OfferType typeId) {
+        this.typeId = typeId;
+    }
+
+    public RealStateType getRealStateType() {
+        return realStateType;
+    }
+
+    public void setRealStateType(RealStateType realStateType) {
+        this.realStateType = realStateType;
+    }
 
     
 }
