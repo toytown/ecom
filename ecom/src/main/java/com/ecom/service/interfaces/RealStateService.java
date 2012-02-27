@@ -2,6 +2,7 @@ package com.ecom.service.interfaces;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,4 +24,6 @@ public interface RealStateService<RealState> extends Serializable {
 	public void activateRealState(RealState realState, Date activate);
 	
 	public void saveOrUpdate(RealState realState);
+	
+	public List<RealState> findNearBy(String street, String houseNo, String zip, String city);
 }

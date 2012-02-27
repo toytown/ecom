@@ -1,6 +1,7 @@
 package com.ecom.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
@@ -148,4 +149,10 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		realStateRepository.save(realState);
 
 	}
+
+    @Override
+    public List<RealState> findNearBy(String street, String houseNo, String zip, String city) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

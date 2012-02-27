@@ -1,8 +1,6 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class SearchRequest implements Serializable {
 
@@ -11,51 +9,45 @@ public class SearchRequest implements Serializable {
     private String city;
 
     private Double areaFrom;
-    
+
     private Double areaTo;
 
     private Double priceFrom;
-    
+
     private Double priceTo;
-    
+
     private Double roomsFrom;
-    
+
     private Double roomsTo;
 
     private Integer searchType;
-    
-    private Boolean isProvisionFree ;
-    
+
+    private Boolean isProvisionFree;
+
     private Boolean isKitchenAvailable;
-    
+
     private Boolean isFurnished;
-    
+
     private Boolean isBalconyAvailable;
-    
+
     private Boolean isLiftAvailable;
-    
+
     private Boolean isGardenAvailable;
-    
+
     private Integer heatingTypeId;
-    
+
     private OfferType typeId = OfferType.Rent;
-    
+
     private RealStateType realStateType = RealStateType.Appartment;
-    
+
     private RealStateSort sortOrder;
-    
-    
+
     public String getCity() {
         return city;
     }
 
     public void setCity(String city) {
-        try {
-			this.city = URLEncoder.encode(city, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        this.city = city;
     }
 
     public Double getRoomsFrom() {
@@ -258,37 +250,37 @@ public class SearchRequest implements Serializable {
         return true;
     }
 
-	public Boolean isBalconyAvailable() {
-		return isBalconyAvailable;
-	}
+    public Boolean isBalconyAvailable() {
+        return isBalconyAvailable;
+    }
 
-	public void setBalconyAvailable(Boolean isBalconyAvailable) {
-		this.isBalconyAvailable = isBalconyAvailable;
-	}
+    public void setBalconyAvailable(Boolean isBalconyAvailable) {
+        this.isBalconyAvailable = isBalconyAvailable;
+    }
 
-	public Boolean isLiftAvailable() {
-		return isLiftAvailable;
-	}
+    public Boolean isLiftAvailable() {
+        return isLiftAvailable;
+    }
 
-	public void setLiftAvailable(Boolean isLiftAvailable) {
-		this.isLiftAvailable = isLiftAvailable;
-	}
+    public void setLiftAvailable(Boolean isLiftAvailable) {
+        this.isLiftAvailable = isLiftAvailable;
+    }
 
-	public Boolean isGardenAvailable() {
-		return isGardenAvailable;
-	}
+    public Boolean isGardenAvailable() {
+        return isGardenAvailable;
+    }
 
-	public void setGardenAvailable(Boolean isGardenAvailable) {
-		this.isGardenAvailable = isGardenAvailable;
-	}
+    public void setGardenAvailable(Boolean isGardenAvailable) {
+        this.isGardenAvailable = isGardenAvailable;
+    }
 
-	public RealStateSort getSortOrder() {
-		return sortOrder;
-	}
+    public RealStateSort getSortOrder() {
+        return sortOrder;
+    }
 
-	public void setSortOrder(RealStateSort sortOption) {
-		this.sortOrder = sortOption;
-	}
+    public void setSortOrder(RealStateSort sortOption) {
+        this.sortOrder = sortOption;
+    }
 
     public OfferType getTypeId() {
         return typeId;
@@ -306,5 +298,4 @@ public class SearchRequest implements Serializable {
         this.realStateType = realStateType;
     }
 
-    
 }
