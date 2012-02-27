@@ -20,7 +20,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         QGeoLocation geoLocation = new QGeoLocation("geoLocation");
         BooleanBuilder zipCityFinder = new BooleanBuilder();
         zipCityFinder.or(geoLocation.zip.startsWith(cityOrZip));
-        zipCityFinder.or(geoLocation.city.startsWith(cityOrZip));        
+        zipCityFinder.or(geoLocation.city.startsWith(cityOrZip));
         return geoLocationRepository.findAll(zipCityFinder);
     }
 

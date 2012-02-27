@@ -1,85 +1,124 @@
 package com.ecom.web.main;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.string.Strings;
 
+import com.ecom.domain.GeoLocation;
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
+import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
 
-	private static final long serialVersionUID = 6571024929658974042L;
-	private static final List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
-	private static final List<RealStateType> realStateObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House,
-			RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
+    private static final long serialVersionUID = 6571024929658974042L;
+    private static final List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
+    private static final List<RealStateType> realStateObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House,
+            RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
 
-	public HomePage() {
-		super();
+    @SpringBean
+    private GeoLocationService geoLocationService;
 
-		SearchRequest req = new SearchRequest();
-		CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
+    public HomePage() {
+        super();
 
-		final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
-		setStatelessHint(true);
+        SearchRequest req = new SearchRequest();
+        CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
 
-		TextField<String> cityTxt = new TextField<String>("city");
-		TextField<String> areaTxt = new TextField<String>("areaFrom");
-		TextField<Double> priceTxt = new TextField<Double>("priceTo");
-		TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
+        final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
+        setStatelessHint(true);
 
-		searchForm.add(cityTxt);
-		searchForm.add(areaTxt);
-		searchForm.add(priceTxt);
-		searchForm.add(roomsFromTxt);
+        AutoCompleteTextField<String> cityTxt = new AutoCompleteTextField<String>("city", new Model<String>("")) {
 
-		// typeId - Rent or Buy
-		PropertyModel<OfferType> offer = new PropertyModel<OfferType>(req, "typeId");
-		RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("typeId", offer, offerTypeList);
-		searchForm.add(offerType);
+            @Override
+            protected Iterator<String> getChoices(String input) {
+                if (Strings.isEmpty(input)) {
+                    List<String> emptyList = Collections.emptyList();
+                    return emptyList.iterator();
+                }
 
-		// Realstate type - appartment, house, garage
-		// EnumChoiceRenderer<RealStateType> realStateTypeEnum = new
-		// EnumChoiceRenderer<RealStateType>(this);
+                Set<String> choices = new HashSet<String>(10);
+                Iterator<GeoLocation> iter = geoLocationService.findByZipOrCity(input).iterator();
+                while (iter.hasNext()) {
+                    GeoLocation geoLoc = iter.next();
 
-		DropDownChoice<RealStateType> realStateTypeDropdown = new DropDownChoice<RealStateType>("realStateType", new PropertyModel<RealStateType>(req, "realStateType"), realStateObjectList);
-		searchForm.add(realStateTypeDropdown);
+                    if (choices.size() == 10) {
+                        break;
+                    }
 
-		searchForm.add(new Button("submitSearch") {
+                    choices.add(geoLoc.getCity());
+                }
 
-			private static final long serialVersionUID = -8016115162670393962L;
+                return choices.iterator();
+            }
 
-			@Override
-			public void onSubmit() {
+        };
+        
+        TextField<String> areaTxt = new TextField<String>("areaFrom");
+        TextField<Double> priceTxt = new TextField<Double>("priceTo");
+        TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
 
-				SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
-				PageParameters params = new PageParameters();
-				params.set("city", req.getCity());
-				params.set("areaFrom", req.getAreaFrom());
-				params.set("priceTo", req.getPriceTo());
-				params.set("roomsFrom", req.getRoomsFrom());
-				params.set("typeId", req.getTypeId().toString());
-				params.set("realStateType", req.getRealStateType().toString());
+        searchForm.add(cityTxt);
+        searchForm.add(areaTxt);
+        searchForm.add(priceTxt);
+        searchForm.add(roomsFromTxt);
 
-				setResponsePage(SearchResultPage.class, params);
+        // typeId - Rent or Buy
+        PropertyModel<OfferType> offer = new PropertyModel<OfferType>(req, "typeId");
+        RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("typeId", offer, offerTypeList);
+        searchForm.add(offerType);
 
-			}
+        // Realstate type - appartment, house, garage
+        // EnumChoiceRenderer<RealStateType> realStateTypeEnum = new
+        // EnumChoiceRenderer<RealStateType>(this);
 
-		});
+        DropDownChoice<RealStateType> realStateTypeDropdown = new DropDownChoice<RealStateType>("realStateType", new PropertyModel<RealStateType>(
+                req, "realStateType"), realStateObjectList);
+        searchForm.add(realStateTypeDropdown);
 
-		add(searchForm);
-		add(new NewsletterPanel("newsLetter"));
+        searchForm.add(new Button("submitSearch") {
 
-	}
+            private static final long serialVersionUID = -8016115162670393962L;
+
+            @Override
+            public void onSubmit() {
+
+                SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
+                PageParameters params = new PageParameters();
+                params.set("city", req.getCity());
+                params.set("areaFrom", req.getAreaFrom());
+                params.set("priceTo", req.getPriceTo());
+                params.set("roomsFrom", req.getRoomsFrom());
+                params.set("typeId", req.getTypeId().toString());
+                params.set("realStateType", req.getRealStateType().toString());
+
+                setResponsePage(SearchResultPage.class, params);
+
+            }
+
+        });
+
+        add(searchForm);
+        add(new NewsletterPanel("newsLetter"));
+
+    }
 
 }
