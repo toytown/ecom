@@ -98,7 +98,6 @@ public class SearchResultPage extends GenericTemplatePage {
                 RealStateSort sortOrder = (RealStateSort) sortResults.getDefaultModelObject();
                 req.setSortOrder(sortOrder);
                 searchReqModel.setObject(req);
-                System.out.println("Triggered " + sortOrder);
                 PageParameters sortparams = createPageParameters(req);
                 setResponsePage(SearchResultPage.class, sortparams);
             }
@@ -392,12 +391,29 @@ public class SearchResultPage extends GenericTemplatePage {
             params.set("sortOrder", req.getSortOrder());
         }
 
-        params.set("provFree", req.isProvisionFree());
-        params.set("kitchenAvail", req.isKitchenAvailable());
-        params.set("furnished", req.isFurnished());
-        params.set("balcon", req.isBalconyAvailable());
-        params.set("liftAvail", req.isLiftAvailable());
-        params.set("gardenAvail", req.isGardenAvailable());
+        if (req.isProvisionFree() != null && req.isProvisionFree()) {
+            params.set("provFree", req.isProvisionFree());
+        }
+
+        if (req.isKitchenAvailable() != null && req.isKitchenAvailable()) {
+            params.set("kitchenAvail", req.isKitchenAvailable());
+        }
+        
+        if (req.isFurnished() != null && req.isFurnished()) {
+            params.set("furnished", req.isFurnished());
+        }
+        
+        if (req.isBalconyAvailable() != null && req.isBalconyAvailable()) {
+            params.set("balcon", req.isBalconyAvailable());
+        }
+        
+        if (req.isLiftAvailable() != null && req.isLiftAvailable()) {
+            params.set("liftAvail", req.isLiftAvailable());
+        }
+        
+        if (req.isGardenAvailable() != null && req.isGardenAvailable()) {
+            params.set("gardenAvail", req.isGardenAvailable());
+        }
 
         return params;
     }

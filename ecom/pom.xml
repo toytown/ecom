@@ -48,10 +48,10 @@
 			<url>http://xaloon.googlecode.com/svn/maven2/releases/</url>
 		</repository>
 		<repository>
-		    <id>spring-snapshot</id>
-		    <name>Spring Maven SNAPSHOT Repository</name>
-		    <url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>
-		</repository>		
+			<id>spring-snapshot</id>
+			<name>Spring Maven SNAPSHOT Repository</name>
+			<url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -267,6 +267,25 @@
 					<downloadSources>true</downloadSources>
 					<dependenciesAsLibraries>true</dependenciesAsLibraries>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/queries</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
