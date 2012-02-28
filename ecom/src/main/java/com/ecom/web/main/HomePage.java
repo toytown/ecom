@@ -25,7 +25,7 @@ import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
 import com.ecom.service.interfaces.GeoLocationService;
-import com.ecom.web.components.autocomplete.JQueryAutoCompleteTextField;
+import com.ecom.web.components.autocomplete.TagItTextField;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -48,10 +48,10 @@ public class HomePage extends GenericTemplatePage {
         setStatelessHint(true);
 
         IModel<String> cityModel = searchReqModel.bind("city");
-        JQueryAutoCompleteTextField<String> cityTxt = new JQueryAutoCompleteTextField<String>("city",  cityModel, "input.jqueryid_state") {
+        TagItTextField<String> cityTxt = new TagItTextField<String>("city",  cityModel) {
             
             @Override
-            public List<?> getMatches(String term) {
+            public Iterable<String> getChoices(String term) {
                 List<String> returnList = new ArrayList<String>();
                 
                 if (Strings.isEmpty(term)) {
