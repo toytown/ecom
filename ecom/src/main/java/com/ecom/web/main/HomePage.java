@@ -1,5 +1,6 @@
 package com.ecom.web.main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,14 +8,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -25,6 +25,7 @@ import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
 import com.ecom.service.interfaces.GeoLocationService;
+import com.ecom.web.components.autocomplete.JQueryAutoCompleteTextField;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -46,17 +47,20 @@ public class HomePage extends GenericTemplatePage {
         final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
         setStatelessHint(true);
 
-        AutoCompleteTextField<String> cityTxt = new AutoCompleteTextField<String>("city", new Model<String>("")) {
-
+        IModel<String> cityModel = searchReqModel.bind("city");
+        JQueryAutoCompleteTextField<String> cityTxt = new JQueryAutoCompleteTextField<String>("city",  cityModel, "input.jqueryid_state") {
+            
             @Override
-            protected Iterator<String> getChoices(String input) {
-                if (Strings.isEmpty(input)) {
-                    List<String> emptyList = Collections.emptyList();
-                    return emptyList.iterator();
+            public List<?> getMatches(String term) {
+                List<String> returnList = new ArrayList<String>();
+                
+                if (Strings.isEmpty(term)) {
+                    returnList = Collections.emptyList();
+                    return returnList;
                 }
 
                 Set<String> choices = new HashSet<String>(10);
-                Iterator<GeoLocation> iter = geoLocationService.findByZipOrCity(input).iterator();
+                Iterator<GeoLocation> iter = geoLocationService.findByZipOrCity(term).iterator();
                 while (iter.hasNext()) {
                     GeoLocation geoLoc = iter.next();
 
@@ -67,9 +71,10 @@ public class HomePage extends GenericTemplatePage {
                     choices.add(geoLoc.getCity());
                 }
 
-                return choices.iterator();
-            }
-
+                returnList.addAll(choices);
+                
+                return returnList;
+            }   
         };
         
         TextField<String> areaTxt = new TextField<String>("areaFrom");
