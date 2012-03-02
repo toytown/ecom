@@ -14,6 +14,8 @@ import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
@@ -26,6 +28,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 	@Autowired
 	private AppConfig config;
 
+	
 	@Autowired
 	private RealStateRepository realStateRepository;
 

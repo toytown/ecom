@@ -1,11 +1,13 @@
 package com.ecom.web.user;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -35,16 +37,21 @@ import org.bson.types.ObjectId;
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.RealStateService;
 import com.ecom.web.components.buttons.CustomButton;
+import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.data.RealStateDataProvider;
+import com.ecom.web.main.EcomApplication;
 import com.ecom.web.main.EcomSession;
+import com.ecom.web.main.ServerGeocoder;
 import com.ecom.web.upload.AddRealStateInfoPage;
 
 public class EntriesPage extends UserDashBoardPage {
 
 	private static final long serialVersionUID = -999171714434875305L;
 	private Set<String> selectedIds = new HashSet<String>();
+	private Logger logger = Logger.getLogger(EntriesPage.class);
+	
 	
 	@SpringBean
 	private RealStateService<RealState> realStateService;
@@ -119,7 +126,18 @@ public class EntriesPage extends UserDashBoardPage {
 			@Override
 			public void onSubmit() {
 				for (String id : selectedIds) {
-					realStateService.activateRealState(new DetachableRealStateModel(new ObjectId(id)).getObject(), new Date());
+				    ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
+				    RealState realState = new DetachableRealStateModel(new ObjectId(id)).getObject();
+				    
+				    try {
+				        GLatLng lating = geocoder.findAddress(realState.getAddress());
+				        Double[] location = new Double[] { lating.getLat(), lating.getLng() };
+				        realState.setLocation(location)	;		        
+                    } catch (IOException e) {
+                        logger.error(e);
+                    }
+
+				    realStateService.activateRealState(realState, new Date());
 					setResponsePage(EntriesPage.class);
 				}
 			}

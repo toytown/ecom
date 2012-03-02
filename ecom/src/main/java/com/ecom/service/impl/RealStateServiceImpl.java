@@ -8,6 +8,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ecom.domain.QRealState;
@@ -17,6 +19,7 @@ import com.ecom.repository.RealStateRepository;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.service.interfaces.RealStateService;
 import com.mysema.query.BooleanBuilder;
+import com.mysema.query.mongodb.Point;
 import com.mysema.query.types.Predicate;
 
 @Service("realStateService")
@@ -36,13 +39,18 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
+	    
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
 	public Predicate buildPredicate(SearchRequest req) {
 		QRealState realStateQuery = new QRealState("realStateUser");
+		Point point = new Point(realStateQuery, "location");
 		BooleanBuilder builder = new BooleanBuilder();
-
+		
+		
+		//builder.and(point.near(52.517,13.393));
+		
 		if (req == null) {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
 		}
@@ -88,7 +96,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		}
 
 		if (req.isGardenAvailable() != null && req.isGardenAvailable().booleanValue()) {
-			builder.and(realStateQuery.garageAvailable.eq(true));
+			builder.and(realStateQuery.garageAvailable.eq(true));			
 		}
 		return builder;
 	}

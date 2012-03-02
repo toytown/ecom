@@ -122,6 +122,8 @@ public class RealState implements Serializable {
 
 	private Date updatedTs;
 
+	private Double[] location;
+	
 	private List<RealStateImage> images = new ArrayList<RealStateImage>();
 	
 	public enum STATUS {
@@ -716,7 +718,35 @@ public class RealState implements Serializable {
 	   	 this.setActivationDate(activationDate);
 	       this.setStatus(STATUS.getValue(STATUS.ACTIVE));
 	    }
-	}	
+	}
+	
+	public String getAddress() {
+	
+	    StringBuilder address = new StringBuilder();
+	    
+        if (StringUtils.isNotEmpty(this.getAreaCode()) && this.getAreaCode().trim().length() >= 2) {
+            address.append(this.getAreaCode());
+        }
+
+        
+	    if (StringUtils.isNotEmpty(this.getCity()) && this.getCity().trim().length() >= 2) {
+	        address.append(this.getCity());
+	    }
+	    
+	    if (StringUtils.isNotEmpty(this.getStreet()) && this.getStreet().trim().length() >= 2) {
+	        address.append(", ");
+            address.append(this.getStreet());
+
+            if (StringUtils.isNotEmpty(this.getHouseNo())) {
+                address.append(" ");
+                address.append(this.getHouseNo());
+            }
+        }
+	    
+        
+	    return address.toString();
+	}
+	
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -954,4 +984,13 @@ public class RealState implements Serializable {
             return false;
         return true;
     }
+
+    public Double[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(Double[] location) {
+        this.location = location;
+    }
+
 }
