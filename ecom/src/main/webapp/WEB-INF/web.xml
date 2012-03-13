@@ -4,29 +4,29 @@
 	version="2.5">
 
 	<display-name>ecom</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
-  
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
 	<display-name>ecom</display-name>
-	
+
 	<filter>
 		<filter-name>ecomAppFilter</filter-name>
- 		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
 		<init-param>
 			<param-name>applicationClassName</param-name>
 			<param-value>com.ecom.web.main.EcomApplication</param-value>
- 		</init-param>
+		</init-param>
 		<init-param>
-		  <param-name>GoogleMapsAPIkey</param-name>
-		  <param-value>ABQIAAAAzaZpf6nHOd9w1PfLaM9u2xQRS2YPSd8S9D1NKPBvdB1fr18_CxR-svEYj6URCf5QDFq3i03mqrDlbA</param-value>
-		</init-param> 		
- 	</filter>
+			<param-name>GoogleMapsAPIkey</param-name>
+			<param-value>ABQIAAAAzaZpf6nHOd9w1PfLaM9u2xQRS2YPSd8S9D1NKPBvdB1fr18_CxR-svEYj6URCf5QDFq3i03mqrDlbA</param-value>
+		</init-param>
+	</filter>
 
 
 	<filter-mapping>
@@ -40,7 +40,18 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
+	<servlet>
+		<servlet-name>geoLocationService</servlet-name>
+		<servlet-class>com.ecom.web.main.GeoLocationServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>geoLocationService</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/404</location>
@@ -53,5 +64,5 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	  
+
 </web-app>

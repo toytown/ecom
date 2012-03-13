@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<meta http-equiv="Content-Type"
+	content="text/html; charset=windows-1252" />
 <title>BuildUp Real Estate</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/buttons.css" />
@@ -12,24 +13,56 @@
 <link rel="stylesheet" type="text/css" href="css/messages.css" />
 <link rel="stylesheet" type="text/css" href="css/inbox.css" />
 <link rel="stylesheet" type="text/css" href="css/tabs.css" />
-<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css"/>    
-<script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAAvjPG27_YGX_QFkS0r4pFhQBbEmDtKwyL8fh5CmSBwvMWH9gzBQyhFx7haWDfA0fOTygyEmAaGuoLA"></script>
-<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="js/jquery.blockui.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+ <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />	
+ <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+ <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 
-</head>	
+<script>
+	
+	$(document).ready(function(){
+	    $('input#jqueryid_state').autocomplete({
+	        source: function(req, add){
+	            //pass request to server  
+	            $.ajax({
+	                url: './geoLocationService.do?city=Berlin',
+	                type: 'GET',
+	                cache: false,
+	                data: req,
+	                dataType: 'json',
+	                success: function(json){
+	                    var suggestions = [];  
+
+	                    //process response  
+	                    $.each(json, function(i, val){  
+	                        suggestions.push(val.name);  
+	                    });
+	                        
+	                    // call autocomplet callback method with results
+	                    add(suggestions);
+	                },
+	                error: function(XMLHttpRequest, textStatus, errorThrown){
+	                    //alert('error - ' + textStatus);
+	                    console.log('error', textStatus, errorThrown);
+	                }
+	            });            
+	        }
+	    });
+	});
+</script>
+
+</head>
 
 
 <body>
-<div wicket:id="debug">debug</div>
+	<div wicket:id="debug">debug</div>
 	<div id="main_container">
 
 		<!-- Header starts -->
 		<div id="header">
 
 			<div id="logo">
-				<a href="index.html"><img src="images/logo.gif" width="147" height="78" alt="" title="" border="0" /></a>
+				<a href="index.html"><img src="images/logo.gif" width="147"
+					height="78" alt="" title="" border="0" /></a>
 			</div>
 
 			<div class="banner_adds" />
@@ -43,7 +76,8 @@
 					<li><a href="./home/login" title="">Login</a>
 						<ul>
 							<li><a href="./home/registration" title="">Register</a></li>
-							<li><a href="./home/retrievePassword" title="">Retrieve Password</a></li>
+							<li><a href="./home/retrievePassword" title="">Retrieve
+									Password</a></li>
 						</ul></li>
 					<li><a href="./home/addRealState">Insert Advert</a></li>
 					<li><a href="./home/dashboard">User Dashboard</a></li>
@@ -72,10 +106,12 @@
 
 			<div id="copyright">
 				<div style="float: left; padding: 3px;">
-					<a href="#"><img src="images/footer_logo.gif" width="42" height="35" alt="" title="" border="0" /></a>
+					<a href="#"><img src="images/footer_logo.gif" width="42"
+						height="35" alt="" title="" border="0" /></a>
 				</div>
 				<div style="float: left; padding: 14px 10px 10px 10px;">
-					Company name.&copy; All Rights Reserved 2008 - By <a href="http://csscreme.com" style="color: #772c17;">csscreme</a>
+					Company name.&copy; All Rights Reserved 2008 - By <a
+						href="http://csscreme.com" style="color: #772c17;">csscreme</a>
 				</div>
 			</div>
 

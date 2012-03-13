@@ -1,12 +1,7 @@
 package com.ecom.web.main;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -17,15 +12,10 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.string.Strings;
 
-import com.ecom.domain.GeoLocation;
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
-import com.ecom.service.interfaces.GeoLocationService;
-import com.ecom.web.components.autocomplete.TagItTextField;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -35,8 +25,6 @@ public class HomePage extends GenericTemplatePage {
     private static final List<RealStateType> realStateObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House,
             RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
 
-    @SpringBean
-    private GeoLocationService geoLocationService;
 
     public HomePage() {
         super();
@@ -48,34 +36,7 @@ public class HomePage extends GenericTemplatePage {
         setStatelessHint(true);
 
         IModel<String> cityModel = searchReqModel.bind("city");
-        TagItTextField<String> cityTxt = new TagItTextField<String>("city",  cityModel) {
-            
-            @Override
-            public Iterable<String> getChoices(String term) {
-                List<String> returnList = new ArrayList<String>();
-                
-                if (Strings.isEmpty(term)) {
-                    returnList = Collections.emptyList();
-                    return returnList;
-                }
-
-                Set<String> choices = new HashSet<String>(10);
-                Iterator<GeoLocation> iter = geoLocationService.findByZipOrCity(term).iterator();
-                while (iter.hasNext()) {
-                    GeoLocation geoLoc = iter.next();
-
-                    if (choices.size() == 10) {
-                        break;
-                    }
-
-                    choices.add(geoLoc.getCity());
-                }
-
-                returnList.addAll(choices);
-                
-                return returnList;
-            }   
-        };
+        TextField<String> cityTxt = new TextField<String>("city",  cityModel);
         
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");

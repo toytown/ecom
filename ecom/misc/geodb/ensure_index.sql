@@ -1,0 +1,1 @@
+db.realstate.ensureIndex({"location" : "2d"})
