@@ -1,7 +1,11 @@
 package com.ecom.web.main;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -12,10 +16,15 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.string.Strings;
 
+import com.ecom.domain.GeoLocation;
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
+import com.ecom.service.interfaces.GeoLocationService;
+import com.ecom.web.components.autocomplete.StatelessAutocompleteTextField;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -26,6 +35,9 @@ public class HomePage extends GenericTemplatePage {
             RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
 
 
+    @SpringBean
+    private GeoLocationService geoLocationService;
+    
     public HomePage() {
         super();
 
@@ -38,6 +50,33 @@ public class HomePage extends GenericTemplatePage {
         IModel<String> cityModel = searchReqModel.bind("city");
         TextField<String> cityTxt = new TextField<String>("city",  cityModel);
         
+        /*
+        StatelessAutocompleteTextField<String> cityTxt = new StatelessAutocompleteTextField<String>("city",  cityModel) {
+
+            @Override
+            public Iterator<String> getChoices(String input) {
+                List<String> emptyList = Collections.emptyList();
+                if (Strings.isEmpty(input)) {
+                    return emptyList.iterator();
+                }
+
+                Set<String> choices = new HashSet<String>(10);
+                Iterator<GeoLocation> iter = geoLocationService.findByZipOrCity(input).iterator();
+                while (iter.hasNext()) {
+                    GeoLocation geoLoc = iter.next();
+
+                    if (choices.size() == 10) {
+                        break;
+                    }
+
+                    choices.add(geoLoc.getCity());
+                }
+
+                return choices.iterator();
+            }
+            
+        };
+        */
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");
         TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
