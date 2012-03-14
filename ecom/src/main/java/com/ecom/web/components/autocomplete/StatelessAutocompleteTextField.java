@@ -159,7 +159,17 @@ public abstract class StatelessAutocompleteTextField<T> extends TextField<T> {
         };
     }
 
-
+    @Override
+    protected void onBeforeRender()
+    {
+        // add auto complete behavior to this component if its not already there
+        if (behavior == null)
+        {
+            // we do this here instad of constructor so we can have an overridable factory method
+            add(behavior = newAutoCompleteBehavior(renderer, settings));
+        }
+        super.onBeforeRender();
+    }
 
     @Override
     protected void onComponentTag(final ComponentTag tag)
