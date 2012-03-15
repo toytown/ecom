@@ -24,7 +24,7 @@ import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
 import com.ecom.service.interfaces.GeoLocationService;
-import com.ecom.web.components.autocomplete.StatelessAutocompleteTextField;
+import com.ecom.web.components.autocomplete.TagItTextField;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -48,16 +48,17 @@ public class HomePage extends GenericTemplatePage {
         setStatelessHint(true);
 
         IModel<String> cityModel = searchReqModel.bind("city");
-        TextField<String> cityTxt = new TextField<String>("city",  cityModel);
+        //TextField<String> cityTxt = new TextField<String>("city",  cityModel);
         
-        /*
-        StatelessAutocompleteTextField<String> cityTxt = new StatelessAutocompleteTextField<String>("city",  cityModel) {
+
+        
+        TagItTextField<String> cityTxt = new TagItTextField<String>("city",  cityModel) {
 
             @Override
-            public Iterator<String> getChoices(String input) {
+            public Iterable<String> getChoices(String input) {
                 List<String> emptyList = Collections.emptyList();
                 if (Strings.isEmpty(input)) {
-                    return emptyList.iterator();
+                    return emptyList;
                 }
 
                 Set<String> choices = new HashSet<String>(10);
@@ -72,11 +73,12 @@ public class HomePage extends GenericTemplatePage {
                     choices.add(geoLoc.getCity());
                 }
 
-                return choices.iterator();
+              
+                return choices;
             }
             
         };
-        */
+        
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");
         TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
