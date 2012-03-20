@@ -8,8 +8,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ecom.domain.QRealState;
@@ -58,6 +56,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		if (StringUtils.isNotEmpty(req.getCity())) {
 			if (isZipCode(req.getCity())) {
 				builder.and(realStateQuery.areaCode.contains(req.getCity()));
+				builder.and(point.near(52.517,13.393));
 			} else {
 				builder.and(realStateQuery.city.containsIgnoreCase(req.getCity()));
 			}
