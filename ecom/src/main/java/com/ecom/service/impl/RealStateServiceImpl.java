@@ -8,14 +8,14 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.ecom.domain.GeoLocation;
 import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.service.interfaces.RealStateService;
 import com.mysema.query.BooleanBuilder;
@@ -37,6 +37,9 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Autowired
 	private ImageService imageService;
 
+	@Autowired
+	private GeoLocationService geoLocationService;
+	
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
 	    
@@ -58,6 +61,14 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		if (StringUtils.isNotEmpty(req.getCity())) {
 			if (isZipCode(req.getCity())) {
 				builder.and(realStateQuery.areaCode.contains(req.getCity()));
+				Iterable<GeoLocation> geoLocIter = geoLocationService.findByZipOrCity(req.getCity());
+				
+				if (geoLocIter.iterator().hasNext()) {
+					GeoLocation loc = geoLocIter.iterator().next();
+					
+					builder.and(point.near(loc.getLat(), loc.getLng()));
+					
+				}
 			} else {
 				builder.and(realStateQuery.city.containsIgnoreCase(req.getCity()));
 			}

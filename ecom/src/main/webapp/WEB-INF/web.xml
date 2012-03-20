@@ -41,17 +41,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<servlet>
-		<servlet-name>geoLocationService</servlet-name>
-		<servlet-class>com.ecom.web.main.GeoLocationServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>geoLocationService</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
-
 	<error-page>
 		<error-code>404</error-code>
 		<location>/404</location>

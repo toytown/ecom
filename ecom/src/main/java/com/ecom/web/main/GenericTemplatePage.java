@@ -16,7 +16,6 @@ public abstract class GenericTemplatePage extends WebPage {
 
 	public GenericTemplatePage() {
         super();
-        add(new DebugBar("debug"));
     }
 
 
