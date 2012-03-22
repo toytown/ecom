@@ -8,12 +8,15 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ecom.domain.GeoLocation;
 import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.service.interfaces.RealStateService;
 import com.mysema.query.BooleanBuilder;
@@ -35,19 +38,24 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Autowired
 	private ImageService imageService;
 
+    @Autowired
+    private GeoLocationService geoLocationService;
+    
+    @Autowired
+    private MongoTemplate mongoTemplate ;
+    
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
 	    
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
+	
 	public Predicate buildPredicate(SearchRequest req) {
+
 		QRealState realStateQuery = new QRealState("realStateUser");
 		Point point = new Point(realStateQuery, "location");
 		BooleanBuilder builder = new BooleanBuilder();
-		
-		
-		//builder.and(point.near(52.517,13.393));
 		
 		if (req == null) {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
@@ -56,7 +64,11 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		if (StringUtils.isNotEmpty(req.getCity())) {
 			if (isZipCode(req.getCity())) {
 				builder.and(realStateQuery.areaCode.contains(req.getCity()));
-				builder.and(point.near(52.517,13.393));
+				Iterable<GeoLocation> iter = geoLocationService.findByZipOrCity(req.getCity());
+				if (iter.iterator().hasNext()) {
+				    GeoLocation geoLoc = iter.iterator().next();
+				    builder.and(point.near(geoLoc.getLat(), geoLoc.getLng()));
+				}
 			} else {
 				builder.and(realStateQuery.city.containsIgnoreCase(req.getCity()));
 			}
@@ -98,6 +110,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			builder.and(realStateQuery.garageAvailable.eq(true));			
 		}
 		return builder;
+
 	}
 
 	public Predicate buildPredicate(String userId, String filterVal) {

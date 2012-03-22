@@ -1,6 +1,5 @@
 package com.ecom.repository;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,14 +13,14 @@ import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.ecom.common.utils.AppConfig;
 import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.test.AbstractIntegrationTest;
+
+import java.awt.image.BufferedImage;
 
 public class RealStateRepositoryTest extends AbstractIntegrationTest {
 
@@ -66,6 +65,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("4b");
 				appartment.setAreaCode("81667");
 				appartment.setCity("München");
+				appartment.setLocation(new Double[] {48.13258, 11.59129});
 
 			} else if (i % 3 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -79,8 +79,9 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setTitle("3 zimmer appartment, EBK, familien freündlich. nahe von U -bhan. provision frei....");
 				appartment.setStreet("Schöhäuser allee");
 				appartment.setHouseNo("24 b");
-				appartment.setAreaCode("10337");
+				appartment.setAreaCode("10315");
 				appartment.setCity("Berlin");
+				appartment.setLocation(new Double[] {52.50556, 13.51156});
 
 			} else if (i % 4 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -93,8 +94,9 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setTitle("4 zimmer hell, ruhig, provisinfrei mit panoromablick. Einbaukuche");
 				appartment.setStreet("Hauptstr");
 				appartment.setHouseNo("15");
-				appartment.setAreaCode("10337");
-				appartment.setCity("Frankfirt");
+				appartment.setAreaCode("79283");
+				appartment.setCity("Bollschweil");
+				appartment.setLocation(new Double[] {47.92015, 7.78645});
 
 			} else if (i % 5 == 0) {
 				appartment.setBalconyAvailable(true);
@@ -109,6 +111,7 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setHouseNo("23 -37a");
 				appartment.setAreaCode("67789");
 				appartment.setCity("Hamburg");
+				appartment.setLocation(new Double[] {53.57452, 9.95952});
 
 			} else {
 				appartment.setBalconyAvailable(false);
@@ -121,8 +124,9 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 				appartment.setTitle("5 zimmer groß, ruhig, provisinfrei mit panoromablick. kaum zu vorstellbar.");
 				appartment.setStreet("Neuhauser allee");
 				appartment.setHouseNo("22a");
-				appartment.setAreaCode("10117");
+				appartment.setAreaCode("10337");
 				appartment.setCity("Berlin");
+				appartment.setLocation(new Double[] {52.50556, 13.51156});
 			}
 
 			appartment
