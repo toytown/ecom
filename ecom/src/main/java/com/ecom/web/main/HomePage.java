@@ -1,11 +1,7 @@
 package com.ecom.web.main;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -17,14 +13,11 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.string.Strings;
 
-import com.ecom.domain.GeoLocation;
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
 import com.ecom.service.interfaces.GeoLocationService;
-import com.ecom.web.components.autocomplete.TagItTextField;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -48,10 +41,10 @@ public class HomePage extends GenericTemplatePage {
         setStatelessHint(true);
 
         IModel<String> cityModel = searchReqModel.bind("city");
-        //TextField<String> cityTxt = new TextField<String>("city",  cityModel);
+        TextField<String> cityTxt = new TextField<String>("city",  cityModel);
         
 
-        
+        /*
         TagItTextField<String> cityTxt = new TagItTextField<String>("city",  cityModel) {
 
             @Override
@@ -78,7 +71,7 @@ public class HomePage extends GenericTemplatePage {
             }
             
         };
-        
+        */
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");
         TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
