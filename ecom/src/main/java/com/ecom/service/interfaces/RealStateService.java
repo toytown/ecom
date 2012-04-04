@@ -26,4 +26,5 @@ public interface RealStateService<RealState> extends Serializable {
 	public void saveOrUpdate(RealState realState);
 	
 	public List<RealState> findNearBy(String street, String houseNo, String zip, String city);
+	
 }

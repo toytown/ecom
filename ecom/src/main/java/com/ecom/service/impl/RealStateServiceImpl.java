@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ecom.domain.GeoLocation;
@@ -50,7 +52,15 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
-	
+    
+    public List<RealState> buildPredicateWithGeoLocationSearch(SearchRequest req) {
+
+        Query q = new Query();
+        Criteria criteria = null;
+        q.addCriteria(Criteria.where("city").in(req.getCity()));
+        return mongoTemplate.find(q, RealState.class);
+    }
+    
 	public Predicate buildPredicate(SearchRequest req) {
 
 		QRealState realStateQuery = new QRealState("realStateUser");

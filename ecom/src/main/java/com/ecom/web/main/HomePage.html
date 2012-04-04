@@ -12,6 +12,25 @@
 		
     	<div class="column1">
         
+
+    		<div id="formWrap">  
+		        <form id="messageForm" action="#">  
+		            <fieldset>  
+		                <legend>New message form</legend>  
+		                <span>New Message</span>  
+		                <label id="toLabel">To:</label>  
+		                <div id="friends" class="ui-helper-clearfix">  
+		                    <input id="to" type="text">  
+		                </div>  
+		                <label>Subject:</label>  
+		                <input id="subject" name="subject" type="text">  
+		                <label>Message:</label>  
+		                <textarea id="message" name="message" rows="5" cols="50"></textarea>  
+		                <button type="button" id="cancel">Cancel</button>  
+		                <button type="submit" id="send">Send</button>  
+		            </fieldset>  
+		        </form>  
+        	</div>
         
         	<div class="left_box">
             	<div class="top_left_box">
@@ -20,7 +39,7 @@
                     <form wicket:id="searchForm">
 	                    <div class="jqueryid_form2">
 		                    <div class="form_row"><label class="left"><wicket:message key="lbl_realStateType"/></label><select wicket:id="realStateType"/></div>
-		                    <div class="form_row"><label class="left"><wicket:message key="lbl_city"/></label><input type="text" class="form_input" wicket:id="city"/></div>		                    
+		                    <div class="form_row"><label class="left"><wicket:message key="lbl_city"/></label><input type="text" class="ui-autocomplete-input" wicket:id="city" id="city"/></div>		                    
 		                    <div class="form_row"><label class="left"><wicket:message key="lbl_size"/></label><input type="text" class="form_input" wicket:id="areaFrom"/></div>
 		                    <div class="form_row"><label class="left"><wicket:message key="lbl_price"/></label><input type="text" class="form_input" wicket:id="priceTo"/></div>
 		                    <div class="form_row"><label class="left"><wicket:message key="lbl_rooms_from"/></label><input type="text" class="form_input" wicket:id="roomsFrom"/></div>
