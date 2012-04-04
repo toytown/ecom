@@ -61,8 +61,7 @@ public class Geolookup extends HttpServlet {
         response.setContentType("text/json");
         PrintWriter out = response.getWriter();
         String nm = request.getParameter("term");
-        String val = "[{\'label\': \'TEST-01\'}, {\'label\': \'TEST-02\'}, {\'label\': \'TEST-03\'}]";
-        out.println(val);
+        out.println("\"Berlin\", \"Munich\"");
     }
 
     /**
@@ -84,22 +83,4 @@ public class Geolookup extends HttpServlet {
         }
         return equal;
     }
-    
-    protected String createJson(final Iterable<String> choices)
-    {
-
-        StringBuilder json = new StringBuilder();
-        json.append('[');
-        for (String choice : choices)
-        {
-            if (json.length() > 1)
-            {
-                json.append(',');
-            }
-            json.append('"').append(choice).append('"');
-        }
-        json.append(']');
-
-        return json.toString();
-    }    
 }
