@@ -3,9 +3,10 @@ package com.ecom.web.components.autocomplete;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import com.google.gson.Gson;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -58,10 +59,12 @@ public class Geolookup extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/json");
+   	 response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         String nm = request.getParameter("term");
-        out.println("\"Berlin\", \"Munich\"");
+        Gson gson = new Gson();
+        String json = gson.toJson(name);
+        out.println(json);
     }
 
     /**
