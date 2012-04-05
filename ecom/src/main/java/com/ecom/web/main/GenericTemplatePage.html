@@ -29,10 +29,11 @@
 	                dataType: 'json',
 	                success: function(json){
 	                    var suggestions = [];  
-	
+	                    
+
 	                    //process response  
 	                    $.each(json, function(i, val){  
-	                        suggestions.push(val.name);  
+	                        suggestions.push(val);  
 	                    });
 	                        
 	                    // call autocomplet callback method with results

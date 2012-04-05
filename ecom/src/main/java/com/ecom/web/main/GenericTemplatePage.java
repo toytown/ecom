@@ -1,6 +1,5 @@
 package com.ecom.web.main;
 
-import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.Model;
