@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.geo.Circle;
 import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -67,8 +66,10 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			if (isZipCode(req.getCity())) {
 				Iterable<GeoLocation> geoLocIter = geoLocationService.findByZipOrCity(req.getCity());
 				GeoLocation geoLoc = geoLocIter.iterator().next();
-				Point center = new Point(geoLoc.getLat(), geoLoc.getLng());
-				q.addCriteria(Criteria.where("location").withinSphere(new Circle(center, 50000)));
+				//Circle circle = new Circle(geoLoc.getLat(), geoLoc.getLng(), 0.01);
+				Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
+				q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
+				
 				
 			}
 		}

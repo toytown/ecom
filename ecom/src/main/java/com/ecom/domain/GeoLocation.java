@@ -3,6 +3,7 @@ package com.ecom.domain;
 import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "geoLocation")
@@ -19,6 +20,7 @@ public class GeoLocation implements Serializable {
 
     private String iso2;
     
+    @Indexed
     private String region1;
     
     private String region2;
@@ -27,8 +29,10 @@ public class GeoLocation implements Serializable {
     
     private String region4;
     
+    @Indexed
     private String zip;
     
+    @Indexed
     private String city;
     
     private String area1;

@@ -12,6 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "realstate")
@@ -34,22 +36,27 @@ public class RealState implements Serializable {
 	//type of real state - House, Appartment
 	private int realStateType;
 	
+	@Indexed
 	private String areaCode;
 
+	@Indexed
 	private String city;
 
 	private String street;
 
 	private String houseNo;
 
+	@Indexed
 	private double size;
 
+	@Indexed
 	private double cost;
 
 	private double floor;
 
 	private double totalFloors;
 
+	@Indexed
 	private double totalRooms;
 
 	private int bedRooms;
@@ -90,24 +97,33 @@ public class RealState implements Serializable {
 
 	private String fittings;
 
+	@Indexed
 	private boolean energyPassAvailable;
 
+	@Indexed
 	private boolean kitchenAvailable;
 
+	@Indexed
 	private boolean furnished;
 
+	@Indexed
 	private boolean animalsAllowed;
 
+	@Indexed
 	private int builtYear;
 
+	@Indexed
 	private String lastRenovatedYear;
 
 	private String otherInformation;
-
+	
+	@Indexed
 	private boolean provisionFree;
 
+	@Indexed
 	private String provisionCondition;
 
+	
 	private String imageLocation;
 
 	private boolean barrierFree;
@@ -122,6 +138,7 @@ public class RealState implements Serializable {
 
 	private Date updatedTs;
 
+	@GeoSpatialIndexed
 	private Double[] location;
 	
 	private List<RealStateImage> images = new ArrayList<RealStateImage>();
@@ -149,6 +166,16 @@ public class RealState implements Serializable {
 	@Transient
 	private String addressInfo;
 	
+	private ContactInfo contactInfo;
+	
+	public ContactInfo getContactInfo() {
+		return contactInfo;
+	}
+
+	public void setContactInfo(ContactInfo contactInfo) {
+		this.contactInfo = contactInfo;
+	}
+
 	public RealState() {
 		super();
 	}
