@@ -10,7 +10,8 @@ import com.mysema.query.types.expr.BooleanOperation;
 
 public class PointExt extends Point {
 
-    public static final Operator<Boolean> WITHIN = new OperatorImpl<Boolean>("WITHIN", Number.class, Number.class, Number.class, Number.class);
+	private static final long serialVersionUID = 1L;
+	public static final Operator<Boolean> WITHIN = new OperatorImpl<Boolean>("WITHIN", Number.class, Number.class, Number.class, Number.class);
     
     public PointExt(Path<?> parent, String property) {
         super(parent, property);

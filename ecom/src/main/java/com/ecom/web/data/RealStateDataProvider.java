@@ -71,7 +71,7 @@ public class RealStateDataProvider extends SortableDataProvider<RealState> {
             Sort sort = new Sort(getSearchSortOrder(sortParam));
             
             pageReq = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-            iter = realStateService.findBySearchRequest(searchRequest, pageReq).iterator();
+            iter = realStateService.find(searchRequest, pageReq).iterator();
         }
 
         return iter;

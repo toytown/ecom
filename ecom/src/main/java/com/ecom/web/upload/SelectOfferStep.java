@@ -71,8 +71,10 @@ public class SelectOfferStep extends WizardStep {
 			        realStateType.setRequired(true);		        
 
 			        realStateType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
-			            
-			            @Override
+
+						private static final long serialVersionUID = 1L;
+
+							@Override
 			            protected void onUpdate(AjaxRequestTarget target) {
 			                RealStateType realStateType = realStateTypeSel.getObject();
 			                

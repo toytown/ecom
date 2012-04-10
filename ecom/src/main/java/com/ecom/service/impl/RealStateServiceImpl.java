@@ -8,6 +8,11 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.geo.Circle;
+import org.springframework.data.mongodb.core.geo.Point;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.ecom.domain.GeoLocation;
@@ -19,7 +24,6 @@ import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.service.interfaces.RealStateService;
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.mongodb.Point;
 import com.mysema.query.types.Predicate;
 
 @Service("realStateService")
@@ -40,8 +44,8 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
     @Autowired
     private GeoLocationService geoLocationService;
     
-    //@Autowired
-    //private MongoTemplate mongoTemplate ;
+    @Autowired
+    private MongoTemplate mongoTemplate ;
     
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
@@ -49,11 +53,32 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
-    
+	@Override
+	public List<RealState> find(SearchRequest req, PageRequest pageReq) {
+
+		Query q = buildQuery(req);		
+		return mongoTemplate.find(q, RealState.class);
+	}
+	
+	public Query buildQuery(SearchRequest req) {
+		Query q = new Query();
+		
+		if (StringUtils.isNotEmpty(req.getCity())) {
+			if (isZipCode(req.getCity())) {
+				Iterable<GeoLocation> geoLocIter = geoLocationService.findByZipOrCity(req.getCity());
+				GeoLocation geoLoc = geoLocIter.iterator().next();
+				Point center = new Point(geoLoc.getLat(), geoLoc.getLng());
+				q.addCriteria(Criteria.where("location").withinSphere(new Circle(center, 50000)));
+				
+			}
+		}
+		
+		return q;
+	}
+	
 	public Predicate buildPredicate(SearchRequest req) {
 
 		QRealState realStateQuery = new QRealState("realStateUser");
-		Point point = new Point(realStateQuery, "location");
 		BooleanBuilder builder = new BooleanBuilder();
 		
 		if (req == null) {
@@ -63,11 +88,6 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		if (StringUtils.isNotEmpty(req.getCity())) {
 			if (isZipCode(req.getCity())) {
 				builder.and(realStateQuery.areaCode.contains(req.getCity()));
-				Iterable<GeoLocation> iter = geoLocationService.findByZipOrCity(req.getCity());
-				if (iter.iterator().hasNext()) {
-				    GeoLocation geoLoc = iter.iterator().next();
-				    builder.and(point.near(geoLoc.getLat(), geoLoc.getLng()));
-				}
 			} else {
 				builder.and(realStateQuery.city.containsIgnoreCase(req.getCity()));
 			}
@@ -136,7 +156,8 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Override
 	public int count(SearchRequest req) {
-		return (int) realStateRepository.count(buildPredicate(req));
+//		return (int) realStateRepository.count(buildPredicate(req));
+		return (int) mongoTemplate.count(buildQuery(req), RealState.class);
 	}
 
 	@Override
@@ -147,6 +168,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Override
 	public int count(String userId, String filter) {
 		return (int) realStateRepository.count(buildPredicate(userId, filter));
+
 	}
 
 	@Override
@@ -169,9 +191,4 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	}
 
-    @Override
-    public List<RealState> findNearBy(String street, String houseNo, String zip, String city) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

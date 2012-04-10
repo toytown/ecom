@@ -13,6 +13,8 @@ public interface RealStateService<RealState> extends Serializable {
 
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq);
 	
+	public List<RealState> find(SearchRequest req, PageRequest pageReq);
+	
 	public int count(SearchRequest req);
 	
 	public Page<RealState> findByUserSearchFilter(String userId, String filter, PageRequest pageReq);
@@ -25,6 +27,5 @@ public interface RealStateService<RealState> extends Serializable {
 	
 	public void saveOrUpdate(RealState realState);
 	
-	public List<RealState> findNearBy(String street, String houseNo, String zip, String city);
-	
+
 }

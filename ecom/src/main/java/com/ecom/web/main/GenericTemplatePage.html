@@ -13,41 +13,10 @@
 <link rel="stylesheet" type="text/css" href="css/messages.css" />
 <link rel="stylesheet" type="text/css" href="css/inbox.css" />
 <link rel="stylesheet" type="text/css" href="css/tabs.css" />
- <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />	
- <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
- <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.js"></script>
-<script>
-	$(document).ready(function(){
-	    $('#city').autocomplete({
-	        source: function(req, add){
-	            //pass request to server  
-	            $.ajax({
-	                url: '/ecom/geolookup',
-	                type: 'GET',
-	                cache: false,
-	                data: req,
-	                dataType: 'json',
-	                success: function(json){
-	                    var suggestions = [];  
-	                    
+<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.js"></script>
 
-	                    //process response  
-	                    $.each(json, function(i, val){  
-	                        suggestions.push(val);  
-	                    });
-	                        
-	                    // call autocomplet callback method with results
-	                    add(suggestions);
-	                },
-	                error: function(XMLHttpRequest, textStatus, errorThrown){
-	                    //alert('error - ' + textStatus);
-	                    console.log('error', textStatus, errorThrown);
-	                }
-	            });            
-	        }
-	    });
-	});
-</script>
 </head>
 
 

@@ -50,7 +50,7 @@ public class EntriesPage extends UserDashBoardPage {
 
 	private static final long serialVersionUID = -999171714434875305L;
 	private Set<String> selectedIds = new HashSet<String>();
-	private Logger logger = Logger.getLogger(EntriesPage.class);
+	private static final Logger logger = Logger.getLogger(EntriesPage.class);
 	
 	
 	@SpringBean

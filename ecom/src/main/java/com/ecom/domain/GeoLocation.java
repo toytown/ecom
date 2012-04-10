@@ -8,8 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "geoLocation")
 public class GeoLocation implements Serializable {
 
-    
-    private String country;
+	private static final long serialVersionUID = 1L;
+
+	private String country;
     
     private String language;
     
