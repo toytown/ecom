@@ -1,0 +1,21 @@
+Features :
+ - sending and receiving messages from one user to another
+ - adding contact info during inserting an advert
+ - GUI enhancement for sending message and replying to it
+ - geolocation search by plz or street + house no
+ - geolocation result orderderd with distance info
+ - geolocation info is saved during advert save
+ - website redesign, common look and feel, buttons & logo design
+ - add hints to input fields during form submission
+ - basic and profi business pack
+ - upload file validation -check file size and max no. of images
+ - gmap api key should be corretly setup
+ - activating advert, advertisement management/placement - workflow ?
+ - detail view has inserted date and last updated date
+ - marker for newly inserted immobilien
+ - validation for uploading data
+ - api to integrate with immobilienscout24 and immowelt
+ 
+Bugs :
+ - edit invoice - appartment type not selected
+ - 

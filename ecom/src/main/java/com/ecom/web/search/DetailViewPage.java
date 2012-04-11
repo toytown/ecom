@@ -5,20 +5,27 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.bson.types.ObjectId;
 
+import com.ecom.domain.Message;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
+import com.ecom.web.components.buttons.CustomButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.components.image.OkCancelComponent;
 import com.ecom.web.data.DetachableRealStateModel;
 import com.ecom.web.main.GenericTemplatePage;
+
+
 
 public class DetailViewPage extends GenericTemplatePage {
 
@@ -39,10 +46,27 @@ public class DetailViewPage extends GenericTemplatePage {
 		
 		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realState.getObject()));
 		add(imageNavigationPanel);
-		add(new ToolsPanel("toolsPanel"));
+		
+		//real state title
 		add(new MultiLineLabel("title",  realStateModel.bind("title")));
 		add(new Label("address", realStateModel.bind("addressInfo")));
 		add(new Label("availableFrom", realStateModel.bind("availableFrom")));
+		
+		//contact info
+		add(new Label("contactInfoTitle", realStateModel.bind("contactInfo.title")));
+		add(new Label("contactInfoFirstName", realStateModel.bind("contactInfo.firstName")));
+		add(new Label("contactInfoLastName", realStateModel.bind("contactInfo.lastName")));
+		add(new Label("contactInfoEmail", realStateModel.bind("contactInfo.email")));
+		add(new Label("contactInfoPhone", realStateModel.bind("contactInfo.phone")));
+		add(new Label("contactInfoMobile", realStateModel.bind("contactInfo.mobile")));
+		add(new Label("contactInfoStreet", realStateModel.bind("contactInfo.street")));
+		add(new Label("contactInfoHouseNo", realStateModel.bind("contactInfo.houseNo")));
+		
+		Message message = new Message();
+		add(new TextField<Message>("contactSubject", new PropertyModel<Message>(message, "title")));
+		add(new TextArea<Message>("contactMessage", new PropertyModel<Message>(message, "message")));
+		add(new CustomButton("send", "Send Message"));
+		
 		add(new MultiLineLabel("description",  realStateModel.bind("description")));
 		add(new MultiLineLabel("fittings",  realStateModel.bind("fittings")));
 		add(new MultiLineLabel("areaDescription",  realStateModel.bind("areaDescription")));

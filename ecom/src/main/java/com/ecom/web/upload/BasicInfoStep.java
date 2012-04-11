@@ -167,6 +167,23 @@ public class BasicInfoStep extends WizardStep {
 		TextField<String> areaCode = new TextField<String>("areaCode");
 		areaCode.setRequired(true);
 
+	    
+		TextField<String> contactTitle = new TextField<String>("contactInfo.title");
+		TextField<String> contactFirstName = new TextField<String>("contactInfo.firstName");
+		TextField<String> contactLastName = new TextField<String>("contactInfo.lastName");
+		TextField<String> contactEmail = new TextField<String>("contactInfo.email");
+		TextField<String> contactPhone = new TextField<String>("contactInfo.phone");
+        TextField<String> contactMobile = new TextField<String>("contactInfo.mobile");
+		TextField<String> contactStreet = new TextField<String>("contactInfo.street");
+
+		realStateUploadInfoForm.add(contactTitle);
+		realStateUploadInfoForm.add(contactFirstName);
+		realStateUploadInfoForm.add(contactLastName);
+		realStateUploadInfoForm.add(contactEmail);
+		realStateUploadInfoForm.add(contactPhone);
+		realStateUploadInfoForm.add(contactMobile);
+		realStateUploadInfoForm.add(contactStreet);
+		
 		TextField<String> street = new TextField<String>("street");
 		TextField<String> houseNo = new TextField<String>("houseNo");
 		TextField<Double> size = new TextField<Double>("size");

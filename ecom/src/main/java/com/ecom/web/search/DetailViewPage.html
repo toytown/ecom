@@ -21,18 +21,26 @@
 
 						<div>
 							<div wicket:id="imageGallery" style="margin-right: 5px;">Image Gallery</div>
-							<div wicket:id="toolsPanel">Tools Panel</div>
 							<div style="clear: both;"></div>
 							
 							<div class="detail_header"><wicket:message key="lbl_offerer" /></div>
 							
 							<div style="margin: 10px 0 5px 0; width: auto;">
-								<p>Frau Sonja Beck</p>
-								<p>Test Immobilien</p>
-								<p>Phone :</p>
-								<p>Mobile :</p>
+								<p>
+									<span wicket:id="contactInfoTitle"/>
+									<span wicket:id="contactInfoFirstName"/>
+									<span wicket:id="contactInfoLastName"/>
+								</p>
+								<p><span wicket:id="contactInfoEmail"/></p>
+								<p><span wicket:id="contactInfoPhone"/></p>
+								<p><span wicket:id="contactInfoMobile"/></p>
+								<p><span wicket:id="contactInfoStreet"/></p>
+								<p><span wicket:id="contactInfoHouseNo"/></p>
+								<p><input type="text" wicket:id="contactSubject"/></p>
+								<p><textarea wicket:id="contactMessage"/></p>
+								<p><a href="#" wicket:id="send">[Send]</a></p>
 							</div>
-						
+							<div style="clear:both;"></div>
 							<div class="detail_header" style="margin-top: 25px;">
 								<wicket:message key="lbl_description" />
 							</div>
