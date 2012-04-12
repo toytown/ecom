@@ -28,14 +28,14 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 
 	private transient PageRequest req = new PageRequest(0, PAGE_SIZE, DEFAULT_SORT);
 
-	private String userId;
+	private String receiver;
 
 	@SpringBean
 	private MessageRepository messageRepository;
 
-	public MessageDataProvider(String userId) {
+	public MessageDataProvider(String receiver) {
 		Injector.get().inject(this);
-		this.userId = userId;
+		this.receiver = receiver;
 		setSort("sentTs", SortOrder.DESCENDING);
 	}
 
@@ -43,7 +43,7 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 	public Iterator<? extends Message> iterator(int first, int count) {
 		Iterator<Message> iter = null;
 
-		if (!StringUtils.isEmpty(this.userId)) {
+		if (!StringUtils.isEmpty(this.receiver)) {
 			QMessage messageQuery = new QMessage("message");
 
 			SortParam sortParam = this.getSort();
@@ -54,11 +54,11 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 			}
 
 			if (sortParam.getProperty().equalsIgnoreCase("title")) {
-				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "title");
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "subject");
 			}
 
 			req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);
-			iter = messageRepository.findAll(messageQuery.userId.eq(this.userId), req).iterator();
+			iter = messageRepository.findAll(messageQuery.receiver.eq(this.receiver), req).iterator();
 
 		}
 
@@ -69,7 +69,7 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 	@Override
 	public int size() {
 		QMessage messageQuery = new QMessage("message");
-		return Long.valueOf(messageRepository.count(messageQuery.userId.eq(this.userId))).intValue();
+		return Long.valueOf(messageRepository.count(messageQuery.receiver.eq(this.receiver))).intValue();
 	}
 
 	@Override

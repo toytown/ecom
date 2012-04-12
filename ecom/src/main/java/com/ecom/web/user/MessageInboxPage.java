@@ -93,7 +93,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 				Label sender = new Label("sender", Model.of(msg.getSender()));
 				senderLink.add(sender);
 				
-				Label title = new Label("title", Model.of(msg.getTitle()));
+				Label title = new Label("title", Model.of(msg.getSubject()));
 				IModel<Date> dateModel = Model.of(msg.getSentTs());
 				PatternDateConverter dateConverter = new PatternDateConverter("yyyy-mm-dd hh:mm:ss", false);
 				DateLabel sentDate = new DateLabel("sentTs", dateModel, dateConverter);
@@ -129,7 +129,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 			}
 		});
 
-		checkgroup.add(new OrderByBorder("orderByTitle", "title", dataProvider) {
+		checkgroup.add(new OrderByBorder("orderByTitle", "subject", dataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

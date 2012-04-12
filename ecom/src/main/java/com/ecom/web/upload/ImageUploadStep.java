@@ -176,7 +176,7 @@ public class ImageUploadStep extends WizardStep {
 		add(imageContainer);
 	}
 
-	private boolean isMaxSizeReached(List<FileUpload> uploadedFilesList) {
+	protected boolean isMaxSizeReached(List<FileUpload> uploadedFilesList) {
 		long size = 0;
 
 		for (FileUpload f : uploadedFilesList) {

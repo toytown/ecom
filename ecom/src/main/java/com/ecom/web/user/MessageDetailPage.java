@@ -40,7 +40,7 @@ public class MessageDetailPage extends UserDashBoardPage {
 		DetachableMessageModel msgModel = new DetachableMessageModel(messageId);
 		CompoundPropertyModel<Message> msg = new CompoundPropertyModel<Message>(msgModel);
 
-		Label title = new Label("title", msg.bind("title"));
+		Label title = new Label("title", msg.bind("subject"));
 		add(title);
 
 		Label sender = new Label("sender", msg.bind("sender"));
@@ -52,7 +52,7 @@ public class MessageDetailPage extends UserDashBoardPage {
 
 		add(dateSent);
 
-		MultiLineLabel message = new MultiLineLabel("message", msg.bind("message"));
+		MultiLineLabel message = new MultiLineLabel("message", msg.bind("messageBody"));
 		add(message);
 
 		setDefaultModel(msg);
@@ -74,9 +74,10 @@ public class MessageDetailPage extends UserDashBoardPage {
 				if (!StringUtils.isEmpty(replyMsg)) {
 					Message msg = messageRepository.findOne(new ObjectId(messageId));
 					String userId = ((EcomSession) Session.get()).getUserId();
+					
 					Message replyMessage = new Message();
-					replyMessage.setMessage(replyMsg);
-					replyMessage.setUserId(msg.getUserId());
+					replyMessage.setMessageBody(replyMsg);
+					replyMessage.setReceiver(msg.getSender());
 					replyMessage.setSender(userId);
 					replyMessage.setSentTs(new Date());
 					messageRepository.save(replyMessage);

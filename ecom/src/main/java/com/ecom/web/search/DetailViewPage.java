@@ -5,20 +5,23 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
 import com.ecom.domain.Message;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
-import com.ecom.web.components.buttons.CustomButton;
+import com.ecom.service.interfaces.MessageService;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.components.image.OkCancelComponent;
@@ -32,9 +35,12 @@ public class DetailViewPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = 8694888856825299786L;
 
+	@SpringBean
+	private MessageService messageService;
+	
 	public DetailViewPage(PageParameters params) {
 		String appartmentId = params.get("appartment-id").toString();
-		IModel<RealState> realState = new DetachableRealStateModel(new ObjectId(appartmentId));
+		final IModel<RealState> realState = new DetachableRealStateModel(new ObjectId(appartmentId));
 		setStatelessHint(true);
 
 		MapPanel gMappanel = new MapPanel("mapPanel", "Schlesierstr 4, 81669, München");
@@ -62,10 +68,24 @@ public class DetailViewPage extends GenericTemplatePage {
 		add(new Label("contactInfoStreet", realStateModel.bind("contactInfo.street")));
 		add(new Label("contactInfoHouseNo", realStateModel.bind("contactInfo.houseNo")));
 		
-		Message message = new Message();
-		add(new TextField<Message>("contactSubject", new PropertyModel<Message>(message, "title")));
-		add(new TextArea<Message>("contactMessage", new PropertyModel<Message>(message, "message")));
-		add(new CustomButton("send", "Send Message"));
+		CompoundPropertyModel<Message> msgModel = new CompoundPropertyModel<Message>(new Message());
+		final StatelessForm<Message> messageSendingForm = new StatelessForm<Message>("messageSenderForm", msgModel);
+		messageSendingForm.add(new TextField<Message>("subject"));
+		messageSendingForm.add(new TextArea<Message>("messageBody"));
+		
+		messageSendingForm.add(new Button("send", Model.of("Send Message")) {
+		    
+            @Override
+            public void onSubmit() {
+
+                Message message = (Message) messageSendingForm.getDefaultModel().getObject();
+                message.setSender("");
+                message.setReceiver(realState.getObject().getUserId());    
+                messageService.sendMessage(message);
+            }		    
+		});
+        
+		add(messageSendingForm);
 		
 		add(new MultiLineLabel("description",  realStateModel.bind("description")));
 		add(new MultiLineLabel("fittings",  realStateModel.bind("fittings")));

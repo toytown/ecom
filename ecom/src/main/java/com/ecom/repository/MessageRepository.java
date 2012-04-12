@@ -12,5 +12,5 @@ import com.ecom.domain.Message;
 public interface MessageRepository extends PagingAndSortingRepository<Message, ObjectId>,
         CrudRepository<Message, ObjectId>, QueryDslPredicateExecutor<Message> {
 
-	public List<Message> findMessageByUserId(String userId);
+	public List<Message> findMessageByReceiver(String receiver);
 }
