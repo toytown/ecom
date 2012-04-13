@@ -36,15 +36,30 @@
 								<p><span wicket:id="contactInfoMobile"/></p>
 								<p><span wicket:id="contactInfoStreet"/></p>
 								<p><span wicket:id="contactInfoHouseNo"/></p>
+								
+								<!-- send message -->
 								<form action="post" wicket:id="messageSenderForm">
-									<p><input type="text" wicket:id="subject"/></p>
-									<p><textarea wicket:id="messageBody"/></p>
-									<div style="clear:both;"/>
-									<p>  <label class="uiButton uiButtonConfirm">
-									
-									<input type="submit" value="Search" style="color: #FFFFFF;" wicket:id="send"/>
-								</label></p>
+									<p>
+										<input type="text" wicket:id="senderTitle" />
+									</p>
+									<p>
+										<input type="text" wicket:id="senderEmail" />
+									</p>
+									<p>
+										<input type="text" wicket:id="senderPhone" />
+									</p>
+									<p>
+										<textarea wicket:id="messageBody" />
+									</p>
+									<div style="clear: both;" />
+									<p>
+										<label class="uiButton uiButtonConfirm"> <input
+											type="submit" value="Search" style="color: #FFFFFF;"
+											wicket:id="send" />
+										</label>
+									</p>
 								</form>
+								
 							</div>
 							<div style="clear:both;"></div>
 							<div class="detail_header" style="margin-top: 25px;">

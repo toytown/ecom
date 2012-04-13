@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "message")
@@ -17,11 +18,25 @@ public class Message implements Serializable {
     private String receiver;
     
     private String sender;
+
+    private String senderTitle;
     
+    private String senderEmail;
+    
+    private String senderPhone;
+    
+    private String senderCity;
+    
+    private String senderStreet;
+    
+    private String senderHouseNo;
+    
+    @Indexed
     private String subject;
     
     private String messageBody;
     
+    @Indexed
     private Date sentTs;
     
     private byte[] messagePayload;
@@ -30,6 +45,7 @@ public class Message implements Serializable {
     
     private boolean isOpened = false;
     
+    @Indexed
     private Date openedTs;
 
     public ObjectId getId() {
@@ -121,6 +137,54 @@ public class Message implements Serializable {
         return "Message [id=" + id + ", userId=" + receiver + ", sender=" + sender + ", subject=" + subject + ", message=" + messageBody + ", sentTs="
                 + sentTs + ", messagePayload=" + Arrays.toString(messagePayload) + ", mimeType=" + mimeType + ", isOpened=" + isOpened
                 + ", openedTs=" + openedTs + "]";
+    }
+
+    public String getSenderEmail() {
+        return senderEmail;
+    }
+
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
+    }
+
+    public String getSenderPhone() {
+        return senderPhone;
+    }
+
+    public void setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
+    }
+
+    public String getSenderCity() {
+        return senderCity;
+    }
+
+    public void setSenderCity(String senderCity) {
+        this.senderCity = senderCity;
+    }
+
+    public String getSenderStreet() {
+        return senderStreet;
+    }
+
+    public void setSenderStreet(String senderStreet) {
+        this.senderStreet = senderStreet;
+    }
+
+    public String getSenderHouseNo() {
+        return senderHouseNo;
+    }
+
+    public void setSenderHouseNo(String senderHouseNo) {
+        this.senderHouseNo = senderHouseNo;
+    }
+
+    public String getSenderTitle() {
+        return senderTitle;
+    }
+
+    public void setSenderTitle(String senderTitle) {
+        this.senderTitle = senderTitle;
     }
 
 }

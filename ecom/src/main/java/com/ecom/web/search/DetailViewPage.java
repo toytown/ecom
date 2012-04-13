@@ -70,7 +70,9 @@ public class DetailViewPage extends GenericTemplatePage {
 		
 		CompoundPropertyModel<Message> msgModel = new CompoundPropertyModel<Message>(new Message());
 		final StatelessForm<Message> messageSendingForm = new StatelessForm<Message>("messageSenderForm", msgModel);
-		messageSendingForm.add(new TextField<Message>("subject"));
+		messageSendingForm.add(new TextField<Message>("senderTitle"));
+		messageSendingForm.add(new TextField<Message>("senderEmail"));
+		messageSendingForm.add(new TextField<Message>("senderPhone"));
 		messageSendingForm.add(new TextArea<Message>("messageBody"));
 		
 		messageSendingForm.add(new Button("send", Model.of("Send Message")) {
@@ -79,7 +81,8 @@ public class DetailViewPage extends GenericTemplatePage {
             public void onSubmit() {
 
                 Message message = (Message) messageSendingForm.getDefaultModel().getObject();
-                message.setSender("");
+                message.setSender("test");
+             
                 message.setReceiver(realState.getObject().getUserId());    
                 messageService.sendMessage(message);
             }		    

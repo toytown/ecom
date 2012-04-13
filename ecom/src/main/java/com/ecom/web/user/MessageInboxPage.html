@@ -20,13 +20,12 @@
 					<table cellspacing="0" class="dataview" style="float: left;">
 						<tr>
 							<th><input type="checkbox" id="selectall" wicket:id="groupselector" /></th>
-							<th wicket:id="orderBySender">Sender</th>
-							<th wicket:id="orderByTitle">Title</th>
+							<th wicket:id="orderBySenderEmail">Title</th>
 							<th wicket:id="orderBySentTs">Date</th>
 						</tr>
 						<tr wicket:id="userMessageResultsView">
 							<td width="10%"><input type="checkbox" class="case" name="case" wicket:id="check" /></td>
-							<td width="20%"><a href="#" wicket:id="senderLink"><span wicket:id="sender" /></a></td>
+							<td width="20%"><a href="#" wicket:id="senderLink"><span wicket:id="senderEmail" /></a></td>
 							<td width="50%" valign="top"><span wicket:id="title" /></td>
 							<td width="20%" valign="top"><span wicket:id="sentTs" /></td>
 						</tr>

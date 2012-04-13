@@ -26,12 +26,14 @@ public class MessageRepositoryTest extends AbstractIntegrationTest{
     @Test
     public void testCreateMessages() {
         
-        for (int i=0; i< 100; i++) {
+        for (int i=0; i< 20; i++) {
             String messageBody = "Base class for Joda Time based date converters. It contains the logic to parse and format, optionally taking the time zone difference between clients and the server into accoun";
             Message msg = new Message();
             msg.setId(new ObjectId());
             msg.setReceiver(getDefaultUser().getId().toString());
-            msg.setSender("prasanna.tuladhar@gmail.com");
+            msg.setSenderEmail("prasanna.tuladhar@gmail.com");
+            msg.setSender("test-2");
+            msg.setSenderPhone("0176215199165");
             msg.setSubject("Message title test....." + i);
             msg.setMessageBody(messageBody);
             msg.setSentTs(new Date());

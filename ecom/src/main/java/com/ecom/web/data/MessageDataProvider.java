@@ -53,8 +53,8 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "sentTs");
 			}
 
-			if (sortParam.getProperty().equalsIgnoreCase("title")) {
-				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "subject");
+			if (sortParam.getProperty().equalsIgnoreCase("senderEmail")) {
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "senderEmail");
 			}
 
 			req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);

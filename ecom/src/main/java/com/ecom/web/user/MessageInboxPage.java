@@ -90,7 +90,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 					
 				};
 				
-				Label sender = new Label("sender", Model.of(msg.getSender()));
+				Label sender = new Label("senderEmail", Model.of(msg.getSenderEmail()));
 				senderLink.add(sender);
 				
 				Label title = new Label("title", Model.of(msg.getSubject()));
@@ -129,7 +129,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 			}
 		});
 
-		checkgroup.add(new OrderByBorder("orderByTitle", "subject", dataProvider) {
+		checkgroup.add(new OrderByBorder("orderBySenderEmail", "senderEmail", dataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
