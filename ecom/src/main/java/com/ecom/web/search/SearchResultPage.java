@@ -175,7 +175,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
 		// Select current page
 		currentPage = getCurrentPage(params);
-		dataView.setItemsPerPage(3);
+		dataView.setItemsPerPage(10);
 		dataView.setCurrentPage(currentPage);
 
 		final CustomizedPagingNavigator pagingNavigator = new CustomizedPagingNavigator("pagingNavigator", dataView, SearchResultPage.class,
