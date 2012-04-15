@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.Session;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.datetime.PatternDateConverter;
@@ -93,24 +94,32 @@ public class MessageInboxPage extends UserDashBoardPage {
 				Label sender = new Label("senderEmail", Model.of(msg.getSenderEmail()));
 				senderLink.add(sender);
 				
-				Label title = new Label("title", Model.of(msg.getSubject()));
+				String message = msg.getMessageBody();
+				StringBuilder msgBodyPartial = new StringBuilder("");
+				if (StringUtils.isNotEmpty(message) && message.length() < 50) {
+					msgBodyPartial.append(message);
+				} else{
+					msgBodyPartial.append(message.substring(0, 49));
+				}
+				
+				Label messageBody = new Label("title", Model.of(msgBodyPartial.toString()));
 				IModel<Date> dateModel = Model.of(msg.getSentTs());
 				PatternDateConverter dateConverter = new PatternDateConverter("yyyy-mm-dd hh:mm:ss", false);
 				DateLabel sentDate = new DateLabel("sentTs", dateModel, dateConverter);
 				
 				if (msg.isOpened()) {
-					title.add(AttributeAppender.replace("class", "normal"));
+					messageBody.add(AttributeAppender.replace("class", "normal"));
 					sender.add(AttributeAppender.replace("class", "normal"));
 					sentDate.add(AttributeAppender.replace("class", "normal"));
 				} else {
-					title.add(AttributeAppender.replace("class", "highlight"));
+					messageBody.add(AttributeAppender.replace("class", "highlight"));
 					sender.add(AttributeAppender.replace("class", "highlight"));
 					sentDate.add(AttributeAppender.replace("class", "highlight"));
 				}
 				
 
 				item.add(senderLink);	
-				item.add(title);
+				item.add(messageBody);
 				item.add(sentDate);
 
 			}
@@ -120,7 +129,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 		checkgroup.add(new CheckGroupSelector("groupselector"));
 		messageForm.add(checkgroup);
 		
-		checkgroup.add(new OrderByBorder("orderBySender", "sender", dataProvider) {
+		checkgroup.add(new OrderByBorder("orderBySenderEmail", "senderEmail", dataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -129,7 +138,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 			}
 		});
 
-		checkgroup.add(new OrderByBorder("orderBySenderEmail", "senderEmail", dataProvider) {
+		checkgroup.add(new OrderByBorder("orderByMessageBody", "messageBody", dataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
