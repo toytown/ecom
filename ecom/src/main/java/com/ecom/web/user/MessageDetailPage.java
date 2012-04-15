@@ -77,8 +77,8 @@ public class MessageDetailPage extends UserDashBoardPage {
 					
 					Message replyMessage = new Message();
 					replyMessage.setMessageBody(replyMsg);
-					replyMessage.setReceiver(msg.getSender());
-					replyMessage.setSender(userId);
+					replyMessage.setReceiver(msg.getSenderFirstname());
+					replyMessage.setSenderFirstname(userId);
 					replyMessage.setSentTs(new Date());
 					messageRepository.save(replyMessage);
 				}

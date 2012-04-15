@@ -32,7 +32,7 @@ public class MessageRepositoryTest extends AbstractIntegrationTest{
             msg.setId(new ObjectId());
             msg.setReceiver(getDefaultUser().getId().toString());
             msg.setSenderEmail("prasanna.tuladhar@gmail.com");
-            msg.setSender("test-2");
+            msg.setSenderFirstname("test-2");
             msg.setSenderPhone("0176215199165");
             msg.setSubject("Message title test....." + i);
             msg.setMessageBody(messageBody);

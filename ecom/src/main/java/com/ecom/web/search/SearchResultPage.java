@@ -291,7 +291,7 @@ public class SearchResultPage extends GenericTemplatePage {
 			}
 			
 			if (keyVal.getKey().equals("city")) {
-				req.setCity(keyVal.getValue());
+				req.setCityOrZip(keyVal.getValue());
 			}
 
 			if (keyVal.getKey().equals("areaFrom")) {
@@ -390,8 +390,8 @@ public class SearchResultPage extends GenericTemplatePage {
 			params.set("areaTo", req.getAreaTo());
 		}
 
-		if (req.getCity() != null) {
-			params.set("city", Strings.escapeMarkup(req.getCity()));
+		if (req.getCityOrZip() != null) {
+			params.set("city", Strings.escapeMarkup(req.getCityOrZip()));
 		}
 
 		if (req.getSortOrder() != null) {

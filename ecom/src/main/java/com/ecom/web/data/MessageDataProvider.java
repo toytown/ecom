@@ -49,12 +49,17 @@ public class MessageDataProvider extends SortableDataProvider<Message> {
 			SortParam sortParam = this.getSort();
 			Sort sort = null;
 
-			if (sortParam.getProperty().equalsIgnoreCase("sentTs")) {
-				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "sentTs");
-			}
 
 			if (sortParam.getProperty().equalsIgnoreCase("senderEmail")) {
 				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "senderEmail");
+			}
+
+			if (sortParam.getProperty().equalsIgnoreCase("messageBody")) {
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "messageBody");
+			}
+			
+			if (sortParam.getProperty().equalsIgnoreCase("sentTs")) {
+				sort = new Sort(sortParam.isAscending() ? Direction.ASC : Direction.DESC, "sentTs");
 			}
 
 			req = new PageRequest((first + 1) / PAGE_SIZE, count, sort);

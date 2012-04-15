@@ -1,6 +1,7 @@
 package com.ecom.web.search;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -77,12 +78,14 @@ public class DetailViewPage extends GenericTemplatePage {
 		
 		messageSendingForm.add(new Button("send", Model.of("Send Message")) {
 		    
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void onSubmit() {
 
                 Message message = (Message) messageSendingForm.getDefaultModel().getObject();
-                message.setSender("test");
-             
+                message.setSenderFirstname("test");
+                message.setSentTs(new Date());                
                 message.setReceiver(realState.getObject().getUserId());    
                 messageService.sendMessage(message);
             }		    

@@ -6,7 +6,7 @@ public class SearchRequest implements Serializable {
 
     private static final long serialVersionUID = -2062880133131607502L;
 
-    private String city;
+    private String cityOrZip;
 
     private Double areaFrom;
 
@@ -42,12 +42,12 @@ public class SearchRequest implements Serializable {
 
     private RealStateSort sortOrder;
 
-    public String getCity() {
-        return city;
+    public String getCityOrZip() {
+        return cityOrZip;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCityOrZip(String cityOrZip) {
+        this.cityOrZip = cityOrZip;
     }
 
     public Double getRoomsFrom() {
@@ -144,7 +144,7 @@ public class SearchRequest implements Serializable {
         int result = 1;
         result = prime * result + ((areaFrom == null) ? 0 : areaFrom.hashCode());
         result = prime * result + ((areaTo == null) ? 0 : areaTo.hashCode());
-        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((cityOrZip == null) ? 0 : cityOrZip.hashCode());
         result = prime * result + ((heatingTypeId == null) ? 0 : heatingTypeId.hashCode());
         result = prime * result + ((isBalconyAvailable == null) ? 0 : isBalconyAvailable.hashCode());
         result = prime * result + ((isFurnished == null) ? 0 : isFurnished.hashCode());
@@ -180,10 +180,10 @@ public class SearchRequest implements Serializable {
                 return false;
         } else if (!areaTo.equals(other.areaTo))
             return false;
-        if (city == null) {
-            if (other.city != null)
+        if (cityOrZip == null) {
+            if (other.cityOrZip != null)
                 return false;
-        } else if (!city.equals(other.city))
+        } else if (!cityOrZip.equals(other.cityOrZip))
             return false;
         if (heatingTypeId == null) {
             if (other.heatingTypeId != null)

@@ -17,9 +17,11 @@ public class Message implements Serializable {
     
     private String receiver;
     
-    private String sender;
+    private String senderFirstname;
 
-    private String senderTitle;
+    private String senderLastName;
+
+	private String senderTitle;
     
     private String senderEmail;
     
@@ -34,6 +36,7 @@ public class Message implements Serializable {
     @Indexed
     private String subject;
     
+    @Indexed
     private String messageBody;
     
     @Indexed
@@ -64,14 +67,23 @@ public class Message implements Serializable {
         this.receiver = receiver;
     }
 
-    public String getSender() {
-        return sender;
+    public String getSenderFirstname() {
+        return senderFirstname;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setSenderFirstname(String senderFirstname) {
+        this.senderFirstname = senderFirstname;
     }
 
+    
+    public String getSenderLastName() {
+		return senderLastName;
+	}
+
+	public void setSenderLastName(String senderLastName) {
+		this.senderLastName = senderLastName;
+	}
+	
     public String getSubject() {
         return subject;
     }
@@ -134,7 +146,7 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message [id=" + id + ", userId=" + receiver + ", sender=" + sender + ", subject=" + subject + ", message=" + messageBody + ", sentTs="
+        return "Message [id=" + id + ", userId=" + receiver + ", sender=" + senderFirstname + ", subject=" + subject + ", message=" + messageBody + ", sentTs="
                 + sentTs + ", messagePayload=" + Arrays.toString(messagePayload) + ", mimeType=" + mimeType + ", isOpened=" + isOpened
                 + ", openedTs=" + openedTs + "]";
     }

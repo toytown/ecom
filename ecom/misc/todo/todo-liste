@@ -1,7 +1,7 @@
 Features :
- - sending and receiving messages from one user to another
- - adding contact info during inserting an advert
- - GUI enhancement for sending message and replying to it
+ - sending and receiving messages from one user to another (done)
+ - adding contact info during inserting an advert (done)
+ - GUI enhancement for sending message and replying to it (done)
  - geolocation search by plz or street + house no
  - geolocation result orderderd with distance info
  - geolocation info is saved during advert save
