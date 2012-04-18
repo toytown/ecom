@@ -19,7 +19,7 @@
     </init-param>
     <init-param>
       <param-name>GoogleMapsAPIkey</param-name>
-      <param-value>ABQIAAAAzaZpf6nHOd9w1PfLaM9u2xQRS2YPSd8S9D1NKPBvdB1fr18_CxR-svEYj6URCf5QDFq3i03mqrDlbA</param-value>
+      <param-value>AIzaSyDcrumEOH02O7mj4RGp1CWx8B1KyvBhnqQ</param-value>
     </init-param>
   </filter>
   <filter-mapping>

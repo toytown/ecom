@@ -19,7 +19,7 @@ public class EcomSession extends WebSession {
 	private volatile boolean signedIn;
 	private String userName = null;
 	private String userId = null;
-	private final ConcurrentMap<String, String> bookMarkMap =  new ConcurrentHashMap<String, String>();
+	private ConcurrentMap<String, String> bookMarkMap =  new ConcurrentHashMap<String, String>();
 	private SearchRequest req = null; 
 	
 	@SpringBean
@@ -30,12 +30,12 @@ public class EcomSession extends WebSession {
 		Injector.get().inject(this);
 	}
 
-	public synchronized final void addToFavourites(String id, String title) {
+	public synchronized void addToFavourites(String id, String title) {
 		if (this.isTemporary()) {
 			bind();
 		}
 		
-		if (!bookMarkMap.containsKey(id)) {
+		if (!bookMarkMap.containsKey(id) && title != null) {
 			System.out.println("Added to favourites" + bookMarkMap.size());
 			this.getId();
 			bookMarkMap.put(id, title);
