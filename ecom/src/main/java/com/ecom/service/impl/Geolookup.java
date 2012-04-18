@@ -15,6 +15,7 @@ import org.apache.wicket.util.string.Strings;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.ecom.common.utils.GeoLocationUtils;
 import com.ecom.domain.GeoLocation;
 import com.ecom.service.interfaces.GeoLocationService;
 import com.google.gson.Gson;
@@ -49,12 +50,15 @@ public class Geolookup extends HttpServlet {
         PrintWriter out = response.getWriter();
         String term = request.getParameter("term");
         Gson gson = new Gson();
-        String json = gson.toJson(findCityorZip(term));
+        String json = gson.toJson(findCityOrZip(term));
         out.println(json);
     }
 
-    public Set<String> findCityorZip(String term) {
-        
+    public Set<String> findCityOrZip(String term) {
+
+    	boolean isZip = GeoLocationUtils.isZipCodeOnly(term);
+    	boolean isCity = GeoLocationUtils.hasOnlyCityNamePattern(term);
+
         if (Strings.isEmpty(term)) {
             return null;
         }
@@ -68,7 +72,13 @@ public class Geolookup extends HttpServlet {
                 break;
             }
 
-            choices.add(geoLoc.getZipAndCity());
+            if (isCity) {
+            	choices.add(geoLoc.getCity());
+            } else if (isZip) {
+            	choices.add(geoLoc.getZipAndCity());
+            } else {
+            	choices.add(geoLoc.getZipAndCity());
+            }
         }
 
       

@@ -170,6 +170,6 @@ public class GeoLocation implements Serializable {
     }
     
     public String getZipAndCity() {
-    	return this.getZip() + " " + getCity() + "(" + this.getArea1() + ")";
+    	return this.getZip() + " " + getCity();
     }
 }
