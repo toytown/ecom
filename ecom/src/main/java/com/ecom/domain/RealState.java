@@ -16,6 +16,8 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.ecom.common.utils.GeoLocationUtils;
+
 @Document(collection = "realstate")
 public class RealState implements Serializable {
 
@@ -1020,4 +1022,20 @@ public class RealState implements Serializable {
         this.location = location;
     }
 
+    public boolean hasValidMinimumAddressForGeoCoding() {
+    	if (StringUtils.isEmpty(getAddress())) {
+    		return false;
+    	}
+    	
+    	if (GeoLocationUtils.hasOnlyCityNamePattern(this.getCity())) {
+    		return true;
+    	}
+
+    	if (GeoLocationUtils.isZipCodeOnly(this.getAreaCode())) {
+    		return true;
+    	}
+
+    	
+    	return false;
+    }
 }

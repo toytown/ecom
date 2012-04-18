@@ -1,5 +1,7 @@
 package com.ecom.web.upload;
 
+import java.io.IOException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -26,17 +28,21 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.validation.ErrorClassAppender;
 import com.ecom.web.components.wizard.WizardStep;
+import com.ecom.web.main.EcomApplication;
 import com.ecom.web.main.EcomSession;
+import com.ecom.web.main.ServerGeocoder;
 
 public class BasicInfoStep extends WizardStep {
 
 	private static final long serialVersionUID = 769908228950127137L;
 
 	private WebMarkupContainer titleImageContainer;
+	
 
 	@SpringBean
 	private RealStateRepository realStateRepository;

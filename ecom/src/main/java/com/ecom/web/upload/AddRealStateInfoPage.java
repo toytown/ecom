@@ -1,8 +1,10 @@
 package com.ecom.web.upload;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.Session;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
 import org.apache.wicket.markup.html.IHeaderResponse;
@@ -15,13 +17,17 @@ import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.RealStateService;
+import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.wizard.WizardComponent;
 import com.ecom.web.components.wizard.WizardModel;
+import com.ecom.web.main.EcomApplication;
+import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
 import com.ecom.web.main.HomePage;
+import com.ecom.web.main.ServerGeocoder;
 import com.ecom.web.utils.SecurePage;
 
-public class AddRealStateInfoPage extends GenericTemplatePage implements SecurePage {
+public final class AddRealStateInfoPage extends GenericTemplatePage implements SecurePage {
 
 	private static final long serialVersionUID = 2150895889155872074L;
 	private static final JavaScriptResourceReference JS_UPLOAD_UTL = new JavaScriptResourceReference(AddRealStateInfoPage.class, "upload_file.js");
@@ -40,7 +46,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage implements SecureP
 	}
 
 	@Override
-	protected void onInitialize() {
+	protected final void onInitialize() {
 		super.onInitialize();
 		
 		add(new Behavior() {
@@ -67,7 +73,7 @@ public class AddRealStateInfoPage extends GenericTemplatePage implements SecureP
         createWizard(realStateModel);
     }
     
-    public void createWizard(IModel<RealState> realState) {
+    protected final void createWizard(IModel<RealState> realState) {
         WizardModel wizardModel = new WizardModel();
         
         
@@ -86,7 +92,23 @@ public class AddRealStateInfoPage extends GenericTemplatePage implements SecureP
             
             @Override
             public void onFinish() {
-               realStateService.saveOrUpdate(realStateModel.getObject());
+				EcomSession session = (EcomSession) Session.get();
+				RealState realState = realStateModel.getObject();
+				realState.setUserId(session.getUserId());
+				ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
+			    
+			    try {
+			        GLatLng lating = geocoder.findAddress(realState.getAddress());
+			        if (lating != null) {
+			        	Double[] location = new Double[] { lating.getLat(), lating.getLng() };
+			        	realState.setLocation(location)	;		        
+			        } else {
+			        	
+			        }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }            	
+               realStateService.saveOrUpdate(realState);
                setResponsePage(HomePage.class);
             }
         };

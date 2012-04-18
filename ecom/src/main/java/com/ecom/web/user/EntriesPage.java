@@ -51,62 +51,61 @@ public class EntriesPage extends UserDashBoardPage {
 	private static final long serialVersionUID = -999171714434875305L;
 	private Set<String> selectedIds = new HashSet<String>();
 	private static final Logger logger = Logger.getLogger(EntriesPage.class);
-	
-	
+
 	@SpringBean
 	private RealStateService<RealState> realStateService;
-	
+
 	private String filterStr = "";
-	
+
 	public EntriesPage() {
 
 		EcomSession session = (EcomSession) EcomSession.get();
 		final String userId = session.getUserId();
-		
-		final TextField<String> filter = new TextField<String>("filter", new PropertyModel<String>(this, "filterStr"));		
-		
+
+		final TextField<String> filter = new TextField<String>("filter", new PropertyModel<String>(this, "filterStr"));
+
 		final Form<Void> filteredResultForm = new Form<Void>("filteredResultForm");
 		add(filteredResultForm);
 		filteredResultForm.setOutputMarkupId(true);
-		
+
 		final CheckGroup<String> checkgroup = new CheckGroup<String>("group", selectedIds);
 		checkgroup.add(new CheckGroupSelector("groupselector"));
 		filteredResultForm.add(checkgroup);
-		
+
 		filteredResultForm.add(filter);
 		filteredResultForm.add(new AjaxButton("filterResults") {
-		    
+
 			private static final long serialVersionUID = 1L;
 
-				@Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                String filterStrVal = filter.getDefaultModelObjectAsString();
-                final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId, filterStrVal);     
-                final DataView<RealState> results = getDataView(dataProvider);
-                List<OrderByBorder> sortOrderList = getSortOrderList(dataProvider, results);
-                
-                for (OrderByBorder sortOrder: sortOrderList) {
-               	 checkgroup.addOrReplace(sortOrder);
-                }
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				String filterStrVal = filter.getDefaultModelObjectAsString();
+				final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId, filterStrVal);
+				final DataView<RealState> results = getDataView(dataProvider);
+				List<OrderByBorder> sortOrderList = getSortOrderList(dataProvider, results);
 
-                final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", results);
-                pagingNavigator.setVisible(true);
-                pagingNavigator.setOutputMarkupId(true);
-                filteredResultForm.addOrReplace(pagingNavigator);
-                checkgroup.addOrReplace(results);
-                filteredResultForm.addOrReplace(checkgroup);
-                
-                target.add(filteredResultForm);
-                
-            }
+				for (OrderByBorder sortOrder : sortOrderList) {
+					checkgroup.addOrReplace(sortOrder);
+				}
 
-            @Override
-            protected void onError(AjaxRequestTarget target, Form<?> form) {
-                // TODO Auto-generated method stub
-                
-            }
+				final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", results);
+				pagingNavigator.setVisible(true);
+				pagingNavigator.setOutputMarkupId(true);
+				filteredResultForm.addOrReplace(pagingNavigator);
+				checkgroup.addOrReplace(results);
+				filteredResultForm.addOrReplace(checkgroup);
+
+				target.add(filteredResultForm);
+
+			}
+
+			@Override
+			protected void onError(AjaxRequestTarget target, Form<?> form) {
+				// TODO Auto-generated method stub
+
+			}
 		});
-		
+
 		CustomButton deleteBtn = new CustomButton("delete", new ResourceModel("btn_delete")) {
 
 			private static final long serialVersionUID = 1L;
@@ -118,7 +117,7 @@ public class EntriesPage extends UserDashBoardPage {
 				}
 			}
 		};
-		
+
 		CustomButton activateBtn = new CustomButton("activate", new ResourceModel("btn_activate")) {
 
 			private static final long serialVersionUID = 1L;
@@ -126,36 +125,34 @@ public class EntriesPage extends UserDashBoardPage {
 			@Override
 			public void onSubmit() {
 				for (String id : selectedIds) {
-				    ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
-				    RealState realState = new DetachableRealStateModel(new ObjectId(id)).getObject();
-				    
-				    try {
-				        GLatLng lating = geocoder.findAddress(realState.getAddress());
-				        Double[] location = new Double[] { lating.getLat(), lating.getLng() };
-				        realState.setLocation(location)	;		        
-                    } catch (IOException e) {
-                        logger.error(e);
-                    }
+					ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
+					RealState realState = new DetachableRealStateModel(new ObjectId(id)).getObject();
 
-				    realStateService.activateRealState(realState, new Date());
+					try {
+						GLatLng lating = geocoder.findAddress(realState.getAddress());
+						Double[] location = new Double[] { lating.getLat(), lating.getLng() };
+						realState.setLocation(location);
+					} catch (IOException e) {
+						logger.error(e);
+					}
+
+					realStateService.activateRealState(realState, new Date());
 					setResponsePage(EntriesPage.class);
 				}
 			}
 		};
-		
+
 		filteredResultForm.add(deleteBtn);
 		filteredResultForm.add(activateBtn);
-		
-		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId, filterStr);		
+
+		final ISortableDataProvider<RealState> dataProvider = new RealStateDataProvider(userId, filterStr);
 		final DataView<RealState> results = getDataView(dataProvider);
 		List<OrderByBorder> sortOrderList = getSortOrderList(dataProvider, results);
-		
-		for (OrderByBorder sortOrder: sortOrderList) {
+
+		for (OrderByBorder sortOrder : sortOrderList) {
 			checkgroup.add(sortOrder);
 		}
 
-
-		
 		final PagingNavigator pagingNavigator = new PagingNavigator("pagingNavigator", results);
 		pagingNavigator.setVisible(true);
 		pagingNavigator.setOutputMarkupId(true);
@@ -166,117 +163,116 @@ public class EntriesPage extends UserDashBoardPage {
 	}
 
 	public List<OrderByBorder> getSortOrderList(ISortableDataProvider<RealState> dataProvider, final DataView<RealState> results) {
-	    List<OrderByBorder> sortOrderList = new ArrayList<OrderByBorder>();
-	    
-        OrderByBorder orderByInsertedTs = new OrderByBorder("orderByInsertedTs", "insertedTs", dataProvider) {
-            private static final long serialVersionUID = 1L;
+		List<OrderByBorder> sortOrderList = new ArrayList<OrderByBorder>();
 
-            @Override
-            protected void onSortChanged() {
-                results.setCurrentPage(0);
-            }
-        };
-        
-	    OrderByBorder orderByCost = new OrderByBorder("orderByCost", "cost", dataProvider) {
-            private static final long serialVersionUID = 1L;
+		OrderByBorder orderByInsertedTs = new OrderByBorder("orderByInsertedTs", "insertedTs", dataProvider) {
+			private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void onSortChanged() {
-                results.setCurrentPage(0);
-            }
-        };
-	    
-	    OrderByBorder orderByRoom = new OrderByBorder("orderByRooms", "totalRooms", dataProvider) {
-            private static final long serialVersionUID = 1L;
+			@Override
+			protected void onSortChanged() {
+				results.setCurrentPage(0);
+			}
+		};
 
-            @Override
-            protected void onSortChanged() {
-                results.setCurrentPage(0);
-            }
-        };
-	    
-	    OrderByBorder orderBySize = new OrderByBorder("orderBySize", "size", dataProvider) {
-            private static final long serialVersionUID = 1L;
+		OrderByBorder orderByCost = new OrderByBorder("orderByCost", "cost", dataProvider) {
+			private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void onSortChanged() {
-                results.setCurrentPage(0);
-            }
-        };
-        
-        results.setItemsPerPage(5);
-        sortOrderList.add(orderByInsertedTs);
-        sortOrderList.add(orderByCost);        
-        sortOrderList.add(orderByRoom);
-        sortOrderList.add(orderBySize);
-        
-        return sortOrderList;
+			@Override
+			protected void onSortChanged() {
+				results.setCurrentPage(0);
+			}
+		};
+
+		OrderByBorder orderByRoom = new OrderByBorder("orderByRooms", "totalRooms", dataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				results.setCurrentPage(0);
+			}
+		};
+
+		OrderByBorder orderBySize = new OrderByBorder("orderBySize", "size", dataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				results.setCurrentPage(0);
+			}
+		};
+
+		results.setItemsPerPage(5);
+		sortOrderList.add(orderByInsertedTs);
+		sortOrderList.add(orderByCost);
+		sortOrderList.add(orderByRoom);
+		sortOrderList.add(orderBySize);
+
+		return sortOrderList;
 	}
-	
+
 	public DataView<RealState> getDataView(ISortableDataProvider<RealState> dataProvider) {
-	    
-	     DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void populateItem(final Item<RealState> item) {
-                final RealState realState = (RealState) item.getModelObject();
+		DataView<RealState> dataView = new DataView<RealState>("userResultsView", dataProvider) {
+			private static final long serialVersionUID = 1L;
 
-                PageParameters detailParam = new PageParameters();
-                detailParam.add("appartment-id", Model.of(realState.getId().toString()));
+			@Override
+			protected void populateItem(final Item<RealState> item) {
+				final RealState realState = (RealState) item.getModelObject();
 
-                if (realState.getTitleThumbNailImage() != null) {
-                    StaticImage img = getTitleImageFromUrl(realState);
-                    item.add(img);
-                }
-                // item.add(new Label("title", realState.getTitle()));
-    				 item.add(new Check<String>("check", Model.of(realState.getId().toString())));
-                item.add(new Label("id", Model.of(realState.getId().toString())));
-                item.add(new Label("price", Model.of(String.valueOf(realState.getCost()))));
-                item.add(new Label("size", Model.of(String.valueOf(realState.getSize()))));
-                item.add(new Label("rooms", Model.of(String.valueOf(realState.getTotalRooms()))));
-                
-                item.add(new Link<String>("edit", new ResourceModel("btn_edit")) {
+				PageParameters detailParam = new PageParameters();
+				detailParam.add("appartment-id", Model.of(realState.getId().toString()));
 
-                   private static final long serialVersionUID = 1L;
+				if (realState.getTitleThumbNailImage() != null) {
+					StaticImage img = getTitleImageFromUrl(realState);
+					item.add(img);
+				}
+				// item.add(new Label("title", realState.getTitle()));
+				item.add(new Check<String>("check", Model.of(realState.getId().toString())));
+				item.add(new Label("id", Model.of(realState.getId().toString())));
+				item.add(new Label("price", Model.of(String.valueOf(realState.getCost()))));
+				item.add(new Label("size", Model.of(String.valueOf(realState.getSize()))));
+				item.add(new Label("rooms", Model.of(String.valueOf(realState.getTotalRooms()))));
 
-                   @Override
-                   public void onClick() {
-                       setResponsePage(new AddRealStateInfoPage(new DetachableRealStateModel(realState.getId())));
-                   }
+				item.add(new Link<String>("edit", new ResourceModel("btn_edit")) {
 
-               });
-                String addressInfo = realState.getAddressInfo();
+					private static final long serialVersionUID = 1L;
 
-                item.add(new Label("address", Model.of(addressInfo)));
-                
-                IModel<Date> insertedTs = new Model<Date>(realState.getInsertedTs());
-                item.add(new DateLabel("insertedTs", insertedTs, new PatternDateConverter("yyyy-MM-dd hh:mm:sss", true)));
-                
-                item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>() {
-                    private static final long serialVersionUID = 1L;
+					@Override
+					public void onClick() {
+						setResponsePage(new AddRealStateInfoPage(new DetachableRealStateModel(realState.getId())));
+					}
 
-                    @Override
-                    public String getObject() {
-                        return (item.getIndex() % 2 == 1) ? "even" : "odd";
-                    }
-                }));
+				});
+				String addressInfo = realState.getAddressInfo();
 
-            }
+				item.add(new Label("address", Model.of(addressInfo)));
 
-        };
+				IModel<Date> insertedTs = new Model<Date>(realState.getInsertedTs());
+				item.add(new DateLabel("insertedTs", insertedTs, new PatternDateConverter("yyyy-MM-dd hh:mm:sss", true)));
 
-        dataView.setOutputMarkupId(true);
-        return dataView;
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject() {
+						return (item.getIndex() % 2 == 1) ? "even" : "odd";
+					}
+				}));
+
+			}
+
+		};
+
+		dataView.setOutputMarkupId(true);
+		return dataView;
 	}
-	
-    public String getFilterStr() {
-        return filterStr;
-    }
 
-    public void setFilterStr(String filterStr) {
-        this.filterStr = filterStr;
-    }
+	public String getFilterStr() {
+		return filterStr;
+	}
 
+	public void setFilterStr(String filterStr) {
+		this.filterStr = filterStr;
+	}
 
 }

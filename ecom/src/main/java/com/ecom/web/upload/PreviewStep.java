@@ -36,6 +36,14 @@ public class PreviewStep extends WizardStep {
 
         final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realStateModelParam.getObject());
         setDefaultModel(realStateModel);
+        
+        add(new Label("contact_title", realStateModel.bind("contactInfo.title")));
+        add(new Label("contact_firstName", realStateModel.bind("contactInfo.firstName")));
+        add(new Label("contact_lastName", realStateModel.bind("contactInfo.lastName")));
+        add(new Label("contact_email", realStateModel.bind("contactInfo.email")));
+        add(new Label("contact_mobile", realStateModel.bind("contactInfo.mobile")));
+        add(new Label("contact_phone", realStateModel.bind("contactInfo.phone")));
+        
         imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realStateModelParam));
         add(imageNavigationPanel);
         add(new ToolsPanel("toolsPanel"));

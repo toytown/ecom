@@ -31,7 +31,7 @@ import com.ecom.web.user.UserDashBoardPage;
 import com.ecom.web.utils.SecurePage;
 
 
-public class EcomApplication extends WebApplication {
+public final class EcomApplication extends WebApplication {
 
 	private static final String GOOGLE_MAPS_API_KEY_PARAM = "GoogleMapsAPIkey";
 
@@ -41,7 +41,7 @@ public class EcomApplication extends WebApplication {
 	private ServerGeocoder serverGeocoder = null;
 
 	@Override
-	public void init() {
+	public final void init() {
 		super.init();
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 		serverGeocoder = new ServerGeocoder(getGoogleMapsAPIkey());
@@ -93,12 +93,12 @@ public class EcomApplication extends WebApplication {
 	}
 
 	@Override
-	public Class<? extends Page> getHomePage() {
+	public final Class<? extends Page> getHomePage() {
 		return HomePage.class;
 	}
 
 	@Override
-	public Session newSession(Request req, Response resp) {
+	public final Session newSession(Request req, Response resp) {
 		return new EcomSession(req);
 
 	}
@@ -108,7 +108,7 @@ public class EcomApplication extends WebApplication {
 	}
 
 	@Override
-	public RuntimeConfigurationType getConfigurationType() {
+	public final RuntimeConfigurationType getConfigurationType() {
 		if (appConfig != null) {
 			final String env = appConfig.getEnv();
 			return env.equalsIgnoreCase("dev") ? RuntimeConfigurationType.DEVELOPMENT : RuntimeConfigurationType.DEPLOYMENT;
@@ -116,11 +116,11 @@ public class EcomApplication extends WebApplication {
 		return super.getConfigurationType();
 	}
 
-	public static EcomApplication get() {
+	public static final EcomApplication get() {
 		return (EcomApplication) Application.get();
 	}
 
-	public String getGoogleMapsAPIkey() {
+	public final String getGoogleMapsAPIkey() {
 		String googleMapsAPIkey = getInitParameter(GOOGLE_MAPS_API_KEY_PARAM);
 		if (googleMapsAPIkey == null) {
 			throw new WicketRuntimeException("There is no Google Maps API key configured in the " + "deployment descriptor of this application.");
@@ -128,7 +128,7 @@ public class EcomApplication extends WebApplication {
 		return googleMapsAPIkey;
 	}
 
-	public ServerGeocoder getServerGeocoder() {
+	public final ServerGeocoder getServerGeocoder() {
 		return serverGeocoder;
 	}
 	
