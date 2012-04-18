@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-
+import org.apache.wicket.model.IModel;
 
 import com.ecom.web.components.gmap.GMap2;
 import com.ecom.web.components.gmap.GMapHeaderContributor;
@@ -23,6 +23,10 @@ public class MapPanel extends Panel {
 	private static final long serialVersionUID = -3261651741714233014L;
 	private final FeedbackPanel feedback;
 
+	public MapPanel(String id, IModel<String> address) {
+		this(id, address.getObject());	
+	}
+	
 	public MapPanel(String id, String address) {
 		super(id);
 

@@ -44,7 +44,7 @@ public class DetailViewPage extends GenericTemplatePage {
 		final IModel<RealState> realState = new DetachableRealStateModel(new ObjectId(appartmentId));
 		setStatelessHint(true);
 
-		MapPanel gMappanel = new MapPanel("mapPanel", "Schlesierstr 4, 81669, München");
+		MapPanel gMappanel = new MapPanel("mapPanel", Model.of(realState.getObject().getAddress()));
 		add(gMappanel);
 		
 		final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
