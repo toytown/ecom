@@ -35,8 +35,8 @@ public class HomePage extends GenericTemplatePage {
         final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
         setStatelessHint(true);
 
-        IModel<String> cityModel = searchReqModel.bind("city");
-        TextField<String> cityTxt = new TextField<String>("city",  cityModel);
+        IModel<String> cityModel = searchReqModel.bind("cityOrZip");
+        TextField<String> cityTxt = new TextField<String>("cityOrZip",  cityModel);
 
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");
@@ -69,7 +69,7 @@ public class HomePage extends GenericTemplatePage {
 
                 SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
                 PageParameters params = new PageParameters();
-                params.set("city", req.getCity());
+                params.set("city", req.getCityOrZip());
                 params.set("areaFrom", req.getAreaFrom());
                 params.set("priceTo", req.getPriceTo());
                 params.set("roomsFrom", req.getRoomsFrom());

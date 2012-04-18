@@ -4,5 +4,6 @@ import com.ecom.domain.GeoLocation;
 
 public interface GeoLocationService {
 
-    public Iterable<GeoLocation> findByZipOrCity(String cityOrZip);
+    public Iterable<GeoLocation> findByZipOrCity(String cityOrZipName);
+
 }

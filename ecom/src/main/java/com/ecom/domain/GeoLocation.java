@@ -165,4 +165,11 @@ public class GeoLocation implements Serializable {
         this.timeZone = timeZone;
     }
     
+    public boolean isLocationFound() {
+    	return getLat() != 0.0d &&  getLng() != 0.0d;
+    }
+    
+    public String getZipAndCity() {
+    	return this.getZip() + " " + getCity() + "(" + this.getArea1() + ")";
+    }
 }

@@ -1,4 +1,4 @@
-package com.ecom.web.components.autocomplete;
+package com.ecom.service.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,7 +68,7 @@ public class Geolookup extends HttpServlet {
                 break;
             }
 
-            choices.add(geoLoc.getCity());
+            choices.add(geoLoc.getZipAndCity());
         }
 
       

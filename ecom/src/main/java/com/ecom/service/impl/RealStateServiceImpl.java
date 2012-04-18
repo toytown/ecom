@@ -12,8 +12,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.repository.query.QueryUtils;
 import org.springframework.stereotype.Service;
 
+import com.ecom.common.utils.GeoLocationUtils;
 import com.ecom.domain.GeoLocation;
 import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
@@ -32,23 +34,25 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	private static final double MIN_VAL = 0.0;
 
-	private static final double MAX_VAL = 9999999999.0;
-
+	private static final double MAX_VAL = 999.0;
+	
+	private static final double MAX_PRICE = 9999999999.0;
+	
 	@Autowired
 	private RealStateRepository realStateRepository;
 
 	@Autowired
 	private ImageService imageService;
 
-    @Autowired
-    private GeoLocationService geoLocationService;
-    
-    @Autowired
-    private MongoTemplate mongoTemplate ;
-    
+	@Autowired
+	private GeoLocationService geoLocationService;
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
+
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
-	    
+
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
@@ -56,41 +60,62 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	public List<RealState> find(SearchRequest req, PageRequest pageReq) {
 
 		Query q = buildQuery(req);		
-		return mongoTemplate.find(q, RealState.class);
+		return mongoTemplate.find(QueryUtils.applyPagination(q, pageReq), RealState.class);
 	}
-	
+
 	public Query buildQuery(SearchRequest req) {
 		Query q = new Query();
-		
-		if (StringUtils.isNotEmpty(req.getCity())) {
-			if (isZipCode(req.getCity())) {
-				Iterable<GeoLocation> geoLocIter = geoLocationService.findByZipOrCity(req.getCity());
-				GeoLocation geoLoc = geoLocIter.iterator().next();
-				//Circle circle = new Circle(geoLoc.getLat(), geoLoc.getLng(), 0.01);
-				Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
-				q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
-				
-				
+
+		if (StringUtils.isNotEmpty(req.getCityOrZip())) {
+			if (GeoLocationUtils.isZipCodeOnly(req.getCityOrZip())) {
+				Iterable<GeoLocation> geoLocIter = geoLocationService.findByZipOrCity(req.getCityOrZip());
+
+				if (geoLocIter.iterator().hasNext()) {
+					GeoLocation geoLoc = geoLocIter.iterator().next();
+					Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
+					q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
+				} else {
+					q.addCriteria(Criteria.where("areaCode").in(req.getCityOrZip()));
+				}
 			}
 		}
-		
+
+		if (req.getAreaFrom() != null || req.getAreaTo() != null) {
+
+			double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom().doubleValue() : MIN_VAL;
+			double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue() : MAX_VAL;
+			q.addCriteria(Criteria.where("size").gte(areaFrom).andOperator(Criteria.where("size").lte(areaTo)));
+		}
+
+		if (req.getRoomsFrom() != null || req.getRoomsTo() != null) {
+			double roomsFrom = req.getRoomsFrom() != null ? req.getRoomsFrom().doubleValue() : MIN_VAL;
+			double roomsTo = req.getRoomsTo() != null ? req.getRoomsTo().doubleValue() : MAX_VAL;
+			q.addCriteria(Criteria.where("totalRooms").gte(roomsFrom).andOperator(Criteria.where("totalRooms").lte(roomsTo)));
+		}
+
+		if (req.getPriceFrom() != null || req.getPriceTo() != null) {
+			double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom().doubleValue() : MIN_VAL;
+			double priceTo = req.getPriceTo() != null ? req.getPriceTo().doubleValue() : MAX_PRICE;
+			q.addCriteria(Criteria.where("price").gte(priceFrom).andOperator(Criteria.where("price").lte(priceTo)));
+		}
+
 		return q;
 	}
-	
+
 	public Predicate buildPredicate(SearchRequest req) {
 
 		QRealState realStateQuery = new QRealState("realStateUser");
 		BooleanBuilder builder = new BooleanBuilder();
-		
+
 		if (req == null) {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
 		}
 
-		if (StringUtils.isNotEmpty(req.getCity())) {
-			if (isZipCode(req.getCity())) {
-				builder.and(realStateQuery.areaCode.contains(req.getCity()));
+		if (StringUtils.isNotEmpty(req.getCityOrZip())) {
+			if (GeoLocationUtils.isZipCodeOnly(req.getCityOrZip())) {
+				builder.and(realStateQuery.areaCode.contains(req.getCityOrZip()));
 			} else {
-				builder.and(realStateQuery.city.containsIgnoreCase(req.getCity()));
+				builder.and(realStateQuery.city.containsIgnoreCase(req.getCityOrZip()));
 			}
 		}
 
@@ -127,7 +152,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		}
 
 		if (req.isGardenAvailable() != null && req.isGardenAvailable().booleanValue()) {
-			builder.and(realStateQuery.garageAvailable.eq(true));			
+			builder.and(realStateQuery.garageAvailable.eq(true));
 		}
 		return builder;
 
@@ -151,13 +176,11 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		return condition;
 	}
 
-	public boolean isZipCode(String value) {
-		return StringUtils.isNotEmpty(value) && StringUtils.isNumeric(value);
-	}
 
+	
 	@Override
 	public int count(SearchRequest req) {
-//		return (int) realStateRepository.count(buildPredicate(req));
+		 //return (int) realStateRepository.count(buildPredicate(req));
 		return (int) mongoTemplate.count(buildQuery(req), RealState.class);
 	}
 

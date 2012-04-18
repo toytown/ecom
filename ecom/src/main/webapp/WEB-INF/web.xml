@@ -45,7 +45,7 @@
     <description></description>
     <display-name>geolookup</display-name>
     <servlet-name>geolookup</servlet-name>
-    <servlet-class>com.ecom.web.components.autocomplete.Geolookup</servlet-class>
+    <servlet-class>com.ecom.service.impl.Geolookup</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>geolookup</servlet-name>
