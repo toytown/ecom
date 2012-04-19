@@ -41,7 +41,6 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
 
 		public UploadRealStateWizard(String id, WizardModel wizardModel, boolean showStepNumbers) {
 			super(id, wizardModel, showStepNumbers);
-			
 		}
 	}
 
@@ -89,6 +88,7 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
         UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true) {
             
             private static final long serialVersionUID = 1L;
+
             
             @Override
             public void onFinish() {
@@ -116,7 +116,9 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
         UploadProgressBar progressBar = new UploadProgressBar("progress", wizard.getForm());
         uploadStep.addOrReplace(progressBar);
         
+        
         wizard.disableFeedbackPanelErrorMessages();
+
         add(wizard);        
     }
 

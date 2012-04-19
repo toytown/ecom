@@ -1,7 +1,5 @@
 package com.ecom.web.upload;
 
-import java.io.IOException;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -28,59 +26,44 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
-import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.validation.ErrorClassAppender;
 import com.ecom.web.components.wizard.WizardStep;
-import com.ecom.web.main.EcomApplication;
 import com.ecom.web.main.EcomSession;
-import com.ecom.web.main.ServerGeocoder;
 
 public class BasicInfoStep extends WizardStep {
 
 	private static final long serialVersionUID = 769908228950127137L;
 
 	private WebMarkupContainer titleImageContainer;
-	
 
 	@SpringBean
 	private RealStateRepository realStateRepository;
 
 	@Override
 	public void onInitialize() {
-	    super.onInitialize();
-	    Injector.get().inject(this);
+		super.onInitialize();
+		Injector.get().inject(this);
 	}
-	
+
 	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<RealState> realStateModel) {
-		super(wizard_title, summary);
+		super(wizard_title, summary, realStateModel);
 
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
 
 		if (realStateModel.getObject() != null && !StringUtils.isEmpty(realStateModel.getObject().getTitleImageId())) {
-		    titleImageContainer.add(getTitileImage(realStateModel.getObject()));
+			titleImageContainer.add(getTitleImage(realStateModel.getObject()));
 		} else {
-		    titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
+			titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
 		}
-		
 
 		final Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
 			private static final long serialVersionUID = 1L;
 
-			@Override
-			public final void onSubmit() {
 
-				RealState realState = this.getModelObject();
-
-				if (realState != null) {
-					EcomSession session = (EcomSession) Session.get();
-					realState.setUserId(session.getUserId());
-					realStateRepository.save(realState);
-				}
-			}
 
 			@Override
 			protected void onModelChanged() {
@@ -101,7 +84,7 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.visitChildren(FormComponent.class, new IVisitor<FormComponent<?>, Void>() {
 
 			@Override
-			public void component(FormComponent<?> component, IVisit<Void> visit) {				
+			public void component(FormComponent<?> component, IVisit<Void> visit) {
 				component.add(new ErrorClassAppender());
 			}
 		});
@@ -133,8 +116,8 @@ public class BasicInfoStep extends WizardStep {
 				RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
 
 				if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
-				    realStateUploadInfoForm.modelChanged();
-					titleImageContainer.addOrReplace(getTitileImage(realState));
+					realStateUploadInfoForm.modelChanged();
+					titleImageContainer.addOrReplace(getTitleImage(realState));
 					target.add(titleImageContainer);
 				}
 
@@ -173,13 +156,12 @@ public class BasicInfoStep extends WizardStep {
 		TextField<String> areaCode = new TextField<String>("areaCode");
 		areaCode.setRequired(true);
 
-	    
 		TextField<String> contactTitle = new TextField<String>("contactInfo.title");
 		TextField<String> contactFirstName = new TextField<String>("contactInfo.firstName");
 		TextField<String> contactLastName = new TextField<String>("contactInfo.lastName");
 		TextField<String> contactEmail = new TextField<String>("contactInfo.email");
 		TextField<String> contactPhone = new TextField<String>("contactInfo.phone");
-        TextField<String> contactMobile = new TextField<String>("contactInfo.mobile");
+		TextField<String> contactMobile = new TextField<String>("contactInfo.mobile");
 		TextField<String> contactStreet = new TextField<String>("contactInfo.street");
 
 		realStateUploadInfoForm.add(contactTitle);
@@ -189,7 +171,7 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(contactPhone);
 		realStateUploadInfoForm.add(contactMobile);
 		realStateUploadInfoForm.add(contactStreet);
-		
+
 		TextField<String> street = new TextField<String>("street");
 		TextField<String> houseNo = new TextField<String>("houseNo");
 		TextField<Double> size = new TextField<Double>("size");
@@ -249,14 +231,6 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(animalsAllowed);
 		realStateUploadInfoForm.add(garageAvailable);
 
-		// private int typeId;
-		//
-		// private int condition;
-		//
-		// private int categoryId;
-		//
-		// private int heatingTypeId;
-
 		realStateUploadInfoForm.add(additionalCost);
 		realStateUploadInfoForm.add(depositPeriod);
 		realStateUploadInfoForm.add(availableFrom);
@@ -269,20 +243,33 @@ public class BasicInfoStep extends WizardStep {
 		add(realStateUploadInfoForm);
 	}
 
-	private StaticImage getTitileImage(RealState realState) {
-	    if (realState != null) {
-	        ResourceReference imagesResourceReference = new EcomImageResouceReference();
-	        PageParameters imageParameters = new PageParameters();
-	        String imageId = realState.getTitleThumbNailImage();
-	        imageParameters.set("id", imageId);
-	        
-	        CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-	        StaticImage titleImage = new StaticImage("title_image", Model.of(urlForImage.toString()));
-	        
-	        return titleImage;
-	        
-	    } else {
-	        return null;
-	    }
+	private StaticImage getTitleImage(RealState realState) {
+		if (realState != null) {
+			ResourceReference imagesResourceReference = new EcomImageResouceReference();
+			PageParameters imageParameters = new PageParameters();
+			String imageId = realState.getTitleThumbNailImage();
+			imageParameters.set("id", imageId);
+
+			CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+			StaticImage titleImage = new StaticImage("title_image", Model.of(urlForImage.toString()));
+
+			return titleImage;
+
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public void applyState() {
+
+		RealState realState = (RealState) this.getDefaultModelObject();
+
+		if (realState != null) {
+			EcomSession session = (EcomSession) Session.get();
+			realState.setUserId(session.getUserId());
+			realStateRepository.save(realState);
+		}
+		
 	}
 }

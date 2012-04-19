@@ -23,13 +23,10 @@ public class MapPanel extends Panel {
 	private static final long serialVersionUID = -3261651741714233014L;
 	private final FeedbackPanel feedback;
 
-	public MapPanel(String id, IModel<String> address) {
-		this(id, address.getObject());	
-	}
-	
-	public MapPanel(String id, String address) {
+	public MapPanel(String id, IModel<String> addressModel) {
 		super(id);
 
+		String address = addressModel.getObject();
 		feedback = new FeedbackPanel("feedback");
 		feedback.setOutputMarkupId(true);
 		add(feedback);
@@ -39,18 +36,21 @@ public class MapPanel extends Panel {
 		bottomMap.setMapType(GMapType.G_NORMAL_MAP);
 		bottomMap.addControl(GControl.GSmallMapControl);
 		add(bottomMap);
+		
+		if (address != null) {
 
-		try {
-			GLatLng latLng = EcomApplication.get().getServerGeocoder().findAddress(address);
+			try {
+				GLatLng latLng = EcomApplication.get().getServerGeocoder().findAddress(address);
 
-			bottomMap.getInfoWindow().open(latLng, new GInfoWindowTab(address, new Label(address, address)));
+				bottomMap.getInfoWindow().open(latLng, new GInfoWindowTab(address, new Label(address, address)));
 
-			GOverlay marker = new GMarker(latLng, new GMarkerOptions("My Title"));
+				GOverlay marker = new GMarker(latLng, new GMarkerOptions("My Title"));
 
-			bottomMap.addOverlay(marker);
-			
-		} catch (IOException e) {
-			error("Unable to geocode (" + e.getMessage() + ")");
+				bottomMap.addOverlay(marker);
+
+			} catch (IOException e) {
+				error("Unable to geocode (" + e.getMessage() + ")");
+			}
 		}
 	}
 

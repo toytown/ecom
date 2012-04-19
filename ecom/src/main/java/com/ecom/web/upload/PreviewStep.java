@@ -3,11 +3,14 @@ package com.ecom.web.upload;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.extensions.ajax.markup.html.AjaxLazyLoadPanel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
@@ -34,9 +37,7 @@ public class PreviewStep extends WizardStep {
 
 	public PreviewStep(IModel<String> title, IModel<String> summary, IModel<RealState> realStateModelParam) {
 		super(title, summary);
-		MapPanel gMappanel = new MapPanel("mapPanel", "Schlesierstr 4, 81669, München");
-		add(gMappanel);
-
+		
 		final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realStateModelParam.getObject());
 		setDefaultModel(realStateModel);
 
@@ -51,7 +52,7 @@ public class PreviewStep extends WizardStep {
 		add(imageNavigationPanel);
 		add(new ToolsPanel("toolsPanel"));
 		add(new MultiLineLabel("title", realStateModel.bind("title")));
-		add(new Label("address", realStateModel.bind("addressInfo")));
+		add(new Label("address", realStateModel.bind("address")));
 		add(new Label("availableFrom", realStateModel.bind("availableFrom")));
 		add(new MultiLineLabel("description", realStateModel.bind("description")));
 		add(new MultiLineLabel("fittings", realStateModel.bind("fittings")));
@@ -155,7 +156,18 @@ public class PreviewStep extends WizardStep {
 				add(new OkCancelComponent("img" + labelId, realStateModel.bind("barrierFree")).setVisible(false));
 			}
 		}
+		
+		add(new AjaxLazyLoadPanel("mapPanel") {
+			
+			@Override
+			public Component getLazyLoadComponent(String markupId) {
+
+				return new MapPanel(markupId, Model.of("Schlesierstr 4, 81669"));
+			}
+		});
 	}
+
+
 
 	private IModel<List<String>> getImageURList(final IModel<RealState> realStateModel) {
 		final ResourceReference imagesResourceReference = new EcomImageResouceReference();
