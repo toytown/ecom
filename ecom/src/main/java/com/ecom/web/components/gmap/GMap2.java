@@ -110,7 +110,19 @@ public class GMap2 extends Panel implements GOverlayContainer
 	}
 
 
+    public GMap2(final String id)
+    {
+        super(id);
 
+        infoWindow = new GInfoWindow();
+        add(infoWindow);
+
+        map = new WebMarkupContainer("map");
+        map.setOutputMarkupId(true);
+        add(map);
+
+    }
+    
 	/**
 	 * @see org.apache.wicket.Component#renderHead(org.apache.wicket.markup.html.IHeaderResponse)
 	 */

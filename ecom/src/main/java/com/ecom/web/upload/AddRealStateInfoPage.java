@@ -17,6 +17,7 @@ import org.bson.types.ObjectId;
 
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.RealStateService;
+import com.ecom.web.components.gmap.GMapHeaderContributor;
 import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.wizard.WizardComponent;
 import com.ecom.web.components.wizard.WizardModel;
@@ -57,6 +58,8 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
 				response.renderJavaScriptReference(JS_UPLOAD_UTL);
 			}
 		});
+		
+        add(new GMapHeaderContributor(EcomApplication.get().getGoogleMapsAPIkey()));
 	}
 
 	public AddRealStateInfoPage() {

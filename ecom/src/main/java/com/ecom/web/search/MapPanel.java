@@ -25,8 +25,7 @@ public class MapPanel extends Panel {
 
 	public MapPanel(String id, IModel<String> addressModel) {
 		super(id);
-
-		String address = addressModel.getObject();
+		setOutputMarkupId(true);
 		feedback = new FeedbackPanel("feedback");
 		feedback.setOutputMarkupId(true);
 		add(feedback);
@@ -37,9 +36,10 @@ public class MapPanel extends Panel {
 		bottomMap.addControl(GControl.GSmallMapControl);
 		add(bottomMap);
 		
-		if (address != null) {
+		if (addressModel.getObject() != null) {
 
 			try {
+			    String address = this.getDefaultModelObjectAsString();
 				GLatLng latLng = EcomApplication.get().getServerGeocoder().findAddress(address);
 
 				bottomMap.getInfoWindow().open(latLng, new GInfoWindowTab(address, new Label(address, address)));
