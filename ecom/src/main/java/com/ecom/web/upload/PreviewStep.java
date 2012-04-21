@@ -1,11 +1,8 @@
 package com.ecom.web.upload;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.extensions.ajax.markup.html.AjaxLazyLoadPanel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -19,17 +16,11 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateImage;
 import com.ecom.repository.RealStateRepository;
-import com.ecom.web.components.gmap.GMap2;
-import com.ecom.web.components.gmap.GMapHeaderContributor;
-import com.ecom.web.components.gmap.api.GControl;
-import com.ecom.web.components.gmap.api.GInfoWindowTab;
-import com.ecom.web.components.gmap.api.GLatLng;
-import com.ecom.web.components.gmap.api.GMapType;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.ImageNavigationPanel;
 import com.ecom.web.components.image.OkCancelComponent;
 import com.ecom.web.components.wizard.WizardStep;
-import com.ecom.web.main.EcomApplication;
+import com.ecom.web.search.MapPanel;
 import com.ecom.web.search.ToolsPanel;
 
 public class PreviewStep extends WizardStep {
@@ -38,6 +29,8 @@ public class PreviewStep extends WizardStep {
 
     private ImageNavigationPanel imageNavigationPanel = null;
 
+    private MapPanel mapPanel = null;
+    
     @SpringBean
     private RealStateRepository realStateRepository;
 
@@ -47,6 +40,9 @@ public class PreviewStep extends WizardStep {
         final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realStateModelParam.getObject());
         setDefaultModel(realStateModel);
 
+        mapPanel = new MapPanel("mapPanel", getAddressModel(realStateModelParam));
+        add(mapPanel);
+        
         add(new Label("contact_title", realStateModel.bind("contactInfo.title")));
         add(new Label("contact_firstName", realStateModel.bind("contactInfo.firstName")));
         add(new Label("contact_lastName", realStateModel.bind("contactInfo.lastName")));
@@ -163,6 +159,7 @@ public class PreviewStep extends WizardStep {
             }
         }
 
+        /*
         add(new AjaxLazyLoadPanel("mapPanel", realStateModelParam) {
 
             @Override
@@ -189,10 +186,28 @@ public class PreviewStep extends WizardStep {
                 return bottomMap;
             }
         }).setOutputMarkupId(true);
+        */
+
 
     }
 
+    private IModel<String> getAddressModel(final IModel<RealState> realStateModel) {
+    	IModel<String> addressModel = new LoadableDetachableModel<String>() {
 
+			@Override
+			protected String load() {
+				RealState realState = realStateRepository.findOne(realStateModel.getObject().getId());
+				if (realState != null) {
+					return realState.getAddress();
+				} else {
+					return "Schlesierstr 4, 81669";
+				}
+			}
+    	};
+    	
+    	return addressModel;
+    }
+    
     private IModel<List<String>> getImageURList(final IModel<RealState> realStateModel) {
         final ResourceReference imagesResourceReference = new EcomImageResouceReference();
 

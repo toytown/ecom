@@ -21,13 +21,19 @@ import com.ecom.web.main.EcomApplication;
 public class MapPanel extends Panel {
 
 	private static final long serialVersionUID = -3261651741714233014L;
-	private final FeedbackPanel feedback;
+	private  FeedbackPanel feedback = null;
 
 	public MapPanel(String id, IModel<String> addressModel) {
-		super(id);
-		setOutputMarkupId(true);
+		super(id, addressModel);
+
+	}
+
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
+		
 		feedback = new FeedbackPanel("feedback");
-		feedback.setOutputMarkupId(true);
+//		feedback.setOutputMarkupId(true);
 		add(feedback);
 
 		final GMap2 bottomMap = new GMap2("bottomPanel", new GMapHeaderContributor(EcomApplication.get().getGoogleMapsAPIkey()));
@@ -36,7 +42,7 @@ public class MapPanel extends Panel {
 		bottomMap.addControl(GControl.GSmallMapControl);
 		add(bottomMap);
 		
-		if (addressModel.getObject() != null) {
+		if (this.getDefaultModel().getObject() != null) {
 
 			try {
 			    String address = this.getDefaultModelObjectAsString();
@@ -51,7 +57,6 @@ public class MapPanel extends Panel {
 			} catch (IOException e) {
 				error("Unable to geocode (" + e.getMessage() + ")");
 			}
-		}
+		}		
 	}
-
 }
