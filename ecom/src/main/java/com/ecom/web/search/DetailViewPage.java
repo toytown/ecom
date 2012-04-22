@@ -192,7 +192,8 @@ public class DetailViewPage extends GenericTemplatePage {
                 add(new Label("label" + labelId, "").setVisible(false));
                 add(new OkCancelComponent("img" + labelId, realStateModel.bind("barrierFree")).setVisible(false));
             }
-        }        
+        }      
+
 	}
 	
 	private List<String> getImageURList(RealState realState) {

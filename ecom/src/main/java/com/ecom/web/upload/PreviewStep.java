@@ -26,10 +26,6 @@ import com.ecom.web.search.ToolsPanel;
 public class PreviewStep extends WizardStep {
 
     private static final long serialVersionUID = 1L;
-
-    private ImageNavigationPanel imageNavigationPanel = null;
-
-    private MapPanel mapPanel = null;
     
     @SpringBean
     private RealStateRepository realStateRepository;
@@ -40,9 +36,6 @@ public class PreviewStep extends WizardStep {
         final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realStateModelParam.getObject());
         setDefaultModel(realStateModel);
 
-        mapPanel = new MapPanel("mapPanel", getAddressModel(realStateModelParam));
-        add(mapPanel);
-        
         add(new Label("contact_title", realStateModel.bind("contactInfo.title")));
         add(new Label("contact_firstName", realStateModel.bind("contactInfo.firstName")));
         add(new Label("contact_lastName", realStateModel.bind("contactInfo.lastName")));
@@ -50,7 +43,7 @@ public class PreviewStep extends WizardStep {
         add(new Label("contact_mobile", realStateModel.bind("contactInfo.mobile")));
         add(new Label("contact_phone", realStateModel.bind("contactInfo.phone")));
 
-        imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realStateModelParam));
+        ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realStateModelParam));
         add(imageNavigationPanel);
         add(new ToolsPanel("toolsPanel"));
         add(new MultiLineLabel("title", realStateModel.bind("title")));
@@ -159,40 +152,15 @@ public class PreviewStep extends WizardStep {
             }
         }
 
-        /*
-        add(new AjaxLazyLoadPanel("mapPanel", realStateModelParam) {
-
-            @Override
-            public Component getLazyLoadComponent(String markupId) {
-                RealState realState = (RealState) this.getDefaultModel().getObject();
-                final GMap2 bottomMap = new GMap2(markupId, new GMapHeaderContributor(EcomApplication.get().getGoogleMapsAPIkey()));
-                bottomMap.setOutputMarkupId(true);
-                bottomMap.setMapType(GMapType.G_NORMAL_MAP);
-                bottomMap.addControl(GControl.GSmallMapControl);
-
-                if (realState != null) {
-
-                    try {
-                        String address = this.getDefaultModelObjectAsString();
-                        GLatLng latLng = EcomApplication.get().getServerGeocoder().findAddress(address);
-
-                        bottomMap.getInfoWindow().open(latLng, new GInfoWindowTab(address, new Label(address, address)));
-
-                    } catch (IOException e) {
-                        error("Unable to geocode (" + e.getMessage() + ")");
-                    }
-                }
-
-                return bottomMap;
-            }
-        }).setOutputMarkupId(true);
-        */
-
+        MapPanel mapPanel = new MapPanel("mapPanel", getAddressModel(realStateModelParam));
+        add(mapPanel);        
 
     }
 
     private IModel<String> getAddressModel(final IModel<RealState> realStateModel) {
     	IModel<String> addressModel = new LoadableDetachableModel<String>() {
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected String load() {

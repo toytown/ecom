@@ -33,7 +33,7 @@ public class MapPanel extends Panel {
 		super.onInitialize();
 		
 		feedback = new FeedbackPanel("feedback");
-//		feedback.setOutputMarkupId(true);
+		feedback.setOutputMarkupId(true);
 		add(feedback);
 
 		final GMap2 bottomMap = new GMap2("bottomPanel", new GMapHeaderContributor(EcomApplication.get().getGoogleMapsAPIkey()));

@@ -137,13 +137,13 @@ public class BasicInfoStep extends WizardStep {
 
 		realStateUploadInfoForm.add(modalWindow);
 		final TextArea<String> title = new TextArea<String>("title");
-		//title.setRequired(true);
+		title.setRequired(true);
 		title.add(StringValidator.maximumLength(150));
 		title.setOutputMarkupId(true);
 		title.add(new ErrorClassAppender());
 
 		TextArea<String> description = new TextArea<String>("description");
-		//description.setRequired(true);
+		description.setRequired(true);
 		description.add(StringValidator.maximumLength(600));
 
 		TextArea<String> areaDescription = new TextArea<String>("areaDescription");

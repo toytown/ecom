@@ -58,7 +58,7 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
 			}
 		});
 		
-
+		
 	}
 
 	public AddRealStateInfoPage() {
