@@ -363,7 +363,7 @@ public class SearchResultPage extends GenericTemplatePage {
 		return req;
 	}
 
-	public PageParameters createPageParameters(SearchRequest req) {
+	private PageParameters createPageParameters(SearchRequest req) {
 		PageParameters params = new PageParameters();
 
 		if (req.getRoomsFrom() != null) {

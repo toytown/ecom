@@ -1,20 +1,16 @@
 package com.ecom.web.main;
 
 import org.apache.wicket.Application;
-import org.apache.wicket.Component;
 import org.apache.wicket.Page;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.authorization.Action;
-import org.apache.wicket.authorization.IAuthorizationStrategy;
+import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationStrategy;
 import org.apache.wicket.devutils.stateless.StatelessChecker;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
-import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
@@ -64,12 +60,13 @@ public final class EcomApplication extends WebApplication {
 		getMarkupSettings().setDefaultBeforeDisabledLink("");
 		getMarkupSettings().setDefaultAfterDisabledLink("");
 
-		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
+		//getDebugSettings().setDevelopmentUtilitiesEnabled(true);
 		getApplicationSettings().setUploadProgressUpdatesEnabled(true);
-		getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
+		//getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8"); 
 		
 		// Register the authorization strategy
+		/*
 		getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
 			public boolean isActionAuthorized(Component component, Action action) {
 				// authorize everything
@@ -90,6 +87,18 @@ public final class EcomApplication extends WebApplication {
 
 			}
 		});
+		*/
+		 SimplePageAuthorizationStrategy authorizationStrategy = new SimplePageAuthorizationStrategy(
+			        SecurePage.class, LoginPage.class)
+			 {
+			        protected boolean isAuthorized()
+			        {
+			                // Authorize access based on user authentication in the session
+			                return (((EcomSession)Session.get()).isSignedIn());
+			        }
+			 };
+			 
+			 getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);		
 	}
 
 	@Override

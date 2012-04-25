@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
 
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -19,7 +18,7 @@ import org.apache.wicket.util.io.ByteArrayOutputStream;
 
 import com.ecom.service.interfaces.ImageService;
 
-public class EcomImageResouceReference extends ResourceReference {
+public final class EcomImageResouceReference extends ResourceReference {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +28,7 @@ public class EcomImageResouceReference extends ResourceReference {
 	}
 
 	@Override
-	public IResource getResource() {
+	public final IResource getResource() {
 		return new ImageResource();
 	}
 
@@ -72,10 +71,10 @@ public class EcomImageResouceReference extends ResourceReference {
 
 		private byte[] getImageAsBytes(String id) {
 
-			BufferedImage large_image = null;
+			BufferedImage originalImage = null;
 			try {
 				InputStream in  = imageService.getImageAsBytes(id);
-				large_image = ImageIO.read(in);
+				originalImage = ImageIO.read(in);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -88,7 +87,19 @@ public class EcomImageResouceReference extends ResourceReference {
 			}
 
 			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			byte[] imageBytes = null;
+			
+			try {
+				ImageIO.write(originalImage, "jpg", out);
+				out.flush();
+				imageBytes = out.toByteArray();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
+			/*
 			byte[] imageBytes = null;
 			try {
 
@@ -99,7 +110,7 @@ public class EcomImageResouceReference extends ResourceReference {
 				imageBytes = out.toByteArray();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 			return imageBytes;
 
 		}
