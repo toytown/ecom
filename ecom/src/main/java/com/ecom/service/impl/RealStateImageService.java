@@ -81,7 +81,6 @@ public class RealStateImageService implements ImageService {
 			realState.getImages().add(image);
 			gridInputThumImgFile.setFilename(originalFileName);
 			gridInputThumImgFile.save();
-
 			gridInputImgFile.setFilename(originalFileName);
 			gridInputImgFile.save();
 			realStateRepository.save(realState);

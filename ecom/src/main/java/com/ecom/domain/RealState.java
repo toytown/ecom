@@ -1,8 +1,6 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -630,18 +628,6 @@ public class RealState implements Serializable {
 		this.getImages().addAll(titlImages);
 	}
 
-	public String getTitleImageLocation(String imageRepository) {
-		try {
-			URL url = new URL("http://localhost/image-repository" + "/" + getId() + "/" + getTitleThumbNailImage());
-			return url.toString();
-
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-
-	}
 
 	public String getAddressInfo() {
 		StringBuilder addressInfo = new StringBuilder("");

@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -44,14 +45,35 @@ public class DetailViewPage extends GenericTemplatePage {
 		final IModel<RealState> realState = new DetachableRealStateModel(new ObjectId(appartmentId));
 		setStatelessHint(true);
 
-		MapPanel gMappanel = new MapPanel("mapPanel", Model.of(realState.getObject().getAddress()));
-		add(gMappanel);
-		
 		final CompoundPropertyModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		setDefaultModel(realStateModel);
 
 		
-		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", getImageURList(realState.getObject()));
+		ImageNavigationPanel imageNavigationPanel = new ImageNavigationPanel("imageGallery", new LoadableDetachableModel<List<String>>() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected List<String> load() {
+				RealState realState = (RealState) DetailViewPage.this.getDefaultModel().getObject();
+				List<RealStateImage> images = realState.getGalleryImages();
+				List<String> urls = new ArrayList<String>();
+				
+				final ResourceReference imagesResourceReference = new EcomImageResouceReference();
+				
+				for (RealStateImage realStateImg : images) {
+					final PageParameters imageParameters = new PageParameters();
+					String imageId = realStateImg.getId();
+					imageParameters.set("id", imageId);			
+					CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+					urls.add(urlForWordAsImage.toString());
+
+				}
+				
+				return urls;
+			}
+			
+		});
 		add(imageNavigationPanel);
 		
 		//real state title
@@ -193,24 +215,10 @@ public class DetailViewPage extends GenericTemplatePage {
                 add(new OkCancelComponent("img" + labelId, realStateModel.bind("barrierFree")).setVisible(false));
             }
         }      
+        
+		MapPanel gMappanel = new MapPanel("mapPanel", Model.of(realState.getObject().getAddress()));
+		add(gMappanel);
 
 	}
-	
-	private List<String> getImageURList(RealState realState) {
-		List<RealStateImage> images = realState.getGalleryImages();
-		List<String> urls = new ArrayList<String>();
-		
-		final ResourceReference imagesResourceReference = new EcomImageResouceReference();
-		
-		for (RealStateImage realStateImg : images) {
-			final PageParameters imageParameters = new PageParameters();
-			String imageId = realStateImg.getId();
-			imageParameters.set("id", imageId);			
-			CharSequence urlForWordAsImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-			urls.add(urlForWordAsImage.toString());
 
-		}
-		
-		return urls;
-	}
 }

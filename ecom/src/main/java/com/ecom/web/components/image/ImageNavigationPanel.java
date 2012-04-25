@@ -22,8 +22,6 @@ public class ImageNavigationPanel extends Panel {
 
 	public ImageNavigationPanel(String id, List<String> imagesUrls) {
 		super(id, Model.of(imagesUrls));
-
-
 	}
 
 	public ImageNavigationPanel(String id, IModel<List<String>> imagesUrlsModel) {

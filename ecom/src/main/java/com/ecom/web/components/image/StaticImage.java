@@ -4,7 +4,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.model.IModel;
 
-public class StaticImage extends WebComponent {
+public final class StaticImage extends WebComponent {
 
 	private static final long serialVersionUID = 2981332684886372369L;
 
