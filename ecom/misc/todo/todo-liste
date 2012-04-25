@@ -1,13 +1,10 @@
 Features :
- - sending and receiving messages from one user to another (done)
- - adding contact info during inserting an advert (done)
- - GUI enhancement for sending message and replying to it (done)
- - geolocation search by plz or street + house no
- - geolocation result orderderd with distance info
- - geolocation info is saved during advert save
+ - geolocation search by plz or street + house no (ongoing)
+ - geolocation result ordered with distance info
+ - save search filter
+ - geolocation info is saved during advert save (preview step)
  - website redesign, common look and feel, buttons & logo design
- - add hints to input fields during form submission
- - basic and profi business pack
+ - price (basic and profi business pack)  last setp of wizard, billing address
  - upload file validation -check file size and max no. of images
  - gmap api key should be corretly setup
  - activating advert, advertisement management/placement - workflow ?
@@ -15,7 +12,12 @@ Features :
  - marker for newly inserted immobilien
  - validation for uploading data
  - api to integrate with immobilienscout24 and immowelt
- 
+
+Enhancement
+ - New Realstate type house, garage, land
+ -  
 Bugs :
  - edit invoice - appartment type not selected
- - 
+ - progressbar indicator
+ - RealState type and offer type taken into account in refined search
+ 
