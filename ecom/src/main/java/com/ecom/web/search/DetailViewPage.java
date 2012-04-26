@@ -216,7 +216,7 @@ public class DetailViewPage extends GenericTemplatePage {
             }
         }      
         
-		MapPanel gMappanel = new MapPanel("mapPanel", Model.of(realState.getObject().getAddress()));
+		MapPanel gMappanel = new MapPanel("mapPanel", realState);
 		add(gMappanel);
 
 	}

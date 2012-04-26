@@ -1,5 +1,7 @@
 package com.ecom.web.upload;
 
+import java.io.IOException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -26,11 +28,14 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.validation.ErrorClassAppender;
 import com.ecom.web.components.wizard.WizardStep;
+import com.ecom.web.main.EcomApplication;
 import com.ecom.web.main.EcomSession;
+import com.ecom.web.main.ServerGeocoder;
 
 public class BasicInfoStep extends WizardStep {
 
@@ -268,6 +273,21 @@ public class BasicInfoStep extends WizardStep {
 		if (realState != null) {
 			EcomSession session = (EcomSession) Session.get();
 			realState.setUserId(session.getUserId());
+
+            realState.setUserId(session.getUserId());
+            ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
+            
+            try {
+                GLatLng lating = geocoder.findAddress(realState.getAddress());
+                if (lating != null) {
+                    Double[] location = new Double[] { lating.getLat(), lating.getLng() };
+                    realState.setLocation(location) ;               
+                } else {
+                    
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } 			
 			realStateRepository.save(realState);
 		}
 		

@@ -152,30 +152,11 @@ public class PreviewStep extends WizardStep {
             }
         }
 
-        MapPanel mapPanel = new MapPanel("mapPanel", getAddressModel(realStateModelParam));
+        MapPanel mapPanel = new MapPanel("mapPanel", realStateModelParam);
         add(mapPanel);        
 
     }
 
-    private IModel<String> getAddressModel(final IModel<RealState> realStateModel) {
-    	IModel<String> addressModel = new LoadableDetachableModel<String>() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected String load() {
-				RealState realState = realStateRepository.findOne(realStateModel.getObject().getId());
-				if (realState != null) {
-					return realState.getAddress();
-				} else {
-					return "Schlesierstr 4, 81669";
-				}
-			}
-    	};
-    	
-    	return addressModel;
-    }
-    
     private IModel<List<String>> getImageURList(final IModel<RealState> realStateModel) {
         final ResourceReference imagesResourceReference = new EcomImageResouceReference();
 
