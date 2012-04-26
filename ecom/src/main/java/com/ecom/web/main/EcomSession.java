@@ -11,7 +11,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.ecom.domain.SearchRequest;
 import com.ecom.domain.User;
-import com.ecom.repository.UserRepository;
+import com.ecom.service.interfaces.UserService;
 
 public class EcomSession extends WebSession {
 
@@ -23,26 +23,26 @@ public class EcomSession extends WebSession {
 	private SearchRequest req = null; 
 	
 	@SpringBean
-	private UserRepository userRepository;
+	private UserService userService;
 
 	public EcomSession(Request request) {
 		super(request);
 		Injector.get().inject(this);
 	}
 
-	public synchronized void addToFavourites(String id, String title) {
+	public final synchronized void addToFavourites(String realStateId, String title) {
 		if (this.isTemporary()) {
 			bind();
 		}
 		
-		if (!bookMarkMap.containsKey(id) && title != null) {
-			System.out.println("Added to favourites" + bookMarkMap.size());
+		if (!bookMarkMap.containsKey(realStateId) && title != null) {
 			this.getId();
-			bookMarkMap.put(id, title);
+			bookMarkMap.put(realStateId, title);
+			userService.saveMarkedItems(realStateId, this.getUserId());
 		}
 	}
 	
-	public synchronized final void clearFavourites() {
+	public final synchronized void clearFavourites() {
 		bookMarkMap.clear();
 	}
 	
@@ -51,18 +51,19 @@ public class EcomSession extends WebSession {
 	}
 	
 	public final boolean signIn(final String username, final String password) {
-		User user = userRepository.findUserByUserNameAndPassword(username, password);
+		User user = userService.findUserByUserNameAndPassword(username, password);
 		if (user != null) {
 			signedIn = true;
 		}
 
 		if (signedIn) {
-			bind();
+		    //prevents session fixation attack
+		    this.replaceSession();
 			
 			setUserId(user.getId().toString());
 			setUserName(user.getUserName());
 			user.setLastLoginTs(new Date());
-			userRepository.save(user);
+			userService.save(user);
 		}
 		return signedIn;
 	}
