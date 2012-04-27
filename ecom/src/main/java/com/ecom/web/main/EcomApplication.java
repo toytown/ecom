@@ -26,121 +26,118 @@ import com.ecom.web.user.LogoutPage;
 import com.ecom.web.user.UserDashBoardPage;
 import com.ecom.web.utils.SecurePage;
 
-
 public final class EcomApplication extends WebApplication {
 
-	private static final String GOOGLE_MAPS_API_KEY_PARAM = "GoogleMapsAPIkey";
+    private static final String GOOGLE_MAPS_API_KEY_PARAM = "GoogleMapsAPIkey";
 
-	@SpringBean
-	private AppConfig appConfig;
+    @SpringBean
+    private AppConfig appConfig;
 
-	private ServerGeocoder serverGeocoder = null;
+    private ServerGeocoder serverGeocoder = null;
 
-	@Override
-	public final void init() {
-		super.init();
-		getComponentInstantiationListeners().add(new SpringComponentInjector(this));
-		serverGeocoder = new ServerGeocoder(getGoogleMapsAPIkey());
-		mountPage("/home", HomePage.class);
-		mountPage("/details", DetailViewPage.class);
-		mountPage("/home/login", LoginPage.class);
-		mountPage("/home/retrievePassword", RetrievePasswordPage.class);
-		mountPage("/home/registration", RegistrationPage.class);
-		mountPage("/home/results", SearchResultPage.class);
-		mountPage("/home/dashboard", UserDashBoardPage.class);
-		mountPage("/home/addRealState", AddRealStateInfoPage.class);
-		mountPage("/home/logout", LogoutPage.class);
+    @Override
+    public final void init() {
+        super.init();
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+        serverGeocoder = new ServerGeocoder(getGoogleMapsAPIkey());
+        mountPage("/home", HomePage.class);
+        mountPage("/details", DetailViewPage.class);
+        mountPage("/home/login", LoginPage.class);
+        mountPage("/home/retrievePassword", RetrievePasswordPage.class);
+        mountPage("/home/registration", RegistrationPage.class);
+        mountPage("/home/results", SearchResultPage.class);
+        mountPage("/home/dashboard", UserDashBoardPage.class);
+        mountPage("/home/addRealState", AddRealStateInfoPage.class);
+        mountPage("/home/logout", LogoutPage.class);
 
-		mountResource("/imagerepo/${id}", new EcomImageResouceReference());
-		this.getComponentPostOnBeforeRenderListeners().add(new StatelessChecker());
+        mountResource("/imagerepo/${id}", new EcomImageResouceReference());
+        this.getComponentPostOnBeforeRenderListeners().add(new StatelessChecker());
 
-		// disables echoing of wicket tags and their attributes to resulting html
-		getMarkupSettings().setStripWicketTags(true);
-		getApplicationSettings().setPageExpiredErrorPage(getHomePage());
-		getMarkupSettings().setDefaultBeforeDisabledLink("");
-		getMarkupSettings().setDefaultAfterDisabledLink("");
+        // disables echoing of wicket tags and their attributes to resulting html
+        getMarkupSettings().setStripWicketTags(true);
+        getApplicationSettings().setPageExpiredErrorPage(getHomePage());
+        getMarkupSettings().setDefaultBeforeDisabledLink("");
+        getMarkupSettings().setDefaultAfterDisabledLink("");
 
-		//getDebugSettings().setDevelopmentUtilitiesEnabled(true);
-		getApplicationSettings().setUploadProgressUpdatesEnabled(true);
-		//getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
-		getMarkupSettings().setDefaultMarkupEncoding("UTF-8"); 
-		
-		// Register the authorization strategy
-		/*
-		getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
-			public boolean isActionAuthorized(Component component, Action action) {
-				// authorize everything
-				return true;
-			}
+        //getDebugSettings().setDevelopmentUtilitiesEnabled(true);
+        getApplicationSettings().setUploadProgressUpdatesEnabled(true);
+        //getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
+        getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
-			public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
+        // Register the authorization strategy
+        /*
+        getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
+        	public boolean isActionAuthorized(Component component, Action action) {
+        		// authorize everything
+        		return true;
+        	}
 
-				if (!SecurePage.class.isAssignableFrom(componentClass)) {
-					return true;
-				} else {
-					if (((EcomSession) Session.get()).isSignedIn() == false) {
-						throw new RestartResponseAtInterceptPageException(LoginPage.class);
-					}
-					
-					return true;
-				}
+        	public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
 
-			}
-		});
-		*/
-		 SimplePageAuthorizationStrategy authorizationStrategy = new SimplePageAuthorizationStrategy(
-			        SecurePage.class, LoginPage.class)
-			 {
-			        protected boolean isAuthorized()
-			        {
-			                // Authorize access based on user authentication in the session
-			                return (((EcomSession)Session.get()).isSignedIn());
-			        }
-			 };
-			 
-			 getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);		
-	}
+        		if (!SecurePage.class.isAssignableFrom(componentClass)) {
+        			return true;
+        		} else {
+        			if (((EcomSession) Session.get()).isSignedIn() == false) {
+        				throw new RestartResponseAtInterceptPageException(LoginPage.class);
+        			}
+        			
+        			return true;
+        		}
 
-	@Override
-	public final Class<? extends Page> getHomePage() {
-		return HomePage.class;
-	}
+        	}
+        });
+        */
+        
+        SimplePageAuthorizationStrategy authorizationStrategy = new SimplePageAuthorizationStrategy(
+                SecurePage.class, LoginPage.class) {
+            
+            protected boolean isAuthorized() {
+                // Authorize access based on user authentication in the session
+                return (((EcomSession) Session.get()).isSignedIn());
+            }
+        };
 
-	@Override
-	public final Session newSession(Request req, Response resp) {
-		return new EcomSession(req);
+        getSecuritySettings().setAuthorizationStrategy(authorizationStrategy);
+    }
 
-	}
+    @Override
+    public final Class<? extends Page> getHomePage() {
+        return HomePage.class;
+    }
 
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/style.css");
-	}
+    @Override
+    public final Session newSession(Request req, Response resp) {
+        return new EcomSession(req);
 
-	@Override
-	public final RuntimeConfigurationType getConfigurationType() {
-		if (appConfig != null) {
-			final String env = appConfig.getEnv();
-			return env.equalsIgnoreCase("dev") ? RuntimeConfigurationType.DEVELOPMENT : RuntimeConfigurationType.DEPLOYMENT;
-		}
-		return super.getConfigurationType();
-	}
+    }
 
-	public static final EcomApplication get() {
-		return (EcomApplication) Application.get();
-	}
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/style.css");
+    }
 
-	public final String getGoogleMapsAPIkey() {
-		String googleMapsAPIkey = getInitParameter(GOOGLE_MAPS_API_KEY_PARAM);
-		if (googleMapsAPIkey == null) {
-			throw new WicketRuntimeException("There is no Google Maps API key configured in the " + "deployment descriptor of this application.");
-		}
-		return googleMapsAPIkey;
-	}
+    @Override
+    public final RuntimeConfigurationType getConfigurationType() {
+        if (appConfig != null) {
+            final String env = appConfig.getEnv();
+            return env.equalsIgnoreCase("dev") ? RuntimeConfigurationType.DEVELOPMENT : RuntimeConfigurationType.DEPLOYMENT;
+        }
+        return super.getConfigurationType();
+    }
 
-	public final ServerGeocoder getServerGeocoder() {
-		return serverGeocoder;
-	}
-	
-	
-	
+    public static final EcomApplication get() {
+        return (EcomApplication) Application.get();
+    }
+
+    public final String getGoogleMapsAPIkey() {
+        String googleMapsAPIkey = getInitParameter(GOOGLE_MAPS_API_KEY_PARAM);
+        if (googleMapsAPIkey == null) {
+            throw new WicketRuntimeException("There is no Google Maps API key configured in the " + "deployment descriptor of this application.");
+        }
+        return googleMapsAPIkey;
+    }
+
+    public final ServerGeocoder getServerGeocoder() {
+        return serverGeocoder;
+    }
+
 }
