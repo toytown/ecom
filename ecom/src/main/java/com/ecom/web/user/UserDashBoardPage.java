@@ -28,16 +28,18 @@ public class UserDashBoardPage extends GenericTemplatePage implements SecurePage
 		BookmarkablePageLink<User> editLink = new BookmarkablePageLink<User>("editLink", EntriesPage.class);
 		BookmarkablePageLink<User> accountLink = new BookmarkablePageLink<User>("accountLink", AccountPage.class);
 		BookmarkablePageLink<User> messagesLink = new BookmarkablePageLink<User>("messagesLink", MessageInboxPage.class);
-
+		BookmarkablePageLink<User> markedItemLink = new BookmarkablePageLink<User>("markedItemLink", MarkItemEntriesPage.class);
+		
 
 		accountLink.add(new ContextImage("accountIcon", "images/usericons/user.png"));
 		editLink.add(new ContextImage("editIcon", "images/usericons/edit.png"));
 		messagesLink.add(new ContextImage("msgIcon", "images/usericons/message.png"));
+		markedItemLink.add(new ContextImage("mkdItemIcon", "images/usericons/favourites.png"));
 
 		add(accountLink);
 		add(messagesLink);
 		add(editLink);
-
+		add(markedItemLink);
 	}
 
 }

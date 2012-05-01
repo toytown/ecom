@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.ecom.domain.MarkedItem;
 import com.ecom.domain.SearchRequest;
 
 public interface RealStateService<RealState> extends Serializable {
@@ -14,6 +16,8 @@ public interface RealStateService<RealState> extends Serializable {
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq);
 	
 	public List<RealState> find(SearchRequest req, PageRequest pageReq);
+	
+	public RealState findOne(ObjectId id);
 	
 	public int count(SearchRequest req);
 	
@@ -27,5 +31,8 @@ public interface RealStateService<RealState> extends Serializable {
 	
 	public void saveOrUpdate(RealState realState);
 	
+	public void saveMarkedItem(MarkedItem markedItem);
+	
+	public void deleteMarkedItem(MarkedItem markedItem);
 
 }

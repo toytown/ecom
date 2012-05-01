@@ -38,16 +38,6 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>wiquery-maven-repo</id>
-			<name>WiQuery repository</name>
-			<url>https://wiquery.googlecode.com/svn/repo/</url>
-		</repository>
-		<repository>
-			<id>xaloon</id>
-			<name>xaloon components</name>
-			<url>http://xaloon.googlecode.com/svn/maven2/releases/</url>
-		</repository>
-		<repository>
 			<id>spring-snapshot</id>
 			<name>Spring Maven SNAPSHOT Repository</name>
 			<url>http://s3.amazonaws.com/maven.springframework.org/snapshot</url>

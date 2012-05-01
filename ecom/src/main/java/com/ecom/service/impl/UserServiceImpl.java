@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
             MarkedItem mk = new MarkedItem();
             mk.setId(new ObjectId());
             mk.setItemId(new ObjectId(realStateId));
-            mk.setUserId(userId);
+            mk.setUserId(new ObjectId(userId));
             markedItemRepository.save(mk);
         
     }

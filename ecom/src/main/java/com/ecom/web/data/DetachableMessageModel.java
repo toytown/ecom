@@ -13,15 +13,15 @@ public class DetachableMessageModel extends LoadableDetachableModel<Message> {
 	private static final long serialVersionUID = 1L;
 
 	@SpringBean
-   private MessageRepository messageRepository;
-   
-   private String messageId;
-   
-   public DetachableMessageModel(String id) {
-   	this.messageId = id;
-   	Injector.get().inject(this);
-   }
-   
+	private MessageRepository messageRepository;
+
+	private String messageId;
+
+	public DetachableMessageModel(String id) {
+		this.messageId = id;
+		Injector.get().inject(this);
+	}
+
 	@Override
 	protected Message load() {
 		return messageRepository.findOne(new ObjectId(messageId));

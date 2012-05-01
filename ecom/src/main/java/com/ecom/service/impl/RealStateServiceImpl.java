@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 
 import com.ecom.common.utils.GeoLocationUtils;
 import com.ecom.domain.GeoLocation;
+import com.ecom.domain.MarkedItem;
 import com.ecom.domain.QRealState;
 import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
+import com.ecom.repository.MarkedItemRepository;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.service.interfaces.ImageService;
@@ -41,6 +43,9 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Autowired
 	private RealStateRepository realStateRepository;
 
+	@Autowired
+	private MarkedItemRepository markedItemRepository;
+	
 	@Autowired
 	private ImageService imageService;
 
@@ -211,6 +216,21 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	public void saveOrUpdate(RealState realState) {
 		realStateRepository.save(realState);
 
+	}
+
+	@Override
+	public void saveMarkedItem(MarkedItem markedItem) {
+		markedItemRepository.save(markedItem);		
+	}
+
+	@Override
+	public void deleteMarkedItem(MarkedItem markedItem) {
+		markedItemRepository.delete(markedItem);
+	}
+
+	@Override
+	public RealState findOne(ObjectId id) {
+		return realStateRepository.findOne(id);
 	}
 
 }

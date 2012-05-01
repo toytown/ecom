@@ -45,6 +45,7 @@ public class MessageInboxPage extends UserDashBoardPage {
 
 		EcomSession session = (EcomSession) Session.get();
 
+		
 		SortableDataProvider<Message> dataProvider = new MessageDataProvider(session.getUserId());
 
 		final Form<Void> messageForm = new Form<Void>("messageForm") {

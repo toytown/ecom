@@ -4,21 +4,19 @@
 
 		<div class="column33" style="width: 610px;">
 			
-				<form action="post" wicket:id="filteredResultForm">
-					<p><input type="text" wicket:id="filter"/></p>
-					<p><input type="submit" wicket:id="filterResults" id="greenButton"/></p>
+				<form action="post" wicket:id="markedItemsForm">
 					<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
 					<span wicket:id="group">
 						<div style="clear: both;"></div>
-						<table cellspacing="0" class="dataview">
+						<table cellspacing="0" class="markedItemResultsView">
 							<tr>
 								<th><input type="checkbox" id="selectall" wicket:id="groupselector" /></th>
 								<th>Id</th>
 								<th>Address</th>
-								<th wicket:id="orderByCost">Price</th>
-								<th wicket:id="orderBySize">Area</th>
-								<th wicket:id="orderByRooms">Rooms</th>
-								<th wicket:id="orderByInsertedTs">Insert</th>
+								<th>Price</th>
+								<th>Area</th>
+								<th>Rooms</th>
+								<th>Insert</th>
 								<th><wicket:message key="action"/></th>
 							</tr>
 							<tr wicket:id="userResultsView">
@@ -49,4 +47,3 @@
 		<!-- end of column three -->
 
 </wicket:extend>
-
