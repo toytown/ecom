@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.ecom.domain.MarkedItem;
 import com.ecom.domain.SearchRequest;
 
 public interface RealStateService<RealState> extends Serializable {
@@ -27,5 +28,8 @@ public interface RealStateService<RealState> extends Serializable {
 	
 	public void saveOrUpdate(RealState realState);
 	
+	public void saveMarkedItem(MarkedItem markedItem);
+	
+	public void deleteMarkedItem(MarkedItem markedItem);
 
 }

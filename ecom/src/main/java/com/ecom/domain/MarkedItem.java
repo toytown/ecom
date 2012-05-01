@@ -8,40 +8,40 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "markedItems")
-@CompoundIndexes({
-    @CompoundIndex(name = "usrId_realstateId_idx", def = "{'userId': 1, 'realStateId': -1}")
-})
+@CompoundIndexes({ @CompoundIndex(name = "usrId_realstateId_idx", def = "{'userId': 1, 'realStateId': -1}") })
 public class MarkedItem implements Serializable {
 
-    @Id
-    private Object id;
-    
-    private Object itemId;
-    
-    private Object userId;
+	private static final long serialVersionUID = 5949425921206769640L;
 
-    public Object getId() {
-        return id;
-    }
+	@Id
+	private Object id;
 
-    public void setId(Object id) {
-        this.id = id;
-    }
+	private Object itemId;
 
-    public Object getItemId() {
-        return itemId;
-    }
+	private Object userId;
 
-    public void setItemId(Object itemId) {
-        this.itemId = itemId;
-    }
+	public Object getId() {
+		return id;
+	}
 
-    public Object getUserId() {
-        return userId;
-    }
+	public void setId(Object id) {
+		this.id = id;
+	}
 
-    public void setUserId(Object userId) {
-        this.userId = userId;
-    }
-    
+	public Object getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Object itemId) {
+		this.itemId = itemId;
+	}
+
+	public Object getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Object userId) {
+		this.userId = userId;
+	}
+
 }
