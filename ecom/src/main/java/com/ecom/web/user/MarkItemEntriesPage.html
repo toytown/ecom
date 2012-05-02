@@ -8,7 +8,7 @@
 					<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
 					<span wicket:id="group">
 						<div style="clear: both;"></div>
-						<table cellspacing="0" class="markedItemResultsView">
+						<table cellspacing="0" class="dataview">
 							<tr>
 								<th><input type="checkbox" id="selectall" wicket:id="groupselector" /></th>
 								<th>Id</th>
@@ -19,7 +19,7 @@
 								<th>Insert</th>
 								<th><wicket:message key="action"/></th>
 							</tr>
-							<tr wicket:id="userResultsView">
+							<tr wicket:id="markedItemResultsView">
 								<td width="10%"><input type="checkbox" class="case" name="case" wicket:id="check" /></td>
 								<td width="20%">
 									<div wicket:id="id"></div>								
@@ -31,16 +31,11 @@
 								<td width="7%" valign="top"><span wicket:id="price" /></td>
 								<td width="7%" valign="top"><span wicket:id="size" /></td>
 								<td width="7%" valign="top"><span wicket:id="rooms" /></td>
-								<td><span wicket:id="insertedTs"/></td>
-								<td valign="top">
-									<div class="buttons" style="float: right; width: 80px;">
-										<a href="" class="regular" wicket:id="edit"> <img src="images/buttons/bookmark-icon.gif" alt="" /> Edit</a>
-									</div>
-								</td>
+								<td><span wicket:id="insertTs"/></td>								
 							</tr>
 						</table>
 					</span>
-					<div><a href="#" wicket:id="delete" /><a href="#" wicket:id="activate" /></div>
+					<div><a href="#" wicket:id="delete" /></div>
 				</form>				
 
 		</div>

@@ -24,6 +24,8 @@ public class MarkedItemDataProvider extends SortableDataProvider<MarkedItem> {
 
 	private String userId;
 	
+	private ObjectId userObjId = null;
+	
 	public static final int PAGE_SIZE = 15;
 	
 	public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "insertTs");
@@ -37,6 +39,7 @@ public class MarkedItemDataProvider extends SortableDataProvider<MarkedItem> {
 		super();
 		Injector.get().inject(this);
 		this.userId = userId;
+		userObjId = new ObjectId(this.userId);
 		setSort("insertTs", SortOrder.DESCENDING);
 	}
 
@@ -48,7 +51,8 @@ public class MarkedItemDataProvider extends SortableDataProvider<MarkedItem> {
 			QMarkedItem markedItemQuery = new QMarkedItem("markedItem");
 
 			req = new PageRequest((first + 1) / PAGE_SIZE, count, DEFAULT_SORT);
-			iter = markedItemRepository.findAll(markedItemQuery.userId.eq(this.userId), req).iterator();
+			
+			iter = markedItemRepository.findAll(markedItemQuery.userId.eq(userObjId), req).iterator();
 		}
 
 		return iter;
@@ -62,7 +66,7 @@ public class MarkedItemDataProvider extends SortableDataProvider<MarkedItem> {
 	@Override
 	public int size() {
 		QMarkedItem markedItemCnt = new QMarkedItem("markedItem");		
-		return Long.valueOf(markedItemRepository.count(markedItemCnt.userId.eq(this.userId))).intValue();
+		return Long.valueOf(markedItemRepository.count(markedItemCnt.userId.eq(userObjId))).intValue();
 	}
 
 }

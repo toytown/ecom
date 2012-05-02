@@ -28,7 +28,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
@@ -203,9 +202,6 @@ public class EntriesPage extends UserDashBoardPage {
 			@Override
 			protected void populateItem(final Item<RealState> item) {
 				final RealState realState = (RealState) item.getModelObject();
-
-				PageParameters detailParam = new PageParameters();
-				detailParam.add("appartment-id", Model.of(realState.getId().toString()));
 
 				if (realState.getTitleThumbNailImage() != null) {
 					StaticImage img = getTitleImageFromUrl(realState);

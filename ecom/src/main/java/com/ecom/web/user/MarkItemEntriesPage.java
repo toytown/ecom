@@ -22,6 +22,7 @@ import com.ecom.domain.MarkedItem;
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.RealStateService;
 import com.ecom.web.components.buttons.CustomButton;
+import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.data.DetachableMarkedItemModel;
 import com.ecom.web.data.MarkedItemDataProvider;
 import com.ecom.web.login.LoginPage;
@@ -89,15 +90,20 @@ public class MarkItemEntriesPage extends UserDashBoardPage {
 
 				item.add(new Check<String>("check", Model.of(markedItem.getId().toString())));
 				item.add(new Label("id", Model.of(markedItem.getId().toString())));
-
+				item.add(new Label("insertTs", Model.of(markedItem.getInsertTs())));
+				
 				RealState realState = realStateService.findOne(new ObjectId(markedItem.getItemId().toString()));
 
-				//item.add(new Label("title", realState.getTitle()));
+                if (realState.getTitleThumbNailImage() != null) {
+                    StaticImage img = getTitleImageFromUrl(realState);
+                    item.add(img);
+                }
 				item.add(new Label("price", Model.of(String.valueOf(realState.getCost()))));
 				item.add(new Label("size", Model.of(String.valueOf(realState.getSize()))));
 				item.add(new Label("rooms", Model.of(String.valueOf(realState.getTotalRooms()))));
 				String addressInfo = realState.getAddressInfo();
 				item.add(new Label("address", Model.of(addressInfo)));
+				
 			}
 
 		};
