@@ -1,11 +1,24 @@
 package com.ecom.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "searchRequest")
 public class SearchRequest implements Serializable {
 
     private static final long serialVersionUID = -2062880133131607502L;
+    
+    @Id
+    private ObjectId id;
 
+    private String name;
+    
+    private ObjectId userId;
+    
     private String cityOrZip;
 
     private Double areaFrom;
@@ -42,6 +55,9 @@ public class SearchRequest implements Serializable {
 
     private RealStateSort sortOrder;
 
+    private Date insertTs; 
+    
+    
     public String getCityOrZip() {
         return cityOrZip;
     }
@@ -296,6 +312,100 @@ public class SearchRequest implements Serializable {
 
     public void setRealStateType(RealStateType realStateType) {
         this.realStateType = realStateType;
+    }
+
+    public ObjectId getUserId() {
+        return userId;
+    }
+
+    public void setUserId(ObjectId userId) {
+        this.userId = userId;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public Boolean getIsProvisionFree() {
+        return isProvisionFree;
+    }
+
+    public void setIsProvisionFree(Boolean isProvisionFree) {
+        this.isProvisionFree = isProvisionFree;
+    }
+
+    public Boolean getIsKitchenAvailable() {
+        return isKitchenAvailable;
+    }
+
+    public void setIsKitchenAvailable(Boolean isKitchenAvailable) {
+        this.isKitchenAvailable = isKitchenAvailable;
+    }
+
+    public Boolean getIsFurnished() {
+        return isFurnished;
+    }
+
+    public void setIsFurnished(Boolean isFurnished) {
+        this.isFurnished = isFurnished;
+    }
+
+    public Boolean getIsBalconyAvailable() {
+        return isBalconyAvailable;
+    }
+
+    public void setIsBalconyAvailable(Boolean isBalconyAvailable) {
+        this.isBalconyAvailable = isBalconyAvailable;
+    }
+
+    public Boolean getIsLiftAvailable() {
+        return isLiftAvailable;
+    }
+
+    public void setIsLiftAvailable(Boolean isLiftAvailable) {
+        this.isLiftAvailable = isLiftAvailable;
+    }
+
+    public Boolean getIsGardenAvailable() {
+        return isGardenAvailable;
+    }
+
+    public void setIsGardenAvailable(Boolean isGardenAvailable) {
+        this.isGardenAvailable = isGardenAvailable;
+    }
+
+    public Date getInsertTs() {
+        return insertTs;
+    }
+
+    public void setInsertTs(Date insertTs) {
+        this.insertTs = insertTs;
+    }
+
+    public void setHeatingTypeId(Integer heatingTypeId) {
+        this.heatingTypeId = heatingTypeId;
+    }
+
+    @Override
+    public String toString() {
+        return "SearchRequest [userId=" + userId + ", cityOrZip=" + cityOrZip + ", areaFrom=" + areaFrom + ", areaTo=" + areaTo + ", priceFrom="
+                + priceFrom + ", priceTo=" + priceTo + ", roomsFrom=" + roomsFrom + ", roomsTo=" + roomsTo + ", searchType=" + searchType
+                + ", isProvisionFree=" + isProvisionFree + ", isKitchenAvailable=" + isKitchenAvailable + ", isFurnished=" + isFurnished
+                + ", isBalconyAvailable=" + isBalconyAvailable + ", isLiftAvailable=" + isLiftAvailable + ", isGardenAvailable=" + isGardenAvailable
+                + ", heatingTypeId=" + heatingTypeId + ", typeId=" + typeId + ", realStateType=" + realStateType + ", sortOrder=" + sortOrder
+                + ", insertTs=" + insertTs + "]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

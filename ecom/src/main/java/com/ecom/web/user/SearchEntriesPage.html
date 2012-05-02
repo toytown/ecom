@@ -1,0 +1,44 @@
+
+<wicket:extend>
+
+		<div class="column33" style="width: 610px;">
+			
+				<form action="post" wicket:id="searchEntriesForm">
+					<div class="pagination" style="width: 640px;" wicket:id="pagingNavigator"></div>
+					<span wicket:id="group">
+						<div style="clear: both;"></div>
+						<table cellspacing="0" class="dataview">
+							<tr>
+								<th><input type="checkbox" id="selectall" wicket:id="groupselector" /></th>
+								<th>Id</th>
+								<th>Address</th>
+								<th>Price</th>
+								<th>Area</th>
+								<th>Rooms</th>
+								<th>Insert</th>
+								<th><wicket:message key="action"/></th>
+							</tr>
+							<tr wicket:id="searchEntriesResultsView">
+								<td width="10%"><input type="checkbox" class="case" name="case" wicket:id="check" /></td>
+								<td width="20%">
+									<div wicket:id="id"></div>								
+									<img class="img_left" wicket:id="title_image" />
+								</td>
+								<td width="20%" valign="top">
+									<span wicket:id="address" />
+								</td>
+								<td width="7%" valign="top"><span wicket:id="name" /></td>
+								<td width="7%" valign="top"><span wicket:id="cityZip" /></td>
+								<td width="7%" valign="top"><span wicket:id="priceFrom" /></td>
+								<td width="7%" valign="top"><span wicket:id="priceTo" /></td>
+								<td><span wicket:id="insertTs"/></td>								
+							</tr>
+						</table>
+					</span>
+					<div><a href="#" wicket:id="delete" /></div>
+				</form>				
+
+		</div>
+		<!-- end of column three -->
+
+</wicket:extend>
