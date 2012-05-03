@@ -28,7 +28,9 @@ import com.ecom.web.main.EcomSession;
 
 public class SearchEntriesPage extends UserDashBoardPage {
 
-    private Set<String> selectedIds = new HashSet<String>();
+	private static final long serialVersionUID = 891757578257177721L;
+
+	private Set<String> selectedIds = new HashSet<String>();
 
     @SpringBean
     private RealStateService<RealState> realStateService;
@@ -58,7 +60,7 @@ public class SearchEntriesPage extends UserDashBoardPage {
             public void onSubmit() {
                 for (String id : selectedIds) {
                     DetachableSearchRequestModel searchReqModel = new DetachableSearchRequestModel(new ObjectId(id));
-                    //realStateService.deleteMarkedItem(searchReqModel.getObject());
+                    realStateService.deleteSearchResult(searchReqModel.getObject());
                 }
             }
         };

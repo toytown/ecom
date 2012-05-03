@@ -34,5 +34,9 @@ public interface RealStateService<RealState> extends Serializable {
 	public void saveMarkedItem(MarkedItem markedItem);
 	
 	public void deleteMarkedItem(MarkedItem markedItem);
+	
+	public void saveSearchResult(SearchRequest req);
+	
+	public void deleteSearchResult(SearchRequest req);	
 
 }

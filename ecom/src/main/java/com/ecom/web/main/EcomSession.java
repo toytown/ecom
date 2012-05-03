@@ -38,7 +38,9 @@ public class EcomSession extends WebSession {
 		if (!bookMarkMap.containsKey(realStateId) && title != null) {
 			this.getId();
 			bookMarkMap.put(realStateId, title);
-			userService.saveMarkedItems(realStateId, this.getUserId());
+			if (this.userId != null) {
+				userService.saveMarkedItems(realStateId, this.getUserId());
+			}
 		}
 	}
 	

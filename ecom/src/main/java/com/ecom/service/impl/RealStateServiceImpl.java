@@ -23,6 +23,7 @@ import com.ecom.domain.RealState;
 import com.ecom.domain.SearchRequest;
 import com.ecom.repository.MarkedItemRepository;
 import com.ecom.repository.RealStateRepository;
+import com.ecom.repository.SearchRequestRepository;
 import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.service.interfaces.RealStateService;
@@ -45,6 +46,9 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Autowired
 	private MarkedItemRepository markedItemRepository;
+
+	@Autowired
+	private SearchRequestRepository searchReqRepository;
 	
 	@Autowired
 	private ImageService imageService;
@@ -231,6 +235,18 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Override
 	public RealState findOne(ObjectId id) {
 		return realStateRepository.findOne(id);
+	}
+
+	@Override
+	public void saveSearchResult(SearchRequest req) {
+		searchReqRepository.delete(req);
+		
+	}
+
+	@Override
+	public void deleteSearchResult(SearchRequest req) {
+		searchReqRepository.delete(req);
+		
 	}
 
 }
