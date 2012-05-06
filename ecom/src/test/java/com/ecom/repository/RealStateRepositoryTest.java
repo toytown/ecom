@@ -1,32 +1,19 @@
 package com.ecom.repository;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ecom.common.utils.AppConfig;
-import com.ecom.common.utils.ImageUtils;
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.test.AbstractIntegrationTest;
 
-import java.awt.image.BufferedImage;
-
 public class RealStateRepositoryTest extends AbstractIntegrationTest {
-
-	@Autowired
-	private AppConfig config;
-
 	
 	@Autowired
 	private RealStateRepository realStateRepository;
@@ -140,13 +127,6 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			appartment.setUserId(getDefaultUser().getId().toString());
 			realStateRepository.save(appartment);
 
-			// save images
-			File dir = new File(config.getImageRepository() + File.separator + appartment.getId().toString());
-
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
-
 			for (int j = 2; j <= 3; j++) {
 
 				String other_image = "large_image_" + j + ".jpg";
@@ -177,33 +157,5 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 		assert (realStateRepository.count() > 0);
 	}
 
-	protected void createImage(BufferedImage image, String appartmentId, String fileName, boolean isThumbNail) throws IOException {
-		if (isThumbNail) {
-			image = ImageUtils.resize(image, 120, 90);
-		} else {
-			image = ImageUtils.resize(image, 480, 367);
-		}
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-		ImageIO.write(image, "jpeg", baos);
-		baos.flush();
-		byte[] imageBytes = baos.toByteArray();
-
-		File dir = new File(config.getImageRepository() + File.separator + appartmentId);
-
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-
-		File imageFile = new File(config.getImageRepository() + File.separator + appartmentId + File.separator + fileName);
-
-		if (imageFile.createNewFile()) {
-			FileOutputStream fos = new FileOutputStream(imageFile);
-			fos.write(imageBytes);
-			fos.flush();
-			fos.close();
-		}
-
-		baos.close();
-	}
 }

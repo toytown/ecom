@@ -64,30 +64,7 @@ public final class EcomApplication extends WebApplication {
         //getComponentPreOnBeforeRenderListeners().add(new StatelessChecker());
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
-        // Register the authorization strategy
-        /*
-        getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy() {
-        	public boolean isActionAuthorized(Component component, Action action) {
-        		// authorize everything
-        		return true;
-        	}
-
-        	public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
-
-        		if (!SecurePage.class.isAssignableFrom(componentClass)) {
-        			return true;
-        		} else {
-        			if (((EcomSession) Session.get()).isSignedIn() == false) {
-        				throw new RestartResponseAtInterceptPageException(LoginPage.class);
-        			}
-        			
-        			return true;
-        		}
-
-        	}
-        });
-        */
-        
+       
         SimplePageAuthorizationStrategy authorizationStrategy = new SimplePageAuthorizationStrategy(
                 SecurePage.class, LoginPage.class) {
             

@@ -103,7 +103,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		if (req.getPriceFrom() != null || req.getPriceTo() != null) {
 			double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom().doubleValue() : MIN_VAL;
 			double priceTo = req.getPriceTo() != null ? req.getPriceTo().doubleValue() : MAX_PRICE;
-			q.addCriteria(Criteria.where("price").gte(priceFrom).andOperator(Criteria.where("price").lte(priceTo)));
+			q.addCriteria(Criteria.where("cost").gte(priceFrom).andOperator(Criteria.where("cost").lte(priceTo)));
 		}
 
 		return q;

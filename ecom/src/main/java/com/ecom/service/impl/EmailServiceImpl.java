@@ -48,6 +48,7 @@ public class EmailServiceImpl implements EmailService {
     
     
     public EmailServiceImpl() {
+    	
     }
 
     /**

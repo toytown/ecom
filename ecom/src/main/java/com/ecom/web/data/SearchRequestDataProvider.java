@@ -17,7 +17,9 @@ import com.ecom.repository.SearchRequestRepository;
 
 public class SearchRequestDataProvider extends SortableDataProvider<SearchRequest>{
 
-    public static final int PAGE_SIZE = 15;
+	private static final long serialVersionUID = 542292365280336935L;
+
+	public static final int PAGE_SIZE = 15;
 
     public static final Sort DEFAULT_SORT = new Sort(Direction.DESC, "sentTs");
 

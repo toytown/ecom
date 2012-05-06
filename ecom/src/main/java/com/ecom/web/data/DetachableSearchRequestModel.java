@@ -10,7 +10,9 @@ import com.ecom.repository.SearchRequestRepository;
 
 public class DetachableSearchRequestModel extends LoadableDetachableModel<SearchRequest> {
 
-    @SpringBean
+	private static final long serialVersionUID = 6634063250214961093L;
+
+	@SpringBean
     private SearchRequestRepository searchRequestRepository;
     
     private ObjectId id = null;
