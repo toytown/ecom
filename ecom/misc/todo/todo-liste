@@ -1,3 +1,10 @@
+Principle:
+- simple (easy to use, less no of clicks, hides complexing with innovatiive uI)
+- fast (fast respose , percived response)
+- functional (all functions are working to the last detail)
+- honest (no dirty hacks, cost, terms of use are transparent)
+
+
 Features :
  - geolocation search by plz or street + house no (ongoing)
  - geolocation result ordered with distance info
@@ -12,6 +19,11 @@ Features :
  - marker for newly inserted immobilien
  - validation for uploading data
  - api to integrate with immobilienscout24 and immowelt
+
+Search Enhancements
+====================
+# selecting stadtteile and gemeinde
+# selecting  
 
 Enhancement
  - New Realstate type house, garage, land

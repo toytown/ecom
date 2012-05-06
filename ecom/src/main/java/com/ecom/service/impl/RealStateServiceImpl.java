@@ -38,9 +38,9 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	private static final double MIN_VAL = 0.0;
 
 	private static final double MAX_VAL = 999.0;
-	
+
 	private static final double MAX_PRICE = 9999999999.0;
-	
+
 	@Autowired
 	private RealStateRepository realStateRepository;
 
@@ -49,7 +49,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Autowired
 	private SearchRequestRepository searchReqRepository;
-	
+
 	@Autowired
 	private ImageService imageService;
 
@@ -61,30 +61,24 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Override
 	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
-
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
 	@Override
 	public List<RealState> find(SearchRequest req, PageRequest pageReq) {
-
-		Query q = buildQuery(req);		
+		Query q = buildQuery(req);
 		return mongoTemplate.find(QueryUtils.applyPagination(q, pageReq), RealState.class);
 	}
 
 	public Query buildQuery(SearchRequest req) {
 		Query q = new Query();
 
-		String zipOrCity = req.getCityOrZip();
-		if (StringUtils.isNotEmpty(zipOrCity)) {
-			zipOrCity = zipOrCity.trim();
-			Iterable<GeoLocation> geoLocIter = geoLocationService.findByZipOrCity(zipOrCity);
-			
-			if (geoLocIter.iterator().hasNext()) {
-				GeoLocation geoLoc = geoLocIter.iterator().next();
-				Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
-				q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
-			}
+		String zipOrCityLoc = req.getLocation();
+		if (StringUtils.isNotEmpty(zipOrCityLoc)) {
+			GeoLocation geoLoc = geoLocationService.findOne(zipOrCityLoc);
+			Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
+			q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
+
 		}
 
 		if (req.getAreaFrom() != null || req.getAreaTo() != null) {
@@ -118,11 +112,11 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			return builder.and(realStateQuery.id.eq(new ObjectId()));
 		}
 
-		if (StringUtils.isNotEmpty(req.getCityOrZip())) {
-			if (GeoLocationUtils.isZipCodeOnly(req.getCityOrZip())) {
-				builder.and(realStateQuery.areaCode.contains(req.getCityOrZip()));
+		if (StringUtils.isNotEmpty(req.getLocation())) {
+			if (GeoLocationUtils.isZipCodeOnly(req.getLocation())) {
+				builder.and(realStateQuery.areaCode.contains(req.getLocation()));
 			} else {
-				builder.and(realStateQuery.city.containsIgnoreCase(req.getCityOrZip()));
+				builder.and(realStateQuery.city.containsIgnoreCase(req.getLocation()));
 			}
 		}
 
@@ -183,11 +177,9 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		return condition;
 	}
 
-
-	
 	@Override
 	public int count(SearchRequest req) {
-		 //return (int) realStateRepository.count(buildPredicate(req));
+		// return (int) realStateRepository.count(buildPredicate(req));
 		return (int) mongoTemplate.count(buildQuery(req), RealState.class);
 	}
 
@@ -224,7 +216,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Override
 	public void saveMarkedItem(MarkedItem markedItem) {
-		markedItemRepository.save(markedItem);		
+		markedItemRepository.save(markedItem);
 	}
 
 	@Override
@@ -240,13 +232,13 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	@Override
 	public void saveSearchResult(SearchRequest req) {
 		searchReqRepository.delete(req);
-		
+
 	}
 
 	@Override
 	public void deleteSearchResult(SearchRequest req) {
 		searchReqRepository.delete(req);
-		
+
 	}
 
 }

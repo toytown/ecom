@@ -19,7 +19,7 @@ public class SearchRequest implements Serializable {
     
     private ObjectId userId;
     
-    private String cityOrZip;
+    private String location;
 
     private Double areaFrom;
 
@@ -58,12 +58,12 @@ public class SearchRequest implements Serializable {
     private Date insertTs; 
     
     
-    public String getCityOrZip() {
-        return cityOrZip;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCityOrZip(String cityOrZip) {
-        this.cityOrZip = cityOrZip;
+    public void setLocation(String cityOrZip) {
+        this.location = cityOrZip;
     }
 
     public Double getRoomsFrom() {
@@ -160,7 +160,7 @@ public class SearchRequest implements Serializable {
         int result = 1;
         result = prime * result + ((areaFrom == null) ? 0 : areaFrom.hashCode());
         result = prime * result + ((areaTo == null) ? 0 : areaTo.hashCode());
-        result = prime * result + ((cityOrZip == null) ? 0 : cityOrZip.hashCode());
+        result = prime * result + ((location == null) ? 0 : location.hashCode());
         result = prime * result + ((heatingTypeId == null) ? 0 : heatingTypeId.hashCode());
         result = prime * result + ((isBalconyAvailable == null) ? 0 : isBalconyAvailable.hashCode());
         result = prime * result + ((isFurnished == null) ? 0 : isFurnished.hashCode());
@@ -196,10 +196,10 @@ public class SearchRequest implements Serializable {
                 return false;
         } else if (!areaTo.equals(other.areaTo))
             return false;
-        if (cityOrZip == null) {
-            if (other.cityOrZip != null)
+        if (location == null) {
+            if (other.location != null)
                 return false;
-        } else if (!cityOrZip.equals(other.cityOrZip))
+        } else if (!location.equals(other.location))
             return false;
         if (heatingTypeId == null) {
             if (other.heatingTypeId != null)
@@ -392,7 +392,7 @@ public class SearchRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "SearchRequest [userId=" + userId + ", cityOrZip=" + cityOrZip + ", areaFrom=" + areaFrom + ", areaTo=" + areaTo + ", priceFrom="
+        return "SearchRequest [userId=" + userId + ", cityOrZip=" + location + ", areaFrom=" + areaFrom + ", areaTo=" + areaTo + ", priceFrom="
                 + priceFrom + ", priceTo=" + priceTo + ", roomsFrom=" + roomsFrom + ", roomsTo=" + roomsTo + ", searchType=" + searchType
                 + ", isProvisionFree=" + isProvisionFree + ", isKitchenAvailable=" + isKitchenAvailable + ", isFurnished=" + isFurnished
                 + ", isBalconyAvailable=" + isBalconyAvailable + ", isLiftAvailable=" + isLiftAvailable + ", isGardenAvailable=" + isGardenAvailable

@@ -87,7 +87,7 @@ public class SearchEntriesPage extends UserDashBoardPage {
             protected void populateItem(final Item<SearchRequest> item) {
                 final SearchRequest searchReq = (SearchRequest) item.getModelObject();
                 item.add(new Label("name", Model.of(searchReq.getName())));
-                item.add(new Label("cityZip", Model.of(searchReq.getCityOrZip())));
+                item.add(new Label("cityZip", Model.of(searchReq.getLocation())));
                 item.add(new Label("priceFrom", Model.of(searchReq.getPriceFrom())));
                 item.add(new Label("priceTo", Model.of(searchReq.getPriceFrom())));
             }

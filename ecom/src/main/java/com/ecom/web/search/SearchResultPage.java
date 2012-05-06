@@ -142,7 +142,6 @@ public class SearchResultPage extends GenericTemplatePage {
 			public void onSubmit() {
 
 				SearchRequest req = searchForm.getModelObject();
-				req.setRoomsFrom(roomsFromTxt.getModelObject());
 				PageParameters params = createPageParameters(req);
 				setResponsePage(SearchResultPage.class, params);
 			}
@@ -290,8 +289,8 @@ public class SearchResultPage extends GenericTemplatePage {
 				req.setRealStateType(RealStateType.valueOf(Integer.valueOf(keyVal.getValue())));
 			}
 			
-			if (keyVal.getKey().equals("city")) {
-				req.setCityOrZip(keyVal.getValue());
+			if (keyVal.getKey().equals("loc")) {
+				req.setLocation(keyVal.getValue());
 			}
 
 			if (keyVal.getKey().equals("areaFrom")) {
@@ -390,8 +389,8 @@ public class SearchResultPage extends GenericTemplatePage {
 			params.set("areaTo", req.getAreaTo());
 		}
 
-		if (req.getCityOrZip() != null) {
-			params.set("city", Strings.escapeMarkup(req.getCityOrZip()));
+		if (req.getLocation() != null) {
+			params.set("city", Strings.escapeMarkup(req.getLocation()));
 		}
 
 		if (req.getSortOrder() != null) {

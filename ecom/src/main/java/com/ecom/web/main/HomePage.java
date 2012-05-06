@@ -12,10 +12,14 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.ecom.domain.GeoLocation;
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealStateType;
 import com.ecom.domain.SearchRequest;
+import com.ecom.service.interfaces.GeoLocationService;
+import com.ecom.web.search.NoResultsFoundPage;
 import com.ecom.web.search.SearchResultPage;
 
 public class HomePage extends GenericTemplatePage {
@@ -35,8 +39,8 @@ public class HomePage extends GenericTemplatePage {
         final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
         setStatelessHint(true);
 
-        IModel<String> cityModel = searchReqModel.bind("cityOrZip");
-        TextField<String> cityTxt = new TextField<String>("cityOrZip",  cityModel);
+        IModel<String> locationModel = searchReqModel.bind("location");
+        TextField<String> cityTxt = new TextField<String>("cityOrZip",  locationModel);
 
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");
@@ -55,7 +59,6 @@ public class HomePage extends GenericTemplatePage {
         // Realstate type - appartment, house, garage
         // EnumChoiceRenderer<RealStateType> realStateTypeEnum = new
         // EnumChoiceRenderer<RealStateType>(this);
-
         DropDownChoice<RealStateType> realStateTypeDropdown = new DropDownChoice<RealStateType>("realStateType", new PropertyModel<RealStateType>(
                 req, "realStateType"), realStateObjectList);
         searchForm.add(realStateTypeDropdown);
@@ -64,12 +67,24 @@ public class HomePage extends GenericTemplatePage {
 
             private static final long serialVersionUID = -8016115162670393962L;
 
+            @SpringBean
+            private GeoLocationService geoLocationService;
+            
             @Override
             public void onSubmit() {
 
                 SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
                 PageParameters params = new PageParameters();
-                params.set("city", req.getCityOrZip());
+                if (req.getLocation() != null) {
+                	GeoLocation geoLoc = geoLocationService.findLocation(req.getLocation());
+                	if (geoLoc != null) {
+                		params.set("loc", geoLocationService.findLocation(req.getLocation()).getId());
+                	} else {
+                		setResponsePage(NoResultsFoundPage.class);
+                	}
+                } else {
+                	params.set("loc", req.getLocation());
+                }
                 params.set("areaFrom", req.getAreaFrom());
                 params.set("priceTo", req.getPriceTo());
                 params.set("roomsFrom", req.getRoomsFrom());
