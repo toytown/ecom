@@ -9,6 +9,100 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "geoLocation")
 public class GeoLocation implements Serializable {
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((area1 == null) ? 0 : area1.hashCode());
+		result = prime * result + ((area2 == null) ? 0 : area2.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + ((iso2 == null) ? 0 : iso2.hashCode());
+		result = prime * result + ((language == null) ? 0 : language.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(lat);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(lng);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((region1 == null) ? 0 : region1.hashCode());
+		result = prime * result + ((region2 == null) ? 0 : region2.hashCode());
+		result = prime * result + ((region3 == null) ? 0 : region3.hashCode());
+		result = prime * result + ((region4 == null) ? 0 : region4.hashCode());
+		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GeoLocation other = (GeoLocation) obj;
+		if (area1 == null) {
+			if (other.area1 != null)
+				return false;
+		} else if (!area1.equals(other.area1))
+			return false;
+		if (area2 == null) {
+			if (other.area2 != null)
+				return false;
+		} else if (!area2.equals(other.area2))
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (country == null) {
+			if (other.country != null)
+				return false;
+		} else if (!country.equals(other.country))
+			return false;
+		if (iso2 == null) {
+			if (other.iso2 != null)
+				return false;
+		} else if (!iso2.equals(other.iso2))
+			return false;
+		if (language == null) {
+			if (other.language != null)
+				return false;
+		} else if (!language.equals(other.language))
+			return false;
+		if (Double.doubleToLongBits(lat) != Double.doubleToLongBits(other.lat))
+			return false;
+		if (Double.doubleToLongBits(lng) != Double.doubleToLongBits(other.lng))
+			return false;
+		if (region1 == null) {
+			if (other.region1 != null)
+				return false;
+		} else if (!region1.equals(other.region1))
+			return false;
+		if (region2 == null) {
+			if (other.region2 != null)
+				return false;
+		} else if (!region2.equals(other.region2))
+			return false;
+		if (region3 == null) {
+			if (other.region3 != null)
+				return false;
+		} else if (!region3.equals(other.region3))
+			return false;
+		if (region4 == null) {
+			if (other.region4 != null)
+				return false;
+		} else if (!region4.equals(other.region4))
+			return false;
+		if (zip == null) {
+			if (other.zip != null)
+				return false;
+		} else if (!zip.equals(other.zip))
+			return false;
+		return true;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	private String country;

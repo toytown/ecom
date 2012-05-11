@@ -3,8 +3,10 @@ package com.ecom.web.search;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
@@ -37,6 +39,7 @@ import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
+import com.ecom.web.components.stateless.StatelessAjaxFallbackLink;
 import com.ecom.web.components.stateless.StatelessAjaxFormComponentUpdatingBehavior;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
@@ -107,6 +110,50 @@ public class SearchResultPage extends GenericTemplatePage {
 		});
 		add(sortResults);
 
+		final ModalWindow modalWindow;
+		modalWindow = new ModalWindow("cityAreaSelection");
+		modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
+		modalWindow.setCookieName("cityAreaSelection");
+		modalWindow.setInitialHeight(130);
+		modalWindow.setInitialWidth(120);
+		modalWindow.setRenderBodyOnly(false);
+		
+		modalWindow.setPageCreator(new ModalWindow.PageCreator() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Page createPage() {
+				return new LocationSelectionPage(modalWindow, "München");
+			}
+
+		});
+		
+		modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+				return true;
+			}
+		});
+		
+		add(new StatelessAjaxFallbackLink<Void>("localAreaSelection") {
+
+			private static final long serialVersionUID = 5507632714061994338L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				
+				modalWindow.show(target);
+				
+			}
+			
+		});
+		
+		add(modalWindow);
+		
 		final TextField<Double> priceFromTxt = new TextField<Double>("priceFrom");
 		final TextField<Double> priceToTxt = new TextField<Double>("priceTo");
 		final TextField<Double> areaFromTxt = new TextField<Double>("areaFrom");

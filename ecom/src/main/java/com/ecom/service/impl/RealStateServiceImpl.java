@@ -72,13 +72,12 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	public Query buildQuery(SearchRequest req) {
 		Query q = new Query();
-
+	
 		String zipOrCityLoc = req.getLocation();
 		if (StringUtils.isNotEmpty(zipOrCityLoc)) {
 			GeoLocation geoLoc = geoLocationService.findOne(zipOrCityLoc);
 			Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
 			q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
-
 		}
 
 		if (req.getAreaFrom() != null || req.getAreaTo() != null) {

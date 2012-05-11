@@ -1,7 +1,11 @@
 package com.ecom.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +23,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
 
 	@Autowired
 	private GeoLocationRepository geoLocationRepository;
-
+	
 	@Override
 	public GeoLocation findLocation(String cityOrZip) {
 		QGeoLocation geoLocation = new QGeoLocation("geoLocation");
@@ -80,6 +84,21 @@ public class GeoLocationServiceImpl implements GeoLocationService {
 	@Override
 	public GeoLocation findOne(String id) {
 		return geoLocationRepository.findOne(id);
+	}
+
+	@Override
+	public List<String> findCityAreas(String city) {
+		QGeoLocation geoLocation = new QGeoLocation("geoLocation");	
+		Iterable<GeoLocation> geoIter = geoLocationRepository.findAll(geoLocation.city.eq(city));
+		
+		SortedSet<String> areaList = new TreeSet<String>();
+		for (GeoLocation g:  geoIter) {
+			if (!StringUtils.isEmpty(g.getArea1())) {
+				areaList.add(g.getArea1());
+			}
+		}
+		List<String> values = new ArrayList<String>(areaList);
+		return values;
 	}
 
 
