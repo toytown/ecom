@@ -50,12 +50,19 @@ public class SearchResultPage extends GenericTemplatePage {
 
 	private static final long serialVersionUID = -6983320790900379278L;
 
+			
 	public SearchResultPage(final PageParameters params) {
 
 		setStatelessHint(true);
 
-		SearchRequest req = recreateSearchRequest(params);
+		SearchRequest req = getSession().getMetaData(SEARCH_REQ);
 
+		if (req == null) {		
+			req = recreateSearchRequest(params);
+			getSession().setMetaData(SEARCH_REQ, req);
+			
+		}
+		
 		final SortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
 
 		final CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
@@ -124,7 +131,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
 			@Override
 			public Page createPage() {
-				return new LocationSelectionPage(modalWindow, "München");
+				return new LocationSelectionPage(modalWindow);
 			}
 
 		});

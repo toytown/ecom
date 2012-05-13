@@ -8,8 +8,10 @@ import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.ecom.domain.SearchRequest;
 import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.web.main.GenericTemplatePage;
 
@@ -20,12 +22,19 @@ public class LocationSelectionPage extends GenericTemplatePage {
 	@SpringBean
 	private GeoLocationService geoLocationService;
 
-	public LocationSelectionPage(final ModalWindow modalWindow, String city) {
+	public LocationSelectionPage(final ModalWindow modalWindow) {
 
+		SearchRequest req = getSession().getMetaData(SEARCH_REQ);
+
+		if (req == null) {		
+			throw new AbortWithHttpErrorCodeException(404);
+		}
+		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		IModel<List<String>> areaSelectedModel = new Model(new ArrayList<String>());
 		
-		List<String> locations = geoLocationService.findCityAreas(city);
+	
+		List<String> locations = geoLocationService.findCityAreas("");
 
 		CheckBoxMultipleChoice<String> areaChoice = new CheckBoxMultipleChoice<String>("areas", areaSelectedModel, locations, new IChoiceRenderer<String>() {
 
@@ -42,6 +51,7 @@ public class LocationSelectionPage extends GenericTemplatePage {
 			}
 		});
 
+		add(areaChoice);
 		
 	}
 }
