@@ -34,7 +34,7 @@ public class LocationSelectionPage extends GenericTemplatePage {
 		IModel<List<String>> areaSelectedModel = new Model(new ArrayList<String>());
 		
 	
-		List<String> locations = geoLocationService.findCityAreas("");
+		List<String> locations = geoLocationService.findCityAreas("München");
 
 		CheckBoxMultipleChoice<String> areaChoice = new CheckBoxMultipleChoice<String>("areas", areaSelectedModel, locations, new IChoiceRenderer<String>() {
 

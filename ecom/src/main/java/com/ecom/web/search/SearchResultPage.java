@@ -39,12 +39,12 @@ import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
-import com.ecom.web.components.stateless.StatelessAjaxFallbackLink;
-import com.ecom.web.components.stateless.StatelessAjaxFormComponentUpdatingBehavior;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
 import com.ecom.web.main.NewsletterPanel;
+import com.google.code.joliratools.StatelessAjaxFallbackLink;
+import com.google.code.joliratools.StatelessAjaxFormComponentUpdatingBehavior;
 
 public class SearchResultPage extends GenericTemplatePage {
 
@@ -153,7 +153,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-
+			    modalWindow.show(target);
 
 			}
 		});
