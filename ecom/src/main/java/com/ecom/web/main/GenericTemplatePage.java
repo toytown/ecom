@@ -1,6 +1,5 @@
 package com.ecom.web.main;
 
-import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.Model;
@@ -9,7 +8,6 @@ import org.apache.wicket.request.resource.ContextRelativeResource;
 import org.apache.wicket.request.resource.ResourceReference;
 
 import com.ecom.domain.RealState;
-import com.ecom.domain.SearchRequest;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 
@@ -22,8 +20,6 @@ public abstract class GenericTemplatePage extends WebPage {
 
     private static final long serialVersionUID = 4433575012178589668L;
 	
-    @SuppressWarnings("serial")
-	protected static final MetaDataKey<SearchRequest> SEARCH_REQ = new MetaDataKey<SearchRequest>() {};
 	
 	protected StaticImage getTitleImageFromUrl(String url) {
 

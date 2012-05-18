@@ -83,7 +83,7 @@ public class HomePage extends GenericTemplatePage {
                 		setResponsePage(NoResultsFoundPage.class);
                 	}
                 } else {
-                	params.set("loc", req.getLocation());
+                	params.set("loc", req.getLocation());                	
                 }
                 params.set("areaFrom", req.getAreaFrom());
                 params.set("priceTo", req.getPriceTo());

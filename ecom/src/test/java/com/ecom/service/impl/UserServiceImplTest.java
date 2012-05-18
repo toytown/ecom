@@ -37,9 +37,5 @@ public class UserServiceImplTest extends AbstractIntegrationTest{
         userService.retriveAndSendNewPassword("testUserRetrieve");
     }
 
-    @Test
-    public void testSaveUser() {
-        fail("Not yet implemented");
-    }
 
 }
