@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.MetaDataKey;
+import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
@@ -18,7 +20,6 @@ import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -39,10 +40,12 @@ import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
 import com.ecom.web.components.image.StaticImage;
 import com.ecom.web.components.pagination.CustomizedPagingNavigator;
+import com.ecom.web.components.panel.StatelessModalWindow;
 import com.ecom.web.data.RealStateDataProvider;
 import com.ecom.web.main.EcomSession;
 import com.ecom.web.main.GenericTemplatePage;
 import com.ecom.web.main.NewsletterPanel;
+import com.google.code.joliratools.StatelessAjaxFallbackLink;
 import com.google.code.joliratools.StatelessAjaxFormComponentUpdatingBehavior;
 
 public class SearchResultPage extends GenericTemplatePage {
@@ -56,32 +59,56 @@ public class SearchResultPage extends GenericTemplatePage {
 
         setStatelessHint(true);
 
-        SearchRequest req = recreateSearchRequest(params);
+        final SearchRequest req = recreateSearchRequest(params);
 
-        String loc_city = req.getLocation();
+		final StatelessModalWindow modalWindow;
+		modalWindow = new StatelessModalWindow("cityAreaSelection");
+		modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
+		modalWindow.setCookieName("cityAreaSelection");
+		modalWindow.setInitialHeight(130);
+		modalWindow.setInitialWidth(120);
+		modalWindow.setRenderBodyOnly(false);
+		modalWindow.setOutputMarkupId(true);
+		
+		modalWindow.setPageCreator(new StatelessModalWindow.PageCreator() {
 
-        LocationSelectionPanel locationSelectionPanel = new LocationSelectionPanel("cityLocations", loc_city);
+			private static final long serialVersionUID = 1L;
 
-        add(locationSelectionPanel);
+			@Override
+			public Page createPage() {
+				return new LocationSelectionPage(modalWindow, "Berlin");
+			}
 
-        StatelessLink<Void> locationSelect = new StatelessLink<Void>("locationSelect") {
+		});
+		
+		modalWindow.setCloseButtonCallback(new StatelessModalWindow.CloseButtonCallback() {
 
-            @Override
-            public void onClick() {
-                SearchRequest req = getSession().getMetaData(SEARCH_REQ);
+			private static final long serialVersionUID = 1L;
 
-                if (req != null && req.getLocation() != null) {
-                    setResponsePage(SearchResultPage.class, params);
-                }
-            }
+			@Override
+			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+				return true;
+			}
+		});		
+		
+		add(new StatelessAjaxFallbackLink<Void>("localAreaSelection") {
 
-            @Override
-            protected CharSequence getURL() {
-                return urlFor(SearchResultPage.class, getPage().getPageParameters());
-            }
-        };
+			private static final long serialVersionUID = 5507632714061994338L;
 
-        add(locationSelect);
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				modalWindow.show(target);
+			}
+			
+			@Override
+			public boolean getStatelessHint() {
+				return true;
+			}
+			 
+		});
+		
+		modalWindow.setMarkupId("cityAreaSelection");
+		add(modalWindow);
 
         final SortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
 
