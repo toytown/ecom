@@ -29,7 +29,6 @@ public class HomePage extends GenericTemplatePage {
     private static final List<RealStateType> realStateObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House,
             RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
 
-    
     public HomePage() {
         super();
 
@@ -40,8 +39,9 @@ public class HomePage extends GenericTemplatePage {
         setStatelessHint(true);
 
         IModel<String> locationModel = searchReqModel.bind("location");
-        TextField<String> cityTxt = new TextField<String>("cityOrZip",  locationModel);
-
+        TextField<String> cityTxt = new TextField<String>("cityOrZip", locationModel);
+        cityTxt.setRequired(true);
+        
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");
         TextField<Double> roomsFromTxt = new TextField<Double>("roomsFrom");
@@ -69,21 +69,21 @@ public class HomePage extends GenericTemplatePage {
 
             @SpringBean
             private GeoLocationService geoLocationService;
-            
+
             @Override
             public void onSubmit() {
 
                 SearchRequest req = (SearchRequest) searchForm.getDefaultModel().getObject();
                 PageParameters params = new PageParameters();
                 if (req.getLocation() != null) {
-                	GeoLocation geoLoc = geoLocationService.findLocation(req.getLocation());
-                	if (geoLoc != null) {
-                		params.set("loc", geoLocationService.findLocation(req.getLocation()).getId());
-                	} else {
-                		setResponsePage(NoResultsFoundPage.class);
-                	}
+                    GeoLocation geoLoc = geoLocationService.findLocation(req.getLocation());
+                    if (geoLoc != null) {
+                        params.set("loc", geoLocationService.findLocation(req.getLocation()).getId());
+                    } else {
+                        setResponsePage(NoResultsFoundPage.class);
+                    }
                 } else {
-                	params.set("loc", req.getLocation());                	
+                    params.set("loc", req.getLocation());
                 }
                 params.set("areaFrom", req.getAreaFrom());
                 params.set("priceTo", req.getPriceTo());

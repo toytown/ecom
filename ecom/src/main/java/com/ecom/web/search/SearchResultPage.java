@@ -20,6 +20,7 @@ import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.ILinkListener;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -52,6 +53,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
     private static final long serialVersionUID = -6983320790900379278L;
 
+    private SearchRequest req = null;
     @SuppressWarnings("serial")
     public static final MetaDataKey<SearchRequest> SEARCH_REQ = new MetaDataKey<SearchRequest>() {};
 
@@ -59,61 +61,16 @@ public class SearchResultPage extends GenericTemplatePage {
 
         setStatelessHint(true);
 
-        final SearchRequest req = recreateSearchRequest(params);
+        req = recreateSearchRequest(params);
 
-		final StatelessModalWindow modalWindow;
-		modalWindow = new StatelessModalWindow("cityAreaSelection");
-		modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
-		modalWindow.setCookieName("cityAreaSelection");
-		modalWindow.setInitialHeight(130);
-		modalWindow.setInitialWidth(120);
-		modalWindow.setRenderBodyOnly(false);
-		modalWindow.setOutputMarkupId(true);
-		
-		modalWindow.setPageCreator(new StatelessModalWindow.PageCreator() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Page createPage() {
-				return new LocationSelectionPage(modalWindow, "Berlin");
-			}
-
-		});
-		
-		modalWindow.setCloseButtonCallback(new StatelessModalWindow.CloseButtonCallback() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-				return true;
-			}
-		});		
-		
-		add(new StatelessAjaxFallbackLink<Void>("localAreaSelection") {
-
-			private static final long serialVersionUID = 5507632714061994338L;
-
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				modalWindow.show(target);
-			}
-			
-			@Override
-			public boolean getStatelessHint() {
-				return true;
-			}
-			 
-		});
-		
-		modalWindow.setMarkupId("cityAreaSelection");
-		add(modalWindow);
-
+        if (req.getLocation() != null) {
+            getSession().setMetaData(SEARCH_REQ, req);
+        }
+        
         final SortableDataProvider<RealState> dataProvider = new RealStateDataProvider(req);
 
         final CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
-
+        
         final WebMarkupContainer dataContainer = new WebMarkupContainer("dataContainer");
         dataContainer.setOutputMarkupId(true);
         dataContainer.setOutputMarkupPlaceholderTag(true);
@@ -128,12 +85,67 @@ public class SearchResultPage extends GenericTemplatePage {
             }
         };
 
+       
+        final StatelessModalWindow modalWindow;
+        modalWindow = new StatelessModalWindow("cityAreaSelection");
+        modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
+        modalWindow.setCookieName("cityAreaSelection");
+        modalWindow.setInitialHeight(130);
+        modalWindow.setInitialWidth(120);
+        modalWindow.setRenderBodyOnly(false);
+        modalWindow.setOutputMarkupId(true);
+        
+        modalWindow.setPageCreator(new StatelessModalWindow.PageCreator() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Page createPage() {
+                return new LocationSelectionPage(modalWindow);
+            }
+
+        });
+        
+        modalWindow.setCloseButtonCallback(new StatelessModalWindow.CloseButtonCallback() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+                return true;
+            }
+        });     
+        
+        add(new StatelessAjaxFallbackLink<Void>("localAreaSelection") {
+
+            private static final long serialVersionUID = 5507632714061994338L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                modalWindow.show(target);
+            }
+            
+            @Override
+            public boolean getStatelessHint() {
+                return true;
+            }
+
+            @Override
+            protected CharSequence getURL() {
+                return urlFor(ILinkListener.INTERFACE, getPage().getPageParameters());
+            }
+        });
+        
+        modalWindow.setMarkupId("cityAreaSelection");
+        add(modalWindow);
+        
         RealStateSort sortOrder = RealStateSort.PRC_ASC;
 
         if (req.getSortOrder() != null) {
             sortOrder = req.getSortOrder();
         }
 
+        
         IModel<RealStateSort> sortparamModel = new Model<RealStateSort>(sortOrder);
         dataProvider.setSort(new SortParam(sortOrder.toString(), false));
 
