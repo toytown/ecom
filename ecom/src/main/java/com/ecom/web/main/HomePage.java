@@ -3,6 +3,7 @@ package com.ecom.web.main;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.RadioChoice;
@@ -29,18 +30,28 @@ public class HomePage extends GenericTemplatePage {
     private static final List<RealStateType> realStateObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House,
             RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
 
+    @SuppressWarnings("serial")
+    public static final MetaDataKey<SearchRequest> SEARCH_REQ = new MetaDataKey<SearchRequest>() {};
+    
     public HomePage() {
         super();
 
-        SearchRequest req = new SearchRequest();
+        SearchRequest req = getSession().getMetaData(SEARCH_REQ);
+        
+        if (req == null ) {
+            req = new SearchRequest();
+            getSession().bind();
+            getSession().setMetaData(SEARCH_REQ, req);
+        } 
+        
         CompoundPropertyModel<SearchRequest> searchReqModel = new CompoundPropertyModel<SearchRequest>(req);
 
         final StatelessForm<SearchRequest> searchForm = new StatelessForm<SearchRequest>("searchForm", searchReqModel);
         setStatelessHint(true);
-
+        
         IModel<String> locationModel = searchReqModel.bind("location");
         TextField<String> cityTxt = new TextField<String>("cityOrZip", locationModel);
-        cityTxt.setRequired(true);
+        //cityTxt.setRequired(true);
         
         TextField<String> areaTxt = new TextField<String>("areaFrom");
         TextField<Double> priceTxt = new TextField<Double>("priceTo");

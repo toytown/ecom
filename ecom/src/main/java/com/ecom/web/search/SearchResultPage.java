@@ -20,7 +20,6 @@ import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.ILinkListener;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -132,7 +131,7 @@ public class SearchResultPage extends GenericTemplatePage {
 
             @Override
             protected CharSequence getURL() {
-                return urlFor(ILinkListener.INTERFACE, getPage().getPageParameters());
+                return urlFor(SearchResultPage.class, getPage().getPageParameters());
             }
         });
         
@@ -260,6 +259,10 @@ public class SearchResultPage extends GenericTemplatePage {
 
     }
 
+    @Override
+    public void onConfigure() {
+        
+    }
     private final DataView<RealState> getResultView(final ISortableDataProvider<RealState> dataProvider, final PageParameters params) {
         DataView<RealState> dataView = new DataView<RealState>("searchResultsView", dataProvider) {
             private static final long serialVersionUID = -8557003080882186607L;
