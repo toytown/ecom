@@ -13,15 +13,16 @@ import org.apache.wicket.model.Model;
 
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealState;
-import com.ecom.domain.RealStateType;
+import com.ecom.domain.RealStateCategory;
 import com.ecom.web.components.wizard.WizardStep;
 
 public class SelectOfferStep extends WizardStep {
 
 	private static final long serialVersionUID = 1L;
 	private WebMarkupContainer realStateTypesContainer;
-	private static final List<RealStateType> realStateRentObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.FurnishedAppartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
-	private static final List<RealStateType> realStateBuyObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House, RealStateType.Land, RealStateType.Garage);
+	
+	private static final List<RealStateCategory> realStateRentObjectList = Arrays.asList(RealStateCategory.Appartment, RealStateCategory.FurnishedAppartment, RealStateCategory.House, RealStateCategory.Land, RealStateCategory.Garage);
+	private static final List<RealStateCategory> realStateBuyObjectList = Arrays.asList(RealStateCategory.Appartment, RealStateCategory.House, RealStateCategory.Land, RealStateCategory.Garage);
 	
 	public SelectOfferStep(IModel<String> title, IModel<String> summary, final IModel<RealState> realStateModel) {
 		super(title, summary);
@@ -38,8 +39,8 @@ public class SelectOfferStep extends WizardStep {
 		
 		List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
 		
-		final IModel<OfferType> offerTypeModel = Model.of(OfferType.valueOf(realStateModel.getObject().getTypeId()));
-		RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("typeId", offerTypeModel, offerTypeList);
+		final IModel<OfferType> offerTypeModel = Model.of(realStateModel.getObject().getOfferType());
+		RadioChoice<OfferType> offerType = new RadioChoice<OfferType>("offerType", offerTypeModel, offerTypeList);
 
 		offerType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
 
@@ -53,10 +54,10 @@ public class SelectOfferStep extends WizardStep {
 			        OfferType offerTypeSelected = offerTypeModel.getObject();
 			        
 			        RealState realState = realStateModel.getObject();			        
-			        realState.setTypeId(OfferType.getId(offerTypeSelected));
+			        realState.setOfferType(offerTypeSelected);
 			        realStateModel.setObject(realState);
 			        
-			        List<RealStateType> realStateTypeList = null;
+			        List<RealStateCategory> realStateTypeList = null;
 			        
 			        if (offerTypeSelected.equals(OfferType.Rent)) {
 			            realStateTypeList = realStateRentObjectList;
@@ -64,8 +65,8 @@ public class SelectOfferStep extends WizardStep {
 			            realStateTypeList = realStateBuyObjectList;
 			        }
 			        
-			        final IModel<RealStateType> realStateTypeSel = Model.of(RealStateType.valueOf(realState.getRealStateType()));
-			        RadioChoice<RealStateType> realStateType = new RadioChoice<RealStateType>("realStateType", realStateTypeSel, realStateTypeList);
+			        final IModel<RealStateCategory> realStateTypeSel = Model.of(realState.getRealStateCategory());
+			        RadioChoice<RealStateCategory> realStateType = new RadioChoice<RealStateCategory>("realStateType", realStateTypeSel, realStateTypeList);
 			        realStateTypesContainer.addOrReplace(realStateType);
 			        realStateTypesContainer.setVisible(true);
 			        realStateType.setRequired(true);		        
@@ -73,13 +74,13 @@ public class SelectOfferStep extends WizardStep {
 			        realStateType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
 
 						private static final long serialVersionUID = 1L;
-
+						
 							@Override
 			            protected void onUpdate(AjaxRequestTarget target) {
-			                RealStateType realStateType = realStateTypeSel.getObject();
+			                RealStateCategory realStateType = realStateTypeSel.getObject();
 			                
 			                RealState realState = realStateModel.getObject();                   
-			                realState.setRealStateType(RealStateType.getId(realStateType));
+			                realState.setRealStateCategory(realStateType);
 			                realStateModel.setObject(realState);
 			                
 			            }
@@ -92,19 +93,20 @@ public class SelectOfferStep extends WizardStep {
 		
 		offerType.setRequired(true);
 		
-		List<RealStateType> realStateTypeList = realStateRentObjectList;
+		List<RealStateCategory> realStateTypeList = realStateRentObjectList;
 		
 		RealState realState = realStateModel.getObject();
-		RealStateType realStateType = RealStateType.valueOf(realState.getRealStateType());
+		RealStateCategory realStateCategory = realState.getRealStateCategory();
 		
-		IModel<RealStateType> realStateTypeSel = Model.of(realStateType);
+		IModel<RealStateCategory> realStateTypeSel = Model.of(realStateCategory);
 		
-		RadioChoice<RealStateType> realStateTypeChoice = new RadioChoice<RealStateType>("realStateType", realStateTypeSel, realStateTypeList);
+		RadioChoice<RealStateCategory> realStateTypeChoice = new RadioChoice<RealStateCategory>("realStateType", realStateTypeSel, realStateTypeList);
 		realStateTypeChoice.setRequired(true);
 		
 		realStateTypesContainer.add(realStateTypeChoice);
-		realStateTypesContainer.setVisible(realStateType.equals(RealStateType.None));
-
+		OfferType offerTypeSelected = offerTypeModel.getObject();
+		realStateTypesContainer.setVisible(offerTypeSelected != null);
+		
 		offerSelectionForm.add(offerType);
 		offerSelectionForm.add(realStateTypesContainer);
 		add(offerSelectionForm);

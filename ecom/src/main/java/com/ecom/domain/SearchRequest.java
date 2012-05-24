@@ -51,7 +51,7 @@ public class SearchRequest implements Serializable {
 
     private OfferType typeId = OfferType.Rent;
 
-    private RealStateType realStateType = RealStateType.Appartment;
+    private RealStateCategory realStateType = RealStateCategory.Appartment;
 
     private RealStateSort sortOrder;
 
@@ -306,11 +306,11 @@ public class SearchRequest implements Serializable {
         this.typeId = typeId;
     }
 
-    public RealStateType getRealStateType() {
+    public RealStateCategory getRealStateType() {
         return realStateType;
     }
 
-    public void setRealStateType(RealStateType realStateType) {
+    public void setRealStateType(RealStateCategory realStateType) {
         this.realStateType = realStateType;
     }
 

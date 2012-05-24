@@ -17,7 +17,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.ecom.domain.GeoLocation;
 import com.ecom.domain.OfferType;
-import com.ecom.domain.RealStateType;
+import com.ecom.domain.RealStateCategory;
 import com.ecom.domain.SearchRequest;
 import com.ecom.service.interfaces.GeoLocationService;
 import com.ecom.web.search.NoResultsFoundPage;
@@ -27,8 +27,8 @@ public class HomePage extends GenericTemplatePage {
 
     private static final long serialVersionUID = 6571024929658974042L;
     private static final List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
-    private static final List<RealStateType> realStateObjectList = Arrays.asList(RealStateType.Appartment, RealStateType.House,
-            RealStateType.FurnishedAppartment, RealStateType.Land, RealStateType.Garage);
+    private static final List<RealStateCategory> realStateObjectList = Arrays.asList(RealStateCategory.Appartment, RealStateCategory.House,
+            RealStateCategory.FurnishedAppartment, RealStateCategory.Land, RealStateCategory.Garage);
 
     @SuppressWarnings("serial")
     public static final MetaDataKey<SearchRequest> SEARCH_REQ = new MetaDataKey<SearchRequest>() {};
@@ -70,7 +70,7 @@ public class HomePage extends GenericTemplatePage {
         // Realstate type - appartment, house, garage
         // EnumChoiceRenderer<RealStateType> realStateTypeEnum = new
         // EnumChoiceRenderer<RealStateType>(this);
-        DropDownChoice<RealStateType> realStateTypeDropdown = new DropDownChoice<RealStateType>("realStateType", new PropertyModel<RealStateType>(
+        DropDownChoice<RealStateCategory> realStateTypeDropdown = new DropDownChoice<RealStateCategory>("realStateType", new PropertyModel<RealStateCategory>(
                 req, "realStateType"), realStateObjectList);
         searchForm.add(realStateTypeDropdown);
 
@@ -100,7 +100,7 @@ public class HomePage extends GenericTemplatePage {
                 params.set("priceTo", req.getPriceTo());
                 params.set("roomsFrom", req.getRoomsFrom());
                 params.set("typeId", OfferType.getId(req.getTypeId()));
-                params.set("realStateType", RealStateType.getId(req.getRealStateType()));
+                params.set("realStateType", RealStateCategory.getId(req.getRealStateType()));
 
                 setResponsePage(SearchResultPage.class, params);
 

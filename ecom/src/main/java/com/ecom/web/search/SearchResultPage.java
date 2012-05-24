@@ -34,7 +34,7 @@ import org.apache.wicket.util.string.Strings;
 import com.ecom.domain.OfferType;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateSort;
-import com.ecom.domain.RealStateType;
+import com.ecom.domain.RealStateCategory;
 import com.ecom.domain.SearchRequest;
 import com.ecom.web.components.buttons.MiniButton;
 import com.ecom.web.components.image.EcomImageResouceReference;
@@ -361,7 +361,7 @@ public class SearchResultPage extends GenericTemplatePage {
             }
 
             if (keyVal.getKey().equals("realStateType")) {
-                req.setRealStateType(RealStateType.valueOf(Integer.valueOf(keyVal.getValue())));
+                req.setRealStateType(RealStateCategory.valueOf(Integer.valueOf(keyVal.getValue())));
             }
 
             if (keyVal.getKey().equals("loc")) {

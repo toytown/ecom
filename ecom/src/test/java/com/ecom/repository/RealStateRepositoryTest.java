@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ecom.domain.AppartmentType;
+import com.ecom.domain.OfferType;
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.ImageService;
 import com.ecom.test.AbstractIntegrationTest;
@@ -121,8 +123,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 			appartment
 					.setAreaDescription("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
 
-			appartment.setCategoryId(1);
-			appartment.setTypeId(1);
+			appartment.setOfferType(OfferType.Rent);
+			appartment.setAppartmentType(AppartmentType.Etagewohnung);
 
 			appartment.setUserId(getDefaultUser().getId().toString());
 			realStateRepository.save(appartment);

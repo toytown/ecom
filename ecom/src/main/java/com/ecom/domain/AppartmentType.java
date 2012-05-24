@@ -1,6 +1,8 @@
 package com.ecom.domain;
 
-public enum AppartmentType {
+import java.io.Serializable;
+
+public enum AppartmentType implements Serializable {
 
 	Etagewohnung, Erdgeschoss, Dachgeschoss, Maisonette, Penthouse, Loft, Sonstige;
 	
