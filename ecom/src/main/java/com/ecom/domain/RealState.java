@@ -33,7 +33,7 @@ public class RealState implements Serializable {
 	// offer type - Rent, Buy
 	private int typeId;
 
-	// type of real state - House, Appartment
+	// type of real state - House, Appartment, garage
 	private int realStateType;
 
 	@Indexed

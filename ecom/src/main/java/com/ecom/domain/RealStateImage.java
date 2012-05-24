@@ -26,6 +26,16 @@ public class RealStateImage implements Serializable {
 	
 	private boolean isThumbNail;
 	
+	private boolean isImageAppartmentPlan;
+	
+	public boolean isImageAppartmentPlan() {
+		return isImageAppartmentPlan;
+	}
+
+	public void setImageAppartmentPlan(boolean isImageAppartmentPlan) {
+		this.isImageAppartmentPlan = isImageAppartmentPlan;
+	}
+
 	public String getId() {
 		return id;
 	}

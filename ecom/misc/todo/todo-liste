@@ -20,6 +20,12 @@ Features :
  - validation for uploading data
  - api to integrate with immobilienscout24 and immowelt
 
+AddEnhancements
+=================
+# make image upload clickable,deletable 
+#
+#
+
 Search Enhancements
 ====================
 # selecting stadtteile and gemeinde
@@ -41,7 +47,8 @@ Enhancement
     Sonstige
 Ausstattung / Sonstiges:
 
-    Provisionsfrei (0)
+    Provisionsfrei (0) 
+    
     Gäste-WC (0)
     Keller (0)
     Garage/Stellplatz (0)

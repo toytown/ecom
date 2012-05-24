@@ -1,6 +1,7 @@
 package com.ecom.web.upload;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
@@ -12,6 +13,8 @@ import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -26,6 +29,7 @@ import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 import org.apache.wicket.validation.validator.StringValidator;
 
+import com.ecom.domain.AppartmentType;
 import com.ecom.domain.RealState;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.gmap.api.GLatLng;
@@ -141,6 +145,8 @@ public class BasicInfoStep extends WizardStep {
 		});
 
 		realStateUploadInfoForm.add(modalWindow);
+		
+		
 		final TextArea<String> title = new TextArea<String>("title");
 		title.setRequired(true);
 		title.add(StringValidator.maximumLength(150));
@@ -161,6 +167,11 @@ public class BasicInfoStep extends WizardStep {
 		TextField<String> areaCode = new TextField<String>("areaCode");
 		areaCode.setRequired(true);
 
+		//appartment type
+		IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
+		DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
+		realStateUploadInfoForm.add(appartmentType);
+		
 		TextField<String> contactTitle = new TextField<String>("contactInfo.title");
 		TextField<String> contactFirstName = new TextField<String>("contactInfo.firstName");
 		TextField<String> contactLastName = new TextField<String>("contactInfo.lastName");

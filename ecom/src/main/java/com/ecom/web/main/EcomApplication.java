@@ -22,6 +22,7 @@ import com.ecom.web.login.RetrievePasswordPage;
 import com.ecom.web.search.DetailViewPage;
 import com.ecom.web.search.SearchResultPage;
 import com.ecom.web.upload.AddRealStateInfoPage;
+import com.ecom.web.upload.MainOfferPage;
 import com.ecom.web.user.LogoutPage;
 import com.ecom.web.user.UserDashBoardPage;
 import com.ecom.web.utils.SecurePage;
@@ -47,7 +48,7 @@ public final class EcomApplication extends WebApplication {
         mountPage("/home/registration", RegistrationPage.class);
         mountPage("/home/results", SearchResultPage.class);
         mountPage("/home/dashboard", UserDashBoardPage.class);
-        mountPage("/home/addRealState", AddRealStateInfoPage.class);
+        mountPage("/home/offer", MainOfferPage.class);
         mountPage("/home/logout", LogoutPage.class);
 
         mountResource("/imagerepo/${id}", new EcomImageResouceReference());
