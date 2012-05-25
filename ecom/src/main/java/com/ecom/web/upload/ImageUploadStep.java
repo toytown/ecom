@@ -57,125 +57,131 @@ public class ImageUploadStep extends WizardStep {
 
 
 	public ImageUploadStep(IModel<String> title, IModel<String> summary, final IModel<RealState> realStateModel) {
-		super(title, summary);
+		super(title, summary, realStateModel);
 		Injector.get().inject(this);
 		imageContainer.setOutputMarkupId(true);
 		imageContainer.setOutputMarkupPlaceholderTag(true);
-		setDefaultModel(realStateModel);
-		
-		IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
-		add(file1 = new FileUploadField("file1", model));
-		add(file2 = new FileUploadField("file2", model));
-		add(file3 = new FileUploadField("file3", model));
-		add(file4 = new FileUploadField("file4", model));
-		add(file5 = new FileUploadField("file5", model));
-		add(file6 = new FileUploadField("file6", model));
-		add(file7 = new FileUploadField("file7", model));
-		add(file8 = new FileUploadField("file8", model));
-		add(file9 = new FileUploadField("file9", model));
-		add(file10 = new FileUploadField("file10", model));
-
-		// refreshing view
-		final RefreshingView<RealStateImage> imgListView = new RefreshingView<RealStateImage>("imagesListView") {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected Iterator<IModel<RealStateImage>> getItemModels() {
-				RealState realState = realStateModel.getObject();				
-				Iterator<RealStateImage> imageIter = realState.getGalleryImages().iterator();
-
-				return new ModelIteratorAdapter<RealStateImage>(imageIter) {
-
-					@Override
-					protected IModel<RealStateImage> model(RealStateImage object) {
-						return new CompoundPropertyModel<RealStateImage>(object);
-					}
-
-				};
-			}
-
-			@Override
-			protected void populateItem(Item<RealStateImage> listItem) {
-				RealStateImage img = listItem.getModelObject();
-
-				// title thumb nail should be hidden
-				final ResourceReference imagesResourceReference = new EcomImageResouceReference();
-				final PageParameters imageParameters = new PageParameters();
-				String imageId = img.getId();
-				imageParameters.set("id", imageId);
-
-				CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-
-				// only title images are allowed to edit on this step
-				listItem.add(new StaticImage("img", new Model<String>(urlForImage.toString())));
-				listItem.add(new Link<String>("deleteLink", new Model<String>(imageId)) {
-
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void onClick() {
-						String imgId = this.getDefaultModelObjectAsString();
-						imageService.deleteImage(realStateModel.getObject(), imgId);
-						this.setVisible(false);
-						imageContainer.addOrReplace(this);
-						ImageUploadStep.this.addOrReplace(imageContainer);
-					}
-				});
-
-				listItem.setVisible(!img.isTitleImage());
-
-			}
-		};
-
-		imgListView.setOutputMarkupId(true);
-		imageContainer.add(imgListView);
-
-		imageUploadFeedback.setOutputMarkupId(true);
-		add(imageUploadFeedback);
-
-		add(new IndicatingAjaxSubmitLink("upload", new Model<String>("Upload")) {
-
-			private static final long serialVersionUID = 2718354305648397798L;
-
-			@Override
-			protected void onSubmit(AjaxRequestTarget target, final Form<?> form) {
-
-				List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
-				FileUpload uploadedFile1 = file1.getFileUpload();
-				FileUpload uploadedFile2 = file2.getFileUpload();
-				FileUpload uploadedFile3 = file3.getFileUpload();
-				FileUpload uploadedFile4 = file4.getFileUpload();
-				FileUpload uploadedFile5 = file5.getFileUpload();
-				FileUpload uploadedFile6 = file6.getFileUpload();
-				FileUpload uploadedFile7 = file7.getFileUpload();
-				FileUpload uploadedFile8 = file8.getFileUpload();
-				FileUpload uploadedFile9 = file9.getFileUpload();
-				FileUpload uploadedFile10 = file10.getFileUpload();
-
-				uploadedFilesList.add(uploadedFile1);
-				uploadedFilesList.add(uploadedFile2);
-				uploadedFilesList.add(uploadedFile3);
-				uploadedFilesList.add(uploadedFile4);
-				uploadedFilesList.add(uploadedFile5);
-				uploadedFilesList.add(uploadedFile6);
-				uploadedFilesList.add(uploadedFile7);
-				uploadedFilesList.add(uploadedFile8);
-				uploadedFilesList.add(uploadedFile9);
-				uploadedFilesList.add(uploadedFile10);
-
-				saveUploadedFiles(uploadedFilesList, realStateModel.getObject());
-				imageContainer.addOrReplace(imgListView);
-				target.add(imageContainer);
-
-			}
-
-		});
-
-		// imgListView.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
-		add(imageContainer);
 	}
 
+	@Override
+	public void onConfigure() {
+        
+        IModel<List<FileUpload>> model = new PropertyModel<List<FileUpload>>(this, "uploads");
+        add(file1 = new FileUploadField("file1", model));
+        add(file2 = new FileUploadField("file2", model));
+        add(file3 = new FileUploadField("file3", model));
+        add(file4 = new FileUploadField("file4", model));
+        add(file5 = new FileUploadField("file5", model));
+        add(file6 = new FileUploadField("file6", model));
+        add(file7 = new FileUploadField("file7", model));
+        add(file8 = new FileUploadField("file8", model));
+        add(file9 = new FileUploadField("file9", model));
+        add(file10 = new FileUploadField("file10", model));
+
+        // refreshing view
+        final RefreshingView<RealStateImage> imgListView = new RefreshingView<RealStateImage>("imagesListView") {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected Iterator<IModel<RealStateImage>> getItemModels() {
+                IModel<RealState>  realStateModel= (IModel<RealState>) this.getDefaultModel();   
+                RealState realState = realStateModel.getObject();
+                Iterator<RealStateImage> imageIter = realState.getGalleryImages().iterator();
+
+                return new ModelIteratorAdapter<RealStateImage>(imageIter) {
+
+                    @Override
+                    protected IModel<RealStateImage> model(RealStateImage object) {
+                        return new CompoundPropertyModel<RealStateImage>(object);
+                    }
+
+                };
+            }
+
+            @Override
+            protected void populateItem(Item<RealStateImage> listItem) {
+                RealStateImage img = listItem.getModelObject();
+
+                // title thumb nail should be hidden
+                final ResourceReference imagesResourceReference = new EcomImageResouceReference();
+                final PageParameters imageParameters = new PageParameters();
+                String imageId = img.getId();
+                imageParameters.set("id", imageId);
+
+                CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+
+                // only title images are allowed to edit on this step
+                listItem.add(new StaticImage("img", new Model<String>(urlForImage.toString())));
+                listItem.add(new Link<String>("deleteLink", new Model<String>(imageId)) {
+
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void onClick() {
+                        String imgId = this.getDefaultModelObjectAsString();
+                        IModel<RealState>  realStateModel= (IModel<RealState>) this.getDefaultModel(); 
+                        imageService.deleteImage(realStateModel.getObject(), imgId);
+                        this.setVisible(false);
+                        imageContainer.addOrReplace(this);
+                        ImageUploadStep.this.addOrReplace(imageContainer);
+                    }
+                });
+
+                listItem.setVisible(!img.isTitleImage());
+
+            }
+        };
+
+        imgListView.setOutputMarkupId(true);
+        imageContainer.add(imgListView);
+
+        imageUploadFeedback.setOutputMarkupId(true);
+        add(imageUploadFeedback);
+
+        add(new IndicatingAjaxSubmitLink("upload", new Model<String>("Upload")) {
+
+            private static final long serialVersionUID = 2718354305648397798L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, final Form<?> form) {
+
+                List<FileUpload> uploadedFilesList = new ArrayList<FileUpload>();
+                FileUpload uploadedFile1 = file1.getFileUpload();
+                FileUpload uploadedFile2 = file2.getFileUpload();
+                FileUpload uploadedFile3 = file3.getFileUpload();
+                FileUpload uploadedFile4 = file4.getFileUpload();
+                FileUpload uploadedFile5 = file5.getFileUpload();
+                FileUpload uploadedFile6 = file6.getFileUpload();
+                FileUpload uploadedFile7 = file7.getFileUpload();
+                FileUpload uploadedFile8 = file8.getFileUpload();
+                FileUpload uploadedFile9 = file9.getFileUpload();
+                FileUpload uploadedFile10 = file10.getFileUpload();
+
+                uploadedFilesList.add(uploadedFile1);
+                uploadedFilesList.add(uploadedFile2);
+                uploadedFilesList.add(uploadedFile3);
+                uploadedFilesList.add(uploadedFile4);
+                uploadedFilesList.add(uploadedFile5);
+                uploadedFilesList.add(uploadedFile6);
+                uploadedFilesList.add(uploadedFile7);
+                uploadedFilesList.add(uploadedFile8);
+                uploadedFilesList.add(uploadedFile9);
+                uploadedFilesList.add(uploadedFile10);
+
+                IModel<RealState>  realStateModel= (IModel<RealState>) this.getDefaultModel(); 
+                saveUploadedFiles(uploadedFilesList, realStateModel.getObject());
+                imageContainer.addOrReplace(imgListView);
+                target.add(imageContainer);
+
+            }
+
+        });
+
+        // imgListView.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
+        add(imageContainer);	    
+	}
+	
 	protected boolean isMaxSizeReached(List<FileUpload> uploadedFilesList) {
 		long size = 0;
 
