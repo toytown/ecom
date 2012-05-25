@@ -30,7 +30,9 @@ import org.apache.wicket.util.visit.IVisitor;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.AppartmentType;
+import com.ecom.domain.HouseType;
 import com.ecom.domain.RealState;
+import com.ecom.domain.RealStateCategory;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.image.EcomImageResouceReference;
@@ -62,7 +64,8 @@ public class BasicInfoStep extends WizardStep {
 		titleImageContainer = new WebMarkupContainer("titleImageContainer");
 		titleImageContainer.setOutputMarkupId(true);
 
-		if (realStateModel.getObject() != null && !StringUtils.isEmpty(realStateModel.getObject().getTitleImageId())) {
+		RealState realState = realStateModel.getObject();
+		if (realState != null && !StringUtils.isEmpty(realState.getTitleImageId())) {
 			titleImageContainer.add(getTitleImage(realStateModel.getObject()));
 		} else {
 			titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
@@ -71,7 +74,6 @@ public class BasicInfoStep extends WizardStep {
 		final Form<RealState> realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
 			private static final long serialVersionUID = 1L;
-
 
 
 			@Override
@@ -168,9 +170,19 @@ public class BasicInfoStep extends WizardStep {
 		areaCode.setRequired(true);
 
 		//appartment type
-		IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
-		DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
-		realStateUploadInfoForm.add(appartmentType);
+		if (realState.getRealStateCategory() != null) {
+			if (realState.getRealStateCategory().equals(RealStateCategory.Appartment)) {
+				IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
+				DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
+				realStateUploadInfoForm.add(appartmentType);			
+			} else if (realState.getRealStateCategory().equals(RealStateCategory.House)) {
+				IModel<HouseType> houseSelected = new Model<HouseType>(HouseType.Einfamilienhaus);
+				DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType", houseSelected, Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
+				realStateUploadInfoForm.add(hauseType);					
+			}
+			
+		}
+
 		
 		TextField<String> contactTitle = new TextField<String>("contactInfo.title");
 		TextField<String> contactFirstName = new TextField<String>("contactInfo.firstName");

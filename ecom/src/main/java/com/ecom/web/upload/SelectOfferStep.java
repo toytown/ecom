@@ -32,7 +32,7 @@ public class SelectOfferStep extends WizardStep {
 		realStateTypesContainer.setOutputMarkupId(true);
 		realStateTypesContainer.setOutputMarkupPlaceholderTag(true);
 
-		Form<Void> offerSelectionForm = new Form<Void>("offerSelectionForm");
+		final Form<Void> offerSelectionForm = new Form<Void>("offerSelectionForm");
 		offerSelectionForm.setOutputMarkupId(true);
 		offerSelectionForm.setDefaultModel(realStateModel);
 
@@ -54,7 +54,7 @@ public class SelectOfferStep extends WizardStep {
 			        OfferType offerTypeSelected = offerTypeModel.getObject();
 			        
 			        RealState realState = realStateModel.getObject();			        
-			        realState.setOfferType(offerTypeSelected);
+			        realState.setOfferType(offerTypeSelected);			        
 			        realStateModel.setObject(realState);
 			        
 			        List<RealStateCategory> realStateTypeList = null;
@@ -65,24 +65,23 @@ public class SelectOfferStep extends WizardStep {
 			            realStateTypeList = realStateBuyObjectList;
 			        }
 			        
-			        final IModel<RealStateCategory> realStateTypeSel = Model.of(realState.getRealStateCategory());
-			        RadioChoice<RealStateCategory> realStateType = new RadioChoice<RealStateCategory>("realStateType", realStateTypeSel, realStateTypeList);
+			        final IModel<RealStateCategory> realStateCatSel = Model.of(realState.getRealStateCategory());
+			        RadioChoice<RealStateCategory> realStateType = new RadioChoice<RealStateCategory>("realStateType", realStateCatSel, realStateTypeList);
 			        realStateTypesContainer.addOrReplace(realStateType);
 			        realStateTypesContainer.setVisible(true);
 			        realStateType.setRequired(true);		        
-
+			        
 			        realStateType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
 
 						private static final long serialVersionUID = 1L;
 						
 							@Override
 			            protected void onUpdate(AjaxRequestTarget target) {
-			                RealStateCategory realStateType = realStateTypeSel.getObject();
+			                RealStateCategory realStateCat = realStateCatSel.getObject();
 			                
 			                RealState realState = realStateModel.getObject();                   
-			                realState.setRealStateCategory(realStateType);
+			                realState.setRealStateCategory(realStateCat);
 			                realStateModel.setObject(realState);
-			                
 			            }
 			        });			        
 			        target.add(realStateTypesContainer);
@@ -100,10 +99,10 @@ public class SelectOfferStep extends WizardStep {
 		
 		IModel<RealStateCategory> realStateTypeSel = Model.of(realStateCategory);
 		
-		RadioChoice<RealStateCategory> realStateTypeChoice = new RadioChoice<RealStateCategory>("realStateType", realStateTypeSel, realStateTypeList);
-		realStateTypeChoice.setRequired(true);
+		RadioChoice<RealStateCategory> realStateCategoryChoice = new RadioChoice<RealStateCategory>("realStateType", realStateTypeSel, realStateTypeList);
+		realStateCategoryChoice.setRequired(true);
 		
-		realStateTypesContainer.add(realStateTypeChoice);
+		realStateTypesContainer.add(realStateCategoryChoice);
 		OfferType offerTypeSelected = offerTypeModel.getObject();
 		realStateTypesContainer.setVisible(offerTypeSelected != null);
 		

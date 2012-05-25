@@ -1,7 +1,5 @@
 package com.ecom.service.impl;
 
-import static org.junit.Assert.fail;
-
 import java.util.Date;
 
 import org.junit.Test;

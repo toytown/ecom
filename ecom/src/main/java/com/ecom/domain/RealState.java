@@ -39,7 +39,7 @@ public class RealState implements Serializable {
 
     private AppartmentType appartmentType;
     
-    private HausType houseType;
+    private HouseType houseType;
     
 	@Indexed
 	private String areaCode;
@@ -1025,11 +1025,11 @@ public class RealState implements Serializable {
         this.appartmentType = appartmentType;
     }
 
-    public HausType getHouseType() {
+    public HouseType getHouseType() {
         return houseType;
     }
 
-    public void setHouseType(HausType houseType) {
+    public void setHouseType(HouseType houseType) {
         this.houseType = houseType;
     }
 
