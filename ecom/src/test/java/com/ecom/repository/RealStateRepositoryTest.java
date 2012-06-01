@@ -25,8 +25,8 @@ public class RealStateRepositoryTest extends AbstractIntegrationTest {
 	@Autowired
 	private ImageService imageService;
 
-	
-	public void purgeRepository() {
+	@Test
+	public void testPurgeRepository() {
 		realStateRepository.deleteAll();
 	}
 
