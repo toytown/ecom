@@ -68,13 +68,65 @@ public class BasicInfoStep extends WizardStep {
         titleImageContainer = new WebMarkupContainer("titleImageContainer");
         titleImageContainer.setOutputMarkupId(true);
 
-        final IModel<RealState> realStateModel = (IModel<RealState>) this.getDefaultModel();
+        @SuppressWarnings("unchecked")
+		final IModel<RealState> realStateModel = (IModel<RealState>) this.getDefaultModel();
         
         RealState realState = realStateModel.getObject();
+        
+        final ModalWindow modalWindow;
+        modalWindow = new ModalWindow("titleUploadFileModalWindow");
+        modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
+        modalWindow.setCookieName("titleUploadFileModalWindow");
+        modalWindow.setInitialHeight(130);
+        modalWindow.setInitialWidth(190);
+        modalWindow.setPageCreator(new ModalWindow.PageCreator() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Page createPage() {
+                
+                return new TitleImageUploadPage(modalWindow, realStateModel);
+            }
+
+        });
+        
+        modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+
+                RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
+
+                if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
+                    realStateUploadInfoForm.modelChanged();
+                    titleImageContainer.addOrReplace(getTitleImage(realState));
+                    target.add(titleImageContainer);
+                }
+
+                return true;
+            }
+        });
+        
         if (realState != null && !StringUtils.isEmpty(realState.getTitleImageId())) {
             titleImageContainer.add(getTitleImage(realStateModel.getObject()));
         } else {
-            titleImageContainer.add(new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif")));
+        	ContextImage img = new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif"));
+        	AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void onClick(AjaxRequestTarget target) {
+			        modalWindow.show(target);
+					
+				}
+        		
+			};
+			imgUploadLink.add(img);
+            titleImageContainer.add(imgUploadLink);
         }
 
         realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
@@ -106,42 +158,7 @@ public class BasicInfoStep extends WizardStep {
             }
         });
 
-        final ModalWindow modalWindow;
-        modalWindow = new ModalWindow("titleUploadFileModalWindow");
-        modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
-        modalWindow.setCookieName("titleUploadFileModalWindow");
-        modalWindow.setInitialHeight(130);
-        modalWindow.setInitialWidth(190);
-        modalWindow.setPageCreator(new ModalWindow.PageCreator() {
 
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Page createPage() {
-                
-                return new TitleImageUploadPage(modalWindow, realStateModel);
-            }
-
-        });
-
-        modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-
-                RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
-
-                if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
-                    realStateUploadInfoForm.modelChanged();
-                    titleImageContainer.addOrReplace(getTitleImage(realState));
-                    target.add(titleImageContainer);
-                }
-
-                return true;
-            }
-        });
 
         realStateUploadInfoForm.add(new AjaxLink<Void>("uploadTitleImage") {
 
@@ -149,7 +166,7 @@ public class BasicInfoStep extends WizardStep {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                modalWindow.show(target);
+            	modalWindow.show(target);
             }
         });
 
@@ -227,6 +244,8 @@ public class BasicInfoStep extends WizardStep {
         CheckBox furnished = new CheckBox("furnished");
         CheckBox animalsAllowed = new CheckBox("animalsAllowed");
         CheckBox garageAvailable = new CheckBox("garageAvailable");
+        CheckBox rented = new CheckBox("rented");
+        
         TextField<Double> additionalCost = new TextField<Double>("additionalCost");
         TextField<Double> depositPeriod = new TextField<Double>("depositPeriod");
         DateTextField availableFrom = new DateTextField("availableFrom");
@@ -265,7 +284,7 @@ public class BasicInfoStep extends WizardStep {
         realStateUploadInfoForm.add(furnished);
         realStateUploadInfoForm.add(animalsAllowed);
         realStateUploadInfoForm.add(garageAvailable);
-
+        realStateUploadInfoForm.add(rented);        
         realStateUploadInfoForm.add(additionalCost);
         realStateUploadInfoForm.add(depositPeriod);
         realStateUploadInfoForm.add(availableFrom);

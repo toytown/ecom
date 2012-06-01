@@ -11,7 +11,7 @@ Features :
  - save search filter
  - geolocation info is saved during advert save (preview step)
  - website redesign, common look and feel, buttons & logo design
- - price (basic and profi business pack)  last setp of wizard, billing address
+ - price (basic and profi business pack)  last setup of wizard, billing address
  - upload file validation -check file size and max no. of images
  - gmap api key should be corretly setup
  - activating advert, advertisement management/placement - workflow ?
@@ -20,114 +20,46 @@ Features :
  - validation for uploading data
  - api to integrate with immobilienscout24 and immowelt
 
-AddEnhancements
+Enhancements
 =================
 # make image upload clickable,deletable 
-#
-#
-
-Search Enhancements
-====================
-# selecting stadtteile and gemeinde
-# selecting  
-
-Enhancement
- - New Realstate type house, garage, land
- -  HausType
- Haustyp:
-
-    Bauernhaus (0)
-    Doppelhaushälfte (1)
-    Einfamilienhaus (0)
-    Villa (0)
-    Reihenhaus (0)
-    Mehrfamilienhaus (0)
-    Bungalow (0)
-    Besondere Immobilie (1)
-    Sonstige
-Ausstattung / Sonstiges:
-
-    Provisionsfrei (0) 
+# Search : selecting stadtteile and gemeinde
+# Search using stadtteile and gemeinde
+# Land or Grundstuck : - Erbpacht, Kaufpreise, Baugenehmigung
+	Bebaubar nach:
+	
+	    Aussengebiet (0)
+	    Bebauungsplan (0)
+	    wie Nachbarbebauung (0)
+	
+	Erschließung:
+	
+	    Erschlossen (0)
+	    Teilerschlossen (0)
+	    Unerschlossen (0)
+	Garagen/ Stellplatztyp:
+	
+	    Außenstellplatz (0)
+	    Garage (1)
     
-    Gäste-WC (0)
-    Keller (0)
-    Garage/Stellplatz (0)
-    Barrierefrei (0)
-    Einliegerwohnung (0)
-    
-Objektart:
-
-    Neubau (0)
-
-Bauphase:
-
-    Keine Angabe (0)
-    Haus in Planung (0)
-    Haus im Bau (0)
-    Haus fertig gestellt (0)
-
-
-Vermietung:
-
-    Alle Angebote
-    Vermietet (0)
-    Unvermietet (0)
-
-Baujahr (JJJJ):
-
-------------------------
-GrundStuck
-Vermarktungsart:
-
-    Erbpacht
-    Kaufpreis
-
-Baugenehmigung:
-
-    Ja (0)
-
-Bebaubar nach:
-
-    Aussengebiet (0)
-    Bebauungsplan (0)
-    wie Nachbarbebauung (0)
-
-Erschließung:
-
-    Erschlossen (0)
-    Teilerschlossen (0)
-    Unerschlossen (0)
-
-Ausstattung / Sonstiges:
-
-    Provisionsfrei
-
---------------
-Garagen/ Stellplatztyp:
-
-    Außenstellplatz (0)
-    Garage (1)
-    
-----------------
-Gewerbe
-
-
-Atelier (0)
-Büro (21)
-Büro-/Lagergebäude (0)
-Büro- und Geschäftsgebäude (0)
-Büroetage (0)
-Bürohaus (0)
-Bürozentrum (0)
-Gewerbezentrum (0)
-Loft (0)
-Praxis (0)
-Praxisetage (0)
-Praxishaus (0)
-Wohn- und Geschäftsgebäude (0)
-                
-Bugs :
- - edit invoice - appartment type not selected
- - progressbar indicator
+	----------------
+	Gewerbe
+	
+	
+	Atelier (0)
+	Büro (21)
+	Büro-/Lagergebäude (0)
+	Büro- und Geschäftsgebäude (0)
+	Büroetage (0)
+	Bürohaus (0)
+	Bürozentrum (0)
+	Gewerbezentrum (0)
+	Loft (0)
+	Praxis (0)
+	Praxisetage (0)
+	Praxishaus (0)
+	Wohn- und Geschäftsgebäude (0)
+	                
+# Bugs :
  - RealState type and offer type taken into account in refined search
  
