@@ -109,7 +109,7 @@ public class RealState implements Serializable {
 
 	private int builtYear;
 
-	private String lastRenovatedYear;
+	private int lastRenovatedYear;
 
 	private String otherInformation;
 
@@ -150,19 +150,23 @@ public class RealState implements Serializable {
 	
 	private boolean minDistributionArea;
 	
-	private Date insertedTs;
-
-	private Date updatedTs;
-	
 	private boolean topListed;
 	
 	private boolean promiPlacement;
 	
 	private GarageType garageType;
 	
+	private OffererType offererType;
+	
+	private BuiltStatus builtStatus;
+	
 	@GeoSpatialIndexed
 	private Double[] location;
 
+    private Date insertedTs;
+
+    private Date updatedTs;
+    
 	private List<RealStateImage> images = new ArrayList<RealStateImage>();
 
 	public enum STATUS {
@@ -490,11 +494,11 @@ public class RealState implements Serializable {
 		this.builtYear = builtYear;
 	}
 
-	public String getLastRenovatedYear() {
+	public int getLastRenovatedYear() {
 		return lastRenovatedYear;
 	}
 
-	public void setLastRenovatedYear(String lastRenovatedYear) {
+	public void setLastRenovatedYear(int lastRenovatedYear) {
 		this.lastRenovatedYear = lastRenovatedYear;
 	}
 
@@ -761,262 +765,6 @@ public class RealState implements Serializable {
 		return address.toString();
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((activationDate == null) ? 0 : activationDate.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(additionalCost);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((addressInfo == null) ? 0 : addressInfo.hashCode());
-		result = prime * result + (animalsAllowed ? 1231 : 1237);
-		result = prime * result + ((appartmentType == null) ? 0 : appartmentType.hashCode());
-		result = prime * result + ((areaCode == null) ? 0 : areaCode.hashCode());
-		result = prime * result + ((areaDescription == null) ? 0 : areaDescription.hashCode());
-		result = prime * result + ((availableFrom == null) ? 0 : availableFrom.hashCode());
-		result = prime * result + (balconyAvailable ? 1231 : 1237);
-		result = prime * result + (barrierFree ? 1231 : 1237);
-		result = prime * result + bathRooms;
-		result = prime * result + bedRooms;
-		result = prime * result + builtYear;
-		result = prime * result + (cellarAvailable ? 1231 : 1237);
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((condition == null) ? 0 : condition.hashCode());
-		result = prime * result + ((contactInfo == null) ? 0 : contactInfo.hashCode());
-		temp = Double.doubleToLongBits(cost);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(depositPeriod);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + (energyPassAvailable ? 1231 : 1237);
-		result = prime * result + ((fittings == null) ? 0 : fittings.hashCode());
-		temp = Double.doubleToLongBits(floor);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + (furnished ? 1231 : 1237);
-		result = prime * result + (garageAvailable ? 1231 : 1237);
-		temp = Double.doubleToLongBits(garageCost);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + (gardenAvailable ? 1231 : 1237);
-		result = prime * result + (heatingCostIncluded ? 1231 : 1237);
-		result = prime * result + heatingTypeId;
-		result = prime * result + ((houseNo == null) ? 0 : houseNo.hashCode());
-		result = prime * result + ((houseType == null) ? 0 : houseType.hashCode());
-		result = prime * result + ((imageLocation == null) ? 0 : imageLocation.hashCode());
-		result = prime * result + ((images == null) ? 0 : images.hashCode());
-		result = prime * result + ((insertedTs == null) ? 0 : insertedTs.hashCode());
-		result = prime * result + (isHistoricalObject ? 1231 : 1237);
-		result = prime * result + (isRented ? 1231 : 1237);
-		result = prime * result + (kitchenAvailable ? 1231 : 1237);
-		result = prime * result + ((lastRenovatedYear == null) ? 0 : lastRenovatedYear.hashCode());
-		result = prime * result + (liftAvailable ? 1231 : 1237);
-		result = prime * result + Arrays.hashCode(location);
-		result = prime * result + ((offerType == null) ? 0 : offerType.hashCode());
-		result = prime * result + originalPrice;
-		result = prime * result + ((otherInformation == null) ? 0 : otherInformation.hashCode());
-		result = prime * result + ((provisionCondition == null) ? 0 : provisionCondition.hashCode());
-		result = prime * result + (provisionFree ? 1231 : 1237);
-		result = prime * result + ((realStateCategory == null) ? 0 : realStateCategory.hashCode());
-		result = prime * result + (seniorAppartment ? 1231 : 1237);
-		temp = Double.doubleToLongBits(size);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + status;
-		result = prime * result + ((street == null) ? 0 : street.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + (toiletWithBathRoom ? 1231 : 1237);
-		temp = Double.doubleToLongBits(totalFloors);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(totalRooms);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RealState other = (RealState) obj;
-		if (activationDate == null) {
-			if (other.activationDate != null)
-				return false;
-		} else if (!activationDate.equals(other.activationDate))
-			return false;
-		if (Double.doubleToLongBits(additionalCost) != Double.doubleToLongBits(other.additionalCost))
-			return false;
-		if (addressInfo == null) {
-			if (other.addressInfo != null)
-				return false;
-		} else if (!addressInfo.equals(other.addressInfo))
-			return false;
-		if (animalsAllowed != other.animalsAllowed)
-			return false;
-		if (appartmentType != other.appartmentType)
-			return false;
-		if (areaCode == null) {
-			if (other.areaCode != null)
-				return false;
-		} else if (!areaCode.equals(other.areaCode))
-			return false;
-		if (areaDescription == null) {
-			if (other.areaDescription != null)
-				return false;
-		} else if (!areaDescription.equals(other.areaDescription))
-			return false;
-		if (availableFrom == null) {
-			if (other.availableFrom != null)
-				return false;
-		} else if (!availableFrom.equals(other.availableFrom))
-			return false;
-		if (balconyAvailable != other.balconyAvailable)
-			return false;
-		if (barrierFree != other.barrierFree)
-			return false;
-		if (bathRooms != other.bathRooms)
-			return false;
-		if (bedRooms != other.bedRooms)
-			return false;
-		if (builtYear != other.builtYear)
-			return false;
-		if (cellarAvailable != other.cellarAvailable)
-			return false;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
-		if (condition != other.condition)
-			return false;
-		if (contactInfo == null) {
-			if (other.contactInfo != null)
-				return false;
-		} else if (!contactInfo.equals(other.contactInfo))
-			return false;
-		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
-			return false;
-		if (Double.doubleToLongBits(depositPeriod) != Double.doubleToLongBits(other.depositPeriod))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (energyPassAvailable != other.energyPassAvailable)
-			return false;
-		if (fittings == null) {
-			if (other.fittings != null)
-				return false;
-		} else if (!fittings.equals(other.fittings))
-			return false;
-		if (Double.doubleToLongBits(floor) != Double.doubleToLongBits(other.floor))
-			return false;
-		if (furnished != other.furnished)
-			return false;
-		if (garageAvailable != other.garageAvailable)
-			return false;
-		if (Double.doubleToLongBits(garageCost) != Double.doubleToLongBits(other.garageCost))
-			return false;
-		if (gardenAvailable != other.gardenAvailable)
-			return false;
-		if (heatingCostIncluded != other.heatingCostIncluded)
-			return false;
-		if (heatingTypeId != other.heatingTypeId)
-			return false;
-		if (houseNo == null) {
-			if (other.houseNo != null)
-				return false;
-		} else if (!houseNo.equals(other.houseNo))
-			return false;
-		if (houseType != other.houseType)
-			return false;
-		if (imageLocation == null) {
-			if (other.imageLocation != null)
-				return false;
-		} else if (!imageLocation.equals(other.imageLocation))
-			return false;
-		if (images == null) {
-			if (other.images != null)
-				return false;
-		} else if (!images.equals(other.images))
-			return false;
-		if (insertedTs == null) {
-			if (other.insertedTs != null)
-				return false;
-		} else if (!insertedTs.equals(other.insertedTs))
-			return false;
-		if (isHistoricalObject != other.isHistoricalObject)
-			return false;
-		if (isRented != other.isRented)
-			return false;
-		if (kitchenAvailable != other.kitchenAvailable)
-			return false;
-		if (lastRenovatedYear == null) {
-			if (other.lastRenovatedYear != null)
-				return false;
-		} else if (!lastRenovatedYear.equals(other.lastRenovatedYear))
-			return false;
-		if (liftAvailable != other.liftAvailable)
-			return false;
-		if (!Arrays.equals(location, other.location))
-			return false;
-		if (offerType != other.offerType)
-			return false;
-		if (originalPrice != other.originalPrice)
-			return false;
-		if (otherInformation == null) {
-			if (other.otherInformation != null)
-				return false;
-		} else if (!otherInformation.equals(other.otherInformation))
-			return false;
-		if (provisionCondition == null) {
-			if (other.provisionCondition != null)
-				return false;
-		} else if (!provisionCondition.equals(other.provisionCondition))
-			return false;
-		if (provisionFree != other.provisionFree)
-			return false;
-		if (realStateCategory != other.realStateCategory)
-			return false;
-		if (seniorAppartment != other.seniorAppartment)
-			return false;
-		if (Double.doubleToLongBits(size) != Double.doubleToLongBits(other.size))
-			return false;
-		if (status != other.status)
-			return false;
-		if (street == null) {
-			if (other.street != null)
-				return false;
-		} else if (!street.equals(other.street))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		if (toiletWithBathRoom != other.toiletWithBathRoom)
-			return false;
-		if (Double.doubleToLongBits(totalFloors) != Double.doubleToLongBits(other.totalFloors))
-			return false;
-		if (Double.doubleToLongBits(totalRooms) != Double.doubleToLongBits(other.totalRooms))
-			return false;
-		if (updatedTs == null) {
-			if (other.updatedTs != null)
-				return false;
-		} else if (!updatedTs.equals(other.updatedTs))
-			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		return true;
-	}
-
 	public Double[] getLocation() {
 		return location;
 	}
@@ -1093,4 +841,393 @@ public class RealState implements Serializable {
 	public void setHistoricalObject(boolean isHistoricalObject) {
 		this.isHistoricalObject = isHistoricalObject;
 	}
+
+    public boolean isLeasing() {
+        return leasing;
+    }
+
+    public void setLeasing(boolean leasing) {
+        this.leasing = leasing;
+    }
+
+    public String getCoverageRatio() {
+        return coverageRatio;
+    }
+
+    public void setCoverageRatio(String coverageRatio) {
+        this.coverageRatio = coverageRatio;
+    }
+
+    public String getFloorSpaceRatio() {
+        return floorSpaceRatio;
+    }
+
+    public void setFloorSpaceRatio(String floorSpaceRatio) {
+        this.floorSpaceRatio = floorSpaceRatio;
+    }
+
+    public boolean isBuildingPermission() {
+        return buildingPermission;
+    }
+
+    public void setBuildingPermission(boolean buildingPermission) {
+        this.buildingPermission = buildingPermission;
+    }
+
+    public boolean isTearedDown() {
+        return tearedDown;
+    }
+
+    public void setTearedDown(boolean tearedDown) {
+        this.tearedDown = tearedDown;
+    }
+
+    public boolean isShortlyDevelopable() {
+        return shortlyDevelopable;
+    }
+
+    public void setShortlyDevelopable(boolean shortlyDevelopable) {
+        this.shortlyDevelopable = shortlyDevelopable;
+    }
+
+    public boolean isDistributable() {
+        return distributable;
+    }
+
+    public void setDistributable(boolean distributable) {
+        this.distributable = distributable;
+    }
+
+    public boolean isMinDistributionArea() {
+        return minDistributionArea;
+    }
+
+    public void setMinDistributionArea(boolean minDistributionArea) {
+        this.minDistributionArea = minDistributionArea;
+    }
+
+    public boolean isTopListed() {
+        return topListed;
+    }
+
+    public void setTopListed(boolean topListed) {
+        this.topListed = topListed;
+    }
+
+    public boolean isPromiPlacement() {
+        return promiPlacement;
+    }
+
+    public void setPromiPlacement(boolean promiPlacement) {
+        this.promiPlacement = promiPlacement;
+    }
+
+    public GarageType getGarageType() {
+        return garageType;
+    }
+
+    public void setGarageType(GarageType garageType) {
+        this.garageType = garageType;
+    }
+
+    public OffererType getOffererType() {
+        return offererType;
+    }
+
+    public void setOffererType(OffererType offererType) {
+        this.offererType = offererType;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((activationDate == null) ? 0 : activationDate.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(additionalCost);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((addressInfo == null) ? 0 : addressInfo.hashCode());
+        result = prime * result + (animalsAllowed ? 1231 : 1237);
+        result = prime * result + ((appartmentType == null) ? 0 : appartmentType.hashCode());
+        result = prime * result + ((areaCode == null) ? 0 : areaCode.hashCode());
+        result = prime * result + ((areaDescription == null) ? 0 : areaDescription.hashCode());
+        result = prime * result + ((availableFrom == null) ? 0 : availableFrom.hashCode());
+        result = prime * result + (balconyAvailable ? 1231 : 1237);
+        result = prime * result + (barrierFree ? 1231 : 1237);
+        result = prime * result + bathRooms;
+        result = prime * result + bedRooms;
+        result = prime * result + (buildingPermission ? 1231 : 1237);
+        result = prime * result + builtYear;
+        result = prime * result + (cellarAvailable ? 1231 : 1237);
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((condition == null) ? 0 : condition.hashCode());
+        result = prime * result + ((contactInfo == null) ? 0 : contactInfo.hashCode());
+        temp = Double.doubleToLongBits(cost);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((coverageRatio == null) ? 0 : coverageRatio.hashCode());
+        temp = Double.doubleToLongBits(depositPeriod);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + (distributable ? 1231 : 1237);
+        result = prime * result + (energyPassAvailable ? 1231 : 1237);
+        result = prime * result + ((fittings == null) ? 0 : fittings.hashCode());
+        temp = Double.doubleToLongBits(floor);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((floorSpaceRatio == null) ? 0 : floorSpaceRatio.hashCode());
+        result = prime * result + (furnished ? 1231 : 1237);
+        result = prime * result + (garageAvailable ? 1231 : 1237);
+        temp = Double.doubleToLongBits(garageCost);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((garageType == null) ? 0 : garageType.hashCode());
+        result = prime * result + (gardenAvailable ? 1231 : 1237);
+        result = prime * result + (heatingCostIncluded ? 1231 : 1237);
+        result = prime * result + heatingTypeId;
+        result = prime * result + ((houseNo == null) ? 0 : houseNo.hashCode());
+        result = prime * result + ((houseType == null) ? 0 : houseType.hashCode());
+        result = prime * result + ((images == null) ? 0 : images.hashCode());
+        result = prime * result + ((insertedTs == null) ? 0 : insertedTs.hashCode());
+        result = prime * result + (isHistoricalObject ? 1231 : 1237);
+        result = prime * result + (isRented ? 1231 : 1237);
+        result = prime * result + (kitchenAvailable ? 1231 : 1237);
+        result = prime * result + lastRenovatedYear;
+        result = prime * result + (leasing ? 1231 : 1237);
+        result = prime * result + (liftAvailable ? 1231 : 1237);
+        result = prime * result + Arrays.hashCode(location);
+        result = prime * result + (minDistributionArea ? 1231 : 1237);
+        result = prime * result + ((offerType == null) ? 0 : offerType.hashCode());
+        result = prime * result + ((offererType == null) ? 0 : offererType.hashCode());
+        result = prime * result + originalPrice;
+        result = prime * result + ((otherInformation == null) ? 0 : otherInformation.hashCode());
+        result = prime * result + (promiPlacement ? 1231 : 1237);
+        result = prime * result + ((provisionCondition == null) ? 0 : provisionCondition.hashCode());
+        result = prime * result + (provisionFree ? 1231 : 1237);
+        result = prime * result + ((realStateCategory == null) ? 0 : realStateCategory.hashCode());
+        result = prime * result + (seniorAppartment ? 1231 : 1237);
+        result = prime * result + (shortlyDevelopable ? 1231 : 1237);
+        temp = Double.doubleToLongBits(size);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + status;
+        result = prime * result + ((street == null) ? 0 : street.hashCode());
+        result = prime * result + (tearedDown ? 1231 : 1237);
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + (toiletWithBathRoom ? 1231 : 1237);
+        result = prime * result + (topListed ? 1231 : 1237);
+        temp = Double.doubleToLongBits(totalFloors);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(totalRooms);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RealState other = (RealState) obj;
+        if (activationDate == null) {
+            if (other.activationDate != null)
+                return false;
+        } else if (!activationDate.equals(other.activationDate))
+            return false;
+        if (Double.doubleToLongBits(additionalCost) != Double.doubleToLongBits(other.additionalCost))
+            return false;
+        if (addressInfo == null) {
+            if (other.addressInfo != null)
+                return false;
+        } else if (!addressInfo.equals(other.addressInfo))
+            return false;
+        if (animalsAllowed != other.animalsAllowed)
+            return false;
+        if (appartmentType != other.appartmentType)
+            return false;
+        if (areaCode == null) {
+            if (other.areaCode != null)
+                return false;
+        } else if (!areaCode.equals(other.areaCode))
+            return false;
+        if (areaDescription == null) {
+            if (other.areaDescription != null)
+                return false;
+        } else if (!areaDescription.equals(other.areaDescription))
+            return false;
+        if (availableFrom == null) {
+            if (other.availableFrom != null)
+                return false;
+        } else if (!availableFrom.equals(other.availableFrom))
+            return false;
+        if (balconyAvailable != other.balconyAvailable)
+            return false;
+        if (barrierFree != other.barrierFree)
+            return false;
+        if (bathRooms != other.bathRooms)
+            return false;
+        if (bedRooms != other.bedRooms)
+            return false;
+        if (buildingPermission != other.buildingPermission)
+            return false;
+        if (builtYear != other.builtYear)
+            return false;
+        if (cellarAvailable != other.cellarAvailable)
+            return false;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (condition != other.condition)
+            return false;
+        if (contactInfo == null) {
+            if (other.contactInfo != null)
+                return false;
+        } else if (!contactInfo.equals(other.contactInfo))
+            return false;
+        if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
+            return false;
+        if (coverageRatio == null) {
+            if (other.coverageRatio != null)
+                return false;
+        } else if (!coverageRatio.equals(other.coverageRatio))
+            return false;
+        if (Double.doubleToLongBits(depositPeriod) != Double.doubleToLongBits(other.depositPeriod))
+            return false;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (distributable != other.distributable)
+            return false;
+        if (energyPassAvailable != other.energyPassAvailable)
+            return false;
+        if (fittings == null) {
+            if (other.fittings != null)
+                return false;
+        } else if (!fittings.equals(other.fittings))
+            return false;
+        if (Double.doubleToLongBits(floor) != Double.doubleToLongBits(other.floor))
+            return false;
+        if (floorSpaceRatio == null) {
+            if (other.floorSpaceRatio != null)
+                return false;
+        } else if (!floorSpaceRatio.equals(other.floorSpaceRatio))
+            return false;
+        if (furnished != other.furnished)
+            return false;
+        if (garageAvailable != other.garageAvailable)
+            return false;
+        if (Double.doubleToLongBits(garageCost) != Double.doubleToLongBits(other.garageCost))
+            return false;
+        if (garageType != other.garageType)
+            return false;
+        if (gardenAvailable != other.gardenAvailable)
+            return false;
+        if (heatingCostIncluded != other.heatingCostIncluded)
+            return false;
+        if (heatingTypeId != other.heatingTypeId)
+            return false;
+        if (houseNo == null) {
+            if (other.houseNo != null)
+                return false;
+        } else if (!houseNo.equals(other.houseNo))
+            return false;
+        if (houseType != other.houseType)
+            return false;
+        if (images == null) {
+            if (other.images != null)
+                return false;
+        } else if (!images.equals(other.images))
+            return false;
+        if (insertedTs == null) {
+            if (other.insertedTs != null)
+                return false;
+        } else if (!insertedTs.equals(other.insertedTs))
+            return false;
+        if (isHistoricalObject != other.isHistoricalObject)
+            return false;
+        if (isRented != other.isRented)
+            return false;
+        if (kitchenAvailable != other.kitchenAvailable)
+            return false;
+        if (lastRenovatedYear != other.lastRenovatedYear)
+            return false;
+        if (leasing != other.leasing)
+            return false;
+        if (liftAvailable != other.liftAvailable)
+            return false;
+        if (!Arrays.equals(location, other.location))
+            return false;
+        if (minDistributionArea != other.minDistributionArea)
+            return false;
+        if (offerType != other.offerType)
+            return false;
+        if (offererType != other.offererType)
+            return false;
+        if (originalPrice != other.originalPrice)
+            return false;
+        if (otherInformation == null) {
+            if (other.otherInformation != null)
+                return false;
+        } else if (!otherInformation.equals(other.otherInformation))
+            return false;
+        if (promiPlacement != other.promiPlacement)
+            return false;
+        if (provisionCondition == null) {
+            if (other.provisionCondition != null)
+                return false;
+        } else if (!provisionCondition.equals(other.provisionCondition))
+            return false;
+        if (provisionFree != other.provisionFree)
+            return false;
+        if (realStateCategory != other.realStateCategory)
+            return false;
+        if (seniorAppartment != other.seniorAppartment)
+            return false;
+        if (shortlyDevelopable != other.shortlyDevelopable)
+            return false;
+        if (Double.doubleToLongBits(size) != Double.doubleToLongBits(other.size))
+            return false;
+        if (status != other.status)
+            return false;
+        if (street == null) {
+            if (other.street != null)
+                return false;
+        } else if (!street.equals(other.street))
+            return false;
+        if (tearedDown != other.tearedDown)
+            return false;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        if (toiletWithBathRoom != other.toiletWithBathRoom)
+            return false;
+        if (topListed != other.topListed)
+            return false;
+        if (Double.doubleToLongBits(totalFloors) != Double.doubleToLongBits(other.totalFloors))
+            return false;
+        if (Double.doubleToLongBits(totalRooms) != Double.doubleToLongBits(other.totalRooms))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        } else if (!userId.equals(other.userId))
+            return false;
+        return true;
+    }
+
+    public BuiltStatus getBuiltStatus() {
+        return builtStatus;
+    }
+
+    public void setBuiltStatus(BuiltStatus builtStatus) {
+        this.builtStatus = builtStatus;
+    }
+    
+    
 }

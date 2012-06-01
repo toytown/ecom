@@ -31,6 +31,8 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.AppartmentType;
 import com.ecom.domain.HouseType;
+import com.ecom.domain.OffererType;
+import com.ecom.domain.OfficeType;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateCategory;
 import com.ecom.repository.RealStateRepository;
@@ -68,7 +70,7 @@ public class BasicInfoStep extends WizardStep {
         titleImageContainer = new WebMarkupContainer("titleImageContainer");
         titleImageContainer.setOutputMarkupId(true);
 
-        @SuppressWarnings("unchecked")
+        //@SuppressWarnings("unchecked")
 		final IModel<RealState> realStateModel = (IModel<RealState>) this.getDefaultModel();
         
         RealState realState = realStateModel.getObject();
@@ -193,18 +195,24 @@ public class BasicInfoStep extends WizardStep {
         TextField<String> areaCode = new TextField<String>("areaCode");
         areaCode.setRequired(true);
 
-        //appartment type
+        //apartment type
         if (realState.getRealStateCategory() != null) {
-            if (realState.getRealStateCategory().equals(RealStateCategory.Appartment)) {
-                IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
-                DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
-                realStateUploadInfoForm.add(appartmentType);            
-            } else if (realState.getRealStateCategory().equals(RealStateCategory.House)) {
-                IModel<HouseType> houseSelected = new Model<HouseType>(HouseType.Einfamilienhaus);
-                DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType", houseSelected, Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
-                realStateUploadInfoForm.add(hauseType);                 
+            if (realState.getOffererType().equals(OffererType.Business)) {
+                IModel<OfficeType> officeSelected = new Model<OfficeType>(OfficeType.AppartmentOffice);
+                DropDownChoice<OfficeType> officeType = new DropDownChoice<OfficeType>("appartmentType", officeSelected, Arrays.asList(OfficeType.values()), new EnumChoiceRenderer<OfficeType>());
+                realStateUploadInfoForm.add(officeType);                  
+            } else {
+                
+                if (realState.getRealStateCategory().equals(RealStateCategory.Appartment)) {
+                    IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
+                    DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
+                    realStateUploadInfoForm.add(appartmentType);            
+                } else if (realState.getRealStateCategory().equals(RealStateCategory.House)) {
+                    IModel<HouseType> houseSelected = new Model<HouseType>(HouseType.Einfamilienhaus);
+                    DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType", houseSelected, Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
+                    realStateUploadInfoForm.add(hauseType);                 
+                }
             }
-            
         }
 
         

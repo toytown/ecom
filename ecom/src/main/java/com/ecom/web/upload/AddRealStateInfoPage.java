@@ -15,6 +15,7 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.bson.types.ObjectId;
 
+import com.ecom.domain.OffererType;
 import com.ecom.domain.RealState;
 import com.ecom.service.interfaces.RealStateService;
 import com.ecom.web.components.gmap.api.GLatLng;
@@ -61,9 +62,10 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
 		
 	}
 
-	public AddRealStateInfoPage() {
+	public AddRealStateInfoPage(OffererType offererType) {
 		super();
 		RealState realState = new RealState();
+		realState.setOffererType(offererType);
 		realState.setId(new ObjectId());
 		final IModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
 		createWizard(realStateModel);

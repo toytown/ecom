@@ -2,6 +2,7 @@ package com.ecom.web.upload;
 
 import org.apache.wicket.markup.html.link.StatelessLink;
 
+import com.ecom.domain.OffererType;
 import com.ecom.web.main.GenericTemplatePage;
 import com.ecom.web.utils.SecurePage;
 
@@ -19,7 +20,8 @@ public class MainOfferPage extends GenericTemplatePage implements SecurePage {
 
 			@Override
 			public void onClick() {
-				setResponsePage(AddRealStateInfoPage.class);
+			    AddRealStateInfoPage addRealStatePage = new AddRealStateInfoPage(OffererType.Private);
+				setResponsePage(addRealStatePage);
 				
 			}
 			
@@ -30,7 +32,8 @@ public class MainOfferPage extends GenericTemplatePage implements SecurePage {
 
 			@Override
 			public void onClick() {
-				setResponsePage(AddRealStateInfoPage.class);
+                AddRealStateInfoPage addRealStatePage = new AddRealStateInfoPage(OffererType.Business);
+                setResponsePage(addRealStatePage);
 				
 			}
 			
