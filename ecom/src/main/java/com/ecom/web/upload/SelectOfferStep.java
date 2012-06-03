@@ -12,6 +12,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.ecom.domain.OfferType;
+import com.ecom.domain.OffererType;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateCategory;
 import com.ecom.web.components.wizard.WizardStep;
@@ -23,9 +24,13 @@ public class SelectOfferStep extends WizardStep {
 
     private static final List<RealStateCategory> realStateRentObjectList = Arrays.asList(RealStateCategory.Appartment,
             RealStateCategory.FurnishedAppartment, RealStateCategory.House, RealStateCategory.Land, RealStateCategory.Garage);
+    
     private static final List<RealStateCategory> realStateBuyObjectList = Arrays.asList(RealStateCategory.Appartment, RealStateCategory.House,
             RealStateCategory.Land, RealStateCategory.Garage);
-
+    
+    private static final List<RealStateCategory> officeObjectList = Arrays.asList(RealStateCategory.Atelier, RealStateCategory.Office,
+          RealStateCategory.OfficeCentre, RealStateCategory.Practice, RealStateCategory.Storage, RealStateCategory.AppartmentOffice);
+    
     public SelectOfferStep(IModel<String> title, IModel<String> summary, final IModel<RealState> realStateModel) {
         super(title, summary);
 
@@ -59,10 +64,14 @@ public class SelectOfferStep extends WizardStep {
 
                     List<RealStateCategory> realStateTypeList = null;
 
-                    if (offerTypeSelected.equals(OfferType.Rent)) {
-                        realStateTypeList = realStateRentObjectList;
+                    if (realState.getOffererType().equals(OffererType.Private)) {
+                  	  if (offerTypeSelected.equals(OfferType.Rent)) {
+                  		  realStateTypeList = realStateRentObjectList;
+                  	  } else {
+                  		  realStateTypeList = realStateBuyObjectList;
+                  	  }
                     } else {
-                        realStateTypeList = realStateBuyObjectList;
+                  	  realStateTypeList = officeObjectList;
                     }
 
                     final IModel<RealStateCategory> realStateCatSel = Model.of(realState.getRealStateCategory());

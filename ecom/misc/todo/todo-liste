@@ -22,6 +22,10 @@ Features :
 
 Enhancements
 =================
+1. Separate inout for Plan can be uploaded successfully and displayed on top left
+2. step for bank and payment info
+3. 
+
 # make image upload clickable,deletable 
 # Search : selecting stadtteile and gemeinde
 # Search using stadtteile and gemeinde
@@ -60,6 +64,15 @@ Enhancements
 	Praxishaus (0)
 	Wohn- und Geschäftsgebäude (0)
 	                
+	                Gastronimie
+
+1. no of parkplatz
+2. starkstrom
+3. kanteen/cafeteria
+4. boden beleg
+5. Keller
+6. klimaanlage
+7. 
 # Bugs :
  - RealState type and offer type taken into account in refined search
  

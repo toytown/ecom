@@ -2,7 +2,8 @@ package com.ecom.domain;
 
 public enum RealStateCategory {
 
-    None, House, Appartment, FurnishedAppartment, Land, Garage, VacationAppartment;
+    None, House, Appartment, FurnishedAppartment, Land, Garage, VacationAppartment,
+    Atelier, Office, OfficeCentre, Storage, AppartmentOffice, Practice;
 
     public static RealStateCategory valueOf(int id) {
 
@@ -20,7 +21,17 @@ public enum RealStateCategory {
         case 5:
             return RealStateCategory.Garage;
         case 6:
-            return RealStateCategory.VacationAppartment;
+            return RealStateCategory.Atelier;
+        case 7:
+           return RealStateCategory.Office;
+        case 8:
+           return RealStateCategory.OfficeCentre;
+        case 9:
+           return RealStateCategory.Storage;
+        case 10:
+           return RealStateCategory.AppartmentOffice;
+        case 11:
+           return RealStateCategory.Practice;           
         default:
             return RealStateCategory.None;
         }

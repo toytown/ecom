@@ -77,14 +77,14 @@ public class BasicInfoStep extends WizardStep {
         
         final ModalWindow modalWindow;
         modalWindow = new ModalWindow("titleUploadFileModalWindow");
-        modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
+        modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE); 
         modalWindow.setCookieName("titleUploadFileModalWindow");
         modalWindow.setInitialHeight(130);
         modalWindow.setInitialWidth(190);
         modalWindow.setPageCreator(new ModalWindow.PageCreator() {
 
             private static final long serialVersionUID = 1L;
-
+ 
             @Override
             public Page createPage() {
                 

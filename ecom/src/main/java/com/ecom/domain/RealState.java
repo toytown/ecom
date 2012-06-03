@@ -159,6 +159,22 @@ public class RealState implements Serializable {
 	private OffererType offererType;
 	
 	private BuiltStatus builtStatus;
+
+	private int noOfParkPlaces;
+	
+	private boolean hasMultiPhaseElectricalSupply;
+	
+	private boolean hasCafeteria;
+	
+	private FlooringType flooringType;
+	
+	private boolean hasAirConidtion;
+	
+	private String nearestStation;
+	
+	private int timeToNearestPublicTransport;
+	
+	private int timeToAirportTravel;
 	
 	@GeoSpatialIndexed
 	private Double[] location;
@@ -1228,6 +1244,4 @@ public class RealState implements Serializable {
     public void setBuiltStatus(BuiltStatus builtStatus) {
         this.builtStatus = builtStatus;
     }
-    
-    
 }
