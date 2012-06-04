@@ -2,6 +2,7 @@ package com.ecom.web.upload;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
@@ -51,7 +52,7 @@ public class BasicInfoStep extends WizardStep {
 
 	private WebMarkupContainer titleImageContainer;
 
-	private  Form<RealState> realStateUploadInfoForm;
+	private Form<RealState> realStateUploadInfoForm;
 	@SpringBean
 	private RealStateRepository realStateRepository;
 
@@ -64,264 +65,278 @@ public class BasicInfoStep extends WizardStep {
 	public BasicInfoStep(IModel<String> wizard_title, IModel<String> summary, final IModel<RealState> realStateModel) {
 		super(wizard_title, summary, realStateModel);
 	}
-	
+
 	@Override
 	public void onConfigure() {
-        titleImageContainer = new WebMarkupContainer("titleImageContainer");
-        titleImageContainer.setOutputMarkupId(true);
+		titleImageContainer = new WebMarkupContainer("titleImageContainer");
+		titleImageContainer.setOutputMarkupId(true);
 
-        //@SuppressWarnings("unchecked")
+		// @SuppressWarnings("unchecked")
 		final IModel<RealState> realStateModel = (IModel<RealState>) this.getDefaultModel();
-        
-        RealState realState = realStateModel.getObject();
-        
-        final ModalWindow modalWindow;
-        modalWindow = new ModalWindow("titleUploadFileModalWindow");
-        modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE); 
-        modalWindow.setCookieName("titleUploadFileModalWindow");
-        modalWindow.setInitialHeight(130);
-        modalWindow.setInitialWidth(190);
-        modalWindow.setPageCreator(new ModalWindow.PageCreator() {
 
-            private static final long serialVersionUID = 1L;
- 
-            @Override
-            public Page createPage() {
-                
-                return new TitleImageUploadPage(modalWindow, realStateModel);
-            }
+		RealState realState = realStateModel.getObject();
+		realState.setInsertedTs(new Date());
+		realState.setUpdatedTs(new Date());
+		final ModalWindow modalWindow;
+		modalWindow = new ModalWindow("titleUploadFileModalWindow");
+		modalWindow.setCssClassName(ModalWindow.CSS_CLASS_BLUE);
+		modalWindow.setCookieName("titleUploadFileModalWindow");
+		modalWindow.setInitialHeight(130);
+		modalWindow.setInitialWidth(190);
+		modalWindow.setPageCreator(new ModalWindow.PageCreator() {
 
-        });
-        
-        modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+			private static final long serialVersionUID = 1L;
 
-            private static final long serialVersionUID = 1L;
+			@Override
+			public Page createPage() {
 
-            @Override
-            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+				return new TitleImageUploadPage(modalWindow, realStateModel);
+			}
 
-                RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
+		});
 
-                if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
-                    realStateUploadInfoForm.modelChanged();
-                    titleImageContainer.addOrReplace(getTitleImage(realState));
-                    target.add(titleImageContainer);
-                }
+		modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
 
-                return true;
-            }
-        });
-        
-        if (realState != null && !StringUtils.isEmpty(realState.getTitleImageId())) {
-            titleImageContainer.add(getTitleImage(realStateModel.getObject()));
-        } else {
-        	ContextImage img = new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif"));
-        	AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+
+				RealState realState = realStateRepository.findOne(realStateUploadInfoForm.getModelObject().getId());
+
+				if (realState != null && !StringUtils.isEmpty(realState.getTitleThumbNailImage())) {
+					realStateUploadInfoForm.modelChanged();
+					AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void onClick(AjaxRequestTarget target) {
+							// modalWindow.show(target);
+
+						}
+
+					};
+					imgUploadLink.add(getTitleImage(realState));
+					titleImageContainer.addOrReplace(imgUploadLink);
+					target.add(titleImageContainer);
+				}
+
+				return true;
+			}
+		});
+
+		if (realState != null && !StringUtils.isEmpty(realState.getTitleImageId())) {
+			titleImageContainer.add(getTitleImage(realStateModel.getObject()));
+		} else {
+			ContextImage img = new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif"));
+			AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
 
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void onClick(AjaxRequestTarget target) {
-			        modalWindow.show(target);
-					
+					modalWindow.show(target);
+
 				}
-        		
+
 			};
 			imgUploadLink.add(img);
-            titleImageContainer.add(imgUploadLink);
-        }
+			titleImageContainer.add(imgUploadLink);
+		}
 
-        realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
+		realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
-            private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			protected void onModelChanged() {
+				RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
+				RealState realStateFromGUI = this.getModelObject();
 
-            @Override
-            protected void onModelChanged() {
-                RealState realStateFromDB = realStateRepository.findOne(this.getModelObject().getId());
-                RealState realStateFromGUI = this.getModelObject();
+				if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
+					realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
+					realStateRepository.delete(this.getModelObject().getId());
+					realStateRepository.save(realStateFromGUI);
+				}
 
-                if (realStateFromGUI != null && realStateFromDB != null && !realStateFromDB.getTitleImages().isEmpty()) {
-                    realStateFromGUI.addTitleImages(realStateFromDB.getTitleImages());
-                    realStateRepository.delete(this.getModelObject().getId());
-                    realStateRepository.save(realStateFromGUI);
-                }
+			}
 
-            }
+		};
+		realStateUploadInfoForm.add(titleImageContainer);
+		realStateUploadInfoForm.setOutputMarkupId(true);
+		realStateUploadInfoForm.visitChildren(FormComponent.class, new IVisitor<FormComponent<?>, Void>() {
 
-        };
-        realStateUploadInfoForm.add(titleImageContainer);
-        realStateUploadInfoForm.setOutputMarkupId(true);
-        realStateUploadInfoForm.visitChildren(FormComponent.class, new IVisitor<FormComponent<?>, Void>() {
+			@Override
+			public void component(FormComponent<?> component, IVisit<Void> visit) {
+				component.add(new ErrorClassAppender());
+			}
+		});
 
-            @Override
-            public void component(FormComponent<?> component, IVisit<Void> visit) {
-                component.add(new ErrorClassAppender());
-            }
-        });
+		realStateUploadInfoForm.add(new AjaxLink<Void>("uploadTitleImage") {
 
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				modalWindow.show(target);
+			}
+		});
 
-        realStateUploadInfoForm.add(new AjaxLink<Void>("uploadTitleImage") {
+		realStateUploadInfoForm.add(modalWindow);
 
-            private static final long serialVersionUID = 1L;
+		final TextArea<String> title = new TextArea<String>("title");
+		title.setRequired(true);
+		title.add(StringValidator.maximumLength(150));
+		title.setOutputMarkupId(true);
+		title.add(new ErrorClassAppender());
 
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-            	modalWindow.show(target);
-            }
-        });
+		TextArea<String> description = new TextArea<String>("description");
+		description.setRequired(true);
+		description.add(StringValidator.maximumLength(600));
 
-        realStateUploadInfoForm.add(modalWindow);
-        
-        
-        final TextArea<String> title = new TextArea<String>("title");
-        title.setRequired(true);
-        title.add(StringValidator.maximumLength(150));
-        title.setOutputMarkupId(true);
-        title.add(new ErrorClassAppender());
+		TextArea<String> areaDescription = new TextArea<String>("areaDescription");
 
-        TextArea<String> description = new TextArea<String>("description");
-        description.setRequired(true);
-        description.add(StringValidator.maximumLength(600));
+		TextArea<String> fittings = new TextArea<String>("fittings");
 
-        TextArea<String> areaDescription = new TextArea<String>("areaDescription");
+		TextField<String> city = new TextField<String>("city");
+		city.setRequired(true);
 
-        TextArea<String> fittings = new TextArea<String>("fittings");
+		TextField<String> areaCode = new TextField<String>("areaCode");
+		areaCode.setRequired(true);
 
-        TextField<String> city = new TextField<String>("city");
-        city.setRequired(true);
+		CheckBox showFullAddress = new CheckBox("allowFullAddressDisplay");
 
-        TextField<String> areaCode = new TextField<String>("areaCode");
-        areaCode.setRequired(true);
+		// apartment type
+		if (realState.getRealStateCategory() != null) {
+			if (realState.getOffererType().equals(OffererType.Business)) {
+				IModel<OfficeType> officeSelected = new Model<OfficeType>(OfficeType.AppartmentOffice);
+				DropDownChoice<OfficeType> officeType = new DropDownChoice<OfficeType>("appartmentType", officeSelected, Arrays.asList(OfficeType
+						.values()), new EnumChoiceRenderer<OfficeType>());
+				realStateUploadInfoForm.add(officeType);
+			} else {
 
-        //apartment type
-        if (realState.getRealStateCategory() != null) {
-            if (realState.getOffererType().equals(OffererType.Business)) {
-                IModel<OfficeType> officeSelected = new Model<OfficeType>(OfficeType.AppartmentOffice);
-                DropDownChoice<OfficeType> officeType = new DropDownChoice<OfficeType>("appartmentType", officeSelected, Arrays.asList(OfficeType.values()), new EnumChoiceRenderer<OfficeType>());
-                realStateUploadInfoForm.add(officeType);                  
-            } else {
-                
-                if (realState.getRealStateCategory().equals(RealStateCategory.Appartment)) {
-                    IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
-                    DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
-                    realStateUploadInfoForm.add(appartmentType);            
-                } else if (realState.getRealStateCategory().equals(RealStateCategory.House)) {
-                    IModel<HouseType> houseSelected = new Model<HouseType>(HouseType.Einfamilienhaus);
-                    DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType", houseSelected, Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
-                    realStateUploadInfoForm.add(hauseType);                 
-                }
-            }
-        }
+				if (realState.getRealStateCategory().equals(RealStateCategory.Appartment)) {
+					IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
+					DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected,
+							Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
+					realStateUploadInfoForm.add(appartmentType);
+				} else if (realState.getRealStateCategory().equals(RealStateCategory.House)) {
+					IModel<HouseType> houseSelected = new Model<HouseType>(HouseType.Einfamilienhaus);
+					DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType", houseSelected,
+							Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
+					realStateUploadInfoForm.add(hauseType);
+				}
+			}
+		}
 
-        
-        TextField<String> contactTitle = new TextField<String>("contactInfo.title");
-        TextField<String> contactFirstName = new TextField<String>("contactInfo.firstName");
-        TextField<String> contactLastName = new TextField<String>("contactInfo.lastName");
-        TextField<String> contactEmail = new TextField<String>("contactInfo.email");
-        TextField<String> contactPhone = new TextField<String>("contactInfo.phone");
-        TextField<String> contactMobile = new TextField<String>("contactInfo.mobile");
-        TextField<String> contactStreet = new TextField<String>("contactInfo.street");
+		TextField<String> contactTitle = new TextField<String>("contactInfo.title");
+		TextField<String> contactFirstName = new TextField<String>("contactInfo.firstName");
+		TextField<String> contactLastName = new TextField<String>("contactInfo.lastName");
+		TextField<String> contactEmail = new TextField<String>("contactInfo.email");
+		TextField<String> contactPhone = new TextField<String>("contactInfo.phone");
+		TextField<String> contactMobile = new TextField<String>("contactInfo.mobile");
+		TextField<String> contactStreet = new TextField<String>("contactInfo.street");
 
-        realStateUploadInfoForm.add(contactTitle);
-        realStateUploadInfoForm.add(contactFirstName);
-        realStateUploadInfoForm.add(contactLastName);
-        realStateUploadInfoForm.add(contactEmail);
-        realStateUploadInfoForm.add(contactPhone);
-        realStateUploadInfoForm.add(contactMobile);
-        realStateUploadInfoForm.add(contactStreet);
+		realStateUploadInfoForm.add(contactTitle);
+		realStateUploadInfoForm.add(contactFirstName);
+		realStateUploadInfoForm.add(contactLastName);
+		realStateUploadInfoForm.add(contactEmail);
+		realStateUploadInfoForm.add(contactPhone);
+		realStateUploadInfoForm.add(contactMobile);
+		realStateUploadInfoForm.add(contactStreet);
 
-        TextField<String> street = new TextField<String>("street");
-        TextField<String> houseNo = new TextField<String>("houseNo");
-        TextField<Double> size = new TextField<Double>("size");
-        TextField<Double> cost = new TextField<Double>("cost");
-        TextField<Double> floor = new TextField<Double>("floor");
-        TextField<Double> totalFloors = new TextField<Double>("totalFloors");
-        TextField<Double> totalRooms = new TextField<Double>("totalRooms");
-        TextField<Integer> bedRooms = new TextField<Integer>("bedRooms");
-        TextField<Integer> bathRooms = new TextField<Integer>("bathRooms");
-        CheckBox toiletWithBathRoom = new CheckBox("toiletWithBathRoom");
-        CheckBox cellarAvailable = new CheckBox("cellarAvailable");
-        CheckBox balconyAvailable = new CheckBox("balconyAvailable");
-        CheckBox liftAvailable = new CheckBox("liftAvailable");
-        CheckBox gardenAvailable = new CheckBox("gardenAvailable");
-        CheckBox heatingCostIncluded = new CheckBox("heatingCostIncluded");
-        CheckBox energyPassAvailable = new CheckBox("energyPassAvailable");
-        CheckBox kitchenAvailable = new CheckBox("kitchenAvailable");
-        CheckBox furnished = new CheckBox("furnished");
-        CheckBox animalsAllowed = new CheckBox("animalsAllowed");
-        CheckBox garageAvailable = new CheckBox("garageAvailable");
-        CheckBox rented = new CheckBox("rented");
-        
-        TextField<Double> additionalCost = new TextField<Double>("additionalCost");
-        TextField<Double> depositPeriod = new TextField<Double>("depositPeriod");
-        DateTextField availableFrom = new DateTextField("availableFrom");
-        TextField<Double> garageCost = new TextField<Double>("garageCost");
-        TextField<Integer> builtYear = new TextField<Integer>("builtYear");
-        TextField<String> provisionCondition = new TextField<String>("provisionCondition");
-        TextField<String> lastRenovatedYear = new TextField<String>("lastRenovatedYear");
-        CheckBox provisionFree = new CheckBox("provisionFree");
-        CheckBox barrierFree = new CheckBox("barrierFree");
-        CheckBox seniorAppartment = new CheckBox("seniorAppartment");
+		TextField<String> street = new TextField<String>("street");
+		TextField<String> houseNo = new TextField<String>("houseNo");
+		TextField<Double> size = new TextField<Double>("size");
+		TextField<Double> cost = new TextField<Double>("cost");
+		TextField<Double> floor = new TextField<Double>("floor");
+		TextField<Double> totalFloors = new TextField<Double>("totalFloors");
+		TextField<Double> totalRooms = new TextField<Double>("totalRooms");
+		TextField<Integer> bedRooms = new TextField<Integer>("bedRooms");
+		TextField<Integer> bathRooms = new TextField<Integer>("bathRooms");
+		CheckBox toiletWithBathRoom = new CheckBox("toiletWithBathRoom");
+		CheckBox cellarAvailable = new CheckBox("cellarAvailable");
+		CheckBox balconyAvailable = new CheckBox("balconyAvailable");
+		CheckBox liftAvailable = new CheckBox("liftAvailable");
+		CheckBox gardenAvailable = new CheckBox("gardenAvailable");
+		CheckBox heatingCostIncluded = new CheckBox("heatingCostIncluded");
+		CheckBox energyPassAvailable = new CheckBox("energyPassAvailable");
+		CheckBox kitchenAvailable = new CheckBox("kitchenAvailable");
+		CheckBox furnished = new CheckBox("furnished");
+		CheckBox animalsAllowed = new CheckBox("animalsAllowed");
+		CheckBox garageAvailable = new CheckBox("garageAvailable");
+		CheckBox rented = new CheckBox("rented");
 
-        realStateUploadInfoForm.add(title);
-        realStateUploadInfoForm.add(description);
-        realStateUploadInfoForm.add(areaDescription);
-        realStateUploadInfoForm.add(fittings);
-        realStateUploadInfoForm.add(city);
-        realStateUploadInfoForm.add(areaCode);
-        realStateUploadInfoForm.add(street);
-        realStateUploadInfoForm.add(houseNo);
-        realStateUploadInfoForm.add(size);
-        realStateUploadInfoForm.add(cost);
-        realStateUploadInfoForm.add(floor);
-        realStateUploadInfoForm.add(totalFloors);
-        realStateUploadInfoForm.add(totalRooms);
-        realStateUploadInfoForm.add(bedRooms);
-        realStateUploadInfoForm.add(bathRooms);
-        realStateUploadInfoForm.add(toiletWithBathRoom);
-        realStateUploadInfoForm.add(cellarAvailable);
-        realStateUploadInfoForm.add(balconyAvailable);
-        realStateUploadInfoForm.add(liftAvailable);
-        realStateUploadInfoForm.add(gardenAvailable);
-        realStateUploadInfoForm.add(heatingCostIncluded);
-        realStateUploadInfoForm.add(energyPassAvailable);
-        realStateUploadInfoForm.add(provisionCondition);
-        realStateUploadInfoForm.add(kitchenAvailable);
-        realStateUploadInfoForm.add(furnished);
-        realStateUploadInfoForm.add(animalsAllowed);
-        realStateUploadInfoForm.add(garageAvailable);
-        realStateUploadInfoForm.add(rented);        
-        realStateUploadInfoForm.add(additionalCost);
-        realStateUploadInfoForm.add(depositPeriod);
-        realStateUploadInfoForm.add(availableFrom);
-        realStateUploadInfoForm.add(garageCost);
-        realStateUploadInfoForm.add(builtYear);
-        realStateUploadInfoForm.add(lastRenovatedYear);
-        realStateUploadInfoForm.add(provisionFree);
-        realStateUploadInfoForm.add(barrierFree);
-        realStateUploadInfoForm.add(seniorAppartment);
-        addOrReplace(realStateUploadInfoForm);
-    }
+		TextField<Double> additionalCost = new TextField<Double>("additionalCost");
+		TextField<Double> depositPeriod = new TextField<Double>("depositPeriod");
+		DateTextField availableFrom = new DateTextField("availableFrom");
+		TextField<Double> garageCost = new TextField<Double>("garageCost");
+		TextField<Integer> builtYear = new TextField<Integer>("builtYear");
+		TextField<String> provisionCondition = new TextField<String>("provisionCondition");
+		TextField<String> lastRenovatedYear = new TextField<String>("lastRenovatedYear");
+		CheckBox provisionFree = new CheckBox("provisionFree");
+		CheckBox barrierFree = new CheckBox("barrierFree");
+		CheckBox seniorAppartment = new CheckBox("seniorAppartment");
 
-    private StaticImage getTitleImage(RealState realState) {
-        if (realState != null) {
-            ResourceReference imagesResourceReference = new EcomImageResouceReference();
-            PageParameters imageParameters = new PageParameters();
-            String imageId = realState.getTitleThumbNailImage();
-            imageParameters.set("id", imageId);
-
-            CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
-            StaticImage titleImage = new StaticImage("title_image", Model.of(urlForImage.toString()));
-
-            return titleImage;
-
-        } else {
-            return null;
-        }	    
+		realStateUploadInfoForm.add(title);
+		realStateUploadInfoForm.add(description);
+		realStateUploadInfoForm.add(areaDescription);
+		realStateUploadInfoForm.add(fittings);
+		realStateUploadInfoForm.add(city);
+		realStateUploadInfoForm.add(areaCode);
+		realStateUploadInfoForm.add(street);
+		realStateUploadInfoForm.add(houseNo);
+		realStateUploadInfoForm.add(showFullAddress);
+		realStateUploadInfoForm.add(size);
+		realStateUploadInfoForm.add(cost);
+		realStateUploadInfoForm.add(floor);
+		realStateUploadInfoForm.add(totalFloors);
+		realStateUploadInfoForm.add(totalRooms);
+		realStateUploadInfoForm.add(bedRooms);
+		realStateUploadInfoForm.add(bathRooms);
+		realStateUploadInfoForm.add(toiletWithBathRoom);
+		realStateUploadInfoForm.add(cellarAvailable);
+		realStateUploadInfoForm.add(balconyAvailable);
+		realStateUploadInfoForm.add(liftAvailable);
+		realStateUploadInfoForm.add(gardenAvailable);
+		realStateUploadInfoForm.add(heatingCostIncluded);
+		realStateUploadInfoForm.add(energyPassAvailable);
+		realStateUploadInfoForm.add(provisionCondition);
+		realStateUploadInfoForm.add(kitchenAvailable);
+		realStateUploadInfoForm.add(furnished);
+		realStateUploadInfoForm.add(animalsAllowed);
+		realStateUploadInfoForm.add(garageAvailable);
+		realStateUploadInfoForm.add(rented);
+		realStateUploadInfoForm.add(additionalCost);
+		realStateUploadInfoForm.add(depositPeriod);
+		realStateUploadInfoForm.add(availableFrom);
+		realStateUploadInfoForm.add(garageCost);
+		realStateUploadInfoForm.add(builtYear);
+		realStateUploadInfoForm.add(lastRenovatedYear);
+		realStateUploadInfoForm.add(provisionFree);
+		realStateUploadInfoForm.add(barrierFree);
+		realStateUploadInfoForm.add(seniorAppartment);
+		addOrReplace(realStateUploadInfoForm);
 	}
-	
+
+	private StaticImage getTitleImage(RealState realState) {
+		if (realState != null) {
+			ResourceReference imagesResourceReference = new EcomImageResouceReference();
+			PageParameters imageParameters = new PageParameters();
+			String imageId = realState.getTitleThumbNailImage();
+			imageParameters.set("id", imageId);
+
+			CharSequence urlForImage = getRequestCycle().urlFor(imagesResourceReference, imageParameters);
+			StaticImage titleImage = new StaticImage("title_image", Model.of(urlForImage.toString()));
+
+			return titleImage;
+
+		} else {
+			return null;
+		}
+	}
+
 	@Override
 	public void applyState() {
 
@@ -331,22 +346,23 @@ public class BasicInfoStep extends WizardStep {
 			EcomSession session = (EcomSession) Session.get();
 			realState.setUserId(session.getUserId());
 
-            realState.setUserId(session.getUserId());
-            ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
-            
-            try {
-                GLatLng lating = geocoder.findAddress(realState.getAddress());
-                if (lating != null) {
-                    Double[] location = new Double[] { lating.getLat(), lating.getLng() };
-                    realState.setLocation(location) ;               
-                } else {
-                    
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } 			
+			realState.setUserId(session.getUserId());
+			ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
+
+			try {
+				GLatLng lating = geocoder.findAddress(realState.getAddress());
+				if (lating != null) {
+					Double[] location = new Double[] { lating.getLat(), lating.getLng() };
+					realState.setLocation(location);
+				} else {
+
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			realState.setUpdatedTs(new Date());
 			realStateRepository.save(realState);
 		}
-		
+
 	}
 }

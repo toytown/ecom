@@ -11,5 +11,7 @@ public interface UserService {
     public User findUserByUserNameAndPassword(String userName, String password);
     
     public void saveMarkedItems(String realStateId, String userId);
+    
+
 
 }

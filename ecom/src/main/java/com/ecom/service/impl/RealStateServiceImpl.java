@@ -1,5 +1,6 @@
 package com.ecom.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -184,6 +185,7 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 
 	@Override
 	public Page<RealState> findByUserSearchFilter(String userId, String filter, PageRequest pageReq) {
+		
 		return realStateRepository.findAll(buildPredicate(userId, filter), pageReq);
 	}
 
@@ -238,6 +240,19 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	public void deleteSearchResult(SearchRequest req) {
 		searchReqRepository.delete(req);
 
+	}
+
+	@Override
+	public boolean existsFreeAdvertLastMonthForUser(String userId) {
+
+		QRealState realStateQuer = new QRealState("realState");
+		Calendar cal = Calendar.getInstance();
+		cal.add(-1 * Calendar.DAY_OF_MONTH, 30);
+		
+		Predicate condition =  realStateQuer.userId.eq(userId).and(realStateQuer.insertedTs.loe(cal.getTime()));
+		long countVal = realStateRepository.count(condition);
+		
+		return countVal > 0;
 	}
 
 }

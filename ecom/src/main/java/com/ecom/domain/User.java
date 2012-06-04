@@ -16,9 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -3721902561262002897L;
-
-
-	public static final Category defaultCategory = Category.getDefaultCategory();
 			
 	@Id
 	private ObjectId id;

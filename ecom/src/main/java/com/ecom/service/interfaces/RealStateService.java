@@ -39,4 +39,5 @@ public interface RealStateService<RealState> extends Serializable {
 	
 	public void deleteSearchResult(SearchRequest req);	
 
+   public boolean existsFreeAdvertLastMonthForUser(String userId);
 }

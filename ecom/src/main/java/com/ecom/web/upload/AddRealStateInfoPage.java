@@ -2,6 +2,7 @@ package com.ecom.web.upload;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
@@ -88,6 +89,8 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
         
         wizardModel.add(uploadStep);
         
+        wizardModel.add(new PaymentInfoStep(new Model<String>("Preview"), null, realStateModel));
+        
         wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateModel));
         UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true) {
             
@@ -99,6 +102,7 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
 				EcomSession session = (EcomSession) Session.get();
 				RealState realState = realStateModel.getObject();
 				realState.setUserId(session.getUserId());
+				realState.setUpdatedTs(new Date());
 				ServerGeocoder geocoder = EcomApplication.get().getServerGeocoder();
 			    
 			    try {

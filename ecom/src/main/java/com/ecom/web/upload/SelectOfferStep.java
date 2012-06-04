@@ -15,6 +15,7 @@ import com.ecom.domain.OfferType;
 import com.ecom.domain.OffererType;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateCategory;
+import com.ecom.domain.TariffType;
 import com.ecom.web.components.wizard.WizardStep;
 
 public class SelectOfferStep extends WizardStep {
@@ -22,6 +23,7 @@ public class SelectOfferStep extends WizardStep {
     private static final long serialVersionUID = 1L;
     private WebMarkupContainer realStateTypesContainer;
 
+    
     private static final List<RealStateCategory> realStateRentObjectList = Arrays.asList(RealStateCategory.Appartment,
             RealStateCategory.FurnishedAppartment, RealStateCategory.House, RealStateCategory.Land, RealStateCategory.Garage);
     
@@ -42,6 +44,10 @@ public class SelectOfferStep extends WizardStep {
         offerSelectionForm.setOutputMarkupId(true);
         offerSelectionForm.setDefaultModel(realStateModel);
 
+        final IModel<TariffType> tariffTypeModel = Model.of(realStateModel.getObject().getTariffType());
+        RadioChoice<TariffType> tariffType = new RadioChoice<TariffType>("tariffType", tariffTypeModel, Arrays.asList(TariffType.values()));
+        
+        
         List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
 
         final IModel<OfferType> offerTypeModel = Model.of(realStateModel.getObject().getOfferType());
@@ -117,6 +123,7 @@ public class SelectOfferStep extends WizardStep {
         OfferType offerTypeSelected = offerTypeModel.getObject();
         realStateTypesContainer.setVisible(offerTypeSelected != null);
 
+        offerSelectionForm.add(tariffType);
         offerSelectionForm.add(offerType);
         offerSelectionForm.add(realStateTypesContainer);
         add(offerSelectionForm);
