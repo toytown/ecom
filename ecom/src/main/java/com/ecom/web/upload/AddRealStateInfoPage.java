@@ -80,7 +80,6 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
     protected final void createWizard(IModel<RealState> realState) {
         WizardModel wizardModel = new WizardModel();
         
-        
         final IModel<RealState> realStateModel = new CompoundPropertyModel<RealState>(realState);
         
         wizardModel.add(new SelectOfferStep(new Model<String>("Setup Basic Info ...2"), null, realStateModel));

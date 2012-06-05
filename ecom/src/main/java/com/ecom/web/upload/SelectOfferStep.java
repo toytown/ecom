@@ -44,9 +44,24 @@ public class SelectOfferStep extends WizardStep {
         offerSelectionForm.setOutputMarkupId(true);
         offerSelectionForm.setDefaultModel(realStateModel);
 
-        final IModel<TariffType> tariffTypeModel = Model.of(realStateModel.getObject().getTariffType());
+        final IModel<TariffType> tariffTypeModel = Model.of(TariffType.Free);
         RadioChoice<TariffType> tariffType = new RadioChoice<TariffType>("tariffType", tariffTypeModel, Arrays.asList(TariffType.values()));
-        
+        tariffType.add(new AjaxFormChoiceComponentUpdatingBehavior() {
+
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                if (getDefaultModel() != null) {
+
+                    TariffType tariffSelected = tariffTypeModel.getObject();
+
+                    RealState realState = realStateModel.getObject();
+                    realState.setTariffType(tariffSelected);
+                    realStateModel.setObject(realState);
+                }   
+                
+            }
+            
+        });
         
         List<OfferType> offerTypeList = Arrays.asList(OfferType.Rent, OfferType.Buy);
 

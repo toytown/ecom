@@ -126,21 +126,26 @@ public class BasicInfoStep extends WizardStep {
 			}
 		});
 
+        AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                modalWindow.show(target);
+
+            }
+
+        };
+        
 		if (realState != null && !StringUtils.isEmpty(realState.getTitleImageId())) {
-			titleImageContainer.add(getTitleImage(realStateModel.getObject()));
+		    StaticImage img = getTitleImage(realStateModel.getObject());
+		    imgUploadLink.add(img);
+			titleImageContainer.add(imgUploadLink);
+			
 		} else {
 			ContextImage img = new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif"));
-			AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
 
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void onClick(AjaxRequestTarget target) {
-					modalWindow.show(target);
-
-				}
-
-			};
 			imgUploadLink.add(img);
 			titleImageContainer.add(imgUploadLink);
 		}
