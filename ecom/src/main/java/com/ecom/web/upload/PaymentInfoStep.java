@@ -36,6 +36,7 @@ public class PaymentInfoStep extends WizardStep {
         paymentInfo.add(referenceText);
         
         paymentInfo.setVisible(realStateModel.getObject().getTariffType() == null || realStateModel.getObject().getTariffType().equals(TariffType.Profi));
+
         addOrReplace(paymentInfo);
     }
 
