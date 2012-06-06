@@ -57,6 +57,7 @@ public class SelectOfferStep extends WizardStep {
                     RealState realState = realStateModel.getObject();
                     realState.setTariffType(tariffSelected);
                     realStateModel.setObject(realState);
+                    setDefaultModel(realStateModel);
                 }   
                 
             }
