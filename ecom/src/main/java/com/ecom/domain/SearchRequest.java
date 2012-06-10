@@ -43,7 +43,7 @@ public class SearchRequest implements Serializable {
 
     private Boolean isBalconyAvailable;
 
-    private Boolean isLiftAvailable;
+    private Boolean isElevatorAvailable;
 
     private Boolean isGardenAvailable;
 
@@ -166,7 +166,7 @@ public class SearchRequest implements Serializable {
         result = prime * result + ((isFurnished == null) ? 0 : isFurnished.hashCode());
         result = prime * result + ((isGardenAvailable == null) ? 0 : isGardenAvailable.hashCode());
         result = prime * result + ((isKitchenAvailable == null) ? 0 : isKitchenAvailable.hashCode());
-        result = prime * result + ((isLiftAvailable == null) ? 0 : isLiftAvailable.hashCode());
+        result = prime * result + ((isElevatorAvailable == null) ? 0 : isElevatorAvailable.hashCode());
         result = prime * result + ((isProvisionFree == null) ? 0 : isProvisionFree.hashCode());
         result = prime * result + ((priceFrom == null) ? 0 : priceFrom.hashCode());
         result = prime * result + ((priceTo == null) ? 0 : priceTo.hashCode());
@@ -226,10 +226,10 @@ public class SearchRequest implements Serializable {
                 return false;
         } else if (!isKitchenAvailable.equals(other.isKitchenAvailable))
             return false;
-        if (isLiftAvailable == null) {
-            if (other.isLiftAvailable != null)
+        if (isElevatorAvailable == null) {
+            if (other.isElevatorAvailable != null)
                 return false;
-        } else if (!isLiftAvailable.equals(other.isLiftAvailable))
+        } else if (!isElevatorAvailable.equals(other.isElevatorAvailable))
             return false;
         if (isProvisionFree == null) {
             if (other.isProvisionFree != null)
@@ -274,12 +274,12 @@ public class SearchRequest implements Serializable {
         this.isBalconyAvailable = isBalconyAvailable;
     }
 
-    public Boolean isLiftAvailable() {
-        return isLiftAvailable;
+    public Boolean isElevatorAvailable() {
+        return isElevatorAvailable;
     }
 
-    public void setLiftAvailable(Boolean isLiftAvailable) {
-        this.isLiftAvailable = isLiftAvailable;
+    public void setElevatorAvailable(Boolean isElevatorAvailable) {
+        this.isElevatorAvailable = isElevatorAvailable;
     }
 
     public Boolean isGardenAvailable() {
@@ -362,14 +362,6 @@ public class SearchRequest implements Serializable {
         this.isBalconyAvailable = isBalconyAvailable;
     }
 
-    public Boolean getIsLiftAvailable() {
-        return isLiftAvailable;
-    }
-
-    public void setIsLiftAvailable(Boolean isLiftAvailable) {
-        this.isLiftAvailable = isLiftAvailable;
-    }
-
     public Boolean getIsGardenAvailable() {
         return isGardenAvailable;
     }
@@ -390,15 +382,6 @@ public class SearchRequest implements Serializable {
         this.heatingTypeId = heatingTypeId;
     }
 
-    @Override
-    public String toString() {
-        return "SearchRequest [userId=" + userId + ", cityOrZip=" + location + ", areaFrom=" + areaFrom + ", areaTo=" + areaTo + ", priceFrom="
-                + priceFrom + ", priceTo=" + priceTo + ", roomsFrom=" + roomsFrom + ", roomsTo=" + roomsTo + ", searchType=" + searchType
-                + ", isProvisionFree=" + isProvisionFree + ", isKitchenAvailable=" + isKitchenAvailable + ", isFurnished=" + isFurnished
-                + ", isBalconyAvailable=" + isBalconyAvailable + ", isLiftAvailable=" + isLiftAvailable + ", isGardenAvailable=" + isGardenAvailable
-                + ", heatingTypeId=" + heatingTypeId + ", typeId=" + typeId + ", realStateType=" + realStateType + ", sortOrder=" + sortOrder
-                + ", insertTs=" + insertTs + "]";
-    }
 
     public String getName() {
         return name;

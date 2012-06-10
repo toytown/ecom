@@ -148,8 +148,8 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			builder.and(realStateQuery.balconyAvailable.eq(true));
 		}
 
-		if (req.isLiftAvailable() != null && req.isLiftAvailable() == true) {
-			builder.and(realStateQuery.liftAvailable.eq(true));
+		if (req.isElevatorAvailable() != null && req.isElevatorAvailable() == true) {
+			builder.and(realStateQuery.elevatorAvailable.eq(true));
 		}
 
 		if (req.isGardenAvailable() != null && req.isGardenAvailable().booleanValue()) {

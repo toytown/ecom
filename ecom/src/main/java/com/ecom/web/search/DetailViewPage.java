@@ -169,9 +169,9 @@ public class DetailViewPage extends GenericTemplatePage {
             labelId++;
         }
 
-        if (realState.getObject().isLiftAvailable()) {
+        if (realState.getObject().isElevatorAvailable()) {
             add(new Label("label" + labelId, new ResourceModel("lbl_lift_available")));
-            add(new OkCancelComponent("img" + labelId, realStateModel.bind("liftAvailable")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("elevatorAvailable")));
             labelId++;
         }
 

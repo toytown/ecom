@@ -36,6 +36,7 @@ import com.ecom.domain.OffererType;
 import com.ecom.domain.OfficeType;
 import com.ecom.domain.RealState;
 import com.ecom.domain.RealStateCategory;
+import com.ecom.domain.TariffType;
 import com.ecom.repository.RealStateRepository;
 import com.ecom.web.components.gmap.api.GLatLng;
 import com.ecom.web.components.image.EcomImageResouceReference;
@@ -263,7 +264,7 @@ public class BasicInfoStep extends WizardStep {
 		CheckBox toiletWithBathRoom = new CheckBox("toiletWithBathRoom");
 		CheckBox cellarAvailable = new CheckBox("cellarAvailable");
 		CheckBox balconyAvailable = new CheckBox("balconyAvailable");
-		CheckBox liftAvailable = new CheckBox("liftAvailable");
+		CheckBox elevatorAvailable = new CheckBox("elevatorAvailable");
 		CheckBox gardenAvailable = new CheckBox("gardenAvailable");
 		CheckBox heatingCostIncluded = new CheckBox("heatingCostIncluded");
 		CheckBox energyPassAvailable = new CheckBox("energyPassAvailable");
@@ -284,6 +285,23 @@ public class BasicInfoStep extends WizardStep {
 		CheckBox barrierFree = new CheckBox("barrierFree");
 		CheckBox seniorAppartment = new CheckBox("seniorAppartment");
 
+		//Payment Info
+        WebMarkupContainer paymentInfo = new WebMarkupContainer("paymentInfo");
+
+        TextField<String> referenceName = new TextField<String>("paymentInfo.referenceName");
+        TextField<String> bankName = new TextField<String>("paymentInfo.bankName");
+        TextField<String> blz = new TextField<String>("paymentInfo.blz");
+        TextField<String> accountNumber = new TextField<String>("paymentInfo.accountNumber");
+        TextArea<String> referenceText = new TextArea<String>("paymentInfo.referenceText");
+
+        paymentInfo.add(referenceName);
+        paymentInfo.add(bankName);
+        paymentInfo.add(blz);
+        paymentInfo.add(accountNumber);
+        paymentInfo.add(referenceText);
+        
+        paymentInfo.setVisible(realStateModel.getObject().getTariffType() != null && realStateModel.getObject().getTariffType().equals(TariffType.Profi));
+        
 		realStateUploadInfoForm.add(title);
 		realStateUploadInfoForm.add(description);
 		realStateUploadInfoForm.add(areaDescription);
@@ -303,7 +321,7 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(toiletWithBathRoom);
 		realStateUploadInfoForm.add(cellarAvailable);
 		realStateUploadInfoForm.add(balconyAvailable);
-		realStateUploadInfoForm.add(liftAvailable);
+		realStateUploadInfoForm.add(elevatorAvailable);
 		realStateUploadInfoForm.add(gardenAvailable);
 		realStateUploadInfoForm.add(heatingCostIncluded);
 		realStateUploadInfoForm.add(energyPassAvailable);
@@ -322,6 +340,7 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(provisionFree);
 		realStateUploadInfoForm.add(barrierFree);
 		realStateUploadInfoForm.add(seniorAppartment);
+		realStateUploadInfoForm.add(paymentInfo);
 		addOrReplace(realStateUploadInfoForm);
 	}
 

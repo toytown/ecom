@@ -52,6 +52,9 @@ public class RealState implements Serializable {
 
 	private double size;
 
+	//neben-flfäche
+	private double surroundingAreaSize;
+	
 	private double cost;
 
 	private double floor;
@@ -70,8 +73,20 @@ public class RealState implements Serializable {
 
 	private boolean balconyAvailable;
 
-	private boolean liftAvailable;
+	private boolean elevatorAvailable;
 
+	private boolean commercialElevator;
+	
+	private double personalElevatorCapacity;
+	
+	private boolean craneAvailable;
+	
+	private double craneCapacity;
+	
+	private int maxNoOfPeople;
+	
+	private int maxNoOfBeds;
+	
 	private boolean gardenAvailable;
 
 	private Condition condition;
@@ -159,6 +174,10 @@ public class RealState implements Serializable {
 
 	private int noOfParkPlaces;
 
+	private double powerSupplyCapacity;
+	
+	private double height;
+	
 	private boolean hasMultiPhaseElectricalSupply;
 
 	private boolean hasCafeteria;
@@ -172,11 +191,15 @@ public class RealState implements Serializable {
 	private int timeToNearestPublicTransport;
 
 	private int timeToAirportTravel;
+	
+	private double floorLoad;
 
-	private TariffType tariffType;
+	private TariffType tariffType = TariffType.Free;
 
 	private boolean allowFullAddressDisplay;
 	
+	private boolean airConditioned;
+		
 	@GeoSpatialIndexed
 	private Double[] location;
 
@@ -186,6 +209,14 @@ public class RealState implements Serializable {
 
 	private List<RealStateImage> images = new ArrayList<RealStateImage>();
 
+	@Transient
+	private String addressInfo;
+
+	private ContactInfo contactInfo;
+
+	private PaymentInfo paymentInfo;
+	
+	//RealState lifecycle statuses
 	public enum STATUS {
 		NEW, VALID, ACTIVE, INACTIVE;
 
@@ -206,12 +237,6 @@ public class RealState implements Serializable {
 		}
 	};
 
-	@Transient
-	private String addressInfo;
-
-	private ContactInfo contactInfo;
-
-	private PaymentInfo paymentInfo;
 	
 	public ContactInfo getContactInfo() {
 		return contactInfo;
@@ -369,12 +394,76 @@ public class RealState implements Serializable {
 		this.balconyAvailable = balconyAvailable;
 	}
 
-	public boolean isLiftAvailable() {
-		return liftAvailable;
+	public boolean isElevatorAvailable() {
+		return elevatorAvailable;
 	}
 
-	public void setLiftAvailable(boolean liftAvailable) {
-		this.liftAvailable = liftAvailable;
+	public void setElevatorAvailable(boolean elevatorAvailable) {
+		this.elevatorAvailable = elevatorAvailable;
+	}
+
+	public boolean isCommercialElevator() {
+		return commercialElevator;
+	}
+
+	public void setCommercialElevator(boolean commercialElevator) {
+		this.commercialElevator = commercialElevator;
+	}
+
+	public double getPersonalElevatorCapacity() {
+		return personalElevatorCapacity;
+	}
+
+	public void setPersonalElevatorCapacity(double personalElevatorCapacity) {
+		this.personalElevatorCapacity = personalElevatorCapacity;
+	}
+
+	public boolean isCraneAvailable() {
+		return craneAvailable;
+	}
+
+	public void setCraneAvailable(boolean craneAvailable) {
+		this.craneAvailable = craneAvailable;
+	}
+
+	public double getCraneCapacity() {
+		return craneCapacity;
+	}
+
+	public void setCraneCapacity(double craneCapacity) {
+		this.craneCapacity = craneCapacity;
+	}
+
+	public int getMaxNoOfPeople() {
+		return maxNoOfPeople;
+	}
+
+	public void setMaxNoOfPeople(int maxNoOfPeople) {
+		this.maxNoOfPeople = maxNoOfPeople;
+	}
+
+	public int getMaxNoOfBeds() {
+		return maxNoOfBeds;
+	}
+
+	public void setMaxNoOfBeds(int maxNoOfBeds) {
+		this.maxNoOfBeds = maxNoOfBeds;
+	}
+
+	public double getPowerSupplyCapacity() {
+		return powerSupplyCapacity;
+	}
+
+	public void setPowerSupplyCapacity(double powerSupplyCapacity) {
+		this.powerSupplyCapacity = powerSupplyCapacity;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
 	public boolean isGardenAvailable() {
@@ -585,95 +674,6 @@ public class RealState implements Serializable {
 		this.updatedTs = updatedTs;
 	}
 
-	public String getTitleThumbNailImage() {
-
-		String value = "";
-		for (RealStateImage img : this.getImages()) {
-
-			if (img != null && img.getId() != null && img.isTitleImage() && img.isThumbNail()) {
-				return img.getId().toString();
-			}
-		}
-
-		return value;
-	}
-
-	public String getTitleImageId() {
-
-		String value = "";
-		for (RealStateImage img : this.getImages()) {
-
-			if (img != null && img.getId() != null && img.isTitleImage() && !img.isThumbNail()) {
-				return img.getId().toString();
-			}
-		}
-
-		return value;
-	}
-
-	/**
-	 * Returns both actual and thumbnail image
-	 * 
-	 * @return
-	 */
-	public List<RealStateImage> getTitleImages() {
-		List<RealStateImage> realStateImgList = new ArrayList<RealStateImage>();
-
-		for (RealStateImage img : this.getImages()) {
-			if (img != null && img.getId() != null && img.isTitleImage()) {
-				realStateImgList.add(img);
-			}
-		}
-
-		return realStateImgList;
-	}
-
-	public void removeTitleImages() {
-
-		Iterator<RealStateImage> iter = this.getImages().iterator();
-
-		while (iter.hasNext()) {
-			RealStateImage img = iter.next();
-
-			if (img != null && img.isTitleImage()) {
-				iter.remove();
-			}
-		}
-	}
-
-	public void addTitleImages(List<RealStateImage> titlImages) {
-		if (titlImages.isEmpty()) {
-			return;
-		}
-
-		Iterator<RealStateImage> iter = getImages().iterator();
-
-		// removes previously stored title images
-		while (iter.hasNext()) {
-			RealStateImage img = iter.next();
-			if (img.isTitleImage()) {
-				iter.remove();
-			}
-		}
-		this.getImages().addAll(titlImages);
-	}
-
-	public String getAddressInfo() {
-		StringBuilder addressInfo = new StringBuilder("");		
-		addressInfo.append(StringUtils.trimToEmpty(getStreet()));
-
-		if (this.isAllowFullAddressDisplay()) {
-			addressInfo.append(this.getHouseNo());
-			addressInfo.append(", ");
-		} else {
-			addressInfo.append(", ");
-		}
-		addressInfo.append(StringUtils.trimToEmpty(getAreaCode()));
-		addressInfo.append(", ");
-		addressInfo.append(StringUtils.trimToEmpty(getCity()));
-		this.addressInfo = addressInfo.toString();
-		return this.addressInfo;
-	}
 
 	public String getUserId() {
 		return userId;
@@ -699,117 +699,12 @@ public class RealState implements Serializable {
 		this.images = images;
 	}
 
-	public List<RealStateImage> getGalleryImages() {
-		List<RealStateImage> galleryImages = new ArrayList<RealStateImage>();
-		for (RealStateImage galleryImage : this.images) {
-			if (!galleryImage.isThumbNail()) {
-				galleryImages.add(galleryImage);
-			}
-		}
-
-		return galleryImages;
-	}
-
-	public List<RealStateImage> getNonTitleImages() {
-		List<RealStateImage> nonTitleImages = new ArrayList<RealStateImage>();
-		for (RealStateImage img : this.images) {
-			if (!img.isTitleImage() && !img.isThumbNail()) {
-				nonTitleImages.add(img);
-			}
-		}
-
-		return nonTitleImages;
-	}
-
-	public boolean isValid() {
-
-		if (StringUtils.isEmpty(getTitle())) {
-			return false;
-		}
-
-		if (StringUtils.isEmpty(getDescription())) {
-			return false;
-		}
-
-		if (StringUtils.isEmpty(this.getStreet())) {
-			return false;
-		}
-
-		if (StringUtils.isEmpty(this.getCity())) {
-			return false;
-		}
-
-		if (StringUtils.isEmpty(this.getAreaCode())) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public void changeStatus() {
-
-		if (isValid()) {
-			this.setStatus(STATUS.getValue(STATUS.VALID));
-		}
-	}
-
-	public void activate(Date activationDate) {
-
-		if (STATUS.getValue(STATUS.VALID) == this.getStatus()) {
-			this.setActivationDate(activationDate);
-			this.setStatus(STATUS.getValue(STATUS.ACTIVE));
-		}
-	}
-
-	public String getAddress() {
-
-		StringBuilder address = new StringBuilder();
-
-		if (StringUtils.isNotEmpty(this.getStreet()) && this.getStreet().trim().length() >= 2) {
-
-			address.append(this.getStreet());
-
-			if (StringUtils.isNotEmpty(this.getHouseNo())) {
-				address.append(" ");
-				address.append(this.getHouseNo());
-			}
-		}
-
-		if (StringUtils.isNotEmpty(this.getAreaCode()) && this.getAreaCode().trim().length() >= 2) {
-			address.append(", ");
-			address.append(this.getAreaCode());
-		}
-
-		if (StringUtils.isNotEmpty(this.getCity()) && this.getCity().trim().length() >= 2) {
-			address.append(", ");
-			address.append(this.getCity());
-		}
-
-		return address.toString();
-	}
-
 	public Double[] getLocation() {
 		return location;
 	}
 
 	public void setLocation(Double[] location) {
 		this.location = location;
-	}
-
-	public boolean hasValidMinimumAddressForGeoCoding() {
-		if (StringUtils.isEmpty(getAddress())) {
-			return false;
-		}
-
-		if (GeoLocationUtils.hasOnlyCityNamePattern(this.getCity())) {
-			return true;
-		}
-
-		if (GeoLocationUtils.isZipCodeOnly(this.getAreaCode())) {
-			return true;
-		}
-
-		return false;
 	}
 
 	public OfferType getOfferType() {
@@ -1040,6 +935,14 @@ public class RealState implements Serializable {
 		this.tariffType = tariffType;
 	}
 
+	public double getFloorLoad() {
+		return floorLoad;
+	}
+
+	public void setFloorLoad(double floorLoad) {
+		this.floorLoad = floorLoad;
+	}
+	
 	/**
 	 * Method checks if the tariff is valid based on Tariff Type
 	 * 
@@ -1075,5 +978,216 @@ public class RealState implements Serializable {
 		this.paymentInfo = paymentInfo;
 	}
 
+	public double getSurroundingAreaSize() {
+		return surroundingAreaSize;
+	}
 
+	public void setSurroundingAreaSize(double surroundingAreaSize) {
+		this.surroundingAreaSize = surroundingAreaSize;
+	}
+
+	public boolean isAirConditioned() {
+		return airConditioned;
+	}
+
+	public void setAirConditioned(boolean airConditioned) {
+		this.airConditioned = airConditioned;
+	}
+	
+	public boolean hasValidMinimumAddressForGeoCoding() {
+		if (StringUtils.isEmpty(getAddress())) {
+			return false;
+		}
+
+		if (GeoLocationUtils.hasOnlyCityNamePattern(this.getCity())) {
+			return true;
+		}
+
+		if (GeoLocationUtils.isZipCodeOnly(this.getAreaCode())) {
+			return true;
+		}
+
+		return false;
+	}
+	
+
+	public List<RealStateImage> getGalleryImages() {
+		List<RealStateImage> galleryImages = new ArrayList<RealStateImage>();
+		for (RealStateImage galleryImage : this.images) {
+			if (!galleryImage.isThumbNail()) {
+				galleryImages.add(galleryImage);
+			}
+		}
+
+		return galleryImages;
+	}
+
+	public List<RealStateImage> getNonTitleImages() {
+		List<RealStateImage> nonTitleImages = new ArrayList<RealStateImage>();
+		for (RealStateImage img : this.images) {
+			if (!img.isTitleImage() && !img.isThumbNail()) {
+				nonTitleImages.add(img);
+			}
+		}
+
+		return nonTitleImages;
+	}
+
+	public boolean isValid() {
+
+		if (StringUtils.isEmpty(getTitle())) {
+			return false;
+		}
+
+		if (StringUtils.isEmpty(getDescription())) {
+			return false;
+		}
+
+		if (StringUtils.isEmpty(this.getStreet())) {
+			return false;
+		}
+
+		if (StringUtils.isEmpty(this.getCity())) {
+			return false;
+		}
+
+		if (StringUtils.isEmpty(this.getAreaCode())) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public void changeStatus() {
+
+		if (isValid()) {
+			this.setStatus(STATUS.getValue(STATUS.VALID));
+		}
+	}
+
+	public void activate(Date activationDate) {
+
+		if (STATUS.getValue(STATUS.VALID) == this.getStatus()) {
+			this.setActivationDate(activationDate);
+			this.setStatus(STATUS.getValue(STATUS.ACTIVE));
+		}
+	}
+
+	public String getAddress() {
+
+		StringBuilder address = new StringBuilder();
+
+		if (StringUtils.isNotEmpty(this.getStreet()) && this.getStreet().trim().length() >= 2) {
+
+			address.append(this.getStreet());
+
+			if (StringUtils.isNotEmpty(this.getHouseNo())) {
+				address.append(" ");
+				address.append(this.getHouseNo());
+			}
+		}
+
+		if (StringUtils.isNotEmpty(this.getAreaCode()) && this.getAreaCode().trim().length() >= 2) {
+			address.append(", ");
+			address.append(this.getAreaCode());
+		}
+
+		if (StringUtils.isNotEmpty(this.getCity()) && this.getCity().trim().length() >= 2) {
+			address.append(", ");
+			address.append(this.getCity());
+		}
+
+		return address.toString();
+	}
+
+	public String getTitleThumbNailImage() {
+
+		String value = "";
+		for (RealStateImage img : this.getImages()) {
+
+			if (img != null && img.getId() != null && img.isTitleImage() && img.isThumbNail()) {
+				return img.getId().toString();
+			}
+		}
+
+		return value;
+	}
+
+	public String getTitleImageId() {
+
+		String value = "";
+		for (RealStateImage img : this.getImages()) {
+
+			if (img != null && img.getId() != null && img.isTitleImage() && !img.isThumbNail()) {
+				return img.getId().toString();
+			}
+		}
+
+		return value;
+	}
+
+	/**
+	 * Returns both actual and thumbnail image
+	 * 
+	 * @return
+	 */
+	public List<RealStateImage> getTitleImages() {
+		List<RealStateImage> realStateImgList = new ArrayList<RealStateImage>();
+
+		for (RealStateImage img : this.getImages()) {
+			if (img != null && img.getId() != null && img.isTitleImage()) {
+				realStateImgList.add(img);
+			}
+		}
+
+		return realStateImgList;
+	}
+
+	public void removeTitleImages() {
+
+		Iterator<RealStateImage> iter = this.getImages().iterator();
+
+		while (iter.hasNext()) {
+			RealStateImage img = iter.next();
+
+			if (img != null && img.isTitleImage()) {
+				iter.remove();
+			}
+		}
+	}
+
+	public void addTitleImages(List<RealStateImage> titlImages) {
+		if (titlImages.isEmpty()) {
+			return;
+		}
+
+		Iterator<RealStateImage> iter = getImages().iterator();
+
+		// removes previously stored title images
+		while (iter.hasNext()) {
+			RealStateImage img = iter.next();
+			if (img.isTitleImage()) {
+				iter.remove();
+			}
+		}
+		this.getImages().addAll(titlImages);
+	}
+
+	public String getAddressInfo() {
+		StringBuilder addressInfo = new StringBuilder("");		
+		addressInfo.append(StringUtils.trimToEmpty(getStreet()));
+
+		if (this.isAllowFullAddressDisplay()) {
+			addressInfo.append(this.getHouseNo());
+			addressInfo.append(", ");
+		} else {
+			addressInfo.append(", ");
+		}
+		addressInfo.append(StringUtils.trimToEmpty(getAreaCode()));
+		addressInfo.append(", ");
+		addressInfo.append(StringUtils.trimToEmpty(getCity()));
+		this.addressInfo = addressInfo.toString();
+		return this.addressInfo;
+	}
+	
 }

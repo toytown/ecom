@@ -198,8 +198,8 @@
 							<input type="checkbox" id="gardenAvailable" wicket:id="gardenAvailable" />
 						</p>
 						<p>
-							<label for="liftAvailableLabel"><wicket:message key="lbl_lift_available" /></label>
-							<input type="checkbox" id="liftAvailable" wicket:id="liftAvailable" />
+							<label for="elevatorAvailable"><wicket:message key="lbl_lift_available" /></label>
+							<input type="checkbox" id="elevatorAvailable" wicket:id="elevatorAvailable" />
 						</p>
 						<p>
 							<label for="furnishedLabel"><wicket:message key="lbl_furnished" /></label>
@@ -217,8 +217,34 @@
 							<label for="rented"><wicket:message key="lbl_rented" /></label>
 							<input type="checkbox" id="rented" wicket:id="rented" />
 						</p>												
-					</div>		
-
+					</div>	
+					<div class="first_column search_form rounded_all" style="margin-top: 15px; width: 320px;">
+					<div wicket:id="paymentInfo">
+						<div class="first_column search_form rounded_all">
+							<div class="main_info_box_header">Info</div>
+							<p>
+								<label for="bank_name"><wicket:message key="lbl_bank_name" /></label> 
+								<input type="text" id="bank_name" wicket:id="paymentInfo.bankName"/>
+							</p>
+							<p>
+								<label for="ref_name"><wicket:message key="lbl_ref_name" /></label> 
+								<input type="text" id="ref_name" wicket:id="paymentInfo.referenceName"/>
+							</p>
+							<p>
+								<label for="blz"><wicket:message key="lbl_blz" /></label> 
+								<input type="text" id="blz" wicket:id="paymentInfo.blz"/>
+							</p>
+							<p>
+								<label for="account_no"><wicket:message key="lbl_account_no" /></label> 
+								<input type="text" id="account_no" wicket:id="paymentInfo.accountNumber"/>
+							</p>
+							<p>
+								<label for="ref_text"><wicket:message key="lbl_ref_text" /></label> 
+								<textarea id="ref_text" wicket:id="paymentInfo.referenceText"/>
+							</p>												
+						</div>
+					</div>						
+					</div>
 			</div>
 								<div wicket:id="titleUploadFileModalWindow" >downloadFileModalWindow</div>
 			<!--  

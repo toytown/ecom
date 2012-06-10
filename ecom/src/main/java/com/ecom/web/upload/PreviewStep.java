@@ -102,7 +102,7 @@ public class PreviewStep extends WizardStep {
             labelId++;
         }
 
-        if (obj != null && obj.isLiftAvailable()) {
+        if (obj != null && obj.isElevatorAvailable()) {
             add(new Label("label" + labelId, new ResourceModel("lbl_lift_available")));
             add(new OkCancelComponent("img" + labelId, realStateModel.bind("liftAvailable")));
             labelId++;

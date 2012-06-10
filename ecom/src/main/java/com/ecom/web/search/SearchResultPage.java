@@ -188,7 +188,7 @@ public class SearchResultPage extends GenericTemplatePage {
         CheckBox isKitchenAvailable = new CheckBox("isKitchenAvailable");
         CheckBox isFurnished = new CheckBox("isFurnished");
         CheckBox isBalconyAvailable = new CheckBox("isBalconyAvailable");
-        CheckBox isLiftAvailable = new CheckBox("isLiftAvailable");
+        CheckBox isElevatorAvailable = new CheckBox("isElevatorAvailable");
         CheckBox isGardenAvailable = new CheckBox("isGardenAvailable");
 
         searchForm.add(priceFromTxt);
@@ -202,7 +202,7 @@ public class SearchResultPage extends GenericTemplatePage {
         searchForm.add(isKitchenAvailable);
         searchForm.add(isFurnished);
         searchForm.add(isBalconyAvailable);
-        searchForm.add(isLiftAvailable);
+        searchForm.add(isElevatorAvailable);
         searchForm.add(isGardenAvailable);
 
         searchForm.add(new Button("submitSearch") {
@@ -419,7 +419,7 @@ public class SearchResultPage extends GenericTemplatePage {
             if (keyVal.getKey().equals("liftAvail")) {
                 String value = keyVal.getValue();
                 if (Boolean.valueOf(value) == true)
-                    req.setLiftAvailable(true);
+                    req.setElevatorAvailable(true);
             }
 
             if (keyVal.getKey().equals("gardenAvail")) {
@@ -488,8 +488,8 @@ public class SearchResultPage extends GenericTemplatePage {
             params.set("balcon", req.isBalconyAvailable());
         }
 
-        if (req.isLiftAvailable() != null && req.isLiftAvailable()) {
-            params.set("liftAvail", req.isLiftAvailable());
+        if (req.isElevatorAvailable() != null && req.isElevatorAvailable()) {
+            params.set("liftAvail", req.isElevatorAvailable());
         }
 
         if (req.isGardenAvailable() != null && req.isGardenAvailable()) {

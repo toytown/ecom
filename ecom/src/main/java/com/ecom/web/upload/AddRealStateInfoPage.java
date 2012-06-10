@@ -88,7 +88,7 @@ public final class AddRealStateInfoPage extends GenericTemplatePage implements S
         
         wizardModel.add(uploadStep);
         
-        wizardModel.add(new PaymentInfoStep(new Model<String>("Preview"), null, realStateModel));
+        //wizardModel.add(new PaymentInfoStep(new Model<String>("Preview"), null, realStateModel));
         
         wizardModel.add(new PreviewStep(new Model<String>("Preview"), null, realStateModel));
         UploadRealStateWizard wizard = new UploadRealStateWizard("addRealStateWizard", wizardModel, true) {
