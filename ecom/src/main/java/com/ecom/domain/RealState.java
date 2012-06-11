@@ -87,11 +87,13 @@ public class RealState implements Serializable {
 	
 	private int maxNoOfBeds;
 	
+	private int noOfGarages;
+	
 	private boolean gardenAvailable;
 
 	private Condition condition;
 
-	private int heatingTypeId;
+	private HeatingType heatingType;
 
 	private double additionalCost;
 
@@ -112,6 +114,8 @@ public class RealState implements Serializable {
 	private String fittings;
 
 	private boolean energyPassAvailable;
+
+	private double energyRequirement;
 
 	private boolean kitchenAvailable;
 
@@ -313,6 +317,14 @@ public class RealState implements Serializable {
 	public void setHouseNo(String houseNo) {
 		this.houseNo = houseNo;
 	}
+	
+	public double getEnergyRequirement() {
+		return energyRequirement;
+	}
+	
+	public void setEnergyRequirement(double energyRequirement) {
+		this.energyRequirement = energyRequirement;
+	}
 
 	public double getSize() {
 		return size;
@@ -482,12 +494,12 @@ public class RealState implements Serializable {
 		this.condition = condition;
 	}
 
-	public int getHeatingTypeId() {
-		return heatingTypeId;
+	public HeatingType getHeatingType() {
+		return heatingType;
 	}
 
-	public void setHeatingTypeId(int heatingTypeId) {
-		this.heatingTypeId = heatingTypeId;
+	public void setHeatingType(HeatingType heatingType) {
+		this.heatingType = heatingType;
 	}
 
 	public double getAdditionalCost() {
@@ -943,15 +955,12 @@ public class RealState implements Serializable {
 		this.floorLoad = floorLoad;
 	}
 	
-	/**
-	 * Method checks if the tariff is valid based on Tariff Type
-	 * 
-	 * @return
-	 */
-	public boolean hasValidTariff() {
-		int size = this.getNonTitleImages().size() + 1;
-		return hasValidSize(size, this.getTariffType());
-		
+	public int getNoOfGarages() {
+		return noOfGarages;
+	}
+
+	public void setNoOfGarages(int noOfGarages) {
+		this.noOfGarages = noOfGarages;
 	}
 	
 	private boolean hasValidSize(int size, TariffType t) {
@@ -1189,5 +1198,15 @@ public class RealState implements Serializable {
 		this.addressInfo = addressInfo.toString();
 		return this.addressInfo;
 	}
-	
+
+	/**
+	 * Method checks if the tariff is valid based on Tariff Type
+	 * 
+	 * @return
+	 */
+	public boolean hasValidTariff() {
+		int size = this.getNonTitleImages().size() + 1;
+		return hasValidSize(size, this.getTariffType());
+		
+	}	
 }

@@ -125,6 +125,10 @@
 						<label for="totalFloors"><wicket:message key="lbl_total_floors" /></label>
 						<input type="text" id="totalFloors" wicket:id="totalFloors" />
 					</p>
+					<p>
+						<label for="noOfGarages"><wicket:message key="lbl_no_of_garages" /></label>
+						<input type="text" id="noOfGarages" wicket:id="noOfGarages" />
+					</p>
 
 					<p>
 						<label for="depositPeriod"><wicket:message key="lbl_deposit_period" /></label>
@@ -152,6 +156,18 @@
 						<label for="bathRooms"><wicket:message key="lbl_bath_rooms" /></label>
 						<input type="text" id="bathRooms" wicket:id="bathRooms" />
 					</p>
+					<p>
+						<label for="condition"><wicket:message key="lbl_condition" /></label>
+						<select id="condition" wicket:id="condition" />
+					</p>
+					<p>
+						<label for="heatingType"><wicket:message key="lbl_heating_type" /></label>
+						<select id="heatingType" wicket:id="heatingType" />
+					</p>
+					<p>
+						<label for="energyRequirement"><wicket:message key="lbl_energy_requirement" /></label>
+						<input type="text" id="energyRequirement" wicket:id="energyRequirement" />
+					</p>					
 			</div>		
 
 			<div class="first_column search_form rounded_all" style="margin-top: 15px;">
@@ -246,11 +262,7 @@
 					</div>						
 					</div>
 			</div>
-								<div wicket:id="titleUploadFileModalWindow" >downloadFileModalWindow</div>
-			<!--  
-						<li><label for="categoryTypes"><wicket:message key="lbl_category_types" /></label> <select name="categoryTypes" id="categoryTypes" wicket:id="categoryTypes"></select></li>
-						<li><label for="heatingTypes"><wicket:message key="lbl_heating_types" /></label> <select name="heatingTypes" id="heatingTypes" wicket:id="heatingTypes"></select></li>
-						-->
+			<div wicket:id="titleUploadFileModalWindow" >downloadFileModalWindow</div>
 
 		</form>
 

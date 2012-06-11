@@ -31,6 +31,8 @@ import org.apache.wicket.util.visit.IVisitor;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.AppartmentType;
+import com.ecom.domain.Condition;
+import com.ecom.domain.HeatingType;
 import com.ecom.domain.HouseType;
 import com.ecom.domain.OffererType;
 import com.ecom.domain.OfficeType;
@@ -261,6 +263,14 @@ public class BasicInfoStep extends WizardStep {
 		TextField<Double> totalRooms = new TextField<Double>("totalRooms");
 		TextField<Integer> bedRooms = new TextField<Integer>("bedRooms");
 		TextField<Integer> bathRooms = new TextField<Integer>("bathRooms");
+		
+		IModel<HeatingType> heatingTypeSelected = new Model<HeatingType>(HeatingType.Centralheating);
+		DropDownChoice<HeatingType> heatingType = new DropDownChoice<HeatingType>("heatingType", heatingTypeSelected, Arrays.asList(HeatingType.values()), new EnumChoiceRenderer<HeatingType>());
+
+		IModel<Condition> conditionTypeSelected = new Model<Condition>(Condition.Good);		
+		DropDownChoice<Condition> condition = new DropDownChoice<Condition>("condition", conditionTypeSelected, Arrays.asList(Condition.values()));
+
+		
 		CheckBox toiletWithBathRoom = new CheckBox("toiletWithBathRoom");
 		CheckBox cellarAvailable = new CheckBox("cellarAvailable");
 		CheckBox balconyAvailable = new CheckBox("balconyAvailable");
@@ -275,8 +285,10 @@ public class BasicInfoStep extends WizardStep {
 		CheckBox rented = new CheckBox("rented");
 
 		TextField<Double> additionalCost = new TextField<Double>("additionalCost");
+		TextField<Double> energyRequirement = new TextField<Double>("energyRequirement");
 		TextField<Double> depositPeriod = new TextField<Double>("depositPeriod");
 		DateTextField availableFrom = new DateTextField("availableFrom");
+		TextField<Integer> noOfGarages= new TextField<Integer>("noOfGarages");
 		TextField<Double> garageCost = new TextField<Double>("garageCost");
 		TextField<Integer> builtYear = new TextField<Integer>("builtYear");
 		TextField<String> provisionCondition = new TextField<String>("provisionCondition");
@@ -329,9 +341,11 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(kitchenAvailable);
 		realStateUploadInfoForm.add(furnished);
 		realStateUploadInfoForm.add(animalsAllowed);
+		realStateUploadInfoForm.add(noOfGarages);
 		realStateUploadInfoForm.add(garageAvailable);
 		realStateUploadInfoForm.add(rented);
 		realStateUploadInfoForm.add(additionalCost);
+		realStateUploadInfoForm.add(energyRequirement);
 		realStateUploadInfoForm.add(depositPeriod);
 		realStateUploadInfoForm.add(availableFrom);
 		realStateUploadInfoForm.add(garageCost);
@@ -341,6 +355,9 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(barrierFree);
 		realStateUploadInfoForm.add(seniorAppartment);
 		realStateUploadInfoForm.add(paymentInfo);
+		realStateUploadInfoForm.add(heatingType);
+		realStateUploadInfoForm.add(condition);
+
 		addOrReplace(realStateUploadInfoForm);
 	}
 
