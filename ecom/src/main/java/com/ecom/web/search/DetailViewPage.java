@@ -152,7 +152,7 @@ public class DetailViewPage extends GenericTemplatePage {
         }
 
         if (realState.getObject().isBalconyAvailable()) {
-            add(new Label("label" + labelId, new ResourceModel("lbl_heating_Cost")));
+            add(new Label("label" + labelId, new ResourceModel("lbl_heating_cost")));
             add(new OkCancelComponent("img" + labelId, realStateModel.bind("balconyAvailable")));
             labelId++;
         }

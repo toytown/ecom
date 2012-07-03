@@ -95,7 +95,7 @@ public class RealState implements Serializable {
 
 	private HeatingType heatingType;
 
-	private double otherCost;
+	private double additionalCost;
 	
 	private double heatingCost;
 	
@@ -504,12 +504,12 @@ public class RealState implements Serializable {
 		this.heatingType = heatingType;
 	}
 
-	public double getOtherCost() {
-		return otherCost;
+	public double getAdditionalCost() {
+		return additionalCost;
 	}
 
-	public void setOtherCost(double otherCost) {
-		this.otherCost = otherCost;
+	public void setAdditionalCost(double additionalCost) {
+		this.additionalCost = additionalCost;
 	}
 
 	public boolean isHeatingCostIncluded() {

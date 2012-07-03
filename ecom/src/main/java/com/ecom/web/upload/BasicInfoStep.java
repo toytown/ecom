@@ -285,7 +285,7 @@ public class BasicInfoStep extends WizardStep {
 		CheckBox garageAvailable = new CheckBox("garageAvailable");
 		CheckBox rented = new CheckBox("rented");
 
-		TextField<Double> otherCost = new TextField<Double>("otherCost");
+		TextField<Double> additionalCost = new TextField<Double>("additionalCost");
 		TextField<Double> heatingCost = new TextField<Double>("heatingCost");
 		TextField<Double> energyRequirement = new TextField<Double>("energyRequirement");
 		TextField<Double> depositPeriod = new TextField<Double>("depositPeriod");
@@ -346,7 +346,7 @@ public class BasicInfoStep extends WizardStep {
 		realStateUploadInfoForm.add(noOfGarages);
 		realStateUploadInfoForm.add(garageAvailable);
 		realStateUploadInfoForm.add(rented);
-		realStateUploadInfoForm.add(otherCost);
+		realStateUploadInfoForm.add(additionalCost);
 		realStateUploadInfoForm.add(heatingCost);
 		realStateUploadInfoForm.add(energyRequirement);
 		realStateUploadInfoForm.add(depositPeriod);

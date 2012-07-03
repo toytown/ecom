@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.form.Check;
 import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.CheckGroupSelector;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -94,15 +95,23 @@ public class MarkItemEntriesPage extends UserDashBoardPage {
 				
 				RealState realState = realStateService.findOne(new ObjectId(markedItem.getItemId().toString()));
 
-                if (realState.getTitleThumbNailImage() != null) {
+                if (realState != null && realState.getTitleThumbNailImage() != null) {
                     StaticImage img = getTitleImageFromUrl(realState);
                     item.add(img);
+                    item.add(new Label("price", Model.of(String.valueOf(realState.getCost()))));
+                    item.add(new Label("size", Model.of(String.valueOf(realState.getSize()))));
+                    item.add(new Label("rooms", Model.of(String.valueOf(realState.getTotalRooms()))));
+                    String addressInfo = realState.getAddressInfo();
+                    item.add(new Label("address", Model.of(addressInfo)));
+                } else{
+                    Image img = getDefaultImage();
+                    item.add(img);
+                    item.add(new Label("price", Model.of(String.valueOf(""))));
+                    item.add(new Label("size", Model.of(String.valueOf(""))));
+                    item.add(new Label("rooms", Model.of(String.valueOf(""))));
+                    item.add(new Label("address", Model.of("")));
+                	
                 }
-				item.add(new Label("price", Model.of(String.valueOf(realState.getCost()))));
-				item.add(new Label("size", Model.of(String.valueOf(realState.getSize()))));
-				item.add(new Label("rooms", Model.of(String.valueOf(realState.getTotalRooms()))));
-				String addressInfo = realState.getAddressInfo();
-				item.add(new Label("address", Model.of(addressInfo)));
 				
 			}
 
