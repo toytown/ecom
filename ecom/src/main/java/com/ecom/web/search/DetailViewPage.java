@@ -126,7 +126,8 @@ public class DetailViewPage extends GenericTemplatePage {
         add(new Label("cost", realStateModel.bind("cost")));
         add(new Label("additionalCost", realStateModel.bind("additionalCost")));
         add(new Label("garageCost", realStateModel.bind("garageCost")));
-
+        add(new Label("heatingCost", realStateModel.bind("heatingCost")));
+        
         add(new Label("size", realStateModel.bind("size")));
         add(new Label("totalRooms", realStateModel.bind("totalRooms")));
         add(new Label("bedRooms", realStateModel.bind("bedRooms")));

@@ -1,6 +1,5 @@
 package com.ecom.web.upload;
 
-import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.IModel;
 
 import com.ecom.web.components.wizard.WizardComponent;
@@ -19,10 +18,8 @@ public class UploadRealStateWizard extends WizardComponent {
 
 		private static final long serialVersionUID = 4891384497087272754L;
 
-		
 		public ImageUploadStep(IModel<String> title, IModel<String> summary) {
 			super(title, summary);
-			Injector.get().inject(this);
 
 		}
 	}
