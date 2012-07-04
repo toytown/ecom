@@ -32,6 +32,7 @@ import org.apache.wicket.validation.validator.StringValidator;
 
 import com.ecom.domain.AppartmentType;
 import com.ecom.domain.Condition;
+import com.ecom.domain.GarageType;
 import com.ecom.domain.HeatingType;
 import com.ecom.domain.HouseType;
 import com.ecom.domain.OffererType;
@@ -51,13 +52,13 @@ import com.ecom.web.main.ServerGeocoder;
 
 public class BasicInfoStep extends WizardStep {
 
-	private static final long serialVersionUID = 769908228950127137L;
+	private static final long	serialVersionUID	= 769908228950127137L;
 
-	private WebMarkupContainer titleImageContainer;
+	private WebMarkupContainer	titleImageContainer;
 
-	private Form<RealState> realStateUploadInfoForm;
+	private Form<RealState>		realStateUploadInfoForm;
 	@SpringBean
-	private RealStateRepository realStateRepository;
+	private RealStateRepository	realStateRepository;
 
 	@Override
 	public void onInitialize() {
@@ -88,7 +89,7 @@ public class BasicInfoStep extends WizardStep {
 		modalWindow.setInitialWidth(190);
 		modalWindow.setPageCreator(new ModalWindow.PageCreator() {
 
-			private static final long serialVersionUID = 1L;
+			private static final long	serialVersionUID	= 1L;
 
 			@Override
 			public Page createPage() {
@@ -100,7 +101,7 @@ public class BasicInfoStep extends WizardStep {
 
 		modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
 
-			private static final long serialVersionUID = 1L;
+			private static final long	serialVersionUID	= 1L;
 
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
@@ -111,7 +112,7 @@ public class BasicInfoStep extends WizardStep {
 					realStateUploadInfoForm.modelChanged();
 					AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
 
-						private static final long serialVersionUID = 1L;
+						private static final long	serialVersionUID	= 1L;
 
 						@Override
 						public void onClick(AjaxRequestTarget target) {
@@ -129,23 +130,23 @@ public class BasicInfoStep extends WizardStep {
 			}
 		});
 
-        AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
+		AjaxLink<Void> imgUploadLink = new AjaxLink<Void>("titleUpload") {
 
-            private static final long serialVersionUID = 1L;
+			private static final long	serialVersionUID	= 1L;
 
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                modalWindow.show(target);
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				modalWindow.show(target);
 
-            }
+			}
 
-        };
-        
+		};
+
 		if (realState != null && !StringUtils.isEmpty(realState.getTitleImageId())) {
-		    StaticImage img = getTitleImage(realStateModel.getObject());
-		    imgUploadLink.add(img);
+			StaticImage img = getTitleImage(realStateModel.getObject());
+			imgUploadLink.add(img);
 			titleImageContainer.add(imgUploadLink);
-			
+
 		} else {
 			ContextImage img = new ContextImage("title_image", new Model<String>("images/no_photo_icon.gif"));
 
@@ -155,7 +156,7 @@ public class BasicInfoStep extends WizardStep {
 
 		realStateUploadInfoForm = new Form<RealState>("realStateAdvertForm", realStateModel) {
 
-			private static final long serialVersionUID = 1L;
+			private static final long	serialVersionUID	= 1L;
 
 			@Override
 			protected void onModelChanged() {
@@ -183,7 +184,7 @@ public class BasicInfoStep extends WizardStep {
 
 		realStateUploadInfoForm.add(new AjaxLink<Void>("uploadTitleImage") {
 
-			private static final long serialVersionUID = 1L;
+			private static final long	serialVersionUID	= 1L;
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
@@ -219,21 +220,36 @@ public class BasicInfoStep extends WizardStep {
 		if (realState.getRealStateCategory() != null) {
 			if (realState.getOffererType().equals(OffererType.Business)) {
 				IModel<OfficeType> officeSelected = new Model<OfficeType>(OfficeType.AppartmentOffice);
-				DropDownChoice<OfficeType> officeType = new DropDownChoice<OfficeType>("appartmentType", officeSelected, Arrays.asList(OfficeType
-						.values()), new EnumChoiceRenderer<OfficeType>());
+				DropDownChoice<OfficeType> officeType = new DropDownChoice<OfficeType>("appartmentType",
+						officeSelected, Arrays.asList(OfficeType.values()), new EnumChoiceRenderer<OfficeType>());
 				realStateUploadInfoForm.add(officeType);
 			} else {
 
 				if (realState.getRealStateCategory().equals(RealStateCategory.Appartment)) {
 					IModel<AppartmentType> appartmentSelected = new Model<AppartmentType>(AppartmentType.Etagewohnung);
-					DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>("appartmentType", appartmentSelected,
-							Arrays.asList(AppartmentType.values()), new EnumChoiceRenderer<AppartmentType>());
+					DropDownChoice<AppartmentType> appartmentType = new DropDownChoice<AppartmentType>(
+							"appartmentType", appartmentSelected, Arrays.asList(AppartmentType.values()),
+							new EnumChoiceRenderer<AppartmentType>());
 					realStateUploadInfoForm.add(appartmentType);
 				} else if (realState.getRealStateCategory().equals(RealStateCategory.House)) {
 					IModel<HouseType> houseSelected = new Model<HouseType>(HouseType.Einfamilienhaus);
-					DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType", houseSelected,
-							Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
+					DropDownChoice<HouseType> hauseType = new DropDownChoice<HouseType>("appartmentType",
+							houseSelected, Arrays.asList(HouseType.values()), new EnumChoiceRenderer<HouseType>());
 					realStateUploadInfoForm.add(hauseType);
+				} else if (realState.getRealStateCategory().equals(RealStateCategory.Garage)) {
+					IModel<GarageType> garageTypeSelected = new Model<GarageType>(GarageType.Garage);
+					DropDownChoice<GarageType> garageType = new DropDownChoice<GarageType>("appartmentType",
+							garageTypeSelected, Arrays.asList(GarageType.values()),
+							new EnumChoiceRenderer<GarageType>());
+					realStateUploadInfoForm.add(garageType);
+				} else if (realState.getRealStateCategory().equals(RealStateCategory.Land)) {
+					IModel<GarageType> garageTypeSelected = new Model<GarageType>(GarageType.Garage);
+					DropDownChoice<GarageType> garageType = new DropDownChoice<GarageType>("appartmentType",
+							garageTypeSelected, Arrays.asList(GarageType.values()),
+							new EnumChoiceRenderer<GarageType>());
+					garageType.setVisible(false);
+					realStateUploadInfoForm.add(garageType);
+
 				}
 			}
 		}
@@ -258,20 +274,21 @@ public class BasicInfoStep extends WizardStep {
 		TextField<String> houseNo = new TextField<String>("houseNo");
 		TextField<Double> size = new TextField<Double>("size");
 		TextField<Double> cost = new TextField<Double>("cost");
-		
+
 		TextField<Double> floor = new TextField<Double>("floor");
 		TextField<Double> totalFloors = new TextField<Double>("totalFloors");
 		TextField<Double> totalRooms = new TextField<Double>("totalRooms");
 		TextField<Integer> bedRooms = new TextField<Integer>("bedRooms");
 		TextField<Integer> bathRooms = new TextField<Integer>("bathRooms");
-		
+
 		IModel<HeatingType> heatingTypeSelected = new Model<HeatingType>(HeatingType.Centralheating);
-		DropDownChoice<HeatingType> heatingType = new DropDownChoice<HeatingType>("heatingType", heatingTypeSelected, Arrays.asList(HeatingType.values()), new EnumChoiceRenderer<HeatingType>());
+		DropDownChoice<HeatingType> heatingType = new DropDownChoice<HeatingType>("heatingType", heatingTypeSelected,
+				Arrays.asList(HeatingType.values()), new EnumChoiceRenderer<HeatingType>());
 
-		IModel<Condition> conditionTypeSelected = new Model<Condition>(Condition.Good);		
-		DropDownChoice<Condition> condition = new DropDownChoice<Condition>("condition", conditionTypeSelected, Arrays.asList(Condition.values()));
+		IModel<Condition> conditionTypeSelected = new Model<Condition>(Condition.Good);
+		DropDownChoice<Condition> condition = new DropDownChoice<Condition>("condition", conditionTypeSelected,
+				Arrays.asList(Condition.values()));
 
-		
 		CheckBox toiletWithBathRoom = new CheckBox("toiletWithBathRoom");
 		CheckBox cellarAvailable = new CheckBox("cellarAvailable");
 		CheckBox balconyAvailable = new CheckBox("balconyAvailable");
@@ -290,7 +307,7 @@ public class BasicInfoStep extends WizardStep {
 		TextField<Double> energyRequirement = new TextField<Double>("energyRequirement");
 		TextField<Double> depositPeriod = new TextField<Double>("depositPeriod");
 		DateTextField availableFrom = new DateTextField("availableFrom");
-		TextField<Integer> noOfGarages= new TextField<Integer>("noOfGarages");
+		TextField<Integer> noOfGarages = new TextField<Integer>("noOfGarages");
 		TextField<Double> garageCost = new TextField<Double>("garageCost");
 		TextField<Integer> builtYear = new TextField<Integer>("builtYear");
 		TextField<String> provisionCondition = new TextField<String>("provisionCondition");
@@ -299,23 +316,51 @@ public class BasicInfoStep extends WizardStep {
 		CheckBox barrierFree = new CheckBox("barrierFree");
 		CheckBox seniorAppartment = new CheckBox("seniorAppartment");
 
-		//Payment Info
-        WebMarkupContainer paymentInfo = new WebMarkupContainer("paymentInfo");
+		//Land Info
+		WebMarkupContainer landInfo = new WebMarkupContainer("landInfo") {
+			
+			private static final long	serialVersionUID	= -5786230635092259936L;
 
-        TextField<String> referenceName = new TextField<String>("paymentInfo.referenceName");
-        TextField<String> bankName = new TextField<String>("paymentInfo.bankName");
-        TextField<String> blz = new TextField<String>("paymentInfo.blz");
-        TextField<String> accountNumber = new TextField<String>("paymentInfo.accountNumber");
-        TextArea<String> referenceText = new TextArea<String>("paymentInfo.referenceText");
+			@Override
+			public boolean isVisible() {
+				return realStateModel.getObject().getRealStateCategory().equals(RealStateCategory.Land);
+			}
+		};
+		TextField<Double> coverageRatio = new TextField<Double>("coverageRatio");
+		TextField<Double> floorSpaceRatio = new TextField<Double>("floorSpaceRatio");
+		CheckBox buildingPermission = new CheckBox("buildingPermission");
+		CheckBox shortlyDevelopable = new CheckBox("shortlyDevelopable");
+		CheckBox distributable = new CheckBox("distributable");
+		CheckBox tearedDown = new CheckBox("tearedDown"); //abriss
+		TextField<Double> minDistributionArea = new TextField<Double>("minDistributionArea");
 
-        paymentInfo.add(referenceName);
-        paymentInfo.add(bankName);
-        paymentInfo.add(blz);
-        paymentInfo.add(accountNumber);
-        paymentInfo.add(referenceText);
-        
-        paymentInfo.setVisible(realStateModel.getObject().getTariffType() != null && realStateModel.getObject().getTariffType().equals(TariffType.Profi));
-        
+		landInfo.add(coverageRatio);
+		landInfo.add(floorSpaceRatio);		
+		landInfo.add(buildingPermission);
+		landInfo.add(shortlyDevelopable);
+		landInfo.add(distributable);
+		landInfo.add(minDistributionArea);
+		landInfo.add(tearedDown);
+		realStateUploadInfoForm.add(landInfo);
+		
+		// Payment Info
+		WebMarkupContainer paymentInfo = new WebMarkupContainer("paymentInfo");
+
+		TextField<String> referenceName = new TextField<String>("paymentInfo.referenceName");
+		TextField<String> bankName = new TextField<String>("paymentInfo.bankName");
+		TextField<String> blz = new TextField<String>("paymentInfo.blz");
+		TextField<String> accountNumber = new TextField<String>("paymentInfo.accountNumber");
+		TextArea<String> referenceText = new TextArea<String>("paymentInfo.referenceText");
+
+		paymentInfo.add(referenceName);
+		paymentInfo.add(bankName);
+		paymentInfo.add(blz);
+		paymentInfo.add(accountNumber);
+		paymentInfo.add(referenceText);
+
+		paymentInfo.setVisible(realStateModel.getObject().getTariffType() != null
+				&& realStateModel.getObject().getTariffType().equals(TariffType.Profi));
+
 		realStateUploadInfoForm.add(title);
 		realStateUploadInfoForm.add(description);
 		realStateUploadInfoForm.add(areaDescription);

@@ -52,7 +52,7 @@ public class RealState implements Serializable {
 
 	private double size;
 
-	//neben-flfäche
+	//neben-fläche
 	private double surroundingAreaSize;
 	
 	private double cost;
@@ -153,10 +153,10 @@ public class RealState implements Serializable {
 	private boolean leasing;
 
 	// GRZ
-	private String coverageRatio;
+	private double coverageRatio;
 
 	// GFZ
-	private String floorSpaceRatio;
+	private double floorSpaceRatio;
 
 	private boolean buildingPermission;
 
@@ -166,7 +166,7 @@ public class RealState implements Serializable {
 
 	private boolean distributable;
 
-	private boolean minDistributionArea;
+	private double minDistributionArea;
 
 	private boolean topListed;
 
@@ -789,19 +789,19 @@ public class RealState implements Serializable {
 		this.leasing = leasing;
 	}
 
-	public String getCoverageRatio() {
+	public double getCoverageRatio() {
 		return coverageRatio;
 	}
 
-	public void setCoverageRatio(String coverageRatio) {
+	public void setCoverageRatio(double coverageRatio) {
 		this.coverageRatio = coverageRatio;
 	}
 
-	public String getFloorSpaceRatio() {
+	public double getFloorSpaceRatio() {
 		return floorSpaceRatio;
 	}
 
-	public void setFloorSpaceRatio(String floorSpaceRatio) {
+	public void setFloorSpaceRatio(double floorSpaceRatio) {
 		this.floorSpaceRatio = floorSpaceRatio;
 	}
 
@@ -837,11 +837,11 @@ public class RealState implements Serializable {
 		this.distributable = distributable;
 	}
 
-	public boolean isMinDistributionArea() {
+	public double getMinDistributionArea() {
 		return minDistributionArea;
 	}
 
-	public void setMinDistributionArea(boolean minDistributionArea) {
+	public void setMinDistributionArea(double minDistributionArea) {
 		this.minDistributionArea = minDistributionArea;
 	}
 

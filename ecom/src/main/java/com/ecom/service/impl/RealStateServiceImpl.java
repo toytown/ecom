@@ -61,44 +61,50 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public Page<RealState> findBySearchRequest(SearchRequest req, PageRequest pageReq) {
+	public Page<RealState> findBySearchRequest(SearchRequest req,
+			PageRequest pageReq) {
 		return realStateRepository.findAll(buildPredicate(req), pageReq);
 	}
 
 	@Override
 	public List<RealState> find(SearchRequest req, PageRequest pageReq) {
 		Query q = buildQuery(req);
-		return mongoTemplate.find(QueryUtils.applyPagination(q, pageReq), RealState.class);
+		return mongoTemplate.find(QueryUtils.applyPagination(q, pageReq),
+				RealState.class);
 	}
 
 	public Query buildQuery(SearchRequest req) {
 		Query q = new Query();
-	
+
 		String zipOrCityLoc = req.getLocation();
 		if (StringUtils.isNotEmpty(zipOrCityLoc)) {
 			GeoLocation geoLoc = geoLocationService.findOne(zipOrCityLoc);
 			Point point = new Point(geoLoc.getLat(), geoLoc.getLng());
-			q.addCriteria(Criteria.where("location").nearSphere(point).maxDistance(0.01));
+			q.addCriteria(Criteria.where("location").nearSphere(point)
+					.maxDistance(0.01));
 		}
 
-		if (req.getAreaFrom() != null || req.getAreaTo() != null) {
+		double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom()
+				.doubleValue() : MIN_VAL;
+		double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue()
+				: MAX_VAL;
 
-			double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom().doubleValue() : MIN_VAL;
-			double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue() : MAX_VAL;
-			q.addCriteria(Criteria.where("size").gte(areaFrom).andOperator(Criteria.where("size").lte(areaTo)));
-		}
+		double roomsFrom = req.getRoomsFrom() != null ? req.getRoomsFrom()
+				.doubleValue() : MIN_VAL;
+		double roomsTo = req.getRoomsTo() != null ? req.getRoomsTo()
+				.doubleValue() : MAX_VAL;
 
-		if (req.getRoomsFrom() != null || req.getRoomsTo() != null) {
-			double roomsFrom = req.getRoomsFrom() != null ? req.getRoomsFrom().doubleValue() : MIN_VAL;
-			double roomsTo = req.getRoomsTo() != null ? req.getRoomsTo().doubleValue() : MAX_VAL;
-			q.addCriteria(Criteria.where("totalRooms").gte(roomsFrom).andOperator(Criteria.where("totalRooms").lte(roomsTo)));
-		}
-
-		if (req.getPriceFrom() != null || req.getPriceTo() != null) {
-			double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom().doubleValue() : MIN_VAL;
-			double priceTo = req.getPriceTo() != null ? req.getPriceTo().doubleValue() : MAX_PRICE;
-			q.addCriteria(Criteria.where("cost").gte(priceFrom).andOperator(Criteria.where("cost").lte(priceTo)));
-		}
+		double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom()
+				.doubleValue() : MIN_VAL;
+		double priceTo = req.getPriceTo() != null ? req.getPriceTo()
+				.doubleValue() : MAX_PRICE;
+				
+		q.addCriteria(Criteria.where("totalRooms").gte(roomsFrom)
+				.andOperator(Criteria.where("totalRooms").lte(roomsTo)));
+		q.addCriteria(Criteria.where("size").gte(areaFrom)
+				.andOperator(Criteria.where("size").lte(areaTo)));
+		q.addCriteria(Criteria.where("cost").gte(priceFrom)
+				.andOperator(Criteria.where("cost").lte(priceTo)));
 
 		return q;
 	}
@@ -116,27 +122,36 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			if (GeoLocationUtils.isZipCodeOnly(req.getLocation())) {
 				builder.and(realStateQuery.areaCode.contains(req.getLocation()));
 			} else {
-				builder.and(realStateQuery.city.containsIgnoreCase(req.getLocation()));
+				builder.and(realStateQuery.city.containsIgnoreCase(req
+						.getLocation()));
 			}
 		}
 
-		double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom().doubleValue() : MIN_VAL;
-		double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue() : MAX_VAL;
+		double areaFrom = req.getAreaFrom() != null ? req.getAreaFrom()
+				.doubleValue() : MIN_VAL;
+		double areaTo = req.getAreaTo() != null ? req.getAreaTo().doubleValue()
+				: MAX_VAL;
 		builder.and(realStateQuery.size.between(areaFrom, areaTo));
 
-		double roomsFrom = req.getRoomsFrom() != null ? req.getRoomsFrom().doubleValue() : MIN_VAL;
-		double roomsTo = req.getRoomsTo() != null ? req.getRoomsTo().doubleValue() : MAX_VAL;
+		double roomsFrom = req.getRoomsFrom() != null ? req.getRoomsFrom()
+				.doubleValue() : MIN_VAL;
+		double roomsTo = req.getRoomsTo() != null ? req.getRoomsTo()
+				.doubleValue() : MAX_VAL;
 		builder.and(realStateQuery.totalRooms.between(roomsFrom, roomsTo));
 
-		double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom().doubleValue() : MIN_VAL;
-		double priceTo = req.getPriceTo() != null ? req.getPriceTo().doubleValue() : MAX_VAL;
+		double priceFrom = req.getPriceFrom() != null ? req.getPriceFrom()
+				.doubleValue() : MIN_VAL;
+		double priceTo = req.getPriceTo() != null ? req.getPriceTo()
+				.doubleValue() : MAX_VAL;
 		builder.and(realStateQuery.cost.between(priceFrom, priceTo));
 
-		if (req.isProvisionFree() != null && req.isProvisionFree().booleanValue() == true) {
+		if (req.isProvisionFree() != null
+				&& req.isProvisionFree().booleanValue() == true) {
 			builder.and(realStateQuery.provisionFree.eq(true));
 		}
 
-		if (req.isKitchenAvailable() != null && req.isKitchenAvailable().booleanValue() == true) {
+		if (req.isKitchenAvailable() != null
+				&& req.isKitchenAvailable().booleanValue() == true) {
 			builder.and(realStateQuery.kitchenAvailable.eq(true));
 		}
 
@@ -144,15 +159,18 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 			builder.and(realStateQuery.furnished.eq(true));
 		}
 
-		if (req.isBalconyAvailable() != null && req.isBalconyAvailable() == true) {
+		if (req.isBalconyAvailable() != null
+				&& req.isBalconyAvailable() == true) {
 			builder.and(realStateQuery.balconyAvailable.eq(true));
 		}
 
-		if (req.isElevatorAvailable() != null && req.isElevatorAvailable() == true) {
+		if (req.isElevatorAvailable() != null
+				&& req.isElevatorAvailable() == true) {
 			builder.and(realStateQuery.elevatorAvailable.eq(true));
 		}
 
-		if (req.isGardenAvailable() != null && req.isGardenAvailable().booleanValue()) {
+		if (req.isGardenAvailable() != null
+				&& req.isGardenAvailable().booleanValue()) {
 			builder.and(realStateQuery.garageAvailable.eq(true));
 		}
 		return builder;
@@ -184,9 +202,11 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 	}
 
 	@Override
-	public Page<RealState> findByUserSearchFilter(String userId, String filter, PageRequest pageReq) {
-		
-		return realStateRepository.findAll(buildPredicate(userId, filter), pageReq);
+	public Page<RealState> findByUserSearchFilter(String userId, String filter,
+			PageRequest pageReq) {
+
+		return realStateRepository.findAll(buildPredicate(userId, filter),
+				pageReq);
 	}
 
 	@Override
@@ -248,10 +268,11 @@ public class RealStateServiceImpl implements RealStateService<RealState> {
 		QRealState realStateQuer = new QRealState("realState");
 		Calendar cal = Calendar.getInstance();
 		cal.add(-1 * Calendar.DAY_OF_MONTH, 30);
-		
-		Predicate condition =  realStateQuer.userId.eq(userId).and(realStateQuer.insertedTs.loe(cal.getTime()));
+
+		Predicate condition = realStateQuer.userId.eq(userId).and(
+				realStateQuer.insertedTs.loe(cal.getTime()));
 		long countVal = realStateRepository.count(condition);
-		
+
 		return countVal > 0;
 	}
 

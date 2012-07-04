@@ -4,13 +4,15 @@
 
 			<div class="first_column search_form rounded_all">
 				<div class="main_info_box_header">Info</div>
+				<wicket:enclosure>
+					<p>
+						
+						<label for="title"><wicket:message key="lbl_appartmentType" /></label>
+						<select wicket:id="appartmentType" />
+					</p>				
+				</wicket:enclosure>
+				
 				<p>
-					
-					<label for="title"><wicket:message key="lbl_appartmentType" /></label>
-					<select wicket:id="appartmentType" />
-				</p>				
-				<p>
-					
 					<label for="title"><wicket:message key="lbl_title" /></label>
 					<textarea type="text" wicket:id="title" />
 				</p>
@@ -102,8 +104,35 @@
 								
 			</div>
 
+			<div class="first_column search_form rounded_all" wicket:id="landInfo">
+				<div class="main_info_box_header">Land</div>
+				<p>
+					<label for="coverageRatio"><wicket:message key="lbl_coverageRatio" /></label> <input type="text" id="coverageRatio" wicket:id="coverageRatio" />
+				</p>
+				<p>
+					<label for="floorSpaceRatio"><wicket:message key="lbl_floorSpaceRatio" /></label> <input type="text" id="floorSpaceRatio" wicket:id="floorSpaceRatio" />
+				</p>
+
+				<p>
+					<label for="buildingPermission"><wicket:message key="lbl_buildingPermission" /></label> <input type="checkbox" id="buildingPermission" wicket:id="buildingPermission" />
+				</p>
+		
+				<p>
+					<label for="shortlyDevelopable"><wicket:message key="lbl_shortlyDevelopable" /></label> <input type="checkbox" id="shortlyDevelopable" wicket:id="shortlyDevelopable" />
+				</p>
+				<p>
+					<label for="distributable"><wicket:message key="lbl_distributable" /></label> <input type="checkbox" id="distributable" wicket:id="distributable" />
+				</p>
+				<p>
+					<label for="tearedDown"><wicket:message key="lbl_tearedDown" /></label> <input type="checkbox" id="tearedDown" wicket:id="tearedDown" />
+				</p>
+				<p>
+					<label for="minDistributionArea"><wicket:message key="lbl_minDistributionArea" /></label> <input type="text" id="minDistributionArea" wicket:id="minDistributionArea" />
+				</p>				
+			</div>
+			
 			<div class="first_column search_form rounded_all" style="margin-top: 15px;">
-					<div class="main_info_box_header">Sonstiges nformation</div>
+					<div class="main_info_box_header">Sonstiges Information</div>
 					<p>
 						<label for="description"><wicket:message key="lbl_description" /><span class="label_info">max 100 chars</span></label>
 						<textarea type="text" id="description" wicket:id="description" />
@@ -217,7 +246,7 @@
 							<input type="checkbox" id="gardenAvailable" wicket:id="gardenAvailable" />
 						</p>
 						<p>
-							<label for="elevatorAvailable"><wicket:message key="lbl_lift_available" /></label>
+							<label for="elevatorAvailable"><wicket:message key="lbl_elevator_available" /></label>
 							<input type="checkbox" id="elevatorAvailable" wicket:id="elevatorAvailable" />
 						</p>
 						<p>

@@ -85,7 +85,7 @@ public class PreviewStep extends WizardStep {
         }
 
         if (obj != null && obj.isBalconyAvailable()) {
-            add(new Label("label" + labelId, new ResourceModel("lbl_heating_Cost")));
+            add(new Label("label" + labelId, new ResourceModel("lbl_heating_cost")));
             add(new OkCancelComponent("img" + labelId, realStateModel.bind("balconyAvailable")));
             labelId++;
         }
@@ -103,8 +103,8 @@ public class PreviewStep extends WizardStep {
         }
 
         if (obj != null && obj.isElevatorAvailable()) {
-            add(new Label("label" + labelId, new ResourceModel("lbl_lift_available")));
-            add(new OkCancelComponent("img" + labelId, realStateModel.bind("liftAvailable")));
+            add(new Label("label" + labelId, new ResourceModel("lbl_elevator_available")));
+            add(new OkCancelComponent("img" + labelId, realStateModel.bind("elevatorAvailable")));
             labelId++;
         }
 
